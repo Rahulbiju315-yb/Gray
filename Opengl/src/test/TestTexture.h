@@ -2,16 +2,27 @@
 #include "Test.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "VertexBuffer.h"
+#include "VertexArray.h"
+#include "IndexBuffer.h"
+#include "Texture.h"
+#include "BufferLayout.h"
+#include "Renderer.h"
 
 namespace test
 {
 	class TestTexture : public Test 
 	{
 	private:
-		const Shader& shader;
+		Shader *shader;
+		VertexBuffer *vb;
+		VertexArray *va;
+		IndexBuffer *ib;
+		Texture *texture;
+		Renderer* renderer;
 
 	public:
-		TestTexture(const Shader&);
+		TestTexture();
 		~TestTexture();
 
 		void onRender() override;

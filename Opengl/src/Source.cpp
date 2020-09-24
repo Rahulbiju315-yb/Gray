@@ -8,12 +8,13 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "BufferLayout.h"
-#include "Texture.h""
-#include "Renderer.h""
+#include "Texture.h"
+#include "Renderer.h"
 
+#include "test/TestMenu.h"
 #include "test/TestClearColor.h"
-#include "test/TestViewPort.h"
 #include "test/TestTexture.h"
+#include "test/TestViewPort.h"
 
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
@@ -106,65 +107,33 @@ int main(void)
 	shader.setUniform("view", view);
 	shader.setUniform("projection", projection);
 	
-	test::Test *test = nullptr;
+	test::TestMenu *testMenu = new test::TestMenu();
+	testMenu->addTest<test::TestClearColor>("Clear Color");
+	testMenu->addTest<test::TestViewPort>("View Port");
+	testMenu->addTest<test::TestTexture>("Texture");
 
 	int count = 0;
 	bool mainWindow = true;
 
+
 	while (!glfwWindowShouldClose(window))
 	{
-		renderer.clear();
-		if (!mainWindow)
+		if (!testMenu->isTestSelected())
 		{
-			test->onUpdate(0.0f);
-			test->onRender();
+			renderer.clear();
+			renderer.draw(va, ib, shader);
 		}
-
-		renderer.draw(va, ib, shader);
+		testMenu->onUpdate(0.0f);
+		testMenu->onRender();
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
 		{
-			if (mainWindow)
-			{
-				bool clearColorPressed = ImGui::Button("Clear Color Test");
-				bool viewPortPressed = ImGui::Button("Change View Port");
-				bool texturePressed = ImGui::Button("Change Texture");
-
-				if (clearColorPressed)
-				{
-					test = new test::TestClearColor();
-					mainWindow = false;
-				}
-
-				else if (viewPortPressed)
-				{
-					test = new test::TestViewPort();
-					mainWindow = false;
-				}
-
-				else if (texturePressed)
-				{
-					test = new test::TestTexture(shader);
-					mainWindow = false;
-				}
-			}
-			else
-			{
-				bool backPressed = ImGui::Button("Back");
-				test->onImGUIRender();
-
-				if (backPressed)
-				{
-					mainWindow = true;
-					delete(test);
-				}
-
-			}
-			//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+			testMenu->onImGUIRender();
 		}
+
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

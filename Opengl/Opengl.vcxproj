@@ -143,6 +143,7 @@
     <ClCompile Include="src\Source.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
     <ClCompile Include="src\test\TestClearColor.cpp" />
+    <ClCompile Include="src\test\TestMenu.cpp" />
     <ClCompile Include="src\test\TestTexture.cpp" />
     <ClCompile Include="src\test\TestViewPort.cpp" />
     <ClCompile Include="src\Texture.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\VertexArray.h" />
     <ClInclude Include="src\test\Test.h" />
+    <ClInclude Include="src\test\TestMenu.h" />
     <ClInclude Include="src\test\TestTexture.h" />
     <ClInclude Include="src\test\TestViewPort.h" />
     <ClInclude Include="src\test\TestClearColor.h" />
