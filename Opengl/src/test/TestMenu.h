@@ -29,7 +29,7 @@ namespace test
 		template <typename T>
 		void addTest(const std::string& name)
 		{
-			std::cout << "Registering " << name;
+			std::cout << "Registering Test : " << name << "\n";
 			tests.push_back(TestPair(name, []() { return new T(); }));
 		}
 

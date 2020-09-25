@@ -15,6 +15,7 @@
 #include "test/TestClearColor.h"
 #include "test/TestTexture.h"
 #include "test/TestViewPort.h"
+#include "test/MainTest.h"
 
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
@@ -30,7 +31,6 @@ int main(void)
 {
 	GLFWwindow* window;
 
-	/* Initialize the library */
 	if (!glfwInit())
 		return -1;
 
@@ -38,24 +38,22 @@ int main(void)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+	window = glfwCreateWindow(1280, 1000, "Hello World", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
 		return -1;
 	}
 
-	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 	glewInit();
 
 
-	// Setup Platform/Renderer bindings
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	//ImGui::StyleColorsDark();
+	ImGui::StyleColorsDark();
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
 
@@ -64,53 +62,13 @@ int main(void)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//EndInit
 
-
-	Texture t1((const std::string&)"res/textures/wall.jpg", GL_RGB, GL_RGB);
-	Texture t2((const std::string&)"res/textures/awesomeface.png", GL_RGBA, GL_RGBA);
-	
-
-	float vertices[] =
-	{
-		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-		 0.0f,  1.0f, 0.0f, 0.5f, 1.0f
-	};
-
-	unsigned int indices[] =
-	{
-		0, 1, 2
-	};
-
-	VertexBuffer vb(vertices, sizeof(vertices));
-	IndexBuffer ib(indices, 3);
-
-	BufferLayout layout;
-	layout.push<float>(3);
-	layout.push<float>(2);
-
-	VertexArray va(vb, layout);
-
-	glm::mat4 model(1.0f);
-	glm::mat4 view(1.0f);
-	glm::mat4 projection = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
-
-	std::string fp = "res\\shaders\\shader.shader";
-	Shader shader(fp);
-
-	t1.bind(1);
 	Renderer renderer;
 
-	
-	shader.bind();
-	shader.setUniform("Tex1", 1);
-	shader.setUniform("model", model);
-	shader.setUniform("view", view);
-	shader.setUniform("projection", projection);
-	
 	test::TestMenu *testMenu = new test::TestMenu();
 	testMenu->addTest<test::TestClearColor>("Clear Color");
 	testMenu->addTest<test::TestViewPort>("View Port");
 	testMenu->addTest<test::TestTexture>("Texture");
+	testMenu->addTest<test::MainTest>("MainTest");
 
 	int count = 0;
 	bool mainWindow = true;
@@ -118,11 +76,8 @@ int main(void)
 
 	while (!glfwWindowShouldClose(window))
 	{
-		if (!testMenu->isTestSelected())
-		{
-			renderer.clear();
-			renderer.draw(va, ib, shader);
-		}
+		renderer.clear();
+
 		testMenu->onUpdate(0.0f);
 		testMenu->onRender();
 

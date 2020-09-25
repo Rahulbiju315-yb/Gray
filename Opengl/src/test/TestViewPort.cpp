@@ -17,6 +17,7 @@ namespace test
 
 	TestViewPort::~TestViewPort()
 	{
+		glViewport(0, 0, 640, 480);
 		std::cout << "Destroyed TestViewPort instance";
 	}
 
