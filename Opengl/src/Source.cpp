@@ -38,7 +38,7 @@ int main(void)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	window = glfwCreateWindow(1280, 1000, "Hello World", NULL, NULL);
+	window = glfwCreateWindow(1000, 1000, "Hello World", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -59,6 +59,8 @@ int main(void)
 
 	// Init
 	glEnable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//EndInit
 

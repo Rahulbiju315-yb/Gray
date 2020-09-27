@@ -24,6 +24,7 @@ namespace test
 		glm::mat4 projection;
 
 		glm::vec3 camPos;
+		glm::vec3 objPos;
 
 	public:
 		MainTest();

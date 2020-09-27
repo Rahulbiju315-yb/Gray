@@ -18,11 +18,11 @@ test::MainTest::MainTest()
 
 	model = glm::mat4(1.0f);
 	view = glm::mat4(1.0f);
-	projection = glm::perspective(glm::radians(45.0f), 1280.0f / 1000.0f, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(45.0f), 1000.0f / 1000.0f, 0.1f, 100.0f);
 
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -0.5f));
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -2.5f));
 
-	Util::sampleObject1(vb, ib, va, shader);
+	Util::sampleObject2(vb, ib, va, shader);
 	
 	shader->bind();
 	shader->setUniform("model", model);
@@ -61,6 +61,13 @@ void test::MainTest::onImGUIRender()
 	{
 		view = glm::translate(UNIT_MAT4, -camPos);
 		shader->setUniform("view", view);
+	}
+	
+	changed = ImGui::SliderFloat3("Object Pos", &objPos.x, -2.0f, 2.0f, "%.3f", 1.0f);
+	if (changed)
+	{
+		model = glm::translate(UNIT_MAT4, objPos);
+		shader->setUniform("model", model);
 	}
 }
 
