@@ -14,6 +14,7 @@ namespace test
 	private:
 		VertexBuffer* vb;
 		IndexBuffer*  ib;
+		IndexBuffer*  debug;
 		VertexArray*  va;
 		Shader*		  shader;
 		Renderer*     renderer;
@@ -25,6 +26,8 @@ namespace test
 
 		glm::vec3 camPos;
 		glm::vec3 objPos;
+		glm::vec3 axisPos;
+		glm::vec3 objRotation;
 
 	public:
 		MainTest();

@@ -39,29 +39,33 @@ void Util::sampleObject1(VertexBuffer*& vb, IndexBuffer*& ib, VertexArray*& va, 
 	shader->unbind();
 }
 
-void Util::sampleObject2(VertexBuffer*& vb, IndexBuffer*& ib, VertexArray*& va, Shader*& shader)
+void Util::sampleObject2(VertexBuffer*& vb, IndexBuffer*& ib, IndexBuffer*& debug,VertexArray*& va, Shader*& shader)
 {
 	
-
-	float vertices[120];
-	genCube(-0.5f, -0.5f, 0.0f, 1.0f, vertices, 5);
+	float vertices[198];
+	genCube(-0.5f, -0.5f, 0.0f, 1.0f, vertices, 6);
 
 	for (int i = 0; i < 6; i++)
 	{
-		vertices[5 * (4 * i + 0) + 3] = 0.0f;
-		vertices[5 * (4 * i + 0) + 4] = 0.0f;
+		vertices[6 * (4 * i + 0) + 3] = 0.0f;
+		vertices[6 * (4 * i + 0) + 4] = 0.0f;
+		vertices[6 * (4 * i + 0) + 5] = 0.0f;
 
-		vertices[5 * (4 * i + 1) + 3] = 1.0f;
-		vertices[5 * (4 * i + 1) + 4] = 0.0f;
+		vertices[6 * (4 * i + 1) + 3] = 1.0f;
+		vertices[6 * (4 * i + 1) + 4] = 0.0f;
+		vertices[6 * (4 * i + 1) + 5] = 0.0f;
 
-		vertices[5 * (4 * i + 2) + 3] = 0.0f;
-		vertices[5 * (4 * i + 2) + 4] = 1.0f;
+		vertices[6 * (4 * i + 2) + 3] = 0.0f;
+		vertices[6 * (4 * i + 2) + 4] = 1.0f;
+		vertices[6 * (4 * i + 2) + 5] = 0.0f;
 
-		vertices[5 * (4 * i + 3) + 3] = 1.0f;
-		vertices[5 * (4 * i + 3) + 4] = 1.0f;
+		vertices[6 * (4 * i + 3) + 3] = 1.0f;
+		vertices[6 * (4 * i + 3) + 4] = 1.0f;
+		vertices[6 * (4 * i + 3) + 5] = 0.0f;
 
 	}
 
+	
 	unsigned int indices[36] =
 	{
 		0, 1, 3, 3, 2, 0, // Front Side
@@ -72,12 +76,41 @@ void Util::sampleObject2(VertexBuffer*& vb, IndexBuffer*& ib, VertexArray*& va, 
 		20, 21, 23, 23, 22, 20, // Back Side
 	};
 
+	std::vector<glm::vec3> tri1;
+	std::vector<glm::vec3> tri2;
+	std::vector<glm::vec3> tri3;
+
+	tri1.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
+	tri1.push_back(glm::vec3(0.1f, 0.0f, 0.0f));
+	tri1.push_back(glm::vec3(0.0f, 2.0f, 0.0f));
+
+	tri2.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
+	tri2.push_back(glm::vec3(0.0f, 0.0f, -0.1f));
+	tri2.push_back(glm::vec3(2.0f, 0.0f, 0.0f));
+
+	tri3.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
+	tri3.push_back(glm::vec3(0.0f, 0.1f, 0.0f));
+	tri3.push_back(glm::vec3(0.0f, 0.0f, 2.0f));
+
+	genTri(tri1, &vertices[144], 6);
+	genTri(tri2, &vertices[144 + 18], 6);
+	genTri(tri3, &vertices[144 + 36], 6);
+
+	unsigned int debugIndicies[9] =
+	{
+		24, 25, 26,
+		27, 28, 29,
+		30, 31, 32
+	};
+
 	vb = new VertexBuffer(vertices, sizeof(vertices));
 	ib = new IndexBuffer(indices, 36);
+	debug = new IndexBuffer(debugIndicies, 9);
 
 	BufferLayout layout;
 	layout.push<float>(3);
 	layout.push<float>(2);
+	layout.push<float>(1);
 
 	va = new VertexArray(*vb, layout);
 
@@ -104,6 +137,15 @@ void Util::genCube(float x, float y, float z, float side, float* vertexPositions
 	genQuad(x , y, z, side, Z, &vertexPositions[20 * stride], stride); // Back
 }
 
+void Util::genTri(std::vector<glm::vec3> p, float* vertexPositions, int stride)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		vertexPositions[stride * i + 0] = p[i].x;
+		vertexPositions[stride * i + 1] = p[i].y;
+		vertexPositions[stride * i + 2] = p[i].z;
+	}
+}
 void Util::genQuad(float x, float y, float z, float side, int dir, float* vertexPositions, int stride)
 {
 	
