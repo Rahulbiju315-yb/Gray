@@ -1,0 +1,3 @@
+[submodule "Gray/vendor"]
+	path = Gray/vendor
+	url = https://github.com/gabime/spdlog
