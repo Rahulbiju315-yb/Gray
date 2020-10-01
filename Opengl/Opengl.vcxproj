@@ -54,7 +54,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>src\vendor\dirent;src\vendor\imguiFileChooser;src\test\;src\;$(SolutionDir)Opengl\src\vendor\imgui;$(SolutionDir)Dependencies\glm;$(SolutionDir)Opengl\include;$(SolutionDir)Dependencies\glew\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\glad\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include\;src\vendor\dirent;src\vendor\imguiFileChooser;src\test\;src\;$(SolutionDir)Opengl\src\vendor\imgui;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\glew\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\glad\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -71,7 +71,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>src\vendor\dirent;src\vendor\imguiFileChooser;src\test\;src\;$(SolutionDir)Opengl\src\vendor\imgui;$(SolutionDir)Dependencies\glm;$(SolutionDir)Opengl\include;$(SolutionDir)Dependencies\glew\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\glad\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include\;src\vendor\dirent;src\vendor\imguiFileChooser;src\test\;src\;$(SolutionDir)Opengl\src\vendor\imgui;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\glew\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\glad\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -83,7 +83,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="include\VertexBuffer.h" />
+    <ClCompile Include="src\VertexBuffer.h" />
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Sandbox.cpp" />
@@ -109,13 +109,6 @@
     <ClCompile Include="src\VetexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\BufferLayout.h" />
-    <ClInclude Include="include\IndexBuffer.h" />
-    <ClInclude Include="include\Renderer.h" />
-    <ClInclude Include="include\Shader.h" />
-    <ClInclude Include="include\stb_image.h" />
-    <ClInclude Include="include\Texture.h" />
-    <ClInclude Include="include\VertexArray.h" />
     <ClInclude Include="src\test\MainTest.h" />
     <ClInclude Include="src\test\Test.h" />
     <ClInclude Include="src\test\TestLoadBuffer.h" />

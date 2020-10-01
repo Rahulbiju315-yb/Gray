@@ -12,7 +12,7 @@ namespace Gray
 
 	}
 
-	void Application::run()
+	void Application::Run()
 	{
 		while (true);
 	}

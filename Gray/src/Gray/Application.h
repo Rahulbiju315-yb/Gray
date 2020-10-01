@@ -10,6 +10,8 @@ namespace Gray
 		Application();
 		~Application();
 
-		void run();
+		void Run();
 	};
+
+	Application* CreateApplication();
 }

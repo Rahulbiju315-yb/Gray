@@ -1,8 +1,20 @@
 #include "Gray.h"
 
-int main()
+class Sandbox : public Gray::Application
 {
-	Gray::Application *app = new Gray::Application();
-	app->run();
-	return 0;
+public:
+	Sandbox()
+	{
+
+	}
+
+	~Sandbox()
+	{
+
+	}
+};
+
+Gray::Application* Gray::CreateApplication()
+{
+	return new Sandbox();
 }
