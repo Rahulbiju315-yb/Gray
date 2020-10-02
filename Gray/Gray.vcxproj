@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GRAY_PLATFORM_WINDOWS;GRAY_BUILD_DLL;GRAY_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Gray\src\;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -143,10 +143,14 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Gray\Event\KeyEvent.h" />
+    <ClInclude Include="src\Gray\Event\MouseEvent.h" />
+    <ClInclude Include="src\Gray\Event\Event.h" />
     <ClInclude Include="src\Gray.h" />
     <ClInclude Include="src\Gray\Application.h" />
     <ClInclude Include="src\Gray\Core.h" />
     <ClInclude Include="src\Gray\EntryPoint.h" />
+    <ClInclude Include="src\Gray\Event\WindowEvent.h" />
     <ClInclude Include="src\Gray\Log.h" />
   </ItemGroup>
   <ItemGroup>

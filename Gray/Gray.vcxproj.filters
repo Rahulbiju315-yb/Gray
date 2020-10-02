@@ -16,9 +16,11 @@
     <ClInclude Include="src\Gray\EntryPoint.h">
       <Filter>Gray</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Log.h">
-      <Filter>Gray</Filter>
-    </ClInclude>
+    <ClInclude Include="src\Gray\Event\Event.h" />
+    <ClInclude Include="src\Gray\Event\MouseEvent.h" />
+    <ClInclude Include="src\Gray\Event\KeyEvent.h" />
+    <ClInclude Include="src\Gray\Log.h" />
+    <ClInclude Include="src\Gray\Event\WindowEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
