@@ -36,20 +36,15 @@ namespace Gray
 
 	class GRAY_API Event
 	{
+	public:
+		virtual EventType GetType() const = 0;
+		virtual int GetCategory() const = 0;
+
+		virtual const char* GetName() const = 0;
+		virtual std::string ToString() const { return GetName(); };
+
 	protected:
 		bool handled;
-
-	public:
-		virtual EventType GetType() const;
-		virtual int GetCategory() const;
-
-		virtual const char* GetName() const;
-		virtual std::string ToString() const;
-
 	};
 
-	class GRAY_API EventDispatcher
-	{
-
-	};
 }

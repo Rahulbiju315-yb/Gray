@@ -144,13 +144,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Gray\Event\KeyEvent.h" />
+    <ClInclude Include="src\Gray\Event\KeyListener.h" />
+    <ClInclude Include="src\Gray\Event\EventListener.h" />
     <ClInclude Include="src\Gray\Event\MouseEvent.h" />
     <ClInclude Include="src\Gray\Event\Event.h" />
     <ClInclude Include="src\Gray.h" />
     <ClInclude Include="src\Gray\Application.h" />
     <ClInclude Include="src\Gray\Core.h" />
     <ClInclude Include="src\Gray\EntryPoint.h" />
+    <ClInclude Include="src\Gray\Event\MouseListener.h" />
     <ClInclude Include="src\Gray\Event\WindowEvent.h" />
+    <ClInclude Include="src\Gray\Event\WindowListener.h" />
     <ClInclude Include="src\Gray\Log.h" />
   </ItemGroup>
   <ItemGroup>

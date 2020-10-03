@@ -21,6 +21,10 @@
     <ClInclude Include="src\Gray\Event\KeyEvent.h" />
     <ClInclude Include="src\Gray\Log.h" />
     <ClInclude Include="src\Gray\Event\WindowEvent.h" />
+    <ClInclude Include="src\Gray\Event\KeyListener.h" />
+    <ClInclude Include="src\Gray\Event\EventListener.h" />
+    <ClInclude Include="src\Gray\Event\MouseListener.h" />
+    <ClInclude Include="src\Gray\Event\WindowListener.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">

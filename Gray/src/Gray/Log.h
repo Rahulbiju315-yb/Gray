@@ -9,15 +9,14 @@ namespace Gray
 {
 	class GRAY_API Log
 	{
-	private:
-		static std::shared_ptr<spdlog::logger> clientLogger;
-		static std::shared_ptr<spdlog::logger> coreLogger;
-
 	public:
 		static void Init();
 		static std::shared_ptr<spdlog::logger>& GetClientLogger();
 		static std::shared_ptr<spdlog::logger>& GetCoreLogger();
 
+	private:
+		static std::shared_ptr<spdlog::logger> clientLogger;
+		static std::shared_ptr<spdlog::logger> coreLogger;
 	};
 }
 

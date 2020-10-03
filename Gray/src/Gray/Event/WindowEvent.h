@@ -5,9 +5,6 @@ namespace Gray
 {
 	class GRAY_API WindowResizedEvent : public Event
 	{
-	private:
-		unsigned int width, height;
-
 	public:
 		WindowResizedEvent(unsigned int width, unsigned int height)
 		{
@@ -32,6 +29,9 @@ namespace Gray
 		
 		EVENT_CLASS_TYPE(EventType::WindowResized)
 		EVENT_CLASS_CATEGORY(EventCategoryWindow)
+
+	private:
+		unsigned int width, height;
 	};
 	
 	class GRAY_API WindowClosedEvent : public Event

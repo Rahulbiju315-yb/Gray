@@ -5,9 +5,6 @@ namespace Gray
 {
 	class GRAY_API KeyEvent : public Event
 	{
-	protected:
-		int keyCode;
-
 	public:
 		KeyEvent(int keyCode)
 		{
@@ -21,14 +18,14 @@ namespace Gray
 		}
 
 		EVENT_CLASS_CATEGORY((EventCategoryKeyboard | EventCategoryInput))
+
+	protected:
+		int keyCode;
 	};
 
 
 	class GRAY_API KeyPressedEvent : public KeyEvent
 	{
-	private:
-		int repeatCount;
-
 	public:
 		KeyPressedEvent(int keyCode, int repeatCount):
 			KeyEvent(keyCode)
@@ -42,12 +39,14 @@ namespace Gray
 		}
 
 	    EVENT_CLASS_TYPE(EventType::KeyPressed)
+
+	private:
+		int repeatCount;
 	};
 
 
 	class GRAY_API KeyReleasedEvent : public KeyEvent
 	{
-
 	public:
 		KeyReleasedEvent(int keyCode) :
 			KeyEvent(keyCode)

@@ -1,2 +1,0 @@
-D:\code\Opengl\bin\Debug-windows-x86_64\Sandbox\Sandbox.pdb
-D:\code\Opengl\bin-int\Debug-windows-x86_64\Sandbox\Sandbox.pdb
