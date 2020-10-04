@@ -1,3 +1,4 @@
+#include "grpch.h"
 #include "Log.h"
 
 namespace Gray

@@ -55,31 +55,32 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin-int\Debug-windows-x86_64\Gray\</OutDir>
-    <IntDir>obj\Debug\</IntDir>
+    <OutDir>..\bin\Debug-windows-x86_64\Gray\</OutDir>
+    <IntDir>..\bin-int\Debug-windows-x86_64\Gray\</IntDir>
     <TargetName>Gray</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin-int\Release-windows-x86_64\Gray\</OutDir>
-    <IntDir>obj\Release\</IntDir>
+    <OutDir>..\bin\Release-windows-x86_64\Gray\</OutDir>
+    <IntDir>..\bin-int\Release-windows-x86_64\Gray\</IntDir>
     <TargetName>Gray</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin-int\Dist-windows-x86_64\Gray\</OutDir>
-    <IntDir>obj\Dist\</IntDir>
+    <OutDir>..\bin\Dist-windows-x86_64\Gray\</OutDir>
+    <IntDir>..\bin-int\Dist-windows-x86_64\Gray\</IntDir>
     <TargetName>Gray</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>grpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GRAY_PLATFORM_WINDOWS;GRAY_BUILD_DLL;GRAY_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Gray\src\;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -88,18 +89,19 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>..\bin-int\Debug-windows-x86_64\Gray\Gray.lib</ImportLibrary>
+      <ImportLibrary>..\bin\Debug-windows-x86_64\Gray\Gray.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin-int\Debug-windows-x86_64\Gray\Gray.dll\ (xcopy /Q /E /Y /I ..\bin-int\Debug-windows-x86_64\Gray\Gray.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin-int\Debug-windows-x86_64\Gray\Gray.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\bin\Debug-windows-x86_64\Gray\Gray.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\Gray\Gray.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\Gray\Gray.dll ..\bin\Debug-windows-x86_64\Sandbox &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>grpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GRAY_PLATFORM_WINDOWS;GRAY_BUILD_DLL;GRAY_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -112,18 +114,19 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ImportLibrary>..\bin-int\Release-windows-x86_64\Gray\Gray.lib</ImportLibrary>
+      <ImportLibrary>..\bin\Release-windows-x86_64\Gray\Gray.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin-int\Release-windows-x86_64\Gray\Gray.dll\ (xcopy /Q /E /Y /I ..\bin-int\Release-windows-x86_64\Gray\Gray.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin-int\Release-windows-x86_64\Gray\Gray.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\bin\Release-windows-x86_64\Gray\Gray.dll\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\Gray\Gray.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\Gray\Gray.dll ..\bin\Release-windows-x86_64\Sandbox &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>grpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GRAY_PLATFORM_WINDOWS;GRAY_BUILD_DLL;GRAY_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -136,30 +139,36 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ImportLibrary>..\bin-int\Dist-windows-x86_64\Gray\Gray.lib</ImportLibrary>
+      <ImportLibrary>..\bin\Dist-windows-x86_64\Gray\Gray.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin-int\Dist-windows-x86_64\Gray\Gray.dll\ (xcopy /Q /E /Y /I ..\bin-int\Dist-windows-x86_64\Gray\Gray.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin-int\Dist-windows-x86_64\Gray\Gray.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\bin\Dist-windows-x86_64\Gray\Gray.dll\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\Gray\Gray.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\Gray\Gray.dll ..\bin\Dist-windows-x86_64\Sandbox &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Gray\Event\KeyEvent.h" />
-    <ClInclude Include="src\Gray\Event\KeyListener.h" />
-    <ClInclude Include="src\Gray\Event\EventListener.h" />
-    <ClInclude Include="src\Gray\Event\MouseEvent.h" />
-    <ClInclude Include="src\Gray\Event\Event.h" />
     <ClInclude Include="src\Gray.h" />
     <ClInclude Include="src\Gray\Application.h" />
     <ClInclude Include="src\Gray\Core.h" />
     <ClInclude Include="src\Gray\EntryPoint.h" />
+    <ClInclude Include="src\Gray\Event\Event.h" />
+    <ClInclude Include="src\Gray\Event\EventListener.h" />
+    <ClInclude Include="src\Gray\Event\KeyEvent.h" />
+    <ClInclude Include="src\Gray\Event\KeyListener.h" />
+    <ClInclude Include="src\Gray\Event\MouseEvent.h" />
     <ClInclude Include="src\Gray\Event\MouseListener.h" />
     <ClInclude Include="src\Gray\Event\WindowEvent.h" />
     <ClInclude Include="src\Gray\Event\WindowListener.h" />
     <ClInclude Include="src\Gray\Log.h" />
+    <ClInclude Include="src\Gray\Window\Window.h" />
+    <ClInclude Include="src\grpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp" />
+    <ClCompile Include="src\Gray\Event\Events.cpp" />
     <ClCompile Include="src\Gray\Log.cpp" />
+    <ClCompile Include="src\grpch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

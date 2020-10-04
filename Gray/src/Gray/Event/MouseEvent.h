@@ -154,7 +154,7 @@ namespace Gray
 		
 		float GetOffset()
 		{
-			return offset
+			return offset;
 		}
 
 		EVENT_CLASS_TYPE(EventType::MouseScrolled)

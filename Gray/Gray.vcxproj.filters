@@ -4,6 +4,9 @@
     <Filter Include="Gray">
       <UniqueIdentifier>{58F0857C-4427-870D-ED13-6D10D929030F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Gray\Event">
+      <UniqueIdentifier>{A953048E-950B-46DB-FE12-1F37EAE9E0CB}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Gray.h" />
@@ -16,22 +19,46 @@
     <ClInclude Include="src\Gray\EntryPoint.h">
       <Filter>Gray</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Event\Event.h" />
-    <ClInclude Include="src\Gray\Event\MouseEvent.h" />
-    <ClInclude Include="src\Gray\Event\KeyEvent.h" />
-    <ClInclude Include="src\Gray\Log.h" />
-    <ClInclude Include="src\Gray\Event\WindowEvent.h" />
-    <ClInclude Include="src\Gray\Event\KeyListener.h" />
-    <ClInclude Include="src\Gray\Event\EventListener.h" />
-    <ClInclude Include="src\Gray\Event\MouseListener.h" />
-    <ClInclude Include="src\Gray\Event\WindowListener.h" />
+    <ClInclude Include="src\Gray\Event\Event.h">
+      <Filter>Gray\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Event\EventListener.h">
+      <Filter>Gray\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Event\KeyEvent.h">
+      <Filter>Gray\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Event\KeyListener.h">
+      <Filter>Gray\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Event\MouseEvent.h">
+      <Filter>Gray\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Event\MouseListener.h">
+      <Filter>Gray\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Event\WindowEvent.h">
+      <Filter>Gray\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Event\WindowListener.h">
+      <Filter>Gray\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Log.h">
+      <Filter>Gray</Filter>
+    </ClInclude>
+    <ClInclude Include="src\grpch.h" />
+    <ClInclude Include="src\Gray\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
       <Filter>Gray</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gray\Event\Events.cpp">
+      <Filter>Gray\Event</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gray\Log.cpp">
       <Filter>Gray</Filter>
     </ClCompile>
+    <ClCompile Include="src\grpch.cpp" />
   </ItemGroup>
 </Project>

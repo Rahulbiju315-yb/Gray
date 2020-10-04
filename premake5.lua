@@ -15,7 +15,10 @@ project "Gray"
 	language "C++"
 
 	targetdir("bin/" .. outputdir .. "/%{prj.name}")
-	targetdir("bin-int/" .. outputdir .. "/%{prj.name}")
+	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	pchheader "grpch.h"
+	pchsource "Gray/src/grpch.cpp"
 
 	files
 	{
@@ -25,7 +28,8 @@ project "Gray"
 
 	includedirs
 	{
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"%{prj.name}/src"
 	}
 
 	filter "system:windows"
