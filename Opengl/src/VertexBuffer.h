@@ -1,14 +1,17 @@
 #pragma once
 
-class VertexBuffer
+namespace Gray
 {
-private:
-	unsigned int ID;
+	class VertexBuffer
+	{
+	private:
+		unsigned int ID;
 
-public:
-	VertexBuffer(void* data, unsigned int size);
-	~VertexBuffer();
+	public:
+		VertexBuffer(void* data, unsigned int size);
+		~VertexBuffer();
 
-	void bind() const;
-	void unbind() const;
-};
+		void bind() const;
+		void unbind() const;
+	};
+}

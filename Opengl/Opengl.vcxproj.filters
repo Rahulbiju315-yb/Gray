@@ -1,171 +1,144 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="test">
+      <UniqueIdentifier>{65689E7C-519F-9F0D-FA8B-8510E6A11B0F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="vendor">
+      <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="vendor\glew">
+      <UniqueIdentifier>{318F79C1-9D44-F2B6-2639-EC8D92EDE8BA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\glew\include">
+      <UniqueIdentifier>{A457F7F3-10B9-D401-9926-1BB405870BC1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\glew\include\GL">
+      <UniqueIdentifier>{86B6A6B4-72B0-CF06-5B1D-661747B63573}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\glm">
+      <UniqueIdentifier>{829FC5A8-6E57-07F6-D75E-E051C335A2E6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\glm\glm">
+      <UniqueIdentifier>{D11AC9C9-BDE8-BCCF-A67C-2DF692E99834}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\glm\glm\detail">
+      <UniqueIdentifier>{739DA071-DF09-5C6C-A8FD-F3C914297ED4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\glm\glm\simd">
+      <UniqueIdentifier>{CDE1A2E0-3943-80EE-C2B0-C6A02E11B7AD}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VertexBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\IndexBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VetexArray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stb_image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vendor\imgui\imgui.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vendor\imgui\imgui_demo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vendor\imgui\imgui_draw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vendor\imgui\imgui_impl_glfw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vendor\imgui\imgui_widgets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vendor\imgui\imgui_impl_opengl3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\test\TestClearColor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\test\TestViewPort.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\test\TestTexture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vendor\imguiFileChooser\ImGuiFileDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\test\TestMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Sandbox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\test\TestLoadBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\test\MainTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\test\Util.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VertexBuffer.h">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\vendor\imgui\imconfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vendor\imgui\imgui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vendor\imgui\imgui_impl_glfw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vendor\imgui\imgui_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vendor\imgui\imstb_rectpack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vendor\imgui\imstb_textedit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vendor\imgui\imstb_truetype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vendor\imgui\imgui_impl_opengl3.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\BufferLayout.h" />
+    <ClInclude Include="src\IndexBuffer.h" />
+    <ClInclude Include="src\LoadBuffer.h" />
+    <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\VertexArray.h" />
+    <ClInclude Include="src\VertexBuffer.h" />
+    <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="src\test\MainTest.h">
+      <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="src\test\Test.h">
-      <Filter>Header Files</Filter>
+      <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="src\test\TestClearColor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\test\TestViewPort.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\test\TestTexture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vendor\imguiFileChooser\ImGuiFileDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vendor\imguiFileChooser\ImGuiFileDialogConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vendor\dirent\dirent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\test\TestMenu.h">
-      <Filter>Header Files</Filter>
+      <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="src\test\TestLoadBuffer.h">
-      <Filter>Header Files</Filter>
+      <Filter>test</Filter>
     </ClInclude>
-    <ClInclude Include="src\test\MainTest.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\test\TestMenu.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\TestTexture.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\TestViewPort.h">
+      <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="src\test\Util.h">
-      <Filter>Header Files</Filter>
+      <Filter>test</Filter>
     </ClInclude>
-    <ClInclude Include="src\BufferLayout.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\vendor\glew\include\GL\eglew.h">
+      <Filter>vendor\glew\include\GL</Filter>
     </ClInclude>
-    <ClInclude Include="src\IndexBuffer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\vendor\glew\include\GL\glew.h">
+      <Filter>vendor\glew\include\GL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\vendor\glew\include\GL\glxew.h">
+      <Filter>vendor\glew\include\GL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shader.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\vendor\glew\include\GL\wglew.h">
+      <Filter>vendor\glew\include\GL</Filter>
     </ClInclude>
-    <ClInclude Include="src\stb_image.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\vendor\glm\glm\simd\common.h">
+      <Filter>vendor\glm\glm\simd</Filter>
     </ClInclude>
-    <ClInclude Include="src\Texture.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\vendor\glm\glm\simd\exponential.h">
+      <Filter>vendor\glm\glm\simd</Filter>
     </ClInclude>
-    <ClInclude Include="src\VertexArray.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\vendor\glm\glm\simd\geometric.h">
+      <Filter>vendor\glm\glm\simd</Filter>
     </ClInclude>
+    <ClInclude Include="src\vendor\glm\glm\simd\integer.h">
+      <Filter>vendor\glm\glm\simd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vendor\glm\glm\simd\matrix.h">
+      <Filter>vendor\glm\glm\simd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vendor\glm\glm\simd\neon.h">
+      <Filter>vendor\glm\glm\simd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vendor\glm\glm\simd\packing.h">
+      <Filter>vendor\glm\glm\simd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vendor\glm\glm\simd\platform.h">
+      <Filter>vendor\glm\glm\simd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vendor\glm\glm\simd\trigonometric.h">
+      <Filter>vendor\glm\glm\simd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vendor\glm\glm\simd\vector_relational.h">
+      <Filter>vendor\glm\glm\simd</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\IndexBuffer.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\Sandbox.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Source.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\VertexBuffer.cpp" />
+    <ClCompile Include="src\VetexArray.cpp" />
+    <ClCompile Include="src\stb_image.cpp" />
+    <ClCompile Include="src\test\MainTest.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\TestClearColor.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\TestLoadBuffer.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\TestMenu.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\TestTexture.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\TestViewPort.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\Util.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vendor\glm\glm\detail\glm.cpp">
+      <Filter>vendor\glm\glm\detail</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

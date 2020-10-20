@@ -2,21 +2,24 @@
 
 #include "Test.h"
 
-namespace test
+namespace Gray
 {
-	class TestViewPort : public Test
+	namespace test
 	{
-	private:
-		int dimension[2];
-		int leftCorner[2];
+		class TestViewPort : public Test
+		{
+		private:
+			int dimension[2];
+			int leftCorner[2];
 
-	public:
-		TestViewPort();
-		~TestViewPort();
+		public:
+			TestViewPort();
+			~TestViewPort();
 
-		void onRender() override;
-		void onUpdate(float dt) override;
-		void onImGUIRender() override;
+			void onRender() override;
+			void onUpdate(float dt) override;
+			void onImGUIRender() override;
 
-	};
+		};
+	}
 }

@@ -2,19 +2,22 @@
 
 #include "Test.h"
 
-namespace test
+namespace Gray
 {
-	class TestClearColor: public Test
+	namespace test
 	{
-	private:
-		float mColor[4];
+		class TestClearColor : public Test
+		{
+		private:
+			float mColor[4];
 
-	public:
-		TestClearColor();
-		~TestClearColor();
+		public:
+			TestClearColor();
+			~TestClearColor();
 
-		void onUpdate(float dt) override;
-		void onRender() override;
-		void onImGUIRender() override;
-	};
+			void onUpdate(float dt) override;
+			void onRender() override;
+			void onImGUIRender() override;
+		};
+	}
 }

@@ -1,27 +1,31 @@
-#include <VertexBuffer.h>
+#include "grpch.h"
+#include "VertexBuffer.h"
 
 #include <GL/glew.h>
 
-VertexBuffer::VertexBuffer(void* data, unsigned int size)
+namespace Gray
 {
-	glGenBuffers(1, &ID);
+	VertexBuffer::VertexBuffer(void* data, unsigned int size)
+	{
+		glGenBuffers(1, &ID);
 
-	bind();
-	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
-	unbind();
-}
+		bind();
+		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+		unbind();
+	}
 
-VertexBuffer::~VertexBuffer()
-{
+	VertexBuffer::~VertexBuffer()
+	{
 
-}
+	}
 
-void VertexBuffer::bind() const
-{
-	glBindBuffer(GL_ARRAY_BUFFER, ID);
-}
+	void VertexBuffer::bind() const
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, ID);
+	}
 
-void VertexBuffer::unbind() const
-{
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	void VertexBuffer::unbind() const
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
 }

@@ -1,16 +1,19 @@
 #pragma once
 
-namespace test
+namespace Gray
 {
-	class Test
+	namespace test
 	{
-	public: 
-		Test() {}
-		virtual ~Test() {}
+		class Test
+		{
+		public:
+			Test() {}
+			virtual ~Test() {}
 
-		virtual void onUpdate(float dt) { }
-		virtual void onRender() { }
-		virtual void onImGUIRender() { }
+			virtual void onUpdate(float dt) { }
+			virtual void onRender() { }
+			virtual void onImGUIRender() { }
 
-	};
+		};
+	}
 }

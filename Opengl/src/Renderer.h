@@ -1,12 +1,15 @@
 #pragma once
 
-#include <VertexArray.h>
-#include <Shader.h>
-#include <IndexBuffer.h>
+#include "VertexArray.h"
+#include "Shader.h"
+#include "IndexBuffer.h"
 
-class Renderer
+namespace Gray
 {
-public:
-	void draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader);
-	void clear();
-};
+	class Renderer
+	{
+	public:
+		void draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader);
+		void clear();
+	};
+}

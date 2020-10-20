@@ -3,38 +3,41 @@
 #include "Test.h"
 #include "Util.h"
 
-#include <glm.hpp>
-#include <gtc/matrix_transform.hpp>
-#include <gtc/type_ptr.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-namespace test
+namespace Gray
 {
-	class MainTest: public Test
+	namespace test
 	{
-	private:
-		VertexBuffer* vb;
-		IndexBuffer*  ib;
-		IndexBuffer*  debug;
-		VertexArray*  va;
-		Shader*		  shader;
-		Renderer*     renderer;
-		Texture* tex;
+		class MainTest : public Test
+		{
+		private:
+			VertexBuffer* vb;
+			IndexBuffer* ib;
+			IndexBuffer* debug;
+			VertexArray* va;
+			Shader* shader;
+			Renderer* renderer;
+			Texture* tex;
 
-		glm::mat4 model;
-		glm::mat4 view;
-		glm::mat4 projection;
+			glm::mat4 model;
+			glm::mat4 view;
+			glm::mat4 projection;
 
-		glm::vec3 camPos;
-		glm::vec3 objPos;
-		glm::vec3 axisPos;
-		glm::vec3 objRotation;
+			glm::vec3 camPos;
+			glm::vec3 objPos;
+			glm::vec3 axisPos;
+			glm::vec3 objRotation;
 
-	public:
-		MainTest();
-		~MainTest();
+		public:
+			MainTest();
+			~MainTest();
 
-		void onUpdate(float dt) override;
-		void onRender() override;
-		void onImGUIRender() override;
-	};
+			void onUpdate(float dt) override;
+			void onRender() override;
+			void onImGUIRender() override;
+		};
+	}
 }

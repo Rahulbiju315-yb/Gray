@@ -1,33 +1,36 @@
 #pragma once
 #include "Test.h"
-#include "Shader.h"
-#include "Texture.h"
-#include "VertexBuffer.h"
-#include "VertexArray.h"
-#include "IndexBuffer.h"
-#include "Texture.h"
-#include "BufferLayout.h"
-#include "Renderer.h"
+#include "Platform/Opengl/Shader.h"
+#include "Platform/Opengl/Texture.h"
+#include "Platform/Opengl/VertexBuffer.h"
+#include "Platform/Opengl/VertexArray.h"
+#include "Platform/Opengl/IndexBuffer.h"
+#include "Platform/Opengl/Texture.h"
+#include "Platform/Opengl/BufferLayout.h"
+#include "Platform/Opengl/Renderer.h"
 
-namespace test
+namespace Gray
 {
-	class TestTexture : public Test 
+	namespace test
 	{
-	private:
-		Shader *shader;
-		VertexBuffer *vb;
-		VertexArray *va;
-		IndexBuffer *ib;
-		Texture *texture;
-		Renderer* renderer;
+		class TestTexture : public Test
+		{
+		private:
+			Shader* shader;
+			VertexBuffer* vb;
+			VertexArray* va;
+			IndexBuffer* ib;
+			Texture* texture;
+			Renderer* renderer;
 
-	public:
-		TestTexture();
-		~TestTexture();
+		public:
+			TestTexture();
+			~TestTexture();
 
-		void onRender() override;
-		void onUpdate(float dt) override;
-		void onImGUIRender() override;
+			void onRender() override;
+			void onUpdate(float dt) override;
+			void onImGUIRender() override;
 
-	};
+		};
+	}
 }

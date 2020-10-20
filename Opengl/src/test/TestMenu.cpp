@@ -1,73 +1,76 @@
-#include "TestMenu.h"
+#include "grpch.h"
 
+#include "TestMenu.h"
 #include "imgui.h"
 
-#include <iostream>
-namespace test
+namespace Gray
 {
-	TestMenu::TestMenu()
-		:selected(false)
+	namespace test
 	{
-		currentTest = nullptr;
-	}
-
-	TestMenu::~TestMenu()
-	{
-		delete currentTest;
-	}
-
-	void TestMenu::onImGUIRender()
-	{
-		if (selected)
+		TestMenu::TestMenu()
+			:selected(false)
 		{
-			bool backPressed = ImGui::Button("Return");
-			currentTest->onImGUIRender();
-
-			if (backPressed)
-			{
-				delete currentTest;
-				selected = false;
-			}
+			currentTest = nullptr;
 		}
-		else
-		{
-			for (auto& testPair : tests)
-			{
-				bool pressed = ImGui::Button(testPair.first.c_str());
 
-				if (pressed)
+		TestMenu::~TestMenu()
+		{
+			delete currentTest;
+		}
+
+		void TestMenu::onImGUIRender()
+		{
+			if (selected)
+			{
+				bool backPressed = ImGui::Button("Return");
+				currentTest->onImGUIRender();
+
+				if (backPressed)
 				{
-					currentTest = testPair.second();
-					selected = true;
+					delete currentTest;
+					selected = false;
+				}
+			}
+			else
+			{
+				for (auto& testPair : tests)
+				{
+					bool pressed = ImGui::Button(testPair.first.c_str());
+
+					if (pressed)
+					{
+						currentTest = testPair.second();
+						selected = true;
+					}
 				}
 			}
 		}
-	}
 
-	void TestMenu::onUpdate(float dt)
-	{
-		if (selected)
+		void TestMenu::onUpdate(float dt)
 		{
-			currentTest->onUpdate(dt);
+			if (selected)
+			{
+				currentTest->onUpdate(dt);
+			}
 		}
-	}
 
-	void TestMenu::onRender()
-	{
-		if (selected)
+		void TestMenu::onRender()
 		{
-			currentTest->onRender();
+			if (selected)
+			{
+				currentTest->onRender();
+			}
 		}
-	}
 
-	bool TestMenu::isTestSelected()
-	{
-		return selected;
-	}
+		bool TestMenu::isTestSelected()
+		{
+			return selected;
+		}
 
-	Test* TestMenu::getCurrentTest()
-	{
-		return currentTest;
-	}
+		Test* TestMenu::getCurrentTest()
+		{
+			return currentTest;
+		}
 
+	}
 }

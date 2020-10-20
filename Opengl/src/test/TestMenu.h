@@ -7,34 +7,37 @@
 #include <vector>
 #include <iostream>
 
-namespace test
+namespace Gray
 {
-	typedef std::pair <std::string, std::function<Test* ()>> TestPair;
-
-	class TestMenu: public Test
+	namespace test
 	{
-	private:
-		std::vector <TestPair> tests;
-		bool selected;
-		Test* currentTest;
+		typedef std::pair <std::string, std::function<Test* ()>> TestPair;
 
-	public:
-		TestMenu();
-		~TestMenu();
-
-		void onUpdate(float dt) override;
-		void onRender() override;
-		void onImGUIRender() override;
-
-		template <typename T>
-		void addTest(const std::string& name)
+		class TestMenu : public Test
 		{
-			std::cout << "Registering Test : " << name << "\n";
-			tests.push_back(TestPair(name, []() { return new T(); }));
-		}
+		private:
+			std::vector <TestPair> tests;
+			bool selected;
+			Test* currentTest;
 
-		bool isTestSelected();
+		public:
+			TestMenu();
+			~TestMenu();
 
-		Test* getCurrentTest();
-	};
+			void onUpdate(float dt) override;
+			void onRender() override;
+			void onImGUIRender() override;
+
+			template <typename T>
+			void addTest(const std::string& name)
+			{
+				std::cout << "Registering Test : " << name << "\n";
+				tests.push_back(TestPair(name, []() { return new T(); }));
+			}
+
+			bool isTestSelected();
+
+			Test* getCurrentTest();
+		};
+	}
 }

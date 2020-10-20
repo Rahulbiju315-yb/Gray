@@ -1,16 +1,19 @@
 #pragma once
 
-class IndexBuffer
+namespace Gray
 {
-private:
-	unsigned int ID;
-	int count;
+	class IndexBuffer
+	{
+	private:
+		unsigned int ID;
+		int count;
 
-public:
-	IndexBuffer(unsigned int indices[], int count);
-	~IndexBuffer();
+	public:
+		IndexBuffer(unsigned int indices[], int count);
+		~IndexBuffer();
 
-	void  bind() const;
-	void unbind() const;
-	int getCount() const;
-};
+		void  bind() const;
+		void unbind() const;
+		int getCount() const;
+	};
+}
