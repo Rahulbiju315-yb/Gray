@@ -9,6 +9,20 @@ workspace "Opengl"
 	}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+
+IncludeDirs = {}
+IncludeDirs["glfw"] = "Gray/vendor/glfw/include"
+IncludeDirs["spdlog"] = "Gray/vendor/spdlog/include"
+IncludeDirs["imgui"] = "Gray/vendor/imgui/"
+IncludeDirs["imguiFileChooser"] = "Gray/vendor/imguiFileChooser/"
+IncludeDirs["dirent"] = "Gray/vendor/imgui/"
+IncludeDirs["glm"] = "Gray/vendor/glm/"
+IncludeDirs["glew"] = "Gray/vendor/glew/include/"
+
+include "Gray/vendor/glfw"
+include "Gray/vendor/imgui"
+include "Gray/vendor/imguiFileChooser"
+
 project "Gray"
 	location "Gray"
 	kind "SharedLib"
@@ -28,8 +42,22 @@ project "Gray"
 
 	includedirs
 	{
-		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDirs.spdlog}",
+		"%{IncludeDirs.glfw}",
+		"%{IncludeDirs.dirent}",
+		"%{IncludeDirs.imgui}",
+		"%{IncludeDirs.imguiFileChooser}",
+		"%{IncludeDirs.glew}",
+		"%{IncludeDirs.glm}",
 		"%{prj.name}/src"
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32",
+		"imgui",
+		"imguiFileChooser"
 	}
 
 	filter "system:windows"
@@ -61,6 +89,7 @@ project "Gray"
 		defines "GRAY_DIST"
 		optimize "On"
 
+
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
@@ -77,7 +106,12 @@ project "Sandbox"
 
 	includedirs
 	{
-		"Gray/vendor/spdlog/include",
+		"%{IncludeDirs.spdlog}",
+		"%{IncludeDirs.glfw}",
+		"%{IncludeDirs.dirent}",
+		"%{IncludeDirs.imgui}",
+		"%{IncludeDirs.glew}",
+		"%{IncludeDirs.imguiFileChooser}",
 		"Gray/src"
 	}
 

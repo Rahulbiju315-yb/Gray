@@ -7,6 +7,9 @@
     <Filter Include="Gray\Event">
       <UniqueIdentifier>{A953048E-950B-46DB-FE12-1F37EAE9E0CB}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Gray\Window">
+      <UniqueIdentifier>{3F2AA577-ABDF-1D6D-34D4-1744A0881471}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Gray.h" />
@@ -46,8 +49,13 @@
     <ClInclude Include="src\Gray\Log.h">
       <Filter>Gray</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Window\Window.h">
+      <Filter>Gray\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Window\WindowsWindow.h">
+      <Filter>Gray\Window</Filter>
+    </ClInclude>
     <ClInclude Include="src\grpch.h" />
-    <ClInclude Include="src\Gray\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -58,6 +66,12 @@
     </ClCompile>
     <ClCompile Include="src\Gray\Log.cpp">
       <Filter>Gray</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Window\Window.cpp">
+      <Filter>Gray\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Window\WindowsWindow.cpp">
+      <Filter>Gray\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\grpch.cpp" />
   </ItemGroup>
