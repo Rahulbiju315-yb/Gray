@@ -1,20 +1,28 @@
 #include "Gray.h"
-#include "Gray/Event/KeyEvent.h"
-#include "Gray/Event/KeyListener.h"
-
 #include "grpch.h"
 
-class Sandbox : public Gray::Application, Gray::KeyListener
+
+class Sandbox : public Gray::Application, Gray::MouseListener
 {
 public:
 	Sandbox()
 	{
-		std::cout << "Hello world";
+		AddMouseListener(this);
 	}
 
 	~Sandbox()
 	{
 
+	}
+
+	void OnMouseDragged(const Gray::MouseDraggedEvent& e) override
+	{
+		GRAY_INFO("Mouse Dragged Event OK");
+	}
+
+	void OnMousePressed(const Gray::MousePressedEvent& e) override
+	{
+		GRAY_INFO("Mouse Pressed Event OK");
 	}
 };
 
