@@ -4,8 +4,11 @@
     <Filter Include="Gray">
       <UniqueIdentifier>{58F0857C-4427-870D-ED13-6D10D929030F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Gray\Event">
-      <UniqueIdentifier>{A953048E-950B-46DB-FE12-1F37EAE9E0CB}</UniqueIdentifier>
+    <Filter Include="Gray\Events">
+      <UniqueIdentifier>{3CC98E4E-A87E-0744-3173-011B9D27FE47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gray\Layers">
+      <UniqueIdentifier>{17B4715D-8369-EA52-0C5E-E4297812E156}</UniqueIdentifier>
     </Filter>
     <Filter Include="Gray\Window">
       <UniqueIdentifier>{3F2AA577-ABDF-1D6D-34D4-1744A0881471}</UniqueIdentifier>
@@ -22,29 +25,32 @@
     <ClInclude Include="src\Gray\EntryPoint.h">
       <Filter>Gray</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Event\Event.h">
-      <Filter>Gray\Event</Filter>
+    <ClInclude Include="src\Gray\Events\Event.h">
+      <Filter>Gray\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Event\EventListener.h">
-      <Filter>Gray\Event</Filter>
+    <ClInclude Include="src\Gray\Events\EventListener.h">
+      <Filter>Gray\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Event\KeyEvent.h">
-      <Filter>Gray\Event</Filter>
+    <ClInclude Include="src\Gray\Events\KeyEvent.h">
+      <Filter>Gray\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Event\KeyListener.h">
-      <Filter>Gray\Event</Filter>
+    <ClInclude Include="src\Gray\Events\KeyListener.h">
+      <Filter>Gray\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Event\MouseEvent.h">
-      <Filter>Gray\Event</Filter>
+    <ClInclude Include="src\Gray\Events\MouseEvent.h">
+      <Filter>Gray\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Event\MouseListener.h">
-      <Filter>Gray\Event</Filter>
+    <ClInclude Include="src\Gray\Events\MouseListener.h">
+      <Filter>Gray\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Event\WindowEvent.h">
-      <Filter>Gray\Event</Filter>
+    <ClInclude Include="src\Gray\Events\WindowEvent.h">
+      <Filter>Gray\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Event\WindowListener.h">
-      <Filter>Gray\Event</Filter>
+    <ClInclude Include="src\Gray\Events\WindowListener.h">
+      <Filter>Gray\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Layers\Layer.h">
+      <Filter>Gray\Layers</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Log.h">
       <Filter>Gray</Filter>
@@ -56,13 +62,16 @@
       <Filter>Gray\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\grpch.h" />
+    <ClInclude Include="src\Gray\Events\AllListeners.h">
+      <Filter>Gray\Layers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
       <Filter>Gray</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gray\Event\Events.cpp">
-      <Filter>Gray\Event</Filter>
+    <ClCompile Include="src\Gray\Events\Events.cpp">
+      <Filter>Gray\Events</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Log.cpp">
       <Filter>Gray</Filter>
@@ -74,5 +83,6 @@
       <Filter>Gray\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\grpch.cpp" />
+    <ClCompile Include="src\Gray\Layers\Layer.cpp" />
   </ItemGroup>
 </Project>

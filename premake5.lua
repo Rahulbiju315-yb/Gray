@@ -79,14 +79,17 @@ project "Gray"
 
 	filter "configurations:Debug"
 		defines "GRAY_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 	
 	filter "configurations:Release"
-		defines "GRAY_DEBUG"
+		defines "GRAY_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "GRAY_DIST"
+		buildoptions "/MD"
 		optimize "On"
 
 
@@ -132,12 +135,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "GRAY_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 	
 	filter "configurations:Release"
 		defines "GRAY_DEBUG"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "GRAY_DIST"
+		buildoptions "/MD"
 		optimize "On"

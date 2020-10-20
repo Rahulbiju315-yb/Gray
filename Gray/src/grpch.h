@@ -11,10 +11,10 @@
 #include "unordered_map"
 #include "stdlib.h"
 
-#include "Gray/Event/WindowListener.h"
-#include "Gray/Event/MouseListener.h"
-#include "Gray/Event/KeyListener.h"
+#include "Gray/Events/WindowListener.h"
+#include "Gray/Events/MouseListener.h"
+#include "Gray/Events/KeyListener.h"
 
-#include "Gray/Event/KeyEvent.h"
-#include "Gray/Event/MouseEvent.h"
-#include "Gray/Event/WindowEvent.h"
+#include "Gray/Events/KeyEvent.h"
+#include "Gray/Events/MouseEvent.h"
+#include "Gray/Events/WindowEvent.h"

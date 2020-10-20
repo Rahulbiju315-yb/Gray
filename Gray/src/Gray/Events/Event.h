@@ -43,6 +43,15 @@ namespace Gray
 		virtual const char* GetName() const = 0;
 		virtual std::string ToString() const { return GetName(); };
 
+		bool IsHandled()
+		{
+			return handled;
+		}
+
+		void SetHandled(bool handled)
+		{
+			this->handled = handled;
+		}
 	protected:
 		bool handled;
 	};
