@@ -1,33 +1,40 @@
 #pragma once
 
-#include "grpch.h"
-#include "Gray/Core.h"
 #include "Gray/Event/EventListener.h"
+
+#include "Gray/Event/KeyListener.h"
+#include "Gray/Event/MouseListener.h"
+#include "Gray/Event/WindowListener.h"
 
 namespace Gray
 {
-	struct GRAY_API WindowProperties
+	class GRAY_API Window
 	{
-		unsigned int width;
-		unsigned int height;
-		std::string title;
+	public:	
 
-		WindowProperties(const std::string& title="Gray",
-			unsigned int width=1200, unsigned int height=720)
-		{
-			this->width = width;
-			this->height = height;
-			this->title = title;
-		}
-	};
+		static Window* Create(const std::string& title, unsigned int width = 1200, unsigned int height = 700);
 
-	class GRAY_API Window : public EventListener
-	{
-	public:
-		virtual void SetVSync(bool enabled) const = 0;
-		virtual bool IsVSync() const = 0;
+		/*virtual void SetOnInit(void (*funcPtr)) = 0;
+		virtual void SetOnUpdate(void (*funcPtr))  = 0;
+		virtual void SetOnRender(void (*funcPtr))  = 0;*/
+		
+		virtual void OnInit() = 0;
+		virtual void OnUpdate() = 0;
+		virtual void OnRender() = 0;
 
-		virtual WindowProperties GetWindowProperties() const = 0;
-		static Window* Create(const WindowProperties& properties = WindowProperties());
+		virtual void AddKeyListener(KeyListener* kl)  = 0;
+		virtual void AddMouseListener(MouseListener* ml)  = 0;
+		virtual void AddWindowListener(WindowListener* wl) = 0;
+
+		virtual unsigned int GetWidth() const = 0;
+		virtual unsigned int GetHeight() const = 0;
+		virtual const std::string& GetTitle() const = 0;
+
+	protected:
+
+		/*void(*onInit);
+		void(*onUpdate);
+		void(*onRender);*/
+
 	};
 }

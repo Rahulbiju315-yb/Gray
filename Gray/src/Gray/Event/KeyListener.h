@@ -7,12 +7,11 @@ namespace Gray
 {
 	class GRAY_API KeyListener : public EventListener
 	{
-	protected:
-		virtual void OnKeyPressed(KeyPressedEvent& e) const { }
-		virtual void OnKeyReleased(KeyReleasedEvent& e) const { }
-
 	public:
-		void OnEvent(Event& e) const override
+		virtual void OnKeyPressed(const KeyPressedEvent& e) { }
+		virtual void OnKeyReleased(const KeyReleasedEvent& e) { }
+
+		void OnEvent(const Event& e) override
 		{
 			if (e.GetType() == EventType::KeyPressed)
 				OnKeyPressed((KeyPressedEvent&)e);

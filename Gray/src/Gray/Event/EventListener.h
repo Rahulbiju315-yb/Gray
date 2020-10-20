@@ -8,6 +8,6 @@ namespace Gray
 	class GRAY_API EventListener
 	{
 	public:
-		virtual void OnEvent(Event& e) const = 0;
+		virtual void OnEvent(const Event& e) = 0;
 	};
 }

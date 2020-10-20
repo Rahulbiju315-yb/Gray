@@ -9,7 +9,13 @@ namespace Gray
 	{
 
 	public:
-		void OnEvent(Event& e) const override
+		virtual void OnMouseMoved(const MouseMovedEvent& e)  { }
+		virtual void OnMouseDragged(const MouseDraggedEvent& e)  { }
+		virtual void OnMousePressed(const MousePressedEvent& e)  { }
+		virtual void OnMouseReleased(const MouseReleasedEvent& e)  { }
+		virtual void OnMouseScrolled(const MouseScrolledEvent& e)  { }
+
+		void OnEvent(const Event& e) override
 		{
 			if (e.GetType() == EventType::MouseMoved)
 				OnMouseMoved((MouseMovedEvent&)e);
@@ -28,15 +34,7 @@ namespace Gray
 
 			else
 				GRAY_CORE_ERROR("Event passed to MouseListener must be of category mouse!!");
-				
+
 		}
-
-	protected:
-		virtual void OnMouseMoved(MouseMovedEvent& e) const { }
-		virtual void OnMouseDragged(MouseDraggedEvent& e) const { }
-		virtual void OnMousePressed(MousePressedEvent& e) const { }
-		virtual void OnMouseReleased(MouseReleasedEvent& e) const { }
-		virtual void OnMouseScrolled(MouseScrolledEvent& e) const { }
-
 	};
 }

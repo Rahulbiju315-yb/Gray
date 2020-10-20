@@ -76,10 +76,10 @@ namespace Gray
 	class GRAY_API MouseMovedEvent : public Event
 	{
 	private:
-		float xPos, yPos;
+		double xPos, yPos;
 
 	public:
-		MouseMovedEvent(float xPos, float yPos)
+		MouseMovedEvent(double xPos, double yPos)
 		{
 			this->xPos = xPos;
 			this->yPos = yPos;
@@ -108,10 +108,10 @@ namespace Gray
 	class GRAY_API MouseDraggedEvent : public Event
 	{
 	private:
-		float xPos, yPos;
+		double xPos, yPos;
 
 	public:
-		MouseDraggedEvent(float xPos, float yPos)
+		MouseDraggedEvent(double xPos, double yPos)
 		{
 			this->xPos = xPos;
 			this->yPos = yPos;

@@ -1,6 +1,7 @@
 #pragma once
 #include "Log.h"
 
+
 extern Gray::Application* Gray::CreateApplication();
 
 int main(int argv, char** argc)
