@@ -58,28 +58,19 @@ namespace Gray
 				if (action == GLFW_PRESS)
 				{
 					KeyPressedEvent event(key, 0);
-					for (int i = 0; i < data.kls.size(); i++)
-					{
-						(data.kls.at(i))->OnKeyPressed(event);
-					}
+				
 				}
 
 				else if (action == GLFW_REPEAT)
 				{
 					KeyPressedEvent event(key, 1);
-					for (int i = 0; i < data.kls.size(); i++)
-					{
-						(data.kls.at(i))->OnKeyPressed(event);
-					}
+				
 				}
 
 				else if (action == GLFW_RELEASE)
 				{
 					KeyReleasedEvent event(key);
-					for (int i = 0; i < data.kls.size(); i++)
-					{
-						(data.kls.at(i))->OnKeyReleased(event);
-					}
+			
 				}
 			});
 
@@ -87,10 +78,8 @@ namespace Gray
 			{
 				WindowData& data =  *(WindowData *)(glfwGetWindowUserPointer(window));
 				WindowClosedEvent event;
-				for (int i = 0; i < data.wls.size(); i++)
-				{
-					(data.wls.at(i))->OnWindowClosed(event);
-				}
+
+				data.listener->OnEvent(event);
 			});
 
 		glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
@@ -101,25 +90,17 @@ namespace Gray
 				{
 					MousePressedEvent event(button == GLFW_MOUSE_BUTTON_RIGHT ? MouseButton::Right : 
 						MouseButton::Left);
-
-					for (int i = 0; i < data.mls.size(); i++)
-					{
-						(data.mls.at(i))->OnMousePressed(event);
-					}
+					data.listener->OnEvent(event);
 				}
 
 				else if (action == GLFW_RELEASE)
 				{
 					MouseReleasedEvent event(button == GLFW_MOUSE_BUTTON_RIGHT ? MouseButton::Right : 
 						MouseButton::Left);
-
-
-					for (int i = 0; i < data.mls.size(); i++)
-					{
-						(data.mls.at(i))->OnMouseReleased(event);
-					}
+					data.listener->OnEvent(event);
 				}
 
+				
 			});
 
 		glfwSetCursorPosCallback(window, [](GLFWwindow* window, double x, double y)
@@ -131,19 +112,13 @@ namespace Gray
 				if (action == GLFW_PRESS)
 				{
 					MouseDraggedEvent event(x, y);
-					for (int i = 0; i < data.mls.size(); i++)
-					{
-						(data.mls.at(i))->OnMouseDragged(event);
-					}
+					data.listener->OnEvent(event);
 				}
 
 				else
 				{
 					MouseMovedEvent event(x, y);
-					for (int i = 0; i < data.mls.size(); i++)
-					{
-						(data.mls.at(i))->OnMouseMoved(event);
-					}
+					data.listener->OnEvent(event);
 				}
 			});
 	}
@@ -174,7 +149,12 @@ namespace Gray
 		return title;
 	}
 
-	void WindowsWindow::AddKeyListener(KeyListener* kl)
+	void WindowsWindow::SetListener(EventListener* listener)
+	{
+		data.listener = listener;
+	}
+
+	/*void WindowsWindow::AddKeyListener(KeyListener* kl)
 	{
 		data.kls.push_back(kl);
 	}
@@ -187,5 +167,5 @@ namespace Gray
 	void WindowsWindow::AddWindowListener(WindowListener* wl)
 	{
 		data.wls.push_back(wl);
-	}
+	}*/
 }

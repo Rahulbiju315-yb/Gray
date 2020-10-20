@@ -10,34 +10,21 @@ namespace Gray
 	Application::Application()
 	{
 		window = Window::Create("Gray window", 1200, 700);
-		window->AddWindowListener(this);
+		
 	}
 
 	Application::~Application()
 	{
 
 	}
-
-	void Application::OnWindowClosed(const WindowClosedEvent& event) 
+			
+	// Window Closed event implementation
+	void Application::OnWindowClosed(WindowClosedEvent& event) 
 	{
 		run = false;
-		GRAY_INFO("Window closed calles");
+		GRAY_INFO("Window closed called");
 	}
 
-	void Application::AddKeyListener(KeyListener* kl)
-	{
-		window->AddKeyListener(kl);
-	}
-
-	void Application::AddMouseListener(MouseListener* ml)
-	{
-		window->AddMouseListener(ml);
-	}
-
-	void Application::AddWindowListener(WindowListener* wl)
-	{
-		window->AddWindowListener(wl);
-	}
 
 	void Application::Run()
 	{
@@ -45,5 +32,11 @@ namespace Gray
 		{
 			window->OnUpdate();
 		}
+	}
+
+	//Event  dispatch
+	void Application::OnEvent(Event& e)
+	{
+		
 	}
 }

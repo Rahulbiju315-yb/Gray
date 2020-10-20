@@ -1,11 +1,5 @@
 #pragma once
 
-#include "Gray/Event/EventListener.h"
-
-#include "Gray/Event/KeyListener.h"
-#include "Gray/Event/MouseListener.h"
-#include "Gray/Event/WindowListener.h"
-
 namespace Gray
 {
 	class GRAY_API Window
@@ -22,9 +16,11 @@ namespace Gray
 		virtual void OnUpdate() = 0;
 		virtual void OnRender() = 0;
 
-		virtual void AddKeyListener(KeyListener* kl)  = 0;
+		/*virtual void AddKeyListener(KeyListener* kl)  = 0;
 		virtual void AddMouseListener(MouseListener* ml)  = 0;
-		virtual void AddWindowListener(WindowListener* wl) = 0;
+		virtual void AddWindowListener(WindowListener* wl) = 0;*/
+
+		virtual void SetListener(EventListener *listener);
 
 		virtual unsigned int GetWidth() const = 0;
 		virtual unsigned int GetHeight() const = 0;

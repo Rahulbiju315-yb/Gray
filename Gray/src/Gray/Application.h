@@ -1,25 +1,22 @@
 #pragma once
 
 #include "Core.h"
-#include "Event/Event.h"
-#include "Event/WindowEvent.h"
-#include "Event/WindowListener.h"
 #include "Window/Window.h"
+
+#include "Events/AllListeners.h"
+
 namespace Gray
 {
-	class GRAY_API Application : public WindowListener
+	class GRAY_API Application : public AllListeners
 	{
 	public:
 		Application();
 		~Application();
 
 		void Run();
-		void OnWindowClosed(const WindowClosedEvent& event) override;
+		void OnWindowClosed(WindowClosedEvent& event) override;
 
-		void AddKeyListener(KeyListener* kl);
-		void AddMouseListener(MouseListener* ml);
-		void AddWindowListener(WindowListener* wl);
-
+		void OnEvent(Event& e) override;
 	protected:
 		Window *window;
 	};
