@@ -2,12 +2,12 @@
 #include "grpch.h"
 
 
-class Sandbox : public Gray::Application, Gray::MouseListener
+class Sandbox : public Gray::Application
 {
 public:
 	Sandbox()
 	{
-		AddMouseListener(this);
+
 	}
 
 	~Sandbox()
@@ -15,12 +15,12 @@ public:
 
 	}
 
-	void OnMouseDragged(const Gray::MouseDraggedEvent& e) override
+	void OnMouseDragged(Gray::MouseDraggedEvent& e) override
 	{
 		GRAY_INFO("Mouse Dragged Event OK");
 	}
 
-	void OnMousePressed(const Gray::MousePressedEvent& e) override
+	void OnMousePressed(Gray::MousePressedEvent& e) override
 	{
 		GRAY_INFO("Mouse Pressed Event OK");
 	}
