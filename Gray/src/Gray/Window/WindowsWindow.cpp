@@ -55,22 +55,25 @@ namespace Gray
 			{
 				WindowData& data =  *(WindowData*)(glfwGetWindowUserPointer(window));
 
-				if (action == GLFW_PRESS)
+				if (data.listener != nullptr)
 				{
-					KeyPressedEvent event(key, 0);
-				
-				}
+					if (action == GLFW_PRESS)
+					{
+						KeyPressedEvent event(key, 0);
 
-				else if (action == GLFW_REPEAT)
-				{
-					KeyPressedEvent event(key, 1);
-				
-				}
+					}
 
-				else if (action == GLFW_RELEASE)
-				{
-					KeyReleasedEvent event(key);
-			
+					else if (action == GLFW_REPEAT)
+					{
+						KeyPressedEvent event(key, 1);
+
+					}
+
+					else if (action == GLFW_RELEASE)
+					{
+						KeyReleasedEvent event(key);
+
+					}
 				}
 			});
 
@@ -79,28 +82,32 @@ namespace Gray
 				WindowData& data =  *(WindowData *)(glfwGetWindowUserPointer(window));
 				WindowClosedEvent event;
 
-				data.listener->OnEvent(event);
+				if (data.listener != nullptr)
+				{
+					data.listener->OnEvent(event);
+				}
 			});
 
 		glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
 			{
 				WindowData& data =  *(WindowData *)(glfwGetWindowUserPointer(window));
-
-				if (action == GLFW_PRESS)
+				if (data.listener != nullptr)
 				{
-					MousePressedEvent event(button == GLFW_MOUSE_BUTTON_RIGHT ? MouseButton::Right : 
-						MouseButton::Left);
-					data.listener->OnEvent(event);
-				}
+					if (action == GLFW_PRESS)
+					{
+						MousePressedEvent event(button == GLFW_MOUSE_BUTTON_RIGHT ? MouseButton::Right :
+							MouseButton::Left);
+						data.listener->OnEvent(event);
+					}
 
-				else if (action == GLFW_RELEASE)
-				{
-					MouseReleasedEvent event(button == GLFW_MOUSE_BUTTON_RIGHT ? MouseButton::Right : 
-						MouseButton::Left);
-					data.listener->OnEvent(event);
-				}
+					else if (action == GLFW_RELEASE)
+					{
+						MouseReleasedEvent event(button == GLFW_MOUSE_BUTTON_RIGHT ? MouseButton::Right :
+							MouseButton::Left);
+						data.listener->OnEvent(event);
+					}
 
-				
+				}
 			});
 
 		glfwSetCursorPosCallback(window, [](GLFWwindow* window, double x, double y)
@@ -108,17 +115,19 @@ namespace Gray
 				int action = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 				WindowData& data =  *(WindowData*)(glfwGetWindowUserPointer(window));
 
-				
-				if (action == GLFW_PRESS)
+				if (data.listener != nullptr)
 				{
-					MouseDraggedEvent event(x, y);
-					data.listener->OnEvent(event);
-				}
+					if (action == GLFW_PRESS)
+					{
+						MouseDraggedEvent event(x, y);
+						data.listener->OnEvent(event);
+					}
 
-				else
-				{
-					MouseMovedEvent event(x, y);
-					data.listener->OnEvent(event);
+					else
+					{
+						MouseMovedEvent event(x, y);
+						data.listener->OnEvent(event);
+					}
 				}
 			});
 	}
@@ -154,18 +163,4 @@ namespace Gray
 		data.listener = listener;
 	}
 
-	/*void WindowsWindow::AddKeyListener(KeyListener* kl)
-	{
-		data.kls.push_back(kl);
-	}
-
-	void WindowsWindow::AddMouseListener(MouseListener* ml)
-	{
-		data.mls.push_back(ml);
-	}
-
-	void WindowsWindow::AddWindowListener(WindowListener* wl)
-	{
-		data.wls.push_back(wl);
-	}*/
 }
