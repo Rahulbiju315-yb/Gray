@@ -3,40 +3,89 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include "Window/Window.h"
+
 namespace Gray
 {
 	bool run = true;
 
+
 	Application::Application()
 	{
 		window = Window::Create("Gray window", 1200, 700);
-		
+		window->SetListener((AllListeners*)this);
 	}
 
 	Application::~Application()
 	{
 
 	}
-			
-	// Window Closed event implementation
+
+
+	//---
+	
+	void Application::AddLayer(Layer* l)
+	{
+		ls.PushLayer(l);
+	}
+
+	bool Application::RemoveLayer(Layer* l)
+	{
+		return ls.RemoveLayer(l);
+	}
+
+	bool Application::RemoveLayerAt(int i)
+	{
+		return ls.RemoveLayer(ls.LayerAt(i));
+	}
+
+	//---
+
+
+
+	//---
+
 	void Application::OnWindowClosed(WindowClosedEvent& event) 
 	{
 		run = false;
 		GRAY_INFO("Window closed called");
+		event.SetHandled(true);
 	}
 
+	//---
+
+	
+
+	//---
 
 	void Application::Run()
 	{
 		while (run)
 		{
+			for (Layer *layer : ls)
+				layer->OnUpdate();
+
 			window->OnUpdate();
 		}
 	}
 
-	//Event  dispatch
 	void Application::OnEvent(Event& e)
 	{
-		
+		if(e.GetCategory() & EventCategoryMouse)
+			MouseListener::OnEvent(e);
+
+		else if(e.GetCategory() & EventCategoryKeyboard)
+			KeyListener::OnEvent(e);
+
+		else if(e.GetCategory() & EventCategoryWindow)
+			WindowListener::OnEvent(e);
+
+
+		for (std::vector<Layer*>::reverse_iterator x = ls.rbegin(); x != ls.rend(); x++)
+		{
+			(*x)->OnEvent(e);
+		}
 	}
+
+	//---
+
 }
