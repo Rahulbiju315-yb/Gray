@@ -17,6 +17,7 @@ namespace Gray
 
 		void OnEvent(Event& e) override
 		{
+
 			if (e.GetType() == EventType::MouseMoved)
 				OnMouseMoved((MouseMovedEvent&)e);
 

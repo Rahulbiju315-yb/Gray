@@ -132,7 +132,7 @@ namespace Gray
 			return yPos;
 		}
 
-		EVENT_CLASS_TYPE(EventType::MouseMoved)
+		EVENT_CLASS_TYPE(EventType::MouseDragged)
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	};
 
