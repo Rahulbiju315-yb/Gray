@@ -33,6 +33,7 @@ namespace Gray
 			isGlfwInit = true;
 		}
 
+		
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -47,6 +48,11 @@ namespace Gray
 
 		glfwMakeContextCurrent(window);
 
+		GLenum err = glewInit();
+		if (GLEW_OK != err)
+		{
+			GRAY_CORE_FATAL("Glew not initialised");
+		}	
 
 		data =  WindowData();
 		glfwSetWindowUserPointer(window, (void*)(&data));
