@@ -1,13 +1,14 @@
 #include "Gray.h"
 #include "grpch.h"
 
+#include "Gray/Layers/ImguiLayer.h"
 
 class Sandbox : public Gray::Application
 {
 public:
 	Sandbox()
 	{
-
+		AddLayer(new Gray::ImguiLayer());
 	}
 
 	~Sandbox()
