@@ -25,6 +25,9 @@
     <ClInclude Include="src\Gray\EntryPoint.h">
       <Filter>Gray</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Events\AllListeners.h">
+      <Filter>Gray\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gray\Events\Event.h">
       <Filter>Gray\Events</Filter>
     </ClInclude>
@@ -52,6 +55,9 @@
     <ClInclude Include="src\Gray\Layers\Layer.h">
       <Filter>Gray\Layers</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Layers\LayerStack.h">
+      <Filter>Gray\Layers</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gray\Log.h">
       <Filter>Gray</Filter>
     </ClInclude>
@@ -62,10 +68,21 @@
       <Filter>Gray\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\grpch.h" />
-    <ClInclude Include="src\Gray\Events\AllListeners.h">
-      <Filter>Gray\Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Layers\LayerStack.h" />
+    <ClInclude Include="src\Gray\Layers\ImguiLayer.h" />
+    <ClInclude Include="src\Platform\Opengl\test\MainTest.h" />
+    <ClInclude Include="src\Platform\Opengl\test\Test.h" />
+    <ClInclude Include="src\Platform\Opengl\test\TestClearColor.h" />
+    <ClInclude Include="src\Platform\Opengl\test\TestMenu.h" />
+    <ClInclude Include="src\Platform\Opengl\test\TestViewPort.h" />
+    <ClInclude Include="src\Platform\Opengl\test\Util.h" />
+    <ClInclude Include="src\Platform\Opengl\BufferLayout.h" />
+    <ClInclude Include="src\Platform\Opengl\IndexBuffer.h" />
+    <ClInclude Include="src\Platform\Opengl\Renderer.h" />
+    <ClInclude Include="src\Platform\Opengl\Shader.h" />
+    <ClInclude Include="src\Platform\Opengl\stb_image.h" />
+    <ClInclude Include="src\Platform\Opengl\Texture.h" />
+    <ClInclude Include="src\Platform\Opengl\VertexArray.h" />
+    <ClInclude Include="src\Platform\Opengl\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -73,6 +90,12 @@
     </ClCompile>
     <ClCompile Include="src\Gray\Events\Events.cpp">
       <Filter>Gray\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Layers\Layer.cpp">
+      <Filter>Gray\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Layers\LayerStack.cpp">
+      <Filter>Gray\Layers</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Log.cpp">
       <Filter>Gray</Filter>
@@ -84,7 +107,17 @@
       <Filter>Gray\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\grpch.cpp" />
-    <ClCompile Include="src\Gray\Layers\Layer.cpp" />
-    <ClCompile Include="src\Gray\Layers\LayerStack.cpp" />
+    <ClCompile Include="src\Gray\Layers\ImguiLayer.cpp" />
+    <ClCompile Include="src\Platform\Opengl\test\MainTest.cpp" />
+    <ClCompile Include="src\Platform\Opengl\test\TestClearColor.cpp" />
+    <ClCompile Include="src\Platform\Opengl\test\TestMenu.cpp" />
+    <ClCompile Include="src\Platform\Opengl\test\TestViewPort.cpp" />
+    <ClCompile Include="src\Platform\Opengl\test\Util.cpp" />
+    <ClCompile Include="src\Platform\Opengl\IndexBuffer.cpp" />
+    <ClCompile Include="src\Platform\Opengl\Renderer.cpp" />
+    <ClCompile Include="src\Platform\Opengl\Shader.cpp" />
+    <ClCompile Include="src\Platform\Opengl\Texture.cpp" />
+    <ClCompile Include="src\Platform\Opengl\VertexBuffer.cpp" />
+    <ClCompile Include="src\Platform\Opengl\VetexArray.cpp" />
   </ItemGroup>
 </Project>

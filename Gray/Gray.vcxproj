@@ -79,7 +79,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>grpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GRAY_PLATFORM_WINDOWS;GRAY_BUILD_DLL;GRAY_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;GRAY_PLATFORM_WINDOWS;GRAY_BUILD_DLL;GRAY_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\imguiFileChooser;vendor\glew\include;vendor\glm;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -90,7 +90,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Debug-windows-x86_64\Gray\Gray.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -102,7 +103,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>grpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GRAY_PLATFORM_WINDOWS;GRAY_BUILD_DLL;GRAY_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;GRAY_PLATFORM_WINDOWS;GRAY_BUILD_DLL;GRAY_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\imguiFileChooser;vendor\glew\include;vendor\glm;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -117,7 +118,8 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Release-windows-x86_64\Gray\Gray.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -129,7 +131,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>grpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GRAY_PLATFORM_WINDOWS;GRAY_BUILD_DLL;GRAY_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;GRAY_PLATFORM_WINDOWS;GRAY_BUILD_DLL;GRAY_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\imguiFileChooser;vendor\glew\include;vendor\glm;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -144,7 +146,8 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\bin\Dist-windows-x86_64\Gray\Gray.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -156,6 +159,7 @@
     <ClInclude Include="src\Gray\Application.h" />
     <ClInclude Include="src\Gray\Core.h" />
     <ClInclude Include="src\Gray\EntryPoint.h" />
+    <ClInclude Include="src\Gray\Events\AllListeners.h" />
     <ClInclude Include="src\Gray\Events\Event.h" />
     <ClInclude Include="src\Gray\Events\EventListener.h" />
     <ClInclude Include="src\Gray\Events\KeyEvent.h" />
@@ -164,17 +168,32 @@
     <ClInclude Include="src\Gray\Events\MouseListener.h" />
     <ClInclude Include="src\Gray\Events\WindowEvent.h" />
     <ClInclude Include="src\Gray\Events\WindowListener.h" />
-    <ClInclude Include="src\Gray\Events\AllListeners.h" />
-    <ClInclude Include="src\Gray\Layers\LayerStack.h" />
+    <ClInclude Include="src\Gray\Layers\ImguiLayer.h" />
     <ClInclude Include="src\Gray\Layers\Layer.h" />
+    <ClInclude Include="src\Gray\Layers\LayerStack.h" />
     <ClInclude Include="src\Gray\Log.h" />
     <ClInclude Include="src\Gray\Window\Window.h" />
     <ClInclude Include="src\Gray\Window\WindowsWindow.h" />
     <ClInclude Include="src\grpch.h" />
+    <ClInclude Include="src\Platform\Opengl\BufferLayout.h" />
+    <ClInclude Include="src\Platform\Opengl\IndexBuffer.h" />
+    <ClInclude Include="src\Platform\Opengl\Renderer.h" />
+    <ClInclude Include="src\Platform\Opengl\Shader.h" />
+    <ClInclude Include="src\Platform\Opengl\stb_image.h" />
+    <ClInclude Include="src\Platform\Opengl\test\MainTest.h" />
+    <ClInclude Include="src\Platform\Opengl\test\Test.h" />
+    <ClInclude Include="src\Platform\Opengl\test\TestClearColor.h" />
+    <ClInclude Include="src\Platform\Opengl\test\TestMenu.h" />
+    <ClInclude Include="src\Platform\Opengl\test\TestViewPort.h" />
+    <ClInclude Include="src\Platform\Opengl\test\Util.h" />
+    <ClInclude Include="src\Platform\Opengl\Texture.h" />
+    <ClInclude Include="src\Platform\Opengl\VertexArray.h" />
+    <ClInclude Include="src\Platform\Opengl\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp" />
     <ClCompile Include="src\Gray\Events\Events.cpp" />
+    <ClCompile Include="src\Gray\Layers\ImguiLayer.cpp" />
     <ClCompile Include="src\Gray\Layers\Layer.cpp" />
     <ClCompile Include="src\Gray\Layers\LayerStack.cpp" />
     <ClCompile Include="src\Gray\Log.cpp" />
@@ -183,6 +202,17 @@
     <ClCompile Include="src\grpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Platform\Opengl\IndexBuffer.cpp" />
+    <ClCompile Include="src\Platform\Opengl\Renderer.cpp" />
+    <ClCompile Include="src\Platform\Opengl\Shader.cpp" />
+    <ClCompile Include="src\Platform\Opengl\test\MainTest.cpp" />
+    <ClCompile Include="src\Platform\Opengl\test\TestClearColor.cpp" />
+    <ClCompile Include="src\Platform\Opengl\test\TestMenu.cpp" />
+    <ClCompile Include="src\Platform\Opengl\test\TestViewPort.cpp" />
+    <ClCompile Include="src\Platform\Opengl\test\Util.cpp" />
+    <ClCompile Include="src\Platform\Opengl\Texture.cpp" />
+    <ClCompile Include="src\Platform\Opengl\VertexBuffer.cpp" />
+    <ClCompile Include="src\Platform\Opengl\VetexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\glfw\GLFW.vcxproj">

@@ -52,14 +52,25 @@ project "Gray"
 		"%{prj.name}/src"
 	}
 
+	libdirs
+	{
+		"%{prj.name}/vendor/glew/lib/Release/x64/"
+	}
+
 	links
 	{
+		"glew32s.lib",
 		"GLFW",
 		"opengl32",
 		"imgui",
 		"imguiFileChooser"
 	}
 
+	defines
+	{
+		"GLEW_STATIC"
+	}
+	
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
@@ -92,7 +103,6 @@ project "Gray"
 		buildoptions "/MD"
 		optimize "On"
 
-
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
@@ -118,9 +128,15 @@ project "Sandbox"
 		"Gray/src"
 	}
 
+	libdirs
+	{
+		"Gray/vendor/glew/lib/Release/x64/"
+	}
+
 	links
 	{
-		"Gray"
+		"Gray",
+		"glew32s.lib"
 	}
 
 	filter "system:windows"
