@@ -7,12 +7,15 @@
 namespace Gray
 {
 	bool run = true;
+	Application* Application::app = nullptr;
 
 
 	Application::Application()
 	{
 		window = Window::Create("Gray window", 1200, 700);
 		window->SetListener((AllListeners*)this);
+
+		Application::SetApp(this);
 	}
 
 	Application::~Application()
@@ -20,11 +23,11 @@ namespace Gray
 
 	}
 
-
 	//---
 	
 	void Application::AddLayer(Layer* l)
 	{
+		l->OnAttatch();
 		ls.PushLayer(l);
 	}
 
@@ -48,7 +51,6 @@ namespace Gray
 	{
 		run = false;
 		GRAY_INFO("Window closed called");
-		event.SetHandled(true);
 	}
 
 	//---
@@ -86,6 +88,30 @@ namespace Gray
 		}
 	}
 
+	Application* Application::GetApp()
+	{
+		return app;
+	}
+
+	void Application::SetApp(Application* app)
+	{
+		if (Application::app == nullptr)
+			Application::app = app;
+		else
+		{
+			GRAY_CORE_ERROR("Application already exists");
+		}
+	}
+
+	unsigned int Application::GetWidth()
+	{
+		return window->GetWidth();
+	}
+	
+	unsigned int Application::GetHeight()
+	{
+		return window->GetHeight();
+	}
 	//---
 
 }
