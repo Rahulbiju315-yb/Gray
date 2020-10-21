@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Gray/Events/EventListener.h"
 namespace Gray
 {
 	class GRAY_API Window
@@ -20,7 +21,7 @@ namespace Gray
 		virtual void AddMouseListener(MouseListener* ml)  = 0;
 		virtual void AddWindowListener(WindowListener* wl) = 0;*/
 
-		virtual void SetListener(EventListener *listener);
+		virtual void SetListener(EventListener *listener) = 0;
 
 		virtual unsigned int GetWidth() const = 0;
 		virtual unsigned int GetHeight() const = 0;
