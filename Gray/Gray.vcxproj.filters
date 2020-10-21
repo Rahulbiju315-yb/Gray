@@ -65,6 +65,7 @@
     <ClInclude Include="src\Gray\Events\AllListeners.h">
       <Filter>Gray\Layers</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Layers\LayerStack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -84,5 +85,6 @@
     </ClCompile>
     <ClCompile Include="src\grpch.cpp" />
     <ClCompile Include="src\Gray\Layers\Layer.cpp" />
+    <ClCompile Include="src\Gray\Layers\LayerStack.cpp" />
   </ItemGroup>
 </Project>

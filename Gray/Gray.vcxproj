@@ -165,6 +165,7 @@
     <ClInclude Include="src\Gray\Events\WindowEvent.h" />
     <ClInclude Include="src\Gray\Events\WindowListener.h" />
     <ClInclude Include="src\Gray\Events\AllListeners.h" />
+    <ClInclude Include="src\Gray\Layers\LayerStack.h" />
     <ClInclude Include="src\Gray\Layers\Layer.h" />
     <ClInclude Include="src\Gray\Log.h" />
     <ClInclude Include="src\Gray\Window\Window.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="src\Gray\Application.cpp" />
     <ClCompile Include="src\Gray\Events\Events.cpp" />
     <ClCompile Include="src\Gray\Layers\Layer.cpp" />
+    <ClCompile Include="src\Gray\Layers\LayerStack.cpp" />
     <ClCompile Include="src\Gray\Log.cpp" />
     <ClCompile Include="src\Gray\Window\Window.cpp" />
     <ClCompile Include="src\Gray\Window\WindowsWindow.cpp" />
