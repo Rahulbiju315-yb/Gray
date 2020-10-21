@@ -5,7 +5,7 @@
 
 namespace Gray
 {
-	class Layer : public AllListeners
+	class GRAY_API Layer : public AllListeners
 	{
 	public:
 		virtual void OnAttatch() = 0;
