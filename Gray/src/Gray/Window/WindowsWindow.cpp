@@ -6,7 +6,8 @@
 namespace Gray
 {
 	static bool isGlfwInit = false;
-	
+	WindowProvider Window::wp;
+
 	WindowsWindow::WindowsWindow(const std::string& title, unsigned int width, unsigned int height)
 	{
 		this->title = title;
@@ -39,6 +40,8 @@ namespace Gray
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 		window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+		Window::wp = WindowProvider::GLFW;
+
 		if (!window)
 		{
 			GRAY_CORE_FATAL("Error creating glfw window");
@@ -136,6 +139,16 @@ namespace Gray
 					}
 				}
 			});
+
+		glfwSetScrollCallback(window, [](GLFWwindow* window, double xOffset, double yOffset)
+			{
+				WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
+				MouseScrolledEvent event(xOffset, yOffset);
+				if (data.listener != nullptr)
+				{
+					data.listener->OnEvent(event);
+				}
+			});
 	}
 
 	void WindowsWindow::OnUpdate()
@@ -167,6 +180,11 @@ namespace Gray
 	void WindowsWindow::SetListener(EventListener* listener)
 	{
 		data.listener = listener;
+	}
+
+	void* WindowsWindow::GetProvider() const
+	{
+		return (void*)window;
 	}
 
 }

@@ -11,4 +11,9 @@ namespace Gray
 #endif // GRAY_PLATFORM_WINDOWS
 
 	}
+
+	WindowProvider Window::GetProviderName()
+	{
+		return wp;
+	}
 }

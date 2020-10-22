@@ -20,11 +20,10 @@ namespace Gray
 		unsigned int GetHeight() const override;
 		const std::string& GetTitle() const override;
 
-		/*void AddKeyListener(KeyListener *kl) override;
-		void AddMouseListener(MouseListener *kl) override;
-		void AddWindowListener(WindowListener *kl) override;*/
 
-		virtual void SetListener(EventListener* listener) override;
+		void SetListener(EventListener* listener) override;
+
+		void* GetProvider() const override;
 
 		struct WindowData
 		{
@@ -32,15 +31,8 @@ namespace Gray
 
 			WindowData()
 			{
-				/*kls.shrink_to_fit();
-				mls.shrink_to_fit();
-				wls.shrink_to_fit();*/
 				listener = nullptr;
 			}
-
-			/*std::vector<KeyListener*> kls;
-			std::vector<MouseListener*> mls;
-			std::vector<WindowListener*> wls;*/
 
 			EventListener *listener;
 		};

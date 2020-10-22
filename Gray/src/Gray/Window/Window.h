@@ -3,23 +3,20 @@
 #include "Gray/Events/EventListener.h"
 namespace Gray
 {
+	enum class WindowProvider
+	{
+		GLFW
+	};
+
 	class GRAY_API Window
 	{
 	public:	
-
 		static Window* Create(const std::string& title, unsigned int width = 1200, unsigned int height = 700);
-
-		/*virtual void SetOnInit(void (*funcPtr)) = 0;
-		virtual void SetOnUpdate(void (*funcPtr))  = 0;
-		virtual void SetOnRender(void (*funcPtr))  = 0;*/
 		
 		virtual void OnInit() = 0;
 		virtual void OnUpdate() = 0;
 		virtual void OnRender() = 0;
 
-		/*virtual void AddKeyListener(KeyListener* kl)  = 0;
-		virtual void AddMouseListener(MouseListener* ml)  = 0;
-		virtual void AddWindowListener(WindowListener* wl) = 0;*/
 
 		virtual void SetListener(EventListener *listener) = 0;
 
@@ -27,11 +24,11 @@ namespace Gray
 		virtual unsigned int GetHeight() const = 0;
 		virtual const std::string& GetTitle() const = 0;
 
+		virtual void* GetProvider() const = 0;
+		static WindowProvider GetProviderName();
 	protected:
 
-		/*void(*onInit);
-		void(*onUpdate);
-		void(*onRender);*/
 
+		static WindowProvider wp;
 	};
 }
