@@ -2,7 +2,7 @@
 
 namespace Gray
 {
-	class VertexBuffer
+	class GRAY_API VertexBuffer
 	{
 	private:
 		unsigned int ID;

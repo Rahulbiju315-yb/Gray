@@ -5,7 +5,7 @@
 
 namespace Gray
 {
-	class VertexArray
+	class GRAY_API VertexArray
 	{
 
 	private:

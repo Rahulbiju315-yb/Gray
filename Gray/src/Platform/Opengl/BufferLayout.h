@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <vector>
 
-class VertexAttrib
+class GRAY_API VertexAttrib
 {
 public:
 	unsigned int count;
@@ -11,7 +11,7 @@ public:
 	bool normalized;
 };
 
-class BufferLayout
+class GRAY_API BufferLayout
 {
 private:
 	std::vector<VertexAttrib> attribs;

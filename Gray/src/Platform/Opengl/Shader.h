@@ -5,7 +5,7 @@
 
 namespace Gray
 {
-	class Shader
+	class GRAY_API Shader
 	{
 	private:
 		unsigned int ID;

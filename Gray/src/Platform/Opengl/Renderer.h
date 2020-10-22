@@ -6,7 +6,7 @@
 
 namespace Gray
 {
-	class Renderer
+	class GRAY_API Renderer
 	{
 	public:
 		void draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader);
