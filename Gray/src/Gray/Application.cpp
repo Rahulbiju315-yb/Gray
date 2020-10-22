@@ -112,6 +112,10 @@ namespace Gray
 	{
 		return window->GetHeight();
 	}
+	void* Application::GetProvider()
+	{
+		return window->GetProvider();
+	}
 	//---
 
 }
