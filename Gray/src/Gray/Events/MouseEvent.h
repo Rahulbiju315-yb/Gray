@@ -138,26 +138,32 @@ namespace Gray
 
 	class GRAY_API MouseScrolledEvent : Event
 	{
-	private:
-		float offset;
-
 	public:
-		MouseScrolledEvent(float offset)
+		MouseScrolledEvent(double xOffset, double yOffset)
 		{
-			this->offset = offset;
+			this->xOffset= xOffset;
+			this->yOffset= yOffset;
 		}
 
 		std::string ToString()
 		{
-			return "Mouse Scrolled :  " + std::to_string(offset);
+			return "Mouse Scrolled : ( x ) " + std::to_string(xOffset) + ", " + std::to_string(yOffset);
 		}
 		
-		float GetOffset()
+		float GetXOffset()
 		{
-			return offset;
+			return xOffset;
+		}
+
+		float GetYOffset()
+		{
+			return yOffset;
 		}
 
 		EVENT_CLASS_TYPE(EventType::MouseScrolled)
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+
+	private:
+		double xOffset, yOffset;
 	};
 }
