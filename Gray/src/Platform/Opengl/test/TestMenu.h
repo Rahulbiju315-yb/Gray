@@ -13,7 +13,7 @@ namespace Gray
 	{
 		typedef std::pair <std::string, std::function<Test* ()>> TestPair;
 
-		class TestMenu : public Test
+		class GRAY_API TestMenu : public Test
 		{
 		private:
 			std::vector <TestPair> tests;

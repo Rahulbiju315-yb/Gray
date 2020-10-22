@@ -45,7 +45,10 @@ namespace Gray
 		shader->unbind();
 
 		camPos = glm::vec3(0.0f, 0.0f, 0.5f);
+		objPos = glm::vec3(0.0f, 0.0f, 0.0f);
 
+		axisPos = glm::vec3(0.0f, 0.0f, 0.5f);
+		objRotation = glm::vec3(0.0f);
 	}
 
 	test::MainTest::~MainTest()

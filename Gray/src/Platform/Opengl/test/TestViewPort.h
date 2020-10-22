@@ -6,7 +6,7 @@ namespace Gray
 {
 	namespace test
 	{
-		class TestViewPort : public Test
+		class GRAY_API TestViewPort : public Test
 		{
 		private:
 			int dimension[2];

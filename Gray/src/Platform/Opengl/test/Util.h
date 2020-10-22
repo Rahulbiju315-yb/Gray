@@ -21,7 +21,7 @@ namespace Gray
 		float texCoord[2];
 	};
 
-	class Util
+	class GRAY_API Util
 	{
 	public:
 		static void sampleObject1(VertexBuffer*&, IndexBuffer*&, VertexArray*&, Shader*&);

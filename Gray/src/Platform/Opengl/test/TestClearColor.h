@@ -6,7 +6,7 @@ namespace Gray
 {
 	namespace test
 	{
-		class TestClearColor : public Test
+		class GRAY_API TestClearColor : public Test
 		{
 		private:
 			float mColor[4];

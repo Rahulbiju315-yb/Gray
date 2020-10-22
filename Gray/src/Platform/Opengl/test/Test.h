@@ -4,7 +4,7 @@ namespace Gray
 {
 	namespace test
 	{
-		class Test
+		class GRAY_API Test
 		{
 		public:
 			Test() {}

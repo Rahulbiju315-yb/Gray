@@ -11,7 +11,7 @@ namespace Gray
 {
 	namespace test
 	{
-		class MainTest : public Test
+		class GRAY_API MainTest : public Test
 		{
 		private:
 			VertexBuffer* vb;
