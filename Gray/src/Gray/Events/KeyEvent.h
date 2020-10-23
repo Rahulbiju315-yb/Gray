@@ -1,5 +1,6 @@
 #pragma once
 #include "Gray/Events/Event.h"
+#include "KeyCodes.h"
 
 namespace Gray
 {
