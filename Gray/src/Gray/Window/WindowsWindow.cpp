@@ -69,19 +69,19 @@ namespace Gray
 					if (action == GLFW_PRESS)
 					{
 						KeyPressedEvent event(key, 0);
-
+						data.listener->OnEvent(event);
 					}
 
 					else if (action == GLFW_REPEAT)
 					{
 						KeyPressedEvent event(key, 1);
-
+						data.listener->OnEvent(event);
 					}
 
 					else if (action == GLFW_RELEASE)
 					{
 						KeyReleasedEvent event(key);
-
+						data.listener->OnEvent(event);
 					}
 				}
 			});
