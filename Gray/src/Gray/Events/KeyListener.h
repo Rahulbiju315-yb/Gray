@@ -8,8 +8,8 @@ namespace Gray
 	class GRAY_API KeyListener : public EventListener
 	{
 	public:
-		virtual void OnKeyPressed(const KeyPressedEvent& e) { }
-		virtual void OnKeyReleased(const KeyReleasedEvent& e) { }
+		virtual void OnKeyPressed(KeyPressedEvent& e) { }
+		virtual void OnKeyReleased(KeyReleasedEvent& e) { }
 
 		void OnEvent(Event& e) override
 		{
