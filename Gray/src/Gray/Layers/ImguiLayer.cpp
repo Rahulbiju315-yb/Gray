@@ -7,18 +7,11 @@
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
 
-#include "Platform/Opengl/test/TestMenu.h"
-#include "Platform/Opengl/test/TestClearColor.h"
 
 #include "Gray/Application.h"
 
 namespace Gray
 {
-	// TEST
-
-	test::TestMenu* testMenu; 
-
-	//
 	
 	ImguiLayer::ImguiLayer()
 	{
