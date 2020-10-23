@@ -12,6 +12,6 @@ namespace Gray
 		virtual void OnDetatch() = 0;
 		virtual void OnUpdate() = 0;
 
-		virtual void OnEvent(Event& event) override = 0;
+		void OnEvent(Event& event) override;
 	};
 }
