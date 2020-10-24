@@ -34,6 +34,11 @@ namespace Gray
 			this->repeatCount = repeatCount;
 		}
 		
+		int GetRepeat()
+		{
+			return repeatCount;
+		}
+
 		std::string ToString() const override
 		{
 			return ("KeyPressed : " + keyCode);
