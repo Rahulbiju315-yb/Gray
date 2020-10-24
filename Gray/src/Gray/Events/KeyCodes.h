@@ -2,7 +2,7 @@
 
 namespace Gray
 {
-	enum GRAY_API KeyCodes
+	enum class GRAY_API KeyCodes
 	{
 
 		/* Printable keys */
