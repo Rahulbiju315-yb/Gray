@@ -1,10 +1,22 @@
 #include "grpch.h"
 
 #include "Layer.h"
-
+#include "Gray/TempUtil.h"
 
 namespace Gray
 {
+	void Layer::OnUpdate()
+	{
+		if (!firstFrame)
+		{
+			dt = TempUtil::GetTime() - lastTime;
+		}
+		else
+		{
+			firstFrame = false;
+		}
+	}
+
 	void Layer::OnEvent(Event& e)
 	{
 		if (e.GetCategory() & EventCategoryMouse)
@@ -18,5 +30,12 @@ namespace Gray
 			// Event not handled by the above
 			GRAY_CORE_WARN("Event" + e.ToString() + " not handled");
 		}
+	}
+
+	void Layer::Init()
+	{
+		firstFrame = true;
+		dt = 0;
+		lastTime = 0;
 	}
 }
