@@ -3,17 +3,20 @@
 
 #include "Gray/Layers/ImguiLayer.h"
 
-
 #include "Platform/Opengl/test/Util.h"
 #include "Platform/Opengl/Opengl.h"
+
 #include "glm/glm.hpp"
-#include "GLFW/glfw3.h"
+
+#include "Gray/TempUtil.h"
 
 class TestLayer : public Gray::Layer
 {
 public:
 	void OnAttatch() override
 	{
+		Gray::Layer::Init();
+
 		Gray::Util::sampleObject2(vb, ib1, ib2, va, shader);
 
 		tex = new Gray::Texture("res/textures/t4.jpg", GL_RGB, GL_RGB);
@@ -42,6 +45,8 @@ public:
 
 	void OnUpdate() override
 	{
+		Gray::Layer::OnUpdate();
+
 		shader->setUniform("model", glm::mat4(1.0f));
 		shader->setUniform("view", camera->GetView());
 
@@ -65,39 +70,47 @@ public:
 		}
 		else
 		{
-			camera->SetDir(dir.x + (mXn - mX)/20.0f , dir.y);
+			camera->UpdateDir((mXn - mX)/20.0f , 0.0f);
 		}
 		mX = mXn;
 		mY = mYn;
+
+		GRAY_INFO("New direction " + std::to_string(dir.x) + ", " + std::to_string(dir.y));
 	}
 
 	void OnKeyPressed(Gray::KeyPressedEvent& e) override
 	{
-		GRAY_INFO("Key pressed event handled");
-		if (e.GetKeyCode() == Gray::KeyCodes::Key_W)
+		const glm::vec2& dir = camera->GetDir();
+		const glm::vec3& pos = camera->GetPos();
+
+		float yaw = glm::radians(dir.x);
+		float pitch = glm::radians(dir.y);
+
+		float k = dt * 0.01f;
+
+		glm::vec3 x_ = k * glm::vec3(cos(yaw), sin(pitch), sin(yaw));
+		glm::vec3 z_ = k * glm::vec3(-sin(yaw), sin(pitch), cos(yaw));
+
+		if (e.GetKeyCode() == TO_INT(Gray::KeyCodes::Key_W))
 		{
-			const glm::vec3& pos = camera->GetPos();
-			camera->SetPos(pos.x, pos.y, pos.z - dr);
+			camera->SetPos(pos - z_);
 		}
 
-		else if (e.GetKeyCode() == Gray::KeyCodes::Key_A)
+		else if (e.GetKeyCode() == TO_INT(Gray::KeyCodes::Key_A))
 		{
-			const glm::vec3& pos = camera->GetPos();
-			camera->SetPos(pos.x - dr, pos.y, pos.z);
+			camera->SetPos(pos - x_);
 		}
 
-		else if (e.GetKeyCode() == Gray::KeyCodes::Key_S)
+		else if (e.GetKeyCode() == TO_INT(Gray::KeyCodes::Key_S))
 		{
-			const glm::vec3& pos = camera->GetPos();
-			camera->SetPos(pos.x, pos.y, pos.z + dr);
+			camera->SetPos(pos + z_);
 		}
 
-		else if (e.GetKeyCode() == Gray::KeyCodes::Key_D)
+		else if (e.GetKeyCode() == TO_INT(Gray::KeyCodes::Key_D))
 		{
-			const glm::vec3& pos = camera->GetPos();
-			camera->SetPos(pos.x + dr, pos.y, pos.z);
+			camera->SetPos(pos + x_);
 		}
-
+		
 	}
 
 private:
@@ -110,7 +123,7 @@ private:
 	Gray::Renderer* renderer;
 	Gray::Camera* camera;
 
-	const float dr = 0.1;
+	const float dr = 0.01;
 	float mX, mY;
 };
 
@@ -119,15 +132,15 @@ class Sandbox : public Gray::Application
 public:
 	Sandbox()
 	{
-
-		AddLayer(new TestLayer());
+		Gray::TempUtil::DisableCursor();
 
 		// Init
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
-
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		//EndInit
+
+		AddLayer(new TestLayer());
 	}
 
 	~Sandbox()
