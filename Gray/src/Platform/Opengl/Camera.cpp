@@ -39,6 +39,13 @@ namespace Gray
 		this->pos.z = z;
 	}
 
+	void Camera::UpdatePos(float dx, float dy, float dz)
+	{
+		this->pos.x += dx;
+		this->pos.y += dy;
+		this->pos.z += dz;
+	}
+
 	void Camera::SetDir(glm::vec2 dir)
 	{
 		this->dir = dir;
@@ -48,6 +55,12 @@ namespace Gray
 	{
 		this->dir.x = yaw;
 		this->dir.y = pitch;
+	}
+
+	void Camera::UpdateDir(float dyaw, float dpitch)
+	{
+		this->dir.x += dyaw;
+		this->dir.y += dpitch;
 	}
 
 	const glm::vec3& Camera::GetPos()
@@ -84,9 +97,14 @@ namespace Gray
 
 	const glm::mat4& Camera::GetView()
 	{
-		view = glm::rotate(UNIT_MAT4, glm::radians((float)(dir.x)), Y_AXIS);
-		view = glm::rotate(view, glm::radians((float)(dir.y)), X_AXIS);
-		view = glm::translate(view, -pos);
+
+		float yaw = glm::radians(dir.x);
+		float pitch = glm::radians(dir.y);
+
+		glm::vec3 x_ = glm::vec3(cos(yaw), sin(pitch), sin(yaw));
+		glm::vec3 z_ = glm::vec3(-sin(yaw), sin(pitch), cos(yaw));
+
+		view = glm::lookAt(pos, pos - z_, Y_AXIS);
 
 		return view;
 	}
