@@ -22,6 +22,7 @@ namespace Gray
 		unsigned int GetWidth();
 		unsigned int GetHeight();
 		void* GetProvider();
+		WindowProvider GetProviderName();
 
 		void OnWindowClosed(WindowClosedEvent& event) override;
 		void OnEvent(Event& e) override;
