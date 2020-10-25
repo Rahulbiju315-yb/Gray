@@ -12,7 +12,10 @@ namespace Gray
 		virtual void OnAttatch() = 0;
 		virtual void OnDetatch() = 0;
 		virtual void OnUpdate();
+		virtual void OnImguiRender()
+		{
 
+		}
 		void OnEvent(Event& event) override;
 
 	protected:
