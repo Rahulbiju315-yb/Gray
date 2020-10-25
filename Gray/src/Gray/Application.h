@@ -6,6 +6,7 @@
 #include "Events/AllListeners.h"
 #include "Layers/LayerStack.h"
 
+#include "imgui.h"
 namespace Gray
 {
 	class GRAY_API Application : public AllListeners
@@ -30,7 +31,11 @@ namespace Gray
 		static Application* GetApp();
 		static void SetApp(Application* app);
 
+		static ImGuiContext* GetImguiContext();
+
 	protected:
+		void Clear();
+
 		Window *window;
 		LayerStack ls;
 

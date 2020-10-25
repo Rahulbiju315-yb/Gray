@@ -63,6 +63,8 @@ namespace Gray
 	{
 		while (run)
 		{
+			Clear();
+
 			for (Layer *layer : ls)
 				layer->OnUpdate();
 
@@ -101,6 +103,16 @@ namespace Gray
 		{
 			GRAY_CORE_ERROR("Application already exists");
 		}
+	}
+
+	ImGuiContext* Application::GetImguiContext()
+	{
+		return ImGui::GetCurrentContext();
+	}
+
+	void Application::Clear()
+	{
+		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
 	unsigned int Application::GetWidth()
