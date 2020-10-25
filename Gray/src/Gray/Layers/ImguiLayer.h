@@ -17,6 +17,7 @@ namespace Gray
 		void OnUpdate() override;
 		void ImguiBegin();
 		void ImguiEnd();
+		virtual void OnImguiRender() = 0;
 
 		void OnEvent(Event& e) override;
 
