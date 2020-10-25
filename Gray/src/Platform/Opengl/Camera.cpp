@@ -10,7 +10,15 @@ namespace Gray
 
 		aspectRatio = 4.0f / 3.0f;
 		zLim = glm::vec2(0.1f, 100.0f);
+
+		speed = 0.01f;
+		sensitivity = 1 / 20.0f;
+
 		SetZoom(45.0f);
+
+		
+		mX = -1;
+		mY = -1;
 	}
 
 	Camera::~Camera()
@@ -63,6 +71,26 @@ namespace Gray
 		this->dir.y += dpitch;
 	}
 
+	float Camera::GetSpeed()
+	{
+		return speed;
+	}
+
+	float Camera::GetSensitivity()
+	{
+		return sensitivity;
+	}
+
+	void Camera::SetSpeed(float speed)
+	{
+		this->speed = speed;
+	}
+
+	void Camera::SetSensitivity(float sensitivity)
+	{
+		this->sensitivity = sensitivity;
+	}
+
 	const glm::vec3& Camera::GetPos()
 	{
 		return pos;
@@ -107,5 +135,62 @@ namespace Gray
 		view = glm::lookAt(pos, pos - z_, Y_AXIS);
 
 		return view;
+	}
+
+	void Camera::UpdateLook()
+	{
+		const glm::vec2& dir = GetDir();
+		
+		float mXn = Input::GetMouseX();
+		float mYn = Input::GetMouseY();
+
+		if (mX == -1)
+		{
+			mX = mXn;
+			mY = mYn;
+		}
+
+		else
+		{
+			UpdateDir((mXn - mX) * sensitivity , 0.0f);
+		}
+
+		mX = mXn;
+		mY = mYn;
+
+	}
+
+	void Camera::UpdatePos(float dt)
+	{
+		const glm::vec2& dir = GetDir();
+		const glm::vec3& pos = GetPos();
+
+		float yaw = glm::radians(dir.x);
+		float pitch = glm::radians(dir.y);
+
+		float k = dt * speed;
+
+		glm::vec3 x_ = k * glm::vec3(cos(yaw), sin(pitch), sin(yaw));
+		glm::vec3 z_ = k * glm::vec3(-sin(yaw), sin(pitch), cos(yaw));
+
+		if (Gray::Input::IsKeyPressed(TO_INT(Gray::KeyCodes::Key_W)))
+		{
+			SetPos(pos - z_);
+		}
+
+		if (Gray::Input::IsKeyPressed(TO_INT(Gray::KeyCodes::Key_A)))
+		{
+			SetPos(pos - x_);
+		}
+
+		else if (Gray::Input::IsKeyPressed(TO_INT(Gray::KeyCodes::Key_S)))
+		{
+			SetPos(pos + z_);
+		}
+
+		else if (Gray::Input::IsKeyPressed(TO_INT(Gray::KeyCodes::Key_D)))
+		{
+			SetPos(pos + x_);
+		}
 	}
 }
