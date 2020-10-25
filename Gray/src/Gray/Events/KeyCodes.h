@@ -1,5 +1,10 @@
 #pragma once
 
+#ifndef TO_INT(X)
+	#define TO_INT(X) (int)X
+#endif
+
+
 namespace Gray
 {
 	enum class GRAY_API KeyCodes
