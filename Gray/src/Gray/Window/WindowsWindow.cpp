@@ -1,5 +1,7 @@
 #include "grpch.h"
 #include "WindowsWindow.h"
+#include "Gray/Events/WindowsInput.h"
+#include "Gray/Events/Input.h"
 
 
 
@@ -15,6 +17,9 @@ namespace Gray
 		this->height = height;
 		
 		OnInit();
+
+		WindowsInput* inp = new WindowsInput();
+		Input::SetInput(inp);
 	}
 
 	WindowsWindow::~WindowsWindow()
