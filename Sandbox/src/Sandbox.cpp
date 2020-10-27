@@ -12,24 +12,29 @@
 #include "Gray/Events/Input.h"
 
 #include "imgui.h"
-#include "TestLayers.h"
+#include "test/TestLayerCamera.h"
+#include "test/TestLayerLightSource.h"
+
+#include "Gray/Graphics/Camera.h"
+
+//TO-DO
+//1. Create Layer where Renderable objects can be added to(for debugging purposes)
+//2. Add Imgui Rendering for camera with pos and dir vec display, toggle for camera movement.
 
 class Sandbox : public Gray::Application
 {
 public:
 	Sandbox()
 	{
+		Gray::TempUtil::DisableCursor();
 		// Init
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		//EndInit
 
-		Overlay* ov = new Overlay();
-
-		AddLayer(ov);
-
 		ImGui::SetCurrentContext(Gray::Application::GetImguiContext());
+		AddLayer(new TestLayerLightSource());
 	}
 
 	~Sandbox()

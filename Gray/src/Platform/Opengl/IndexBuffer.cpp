@@ -9,9 +9,9 @@ namespace Gray
 	{
 		glGenBuffers(1, &ID);
 
-		bind();
+		Bind();
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), indices, GL_STATIC_DRAW);
-		unbind();
+		Unbind();
 
 		this->count = count;
 	}
@@ -21,17 +21,17 @@ namespace Gray
 
 	}
 
-	void IndexBuffer::bind() const
+	void IndexBuffer::Bind() const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID);
 	}
 
-	void IndexBuffer::unbind() const
+	void IndexBuffer::Unbind() const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
-	int IndexBuffer::getCount() const
+	int IndexBuffer::GetCount() const
 	{
 		return count;
 	}

@@ -13,6 +13,15 @@
     <Filter Include="Gray\Window">
       <UniqueIdentifier>{3F2AA577-ABDF-1D6D-34D4-1744A0881471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Opengl">
+      <UniqueIdentifier>{5E812C1D-CA0C-9AE1-D31D-1DD63F28F6E1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Opengl\test">
+      <UniqueIdentifier>{ADE4FD00-9973-87CA-4292-9BC52E009870}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Gray.h" />
@@ -34,10 +43,19 @@
     <ClInclude Include="src\Gray\Events\EventListener.h">
       <Filter>Gray\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Events\Input.h">
+      <Filter>Gray\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Events\KeyCodes.h">
+      <Filter>Gray\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gray\Events\KeyEvent.h">
       <Filter>Gray\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Events\KeyListener.h">
+      <Filter>Gray\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Events\MouseCodes.h">
       <Filter>Gray\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Events\MouseEvent.h">
@@ -52,6 +70,12 @@
     <ClInclude Include="src\Gray\Events\WindowListener.h">
       <Filter>Gray\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Events\WindowsInput.h">
+      <Filter>Gray\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Layers\ImguiLayer.h">
+      <Filter>Gray\Layers</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gray\Layers\Layer.h">
       <Filter>Gray\Layers</Filter>
     </ClInclude>
@@ -61,28 +85,53 @@
     <ClInclude Include="src\Gray\Log.h">
       <Filter>Gray</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\TempUtil.h">
+      <Filter>Gray</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gray\Window\Window.h">
       <Filter>Gray\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Window\WindowsWindow.h">
       <Filter>Gray\Window</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\BufferLayout.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\IndexBuffer.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\Opengl.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\Renderer.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\Shader.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\Texture.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\VertexArray.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\VertexBuffer.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\stb_image.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\test\Util.h">
+      <Filter>Platform\Opengl\test</Filter>
+    </ClInclude>
     <ClInclude Include="src\grpch.h" />
-    <ClInclude Include="src\Gray\Layers\ImguiLayer.h" />
-    <ClInclude Include="src\Platform\Opengl\test\MainTest.h" />
-    <ClInclude Include="src\Platform\Opengl\test\Test.h" />
-    <ClInclude Include="src\Platform\Opengl\test\TestClearColor.h" />
-    <ClInclude Include="src\Platform\Opengl\test\TestMenu.h" />
-    <ClInclude Include="src\Platform\Opengl\test\TestViewPort.h" />
-    <ClInclude Include="src\Platform\Opengl\test\Util.h" />
-    <ClInclude Include="src\Platform\Opengl\BufferLayout.h" />
-    <ClInclude Include="src\Platform\Opengl\IndexBuffer.h" />
-    <ClInclude Include="src\Platform\Opengl\Renderer.h" />
-    <ClInclude Include="src\Platform\Opengl\Shader.h" />
-    <ClInclude Include="src\Platform\Opengl\stb_image.h" />
-    <ClInclude Include="src\Platform\Opengl\Texture.h" />
-    <ClInclude Include="src\Platform\Opengl\VertexArray.h" />
-    <ClInclude Include="src\Platform\Opengl\VertexBuffer.h" />
+    <ClInclude Include="src\Gray\Graphics\Camera.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\LightSource.h" />
+    <ClInclude Include="src\Gray\Graphics\LightSourceOpengl.h" />
+    <ClInclude Include="src\Gray\Graphics\Renderable.h" />
+    <ClInclude Include="src\Gray\Layers\RenderLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -90,6 +139,12 @@
     </ClCompile>
     <ClCompile Include="src\Gray\Events\Events.cpp">
       <Filter>Gray\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Events\WindowsInput.cpp">
+      <Filter>Gray\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Layers\ImguiLayer.cpp">
+      <Filter>Gray\Layers</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Layers\Layer.cpp">
       <Filter>Gray\Layers</Filter>
@@ -100,24 +155,41 @@
     <ClCompile Include="src\Gray\Log.cpp">
       <Filter>Gray</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gray\TempUtil.cpp">
+      <Filter>Gray</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gray\Window\Window.cpp">
       <Filter>Gray\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Window\WindowsWindow.cpp">
       <Filter>Gray\Window</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Opengl\IndexBuffer.cpp">
+      <Filter>Platform\Opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Opengl\Renderer.cpp">
+      <Filter>Platform\Opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Opengl\Shader.cpp">
+      <Filter>Platform\Opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Opengl\Texture.cpp">
+      <Filter>Platform\Opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Opengl\VertexBuffer.cpp">
+      <Filter>Platform\Opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Opengl\VetexArray.cpp">
+      <Filter>Platform\Opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Opengl\test\Util.cpp">
+      <Filter>Platform\Opengl\test</Filter>
+    </ClCompile>
     <ClCompile Include="src\grpch.cpp" />
-    <ClCompile Include="src\Gray\Layers\ImguiLayer.cpp" />
-    <ClCompile Include="src\Platform\Opengl\test\MainTest.cpp" />
-    <ClCompile Include="src\Platform\Opengl\test\TestClearColor.cpp" />
-    <ClCompile Include="src\Platform\Opengl\test\TestMenu.cpp" />
-    <ClCompile Include="src\Platform\Opengl\test\TestViewPort.cpp" />
-    <ClCompile Include="src\Platform\Opengl\test\Util.cpp" />
-    <ClCompile Include="src\Platform\Opengl\IndexBuffer.cpp" />
-    <ClCompile Include="src\Platform\Opengl\Renderer.cpp" />
-    <ClCompile Include="src\Platform\Opengl\Shader.cpp" />
-    <ClCompile Include="src\Platform\Opengl\Texture.cpp" />
-    <ClCompile Include="src\Platform\Opengl\VertexBuffer.cpp" />
-    <ClCompile Include="src\Platform\Opengl\VetexArray.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Camera.cpp">
+      <Filter>Platform\Opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\LightSourceOpengl.cpp" />
+    <ClCompile Include="src\Gray\Layers\RenderLayer.cpp" />
   </ItemGroup>
 </Project>

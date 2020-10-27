@@ -124,6 +124,7 @@ project "Sandbox"
 		"%{IncludeDirs.dirent}",
 		"%{IncludeDirs.imgui}",
 		"%{IncludeDirs.glew}",
+		"%{IncludeDirs.glm}",
 		"%{IncludeDirs.imguiFileChooser}",
 		"Gray/src"
 	}
@@ -136,7 +137,9 @@ project "Sandbox"
 	links
 	{
 		"Gray",
-		"glew32s.lib"
+		"glew32s.lib",
+		"opengl32",
+		"imgui"
 	}
 
 	filter "system:windows"
@@ -147,6 +150,7 @@ project "Sandbox"
 		defines
 		{
 			"GRAY_PLATFORM_WINDOWS",
+			"GLEW_STATIC"
 		}
 
 	filter "configurations:Debug"

@@ -12,7 +12,7 @@ namespace Gray
 		stbi_set_flip_vertically_on_load(true);
 
 		glGenTextures(1, &ID);
-		bind();
+		Bind();
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
@@ -33,16 +33,16 @@ namespace Gray
 		}
 		stbi_image_free(data);
 
-		unbind();
+		Unbind();
 	}
 
-	void Texture::bind(int slot) const
+	void Texture::Bind(int slot) const
 	{
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, ID);
 	}
 
-	void Texture::unbind(int slot) const
+	void Texture::Unbind(int slot) const
 	{
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, 0);

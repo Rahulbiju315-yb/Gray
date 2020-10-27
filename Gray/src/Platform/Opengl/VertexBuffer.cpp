@@ -9,9 +9,9 @@ namespace Gray
 	{
 		glGenBuffers(1, &ID);
 
-		bind();
+		Bind();
 		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
-		unbind();
+		Unbind();
 	}
 
 	VertexBuffer::~VertexBuffer()
@@ -19,12 +19,12 @@ namespace Gray
 
 	}
 
-	void VertexBuffer::bind() const
+	void VertexBuffer::Bind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, ID);
 	}
 
-	void VertexBuffer::unbind() const
+	void VertexBuffer::Unbind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}

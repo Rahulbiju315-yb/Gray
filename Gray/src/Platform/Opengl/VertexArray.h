@@ -15,7 +15,7 @@ namespace Gray
 		VertexArray(const VertexBuffer& buffer, const BufferLayout& layout);
 		~VertexArray();
 
-		void bind() const;
-		void unbind() const;
+		void Bind() const;
+		void Unbind() const;
 	};
 }

@@ -160,7 +160,12 @@ namespace Gray
 
 	}
 
-	void Camera::UpdatePos(float dt)
+	void Camera::OnUpdate(float dt)
+	{
+		Move(dt);
+	}
+
+	void Camera::Move(float dt)
 	{
 		const glm::vec2& dir = GetDir();
 		const glm::vec3& pos = GetPos();
@@ -176,21 +181,27 @@ namespace Gray
 		if (Gray::Input::IsKeyPressed(TO_INT(Gray::KeyCodes::Key_W)))
 		{
 			SetPos(pos - z_);
+			GRAY_INFO("camera pos = " + std::to_string(pos.x) + ", " + std::to_string(pos.y));
 		}
 
 		if (Gray::Input::IsKeyPressed(TO_INT(Gray::KeyCodes::Key_A)))
 		{
 			SetPos(pos - x_);
+			GRAY_INFO("camera pos = " + std::to_string(pos.x) + ", " + std::to_string(pos.y));
 		}
 
 		else if (Gray::Input::IsKeyPressed(TO_INT(Gray::KeyCodes::Key_S)))
 		{
 			SetPos(pos + z_);
+			GRAY_INFO("camera pos = " + std::to_string(pos.x) + ", " + std::to_string(pos.y));
 		}
 
 		else if (Gray::Input::IsKeyPressed(TO_INT(Gray::KeyCodes::Key_D)))
 		{
 			SetPos(pos + x_);
+			GRAY_INFO("camera pos = " + std::to_string(pos.x) + ", " + std::to_string(pos.y));
 		}
+
+		
 	}
 }

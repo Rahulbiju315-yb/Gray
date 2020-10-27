@@ -4,9 +4,10 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "Gray/Events/Input.h"
+#include "Renderable.h"
 namespace Gray
 {
-	class GRAY_API Camera
+	class GRAY_API Camera : public Renderable
 	{
 	public:
 		Camera(glm::vec3 pos = glm::vec3(0.0f), glm::vec2 dir = glm::vec2(glm::radians(0.0f)));
@@ -38,7 +39,8 @@ namespace Gray
 		const glm::mat4& GetProjection();
 		const glm::mat4& GetView();
 
-		void UpdatePos(float dt);
+		void OnUpdate(float dt) override;
+		void Move(float dt);
 		void UpdateLook();
 
 	private:

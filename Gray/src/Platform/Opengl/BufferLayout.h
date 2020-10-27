@@ -29,38 +29,38 @@ public:
 	}
 
 	template<typename T>
-	void push(unsigned int count)
+	void Push(unsigned int count)
 	{
 		//static_assert(false);
 	}
 
 	template<>
-	void push<float>(unsigned int count)
+	void Push<float>(unsigned int count)
 	{
 		attribs.push_back({count, GL_FLOAT, false});
 		stride += count * sizeof(GL_FLOAT);
 	}
 
 	template<>
-	void push<unsigned int>(unsigned int count)
+	void Push<unsigned int>(unsigned int count)
 	{
 		attribs.push_back({count, GL_UNSIGNED_INT, false});
 		stride += count * sizeof(GL_UNSIGNED_INT);
 	}
 
 	template<>
-	void push<int>(unsigned int count)
+	void Push<int>(unsigned int count)
 	{
 		attribs.push_back({count, GL_INT, false});
 		stride += count * sizeof(GL_INT);
 	}
 
-	int getStride() const
+	int GetStride() const
 	{
 		return stride;
 	}
 
-	const std::vector<VertexAttrib>& getVector() const 
+	const std::vector<VertexAttrib>& GetVector() const 
 	{
 		return attribs;
 	}

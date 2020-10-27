@@ -8,22 +8,22 @@ namespace Gray
 	VertexArray::VertexArray(const VertexBuffer& buffer, const BufferLayout& layout)
 	{
 		glGenVertexArrays(1, &ID);
-		bind();
+		Bind();
 
-		buffer.bind();
-		const std::vector<VertexAttrib> vec = layout.getVector();
+		buffer.Bind();
+		const std::vector<VertexAttrib> vec = layout.GetVector();
 
 		int offset = 0;
 		for (int i = 0; i < vec.size(); i++)
 		{
 			glEnableVertexAttribArray(i);
 			glVertexAttribPointer(i, vec[i].count, vec[i].type,
-				vec[i].normalized, layout.getStride(), (void*)offset);
+				vec[i].normalized, layout.GetStride(), (void*)offset);
 
 			offset += vec[i].count * sizeof(vec[i].type);
 		}
 
-		unbind();
+		Unbind();
 	}
 
 	VertexArray::~VertexArray()
@@ -31,12 +31,12 @@ namespace Gray
 
 	}
 
-	void VertexArray::bind() const
+	void VertexArray::Bind() const
 	{
 		glBindVertexArray(ID);
 	}
 
-	void VertexArray::unbind() const
+	void VertexArray::Unbind() const
 	{
 		glBindVertexArray(0);
 	}

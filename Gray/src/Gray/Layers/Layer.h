@@ -16,6 +16,7 @@ namespace Gray
 		{
 
 		}
+
 		void OnEvent(Event& event) override;
 
 	protected:

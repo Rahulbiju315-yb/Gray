@@ -12,7 +12,7 @@ std::unordered_map <std::string, int> hashTable;
 
 namespace Gray
 {
-	void loadShaderProgram(std::string& vertexSource, std::string& fragmentSource, const std::string& file)
+	void LoadShaderProgram(std::string& vertexSource, std::string& fragmentSource, const std::string& file)
 	{
 		std::ifstream shaderFile;
 
@@ -53,10 +53,11 @@ namespace Gray
 		catch (std::ifstream::failure e)
 		{
 			std::cout << "Error reading file " << file;
+			GRAY_CORE_ERROR("Error Reading shader file");
 		}
 	}
 
-	void compileShader(const std::string& vertexSource, const std::string& fragmentSource, unsigned int& ID)
+	void CompileShader(const std::string& vertexSource, const std::string& fragmentSource, unsigned int& ID)
 	{
 		const char* vsource = vertexSource.c_str();
 		const char* fsource = fragmentSource.c_str();
@@ -107,52 +108,52 @@ namespace Gray
 		ID = 0;
 
 		std::string vertexSource, fragmentSource;
-		loadShaderProgram(vertexSource, fragmentSource, filePath);
-		compileShader(vertexSource, fragmentSource, ID);
+		LoadShaderProgram(vertexSource, fragmentSource, filePath);
+		CompileShader(vertexSource, fragmentSource, ID);
 
 	}
 
-	void Shader::bind() const
+	void Shader::Bind() const
 	{
 		glUseProgram(ID);
 	}
 
-	void Shader::unbind() const
+	void Shader::Unbind() const
 	{
 		glUseProgram(0);
 	}
 
-	void Shader::setUniform(const std::string& name, int i) const
+	void Shader::SetUniform(const std::string& name, int i) const
 	{
-		glUniform1i(getUniformLocation(name.c_str()), i);
+		glUniform1i(GetUniformLocation(name.c_str()), i);
 	}
 
-	void Shader::setUniform(const std::string& name, float f) const
+	void Shader::SetUniform(const std::string& name, float f) const
 	{
-		glUniform1f(getUniformLocation(name.c_str()), f);
+		glUniform1f(GetUniformLocation(name.c_str()), f);
 	}
 
-	void Shader::setUniform(const std::string& name, const glm::vec2& v2) const
+	void Shader::SetUniform(const std::string& name, const glm::vec2& v2) const
 	{
-		glUniform2f(getUniformLocation(name.c_str()), v2.x, v2.y);
+		glUniform2f(GetUniformLocation(name.c_str()), v2.x, v2.y);
 	}
 
-	void Shader::setUniform(const std::string& name, const glm::vec3& v3) const
+	void Shader::SetUniform(const std::string& name, const glm::vec3& v3) const
 	{
-		glUniform3f(getUniformLocation(name.c_str()), v3.x, v3.y, v3.z);
+		glUniform3f(GetUniformLocation(name.c_str()), v3.x, v3.y, v3.z);
 	}
 
-	void Shader::setUniform(const std::string& name, const glm::vec4& v4) const
+	void Shader::SetUniform(const std::string& name, const glm::vec4& v4) const
 	{
-		glUniform4f(getUniformLocation(name.c_str()), v4.x, v4.y, v4.z, 1.0f);
+		glUniform4f(GetUniformLocation(name.c_str()), v4.x, v4.y, v4.z, 1.0f);
 	}
 
-	void Shader::setUniform(const std::string& name, const glm::mat4& m4) const
+	void Shader::SetUniform(const std::string& name, const glm::mat4& m4) const
 	{
-		glUniformMatrix4fv(getUniformLocation(name.c_str()), 1, GL_FALSE, glm::value_ptr(m4));
+		glUniformMatrix4fv(GetUniformLocation(name.c_str()), 1, GL_FALSE, glm::value_ptr(m4));
 	}
 
-	int Shader::getUniformLocation(const std::string& name) const
+	int Shader::GetUniformLocation(const std::string& name) const
 	{
 		int val;
 		if (hashTable.find(name) == hashTable.end())

@@ -9,7 +9,7 @@ namespace Gray
 	class GRAY_API Renderer
 	{
 	public:
-		void draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader);
-		void clear();
+		void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader);
+		void Clear();
 	};
 }

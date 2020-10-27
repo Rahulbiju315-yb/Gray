@@ -12,8 +12,8 @@ namespace Gray
 		IndexBuffer(unsigned int indices[], int count);
 		~IndexBuffer();
 
-		void  bind() const;
-		void unbind() const;
-		int getCount() const;
+		void  Bind() const;
+		void Unbind() const;
+		int GetCount() const;
 	};
 }
