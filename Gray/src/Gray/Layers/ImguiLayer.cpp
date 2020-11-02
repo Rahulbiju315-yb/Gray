@@ -1,12 +1,12 @@
 #include "grpch.h"
+
 #include "ImguiLayer.h"
 
-#include "GL/glew.h"
 #include "GLFW/glfw3.h"
+
 #include "imgui.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
-
 
 #include "Gray/Application.h"
 
@@ -15,7 +15,8 @@ namespace Gray
 	
 	ImguiLayer::ImguiLayer()
 	{
-		
+		wp = nullptr;
+		wpName = WindowProvider::Unknown;
 	}
 
 	ImguiLayer::~ImguiLayer()
@@ -68,9 +69,12 @@ namespace Gray
 
 	void ImguiLayer::OnUpdate()
 	{
-		ImguiBegin();
-		OnImguiRender();
-		ImguiEnd();
+	
+	}
+
+	void ImguiLayer::OnImguiRender()
+	{
+
 	}
 
 	void ImguiLayer::OnEvent(Event& e)

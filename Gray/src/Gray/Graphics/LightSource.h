@@ -1,17 +1,16 @@
 #pragma once
 
-#include "glm/glm.hpp"
+#include "Renderable.h"
 
 namespace Gray
 {
-	class LightSource
+	class LightSource : public Renderable
 	{
 	public:
-		virtual const glm::vec4& GetColor() = 0;
-		virtual void SetColor(glm::vec4 color) = 0;
-		
-		virtual void SetPos(glm::vec3 pos) = 0;
-		virtual const glm::vec3& GetPos(glm::vec3 pos) = 0;
+		virtual const glm::vec3& GetColor() = 0;
+		virtual void SetColor(glm::vec3 color) = 0;
 
+		virtual void OnUpdate(float dt) override {};
+		void OnImguiRender() override = 0;
 	};
 }

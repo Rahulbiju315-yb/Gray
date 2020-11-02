@@ -11,8 +11,11 @@ namespace Gray
 		va.Bind();
 		ib.Bind();
 
-		//GRAY_CORE_INFO(std::to_string(ib.GetCount()));
 		glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
+
+		//shader.Unbind();
+		//va.Unbind();
+		//ib.Unbind();
 	}
 
 	void Renderer::Clear()

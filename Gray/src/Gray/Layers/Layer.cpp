@@ -13,8 +13,10 @@ namespace Gray
 		}
 		else
 		{
+			dt = 0;
 			firstFrame = false;
 		}
+		lastTime = TempUtil::GetTime();
 	}
 
 	void Layer::OnEvent(Event& e)

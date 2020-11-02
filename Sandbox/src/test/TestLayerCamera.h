@@ -75,7 +75,7 @@ private:
 	Gray::Renderer* renderer;
 	Gray::Camera* camera;
 
-	const float dr = 0.01;
+	const float dr = 0.01f;
 	float mX, mY;
 };
 

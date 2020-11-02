@@ -2,10 +2,11 @@
 
 #include "VertexBuffer.h"
 #include "BufferLayout.h"
+#include "Gray/Core.h"
 
 namespace Gray
 {
-	class GRAY_API VertexArray
+	class VertexArray
 	{
 
 	private:

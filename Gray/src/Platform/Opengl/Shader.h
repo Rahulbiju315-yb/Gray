@@ -2,10 +2,10 @@
 
 
 #include <glm/glm.hpp>
-
+#include "Gray/Core.h"
 namespace Gray
 {
-	class GRAY_API Shader
+	class Shader
 	{
 	private:
 		unsigned int ID;

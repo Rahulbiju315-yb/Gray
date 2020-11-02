@@ -1,10 +1,12 @@
 #pragma once
+
 #include "Gray/Events/Event.h"
+
 #include "KeyCodes.h"
 
 namespace Gray
 {
-	class GRAY_API KeyEvent : public Event
+	class KeyEvent : public Event
 	{
 	public:
 		KeyEvent(int keyCode)
@@ -25,7 +27,7 @@ namespace Gray
 	};
 
 
-	class GRAY_API KeyPressedEvent : public KeyEvent
+	class KeyPressedEvent : public KeyEvent
 	{
 	public:
 		KeyPressedEvent(int keyCode, int repeatCount):
@@ -51,7 +53,7 @@ namespace Gray
 	};
 
 
-	class GRAY_API KeyReleasedEvent : public KeyEvent
+	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
 		KeyReleasedEvent(int keyCode) :

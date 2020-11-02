@@ -1,8 +1,9 @@
 #pragma once
 
+#include "Gray/Core.h"
 namespace Gray
 {
-	class GRAY_API VertexBuffer
+	class VertexBuffer
 	{
 	private:
 		unsigned int ID;

@@ -1,9 +1,9 @@
 #include "grpch.h"
+
 #include "WindowsWindow.h"
-#include "Gray/Events/WindowsInput.h"
+
 #include "Gray/Events/Input.h"
-
-
+#include "Gray/Events/WindowsInput.h"
 
 namespace Gray
 {
@@ -133,13 +133,13 @@ namespace Gray
 				{
 					if (action == GLFW_PRESS)
 					{
-						MouseDraggedEvent event(x, y);
+						MouseDraggedEvent event((float)x, (float)y);
 						data.listener->OnEvent(event);
 					}
 
 					else
 					{
-						MouseMovedEvent event(x, y);
+						MouseMovedEvent event((float)x, (float)y);
 						data.listener->OnEvent(event);
 					}
 				}
@@ -148,12 +148,14 @@ namespace Gray
 		glfwSetScrollCallback(window, [](GLFWwindow* window, double xOffset, double yOffset)
 			{
 				WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
-				MouseScrolledEvent event(xOffset, yOffset);
+				MouseScrolledEvent event((float)xOffset, (float)yOffset);
 				if (data.listener != nullptr)
 				{
 					data.listener->OnEvent(event);
 				}
 			});
+
+		
 	}
 
 	void WindowsWindow::OnUpdate()

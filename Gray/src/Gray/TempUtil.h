@@ -4,14 +4,13 @@
 * To be moved into appropriate files later.
 */
 
-#include "GLFW/glfw3.h"
-
 namespace Gray
 {
-	class GRAY_API TempUtil
+	class TempUtil
 	{
 	public:
 		static void DisableCursor();
+		static void EnableCursor();
 		static float GetTime();
 	};
 }

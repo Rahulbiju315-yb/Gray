@@ -1,13 +1,13 @@
 #pragma once
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+#include "Renderable.h"
+#include "Gray/Layers/RenderLayer.h"
 
 #include "Gray/Events/Input.h"
-#include "Renderable.h"
+
 namespace Gray
 {
-	class GRAY_API Camera : public Renderable
+	class Camera : public Renderable
 	{
 	public:
 		Camera(glm::vec3 pos = glm::vec3(0.0f), glm::vec2 dir = glm::vec2(glm::radians(0.0f)));
@@ -43,6 +43,7 @@ namespace Gray
 		void Move(float dt);
 		void UpdateLook();
 
+		void OnImguiRender() override;
 	private:
 
 		
@@ -65,5 +66,6 @@ namespace Gray
 		float speed;
 		float sensitivity;
 
+		bool hasPosChanged;
 	};
 }

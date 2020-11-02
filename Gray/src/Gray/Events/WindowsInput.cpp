@@ -1,7 +1,8 @@
 #include "grpch.h"
+
 #include "WindowsInput.h"
+
 #include "GLFW/glfw3.h"
-#include "Gray/Application.h"
 
 namespace Gray
 {

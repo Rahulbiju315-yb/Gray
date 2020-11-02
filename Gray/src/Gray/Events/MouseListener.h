@@ -1,11 +1,12 @@
 #pragma once
 
 #include "EventListener.h"
+
 #include "MouseEvent.h"
 
 namespace Gray
 {
-	class GRAY_API MouseListener : public EventListener
+	class MouseListener : virtual public EventListener
 	{
 
 	public:

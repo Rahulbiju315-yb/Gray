@@ -1,11 +1,12 @@
 #pragma once
 
 #include "EventListener.h"
+
 #include "WindowEvent.h"
 
 namespace Gray
 {
-	class GRAY_API WindowListener : public EventListener
+	class WindowListener : virtual public EventListener
 	{
 	public:
 		void OnEvent(Event& e) override

@@ -47,80 +47,119 @@ namespace Gray
 	void Util::sampleObject2(VertexBuffer*& vb, IndexBuffer*& ib, VertexArray*& va, Shader*& shader, bool loadSampleShader)
 	{
 
-		float vertices[198];
-		genCube(-0.5f, -0.5f, 0.0f, 1.0f, vertices, 6);
+		float vertices[] = {
+			//Back Side
+			-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f,
+			 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f,
+			 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 0.0f, 1.0f, 
+			-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, 
 
-		for (int i = 0; i < 6; i++)
-		{
-			vertices[6 * (4 * i + 0) + 3] = 0.0f;
-			vertices[6 * (4 * i + 0) + 4] = 0.0f;
-			vertices[6 * (4 * i + 0) + 5] = 0.0f;
+			//Front Side
+			-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 1.0f, 0.0f,
+			 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 0.0f, 0.0f,
+			 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 0.0f, 1.0f,
+			-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f, 1.0f, 1.0f,
 
-			vertices[6 * (4 * i + 1) + 3] = 1.0f;
-			vertices[6 * (4 * i + 1) + 4] = 0.0f;
-			vertices[6 * (4 * i + 1) + 5] = 0.0f;
+			//Left Side
+			-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f,
+			-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f,
+			-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f,
+			-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f,
 
-			vertices[6 * (4 * i + 2) + 3] = 0.0f;
-			vertices[6 * (4 * i + 2) + 4] = 1.0f;
-			vertices[6 * (4 * i + 2) + 5] = 0.0f;
+			 //Right Side
+			 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f,
+			 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f, 1.0f, 1.0f,
 
-			vertices[6 * (4 * i + 3) + 3] = 1.0f;
-			vertices[6 * (4 * i + 3) + 4] = 1.0f;
-			vertices[6 * (4 * i + 3) + 5] = 0.0f;
+			 //Bottom Side
+			-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f,
+			 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f,
+			-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f, 1.0f, 1.0f,
 
-		}
+			 //Top Side
+			-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f,
+			 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f,
+			-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f,
+		};	
+
+		//float vertices[198];
+		//genCube(-0.5f, -0.5f, 0.0f, 1.0f, vertices, 6);
+
+		//for (int i = 0; i < 6; i++)
+		//{
+		//	vertices[6 * (4 * i + 0) + 3] = 0.0f;
+		//	vertices[6 * (4 * i + 0) + 4] = 0.0f;
+		//	vertices[6 * (4 * i + 0) + 5] = 0.0f;
+
+		//	vertices[6 * (4 * i + 1) + 3] = 1.0f;
+		//	vertices[6 * (4 * i + 1) + 4] = 0.0f;
+		//	vertices[6 * (4 * i + 1) + 5] = 0.0f;
+
+		//	vertices[6 * (4 * i + 2) + 3] = 0.0f;
+		//	vertices[6 * (4 * i + 2) + 4] = 1.0f;
+		//	vertices[6 * (4 * i + 2) + 5] = 0.0f;
+
+		//	vertices[6 * (4 * i + 3) + 3] = 1.0f;
+		//	vertices[6 * (4 * i + 3) + 4] = 1.0f;
+		//	vertices[6 * (4 * i + 3) + 5] = 0.0f;
+
+		//}
 
 
 		unsigned int indices[36] =
 		{
-			0, 1, 3, 3, 2, 0, // Front Side
-			4, 5, 7, 7, 6, 4, // Left Side
-			8, 9, 11, 11, 10, 8, // Right Side
-			12, 13, 15, 15, 14, 12, // Bottom Side
-			16, 17, 19, 19, 18, 16, // Top Side
-			20, 21, 23, 23, 22, 20, // Back Side
+			0, 1, 2, 2, 3, 0, //Back
+			4, 5, 6, 6, 7, 4, //Front
+			8, 9, 10, 10, 11, 8, //Left
+			12, 13, 14, 14, 15, 12, //Right
+			16, 17, 18, 18, 19, 16, //Bottom
+			20, 21, 22, 22, 23, 20 //Top
 		};
 
-		std::vector<glm::vec3> tri1;
-		std::vector<glm::vec3> tri2;
-		std::vector<glm::vec3> tri3;
+		//std::vector<glm::vec3> tri1;
+		//std::vector<glm::vec3> tri2;
+		//std::vector<glm::vec3> tri3;
 
-		tri1.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
-		tri1.push_back(glm::vec3(0.1f, 0.0f, 0.0f));
-		tri1.push_back(glm::vec3(0.0f, 2.0f, 0.0f));
+		//tri1.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
+		//tri1.push_back(glm::vec3(0.1f, 0.0f, 0.0f));
+		//tri1.push_back(glm::vec3(0.0f, 2.0f, 0.0f));
 
-		tri2.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
-		tri2.push_back(glm::vec3(0.0f, 0.0f, -0.1f));
-		tri2.push_back(glm::vec3(2.0f, 0.0f, 0.0f));
+		//tri2.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
+		//tri2.push_back(glm::vec3(0.0f, 0.0f, -0.1f));
+		//tri2.push_back(glm::vec3(2.0f, 0.0f, 0.0f));
 
-		tri3.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
-		tri3.push_back(glm::vec3(0.0f, 0.1f, 0.0f));
-		tri3.push_back(glm::vec3(0.0f, 0.0f, 2.0f));
+		//tri3.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
+		//tri3.push_back(glm::vec3(0.0f, 0.1f, 0.0f));
+		//tri3.push_back(glm::vec3(0.0f, 0.0f, 2.0f));
 
-		genTri(tri1, &vertices[144], 6);
-		genTri(tri2, &vertices[144 + 18], 6);
-		genTri(tri3, &vertices[144 + 36], 6);
+		//genTri(tri1, &vertices[144], 6);
+		//genTri(tri2, &vertices[144 + 18], 6);
+		//genTri(tri3, &vertices[144 + 36], 6);
 
-		unsigned int debugIndicies[9] =
-		{
-			24, 25, 26,
-			27, 28, 29,
-			30, 31, 32
-		};
+		//unsigned int debugIndicies[9] =
+		//{
+		//	24, 25, 26,
+		//	27, 28, 29,
+		//	30, 31, 32
+		//};
 
 		vb = new VertexBuffer(vertices, sizeof(vertices));
 		ib = new IndexBuffer(indices, 36);
 
 		BufferLayout layout;
 		layout.Push<float>(3);
+		layout.Push<float>(3);
 		layout.Push<float>(2);
-		layout.Push<float>(1);
 
 		va = new VertexArray(*vb, layout);
 
 		if (loadSampleShader)
 		{
 			shader = new Shader("res/shaders/shader.shader");
+
 			shader->Bind();
 
 			shader->SetUniform("Tex1", 0);

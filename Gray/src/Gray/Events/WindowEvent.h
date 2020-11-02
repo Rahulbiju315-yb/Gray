@@ -3,7 +3,7 @@
 
 namespace Gray
 {
-	class GRAY_API WindowResizedEvent : public Event
+	class WindowResizedEvent : public Event
 	{
 	public:
 		WindowResizedEvent(unsigned int width, unsigned int height)
@@ -34,7 +34,8 @@ namespace Gray
 		unsigned int width, height;
 	};
 	
-	class GRAY_API WindowClosedEvent : public Event
+	class
+		WindowClosedEvent : public Event
 	{
 	public:
 		WindowClosedEvent()

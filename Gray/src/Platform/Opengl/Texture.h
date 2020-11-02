@@ -5,7 +5,7 @@
 
 namespace Gray
 {
-	class GRAY_API Texture
+	class Texture
 	{
 	private:
 		unsigned int ID;

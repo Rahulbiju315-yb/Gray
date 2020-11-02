@@ -3,37 +3,21 @@
 #include "LightSource.h"
 #include "Renderable.h"
 
-#include "Platform/Opengl/Opengl.h"
-#include "Platform/Opengl/test/Util.h"
-
 namespace Gray
 {
-	class GRAY_API LightSourceOpengl : public LightSource, public Renderable
+	class LightSourceOpengl : public LightSource
 	{
 	public:
-		LightSourceOpengl(glm::vec4 color = glm::vec4(1.0f));
+		LightSourceOpengl(glm::vec3 color = glm::vec3(1.0f));
 		~LightSourceOpengl();
 
-		void SetColor(glm::vec4 color) override;
-		const glm::vec4& GetColor() override;
-		
-		void SetPos(glm::vec3 pos) override;
-		const glm::vec3& GetPos(glm::vec3 pos) override;
+		void SetColor(glm::vec3 color) override;
+		const glm::vec3& GetColor() override;
 
 		void OnUpdate(float dt) override;
-
-		Shader* GetShader();
+		void OnImguiRender() override;
 
 	private:
-		glm::vec4 color;
-		glm::vec3 pos;
-
-		VertexArray* va;
-		VertexBuffer* vb;
-		IndexBuffer* ib;
-		Shader* shader;
-
-		glm::mat4 model;
-
+		glm::vec3 color;
 	};
 }

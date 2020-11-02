@@ -1,5 +1,9 @@
+
 #include "grpch.h"
+
 #include "Camera.h"
+
+#include "Gray/Application.h"
 
 namespace Gray
 {
@@ -11,7 +15,7 @@ namespace Gray
 		aspectRatio = 4.0f / 3.0f;
 		zLim = glm::vec2(0.1f, 100.0f);
 
-		speed = 0.01f;
+		speed = 1.0f;
 		sensitivity = 1 / 20.0f;
 
 		SetZoom(45.0f);
@@ -160,6 +164,18 @@ namespace Gray
 
 	}
 
+	void Camera::OnImguiRender()
+	{
+		glm::vec3 pos = GetPos();
+		glm::vec2 dir = GetDir();
+
+		std::string cPos = "Pos : " + std::to_string(pos.x) + ", " + std::to_string(pos.y);
+		std::string cDir = "Dir (yaw, pitch) : " + std::to_string(dir.x) + ", " + std::to_string(pos.y);
+
+		ImGui::Text(cPos.c_str());
+		ImGui::Text(cDir.c_str());
+	}
+
 	void Camera::OnUpdate(float dt)
 	{
 		Move(dt);
@@ -167,6 +183,15 @@ namespace Gray
 
 	void Camera::Move(float dt)
 	{
+		Application::GetApp()->GetRenderLayer()->SetForEachData((void*)&pos);
+
+		static ForEachRenderableFunction changeViewPos = [](Renderable* renderable, void* data)
+		{
+			renderable->GetShader()->SetUniform("viewPos", *(glm::vec3*)data);
+		};
+
+		Application::GetApp()->GetRenderLayer()->ForEach(changeViewPos);
+
 		const glm::vec2& dir = GetDir();
 		const glm::vec3& pos = GetPos();
 
@@ -175,13 +200,14 @@ namespace Gray
 
 		float k = dt * speed;
 
-		glm::vec3 x_ = k * glm::vec3(cos(yaw), sin(pitch), sin(yaw));
-		glm::vec3 z_ = k * glm::vec3(-sin(yaw), sin(pitch), cos(yaw));
+		glm::vec3 x_ = k * glm::normalize(glm::vec3(cos(yaw), sin(0), sin(yaw)));
+		glm::vec3 z_ = k * glm::normalize(glm::vec3(-sin(yaw), sin(0), cos(yaw)));
 
 		if (Gray::Input::IsKeyPressed(TO_INT(Gray::KeyCodes::Key_W)))
 		{
 			SetPos(pos - z_);
 			GRAY_INFO("camera pos = " + std::to_string(pos.x) + ", " + std::to_string(pos.y));
+
 		}
 
 		if (Gray::Input::IsKeyPressed(TO_INT(Gray::KeyCodes::Key_A)))

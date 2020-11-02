@@ -5,7 +5,7 @@
 
 namespace Gray
 {
-	class GRAY_API LayerStack
+	class LayerStack
 	{
 	public:
 		void PushLayer(Layer* l);

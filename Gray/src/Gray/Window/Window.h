@@ -1,14 +1,16 @@
 #pragma once
 
 #include "Gray/Events/EventListener.h"
+
 namespace Gray
 {
 	enum class WindowProvider
 	{
-		GLFW
+		GLFW,
+		Unknown
 	};
 
-	class GRAY_API Window
+	class Window
 	{
 	public:	
 		static Window* Create(const std::string& title, unsigned int width = 1200, unsigned int height = 700);

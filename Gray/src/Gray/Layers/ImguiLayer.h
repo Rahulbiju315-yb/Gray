@@ -2,9 +2,10 @@
 
 #include "Layer.h"
 #include "Gray/Window/Window.h"
+
 namespace Gray
 {
-	class GRAY_API ImguiLayer : public Layer
+	class ImguiLayer : public Layer
 	{
 	public:
 
@@ -17,7 +18,7 @@ namespace Gray
 		void OnUpdate() override;
 		void ImguiBegin();
 		void ImguiEnd();
-		virtual void OnImguiRender() = 0;
+		void OnImguiRender() override;
 
 		void OnEvent(Event& e) override;
 

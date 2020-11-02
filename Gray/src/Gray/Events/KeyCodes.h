@@ -1,13 +1,13 @@
 #pragma once
 
-#ifndef TO_INT(X)
+#ifndef TO_INT
 	#define TO_INT(X) (int)X
 #endif
 
 
 namespace Gray
 {
-	enum class GRAY_API KeyCodes
+	enum class KeyCodes
 	{
 
 		/* Printable keys */

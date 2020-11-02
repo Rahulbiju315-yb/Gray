@@ -1,9 +1,10 @@
 #include "grpch.h"
+
 #include "Input.h"
 
 namespace Gray
 {
-	class GRAY_API WindowsInput : public Input
+	class WindowsInput : public Input
 	{
 	public:
 		bool IsKeyPressedImpl(int keyCode) override;

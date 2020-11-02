@@ -1,10 +1,9 @@
 #pragma once
-#include <string>
 #include "Gray/Core.h"
 
 namespace Gray
 {
-	enum class GRAY_API EventType
+	enum class EventType
 	{
 		MousePressed, MouseReleased, MouseMoved, MouseDragged, MouseScrolled,
 		KeyPressed, KeyReleased,
@@ -12,7 +11,7 @@ namespace Gray
 	};
 
 #define BIT(x) 1 << x 
-	enum GRAY_API EventCategory
+	enum EventCategory
 	{
 		EventCategoryWindow = BIT(0),
 		EventCategoryKeyboard = BIT(1),
@@ -21,7 +20,7 @@ namespace Gray
 		EventCategoryInput = BIT(4)
 	};
 
-	enum class GRAY_API MouseButton
+	enum class MouseButton
 	{
 		Left,
 		Right,
@@ -34,7 +33,7 @@ namespace Gray
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategory() const override {return category;}
 							   
 
-	class GRAY_API Event
+	class Event
 	{
 	public:
 		virtual EventType GetType() const = 0;

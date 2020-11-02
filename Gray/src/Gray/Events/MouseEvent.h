@@ -5,7 +5,7 @@
 namespace Gray
 {
 
-	class GRAY_API MousePressedEvent : public Event
+	class MousePressedEvent : public Event
 	{
 	private:
 		MouseButton button;
@@ -39,7 +39,7 @@ namespace Gray
 	};
 
 
-	class GRAY_API MouseReleasedEvent : public Event
+	class MouseReleasedEvent : public Event
 	{
 	private:
 		MouseButton button;
@@ -73,13 +73,13 @@ namespace Gray
 	};
 
 
-	class GRAY_API MouseMovedEvent : public Event
+	class MouseMovedEvent : public Event
 	{
 	private:
-		double xPos, yPos;
+		float xPos, yPos;
 
 	public:
-		MouseMovedEvent(double xPos, double yPos)
+		MouseMovedEvent(float xPos, float yPos)
 		{
 			this->xPos = xPos;
 			this->yPos = yPos;
@@ -105,13 +105,13 @@ namespace Gray
 	};
 
 
-	class GRAY_API MouseDraggedEvent : public Event
+	class MouseDraggedEvent : public Event
 	{
 	private:
-		double xPos, yPos;
+		float xPos, yPos;
 
 	public:
-		MouseDraggedEvent(double xPos, double yPos)
+		MouseDraggedEvent(float xPos, float yPos)
 		{
 			this->xPos = xPos;
 			this->yPos = yPos;
@@ -136,10 +136,10 @@ namespace Gray
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	};
 
-	class GRAY_API MouseScrolledEvent : public Event
+	class MouseScrolledEvent : public Event
 	{
 	public:
-		MouseScrolledEvent(double xOffset, double yOffset)
+		MouseScrolledEvent(float xOffset, float yOffset)
 		{
 			this->xOffset= xOffset;
 			this->yOffset= yOffset;
@@ -164,6 +164,6 @@ namespace Gray
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
 	private:
-		double xOffset, yOffset;
+		float xOffset, yOffset;
 	};
 }

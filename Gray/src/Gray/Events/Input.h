@@ -2,7 +2,7 @@
 
 namespace Gray
 {
-	class GRAY_API Input
+	class Input
 	{
 	public:
 		static bool IsKeyPressed(int keyCode)

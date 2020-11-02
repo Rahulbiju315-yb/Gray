@@ -3,8 +3,8 @@
 #version 330 core
 
 layout (location = 0) in vec3 inPos;
-layout (location = 1) in vec2 inTexCoord;
-layout (location = 2) in float inTexSel;
+layout (location = 1) in vec3 inNormal;
+layout (location = 2) in vec2 inTexCoord;
 
 out vec2 TexCoord;
 out vec3 pos;
@@ -35,9 +35,9 @@ in float TexSel;
 out vec4 FragColor;
 
 uniform sampler2D Tex1;
-uniform vec4 color;
+uniform vec3 light;
 
 void main()
 {
-	FragColor = color;
+	FragColor = vec4(light, 1.0f);//vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }

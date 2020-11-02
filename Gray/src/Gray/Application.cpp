@@ -1,8 +1,6 @@
 #include "grpch.h"
+
 #include "Application.h"
-#include "GL/glew.h"
-#include "GLFW/glfw3.h"
-#include "Window/Window.h"
 
 namespace Gray
 {
@@ -13,8 +11,7 @@ namespace Gray
 	Application::Application()
 	{
 		window = Window::Create("Gray window", 1200, 700);
-		window->SetListener((AllListeners*)this);
-
+		window->SetListener(this);
 		Application::SetApp(this);
 	}
 
@@ -23,6 +20,15 @@ namespace Gray
 
 	}
 
+	void Application::Init()
+	{
+		imguiLayer = new ImguiLayer();
+		imguiLayer->OnAttatch();
+
+		renderLayer = new RenderLayer();
+		renderLayer->OnAttatch();
+		AddLayer(renderLayer);
+	}
 	//---
 	
 	void Application::AddLayer(Layer* l)
@@ -39,6 +45,11 @@ namespace Gray
 	bool Application::RemoveLayerAt(int i)
 	{
 		return ls.RemoveLayer(ls.LayerAt(i));
+	}
+
+	RenderLayer* Application::GetRenderLayer()
+	{
+		return renderLayer;
 	}
 
 	//---
@@ -61,6 +72,7 @@ namespace Gray
 
 	void Application::Run()
 	{
+		Init();
 		while (run)
 		{
 			//Clear();
@@ -68,21 +80,20 @@ namespace Gray
 			for (Layer *layer : ls)
 				layer->OnUpdate();
 
+			for (Layer* layer : ls)
+			{
+				imguiLayer->ImguiBegin();
+				layer->OnImguiRender();
+				imguiLayer->ImguiEnd();
+			}
+
 			window->OnUpdate();
 		}
 	}
 
 	void Application::OnEvent(Event& e)
 	{
-		if(e.GetCategory() & EventCategoryMouse)
-			MouseListener::OnEvent(e);
-
-		else if(e.GetCategory() & EventCategoryKeyboard)
-			KeyListener::OnEvent(e);
-
-		else if(e.GetCategory() & EventCategoryWindow)
-			WindowListener::OnEvent(e);
-
+		AllListeners::OnEvent(e);
 
 		for (std::vector<Layer*>::reverse_iterator x = ls.rbegin(); x != ls.rend(); x++)
 		{

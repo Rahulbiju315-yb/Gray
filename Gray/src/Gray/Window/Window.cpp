@@ -1,5 +1,7 @@
 #include "grpch.h"
+
 #include "Window.h"
+
 #include "WindowsWindow.h"
 
 namespace Gray

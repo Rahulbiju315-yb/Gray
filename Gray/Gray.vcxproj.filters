@@ -7,6 +7,9 @@
     <Filter Include="Gray\Events">
       <UniqueIdentifier>{3CC98E4E-A87E-0744-3173-011B9D27FE47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Gray\Graphics">
+      <UniqueIdentifier>{989BC9C8-045C-45FF-CD96-8E7C39168ADB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Gray\Layers">
       <UniqueIdentifier>{17B4715D-8369-EA52-0C5E-E4297812E156}</UniqueIdentifier>
     </Filter>
@@ -73,6 +76,21 @@
     <ClInclude Include="src\Gray\Events\WindowsInput.h">
       <Filter>Gray\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Camera.h">
+      <Filter>Gray\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\DebugCube.h">
+      <Filter>Gray\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\LightSource.h">
+      <Filter>Gray\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\LightSourceOpengl.h">
+      <Filter>Gray\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Renderable.h">
+      <Filter>Gray\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gray\Layers\ImguiLayer.h">
       <Filter>Gray\Layers</Filter>
     </ClInclude>
@@ -80,6 +98,9 @@
       <Filter>Gray\Layers</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Layers\LayerStack.h">
+      <Filter>Gray\Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Layers\RenderLayer.h">
       <Filter>Gray\Layers</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Log.h">
@@ -125,13 +146,6 @@
       <Filter>Platform\Opengl\test</Filter>
     </ClInclude>
     <ClInclude Include="src\grpch.h" />
-    <ClInclude Include="src\Gray\Graphics\Camera.h">
-      <Filter>Platform\Opengl</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\LightSource.h" />
-    <ClInclude Include="src\Gray\Graphics\LightSourceOpengl.h" />
-    <ClInclude Include="src\Gray\Graphics\Renderable.h" />
-    <ClInclude Include="src\Gray\Layers\RenderLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -143,6 +157,18 @@
     <ClCompile Include="src\Gray\Events\WindowsInput.cpp">
       <Filter>Gray\Events</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Camera.cpp">
+      <Filter>Gray\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Debug.cpp">
+      <Filter>Gray\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\DebugCube.cpp">
+      <Filter>Gray\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\LightSourceOpengl.cpp">
+      <Filter>Gray\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gray\Layers\ImguiLayer.cpp">
       <Filter>Gray\Layers</Filter>
     </ClCompile>
@@ -150,6 +176,9 @@
       <Filter>Gray\Layers</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Layers\LayerStack.cpp">
+      <Filter>Gray\Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Layers\RenderLayer.cpp">
       <Filter>Gray\Layers</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Log.cpp">
@@ -186,10 +215,5 @@
       <Filter>Platform\Opengl\test</Filter>
     </ClCompile>
     <ClCompile Include="src\grpch.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Camera.cpp">
-      <Filter>Platform\Opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\LightSourceOpengl.cpp" />
-    <ClCompile Include="src\Gray\Layers\RenderLayer.cpp" />
   </ItemGroup>
 </Project>

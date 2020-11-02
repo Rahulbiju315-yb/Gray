@@ -2,7 +2,7 @@
 
 namespace Gray
 {
-	class GRAY_API  IndexBuffer
+	class  IndexBuffer
 	{
 	private:
 		unsigned int ID;

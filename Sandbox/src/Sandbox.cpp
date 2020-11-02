@@ -2,6 +2,7 @@
 #include "grpch.h"
 
 #include "Gray/Layers/ImguiLayer.h"
+#include "Gray/Layers/RenderLayer.h"
 
 #include "Platform/Opengl/test/Util.h"
 #include "Platform/Opengl/Opengl.h"
@@ -16,25 +17,27 @@
 #include "test/TestLayerLightSource.h"
 
 #include "Gray/Graphics/Camera.h"
+#include "Gray/Graphics/DebugCube.h"
+
+#include "Gray/Events/KeyCodes.h"
 
 //TO-DO
-//1. Create Layer where Renderable objects can be added to(for debugging purposes)
-//2. Add Imgui Rendering for camera with pos and dir vec display, toggle for camera movement.
+//=> Remove inheritance of layer by ImguiLayer ??
+//=> Lighting
+//=> Joystick support
+//=> CODE CLEAN-UP ->> IMP!!!! EMERGENCY!!! CLEAN UP INCLUDES THEY ARE HELLA MESSY
 
 class Sandbox : public Gray::Application
 {
 public:
 	Sandbox()
 	{
-		Gray::TempUtil::DisableCursor();
 		// Init
 		glEnable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		//EndInit
 
-		ImGui::SetCurrentContext(Gray::Application::GetImguiContext());
-		AddLayer(new TestLayerLightSource());
 	}
 
 	~Sandbox()
@@ -42,15 +45,41 @@ public:
 
 	}
 
-	void OnMouseDragged(Gray::MouseDraggedEvent& e) override
+	void OnKeyPressed(Gray::KeyPressedEvent& e) override
 	{
-		GRAY_INFO("Mouse Dragged Event OK");
+		if (e.GetKeyCode() == TO_INT(Gray::KeyCodes::Key_T))
+		{
+			cursorEn = !cursorEn;
+			if (cursorEn)
+			{
+				Gray::TempUtil::EnableCursor();
+				renderLayer->SetCameraLookAroundEnabled(false);
+				renderLayer->SetCameraMovementEnabled(false);
+			}
+			else
+			{
+				Gray::TempUtil::DisableCursor();
+				renderLayer->SetCameraLookAroundEnabled(true);
+				renderLayer->SetCameraMovementEnabled(true);
+			}
+		};
 	}
 
-	void OnMousePressed(Gray::MousePressedEvent& e) override
+	void Init() override
 	{
-		GRAY_INFO("Mouse Pressed Event OK");
+		Gray::Application::Init(); //Should probably be managed by Gray, rather then client
+
+		Gray::DebugCube* dbc = new Gray::DebugCube(true);
+		dbc->SetRenderEnabled(true);
+
+		renderLayer->SetCameraLookAroundEnabled(true);
+		renderLayer->SetCameraMovementEnabled(true);
+		renderLayer->SetCameraPos(glm::vec3(0.0f, 0.0f, 3.0f));
+		renderLayer->AddRenderable(dbc);
 	}
+
+private:
+	bool cursorEn;
 };
 
 Gray::Application* Gray::CreateApplication()

@@ -84,7 +84,7 @@ namespace Gray
 		if (!success)
 		{
 			glGetShaderInfoLog(fragmentID, 512, NULL, infoLog);
-			std::cout << "Error compiling vertex shader source ... \n" << infoLog;
+			std::cout << "Error compiling fragment shader source ... \n" << infoLog;
 		}
 
 		ID = glCreateProgram();
@@ -95,7 +95,7 @@ namespace Gray
 		if (!success)
 		{
 			glGetProgramInfoLog(ID, 512, NULL, infoLog);
-			std::cout << "Error compiling vertex shader source ... \n" << infoLog;
+			std::cout << "Error linking program ... \n" << infoLog;
 		}
 
 		glDeleteShader(vertexID);
@@ -125,45 +125,43 @@ namespace Gray
 
 	void Shader::SetUniform(const std::string& name, int i) const
 	{
+		Bind();
 		glUniform1i(GetUniformLocation(name.c_str()), i);
 	}
 
 	void Shader::SetUniform(const std::string& name, float f) const
 	{
+		Bind();
 		glUniform1f(GetUniformLocation(name.c_str()), f);
 	}
 
 	void Shader::SetUniform(const std::string& name, const glm::vec2& v2) const
 	{
+		Bind();
 		glUniform2f(GetUniformLocation(name.c_str()), v2.x, v2.y);
 	}
 
 	void Shader::SetUniform(const std::string& name, const glm::vec3& v3) const
 	{
+		Bind();
 		glUniform3f(GetUniformLocation(name.c_str()), v3.x, v3.y, v3.z);
 	}
 
 	void Shader::SetUniform(const std::string& name, const glm::vec4& v4) const
 	{
+		Bind();
 		glUniform4f(GetUniformLocation(name.c_str()), v4.x, v4.y, v4.z, 1.0f);
 	}
 
 	void Shader::SetUniform(const std::string& name, const glm::mat4& m4) const
 	{
+		Bind();
 		glUniformMatrix4fv(GetUniformLocation(name.c_str()), 1, GL_FALSE, glm::value_ptr(m4));
 	}
 
 	int Shader::GetUniformLocation(const std::string& name) const
 	{
-		int val;
-		if (hashTable.find(name) == hashTable.end())
-		{
-			hashTable[name] = glGetUniformLocation(ID, name.c_str());
-			return hashTable[name];
-		}
-		else
-		{
-			return hashTable[name];
-		}
+		hashTable[name] = glGetUniformLocation(ID, name.c_str());
+		return hashTable[name];
 	}
 }

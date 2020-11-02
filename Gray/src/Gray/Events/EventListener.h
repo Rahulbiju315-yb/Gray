@@ -5,7 +5,7 @@
 
 namespace Gray
 {
-	class GRAY_API EventListener
+	class EventListener
 	{
 	public:
 		virtual void OnEvent(Event& e) = 0;

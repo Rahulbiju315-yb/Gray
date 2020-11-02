@@ -5,7 +5,7 @@
 
 namespace Gray
 {
-	class GRAY_API KeyListener : public EventListener
+	class KeyListener : virtual public EventListener
 	{
 	public:
 		virtual void OnKeyPressed(KeyPressedEvent& e) { }

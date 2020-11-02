@@ -25,8 +25,11 @@ include "Gray/vendor/imguiFileChooser"
 
 project "Gray"
 	location "Gray"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
+	cppdialect "C++17"
+
+	staticruntime "on"
 
 	targetdir("bin/" .. outputdir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -72,41 +75,36 @@ project "Gray"
 	}
 	
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "10.0.17763.0"
 
 		defines
 		{
-			"GRAY_PLATFORM_WINDOWS",
-			"GRAY_BUILD_DLL"
-		}
-
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			"GRAY_PLATFORM_WINDOWS"
 		}
 
 
 	filter "configurations:Debug"
 		defines "GRAY_DEBUG"
 		buildoptions "/MDd"
-		symbols "On"
+		symbols "on"
 	
 	filter "configurations:Release"
 		defines "GRAY_RELEASE"
 		buildoptions "/MD"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "GRAY_DIST"
 		buildoptions "/MD"
-		optimize "On"
+		optimize "on"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++17"
+
+	staticruntime "on"
 
 	targetdir("bin/" .. outputdir .. "/%{prj.name}")
 	objdir("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -138,13 +136,10 @@ project "Sandbox"
 	{
 		"Gray",
 		"glew32s.lib",
-		"opengl32",
-		"imgui"
+		"opengl32"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "10.0.17763.0"
 
 		defines
@@ -156,14 +151,14 @@ project "Sandbox"
 	filter "configurations:Debug"
 		defines "GRAY_DEBUG"
 		buildoptions "/MDd"
-		symbols "On"
+		symbols "on"
 	
 	filter "configurations:Release"
 		defines "GRAY_DEBUG"
 		buildoptions "/MD"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "GRAY_DIST"
 		buildoptions "/MD"
-		optimize "On"
+		optimize "on"
