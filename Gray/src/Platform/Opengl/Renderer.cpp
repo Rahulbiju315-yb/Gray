@@ -5,7 +5,7 @@
 
 namespace Gray
 {
-	void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader)
+	void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const
 	{
 		shader.Bind();
 		va.Bind();
@@ -18,7 +18,7 @@ namespace Gray
 		//ib.Unbind();
 	}
 
-	void Renderer::Clear()
+	void Renderer::Clear() const
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}

@@ -4,6 +4,7 @@
 #include "fstream"
 #include "memory"
 #include "string"
+#include "set"
 #include "vector"
 #include "sstream"
 #include "algorithm"
@@ -13,4 +14,5 @@
 
 #include "Gray/Core.h"
 #include "Gray/Log.h"
-#include "Gray/Application.h"
+
+#include "GL/glew.h"

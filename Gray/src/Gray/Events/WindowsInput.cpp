@@ -4,13 +4,14 @@
 
 #include "GLFW/glfw3.h"
 
+#include "Gray/Window/Window.h"
 namespace Gray
 {
     Input* Input::input = nullptr;
 
     bool WindowsInput::IsKeyPressedImpl(int keyCode)
     {
-        GLFWwindow* window = (GLFWwindow*)(Application::GetApp()->GetProvider());
+        GLFWwindow* window = (GLFWwindow*)(Window::GetProvider());
         int state = glfwGetKey(window, keyCode);
 
         return (state == GLFW_PRESS) || (state == GLFW_REPEAT);
@@ -18,7 +19,7 @@ namespace Gray
 
     bool WindowsInput::IsMouseButtonPressedImpl(int mouseButton)
     {
-        GLFWwindow* window = (GLFWwindow*)(Application::GetApp()->GetProvider());
+        GLFWwindow* window = (GLFWwindow*)(Window::GetProvider());
         int state = glfwGetMouseButton(window, mouseButton);
 
         return (state == GLFW_PRESS);
@@ -26,17 +27,17 @@ namespace Gray
 
     std::pair<float, float> WindowsInput::GetMousePosImpl()
     {
-        GLFWwindow* window = (GLFWwindow*)(Application::GetApp()->GetProvider());
+        GLFWwindow* window = (GLFWwindow*)(Window::GetProvider());
 
         double x, y;
         glfwGetCursorPos(window, &x, &y);
 
-        return {x, y};
+        return {(float)x, (float)y};
     }
 
     float WindowsInput::GetMouseXImpl()
     {
-		GLFWwindow* window = (GLFWwindow*)(Application::GetApp()->GetProvider());
+		GLFWwindow* window = (GLFWwindow*)(Window::GetProvider());
         
         auto [x, y] = GetMousePosImpl();
         return x;
@@ -44,7 +45,7 @@ namespace Gray
 
 	float WindowsInput::GetMouseYImpl()
     {
-        GLFWwindow* window = (GLFWwindow*)(Application::GetApp()->GetProvider());
+        GLFWwindow* window = (GLFWwindow*)(Window::GetProvider());
 
         auto [x, y] = GetMousePosImpl();
         return y;

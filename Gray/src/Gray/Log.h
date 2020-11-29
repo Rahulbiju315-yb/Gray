@@ -20,6 +20,8 @@ namespace Gray
 }
 
 //Core Logger
+#ifdef GRAY_DEBUG
+
 #define GRAY_CORE_TRACE(...) Gray::Log::GetCoreLogger()->trace(__VA_ARGS__)
 #define GRAY_CORE_INFO(...)  Gray::Log::GetCoreLogger()->info(__VA_ARGS__)
 #define GRAY_CORE_WARN(...)  Gray::Log::GetCoreLogger()->warn(__VA_ARGS__)
@@ -33,3 +35,17 @@ namespace Gray
 #define GRAY_ERROR(...) Gray::Log::GetClientLogger()->error(__VA_ARGS__)
 #define GRAY_FATAL(...) Gray::Log::GetClientLogger()->critical(__VA_ARGS__)
 
+#else
+#define GRAY_CORE_TRACE(...)
+#define GRAY_CORE_INFO(...)
+#define GRAY_CORE_WARN(...)
+#define GRAY_CORE_ERROR(...)
+#define GRAY_CORE_FATAL(...)
+
+//Client Logger
+#define GRAY_TRACE(...)
+#define GRAY_INFO(...)
+#define GRAY_WARN(...)
+#define GRAY_ERROR(...)
+#define GRAY_FATAL(...)
+#endif // DEBUG

@@ -30,7 +30,7 @@ namespace Gray
 		{
 			if (layer == l)
 			{
-				std::remove(stack.begin(), stack.end(), l);
+				stack.erase(std::remove(stack.begin(), stack.end(), l), stack.end());
 				return true;
 			}
 		}

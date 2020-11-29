@@ -5,42 +5,40 @@
 
 namespace Gray
 {
-	DebugCube::DebugCube(bool initShader, glm::vec3 pos)
+
+	DebugCube::DebugCube(bool initShader, std::shared_ptr<Shader> shader, glm::vec3 pos)
 	{
-		//Add opengl context checking later perhaps??
-		Util::sampleObject2(vb, ib, va, shader, true);
-		
-		//shader->Bind();
-		tex = new Texture("res/textures/t4.jpg", GL_RGB, GL_RGB);
-		tex->Bind();
-		shader->SetUniform("tex1", 0);
+		isRenderEnabled = true;
 
-		SetPos(glm::vec3(0.0f, 0.0f, 3.0f));
-		shader->SetUniform("model", model);
+		Util::sampleCube(vb, ib, va, this->shader, initShader);
 
-		debug = new Debug();
+		SetPos(pos);
+
+		if(!initShader)
+		{
+			if (shader == nullptr)
+				GRAY_CORE_ERROR("No default shader specified and initShader set to null!!");
+
+			this->shader = shader;
+		}
+
+		scale = glm::vec3(1.0f);
 	}
 
-	DebugCube::~DebugCube()
+
+	void DebugCube::SetUniforms()
 	{
-		delete vb;
-		delete va;
-		delete ib;
-		delete shader;
+		SetModelUniforms();
+		SetMaterialUniforms();
 	}
 
 	void DebugCube::OnUpdate(float dt)
 	{
-		if (renderer != nullptr)
-		{
-			renderer->Draw(*va, *ib, *shader);
-		}
-		else
-			GRAY_CORE_ERROR("Renderer not initialised !!!");
+		renderer.Draw(*va, *ib, *shader);
 	}
 
 	void DebugCube::OnImguiRender()
 	{
-		debug->StandardLightingDebug(this);
+		debug.StandardLightingDebug(this);
 	}
 }

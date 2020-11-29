@@ -5,6 +5,9 @@
 #include "Gray/Events/Input.h"
 #include "Gray/Events/WindowsInput.h"
 
+#include "Gray/Events/KeyEvent.h"
+#include "Gray/Events/WindowEvent.h"
+#include "Gray/Events/MouseEvent.h"
 namespace Gray
 {
 	static bool isGlfwInit = false;
@@ -24,7 +27,7 @@ namespace Gray
 
 	WindowsWindow::~WindowsWindow()
 	{
-		delete window;
+		
 	}
 
 	void WindowsWindow::OnInit()
@@ -44,17 +47,17 @@ namespace Gray
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-		window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+		glfwWindow = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 		Window::wp = WindowProvider::GLFW;
 
-		if (!window)
+		if (!glfwWindow)
 		{
 			GRAY_CORE_FATAL("Error creating glfw window");
 			glfwTerminate();
 			return ;
 		}
 
-		glfwMakeContextCurrent(window);
+		glfwMakeContextCurrent(glfwWindow);
 
 		GLenum err = glewInit();
 		if (GLEW_OK != err)
@@ -62,10 +65,14 @@ namespace Gray
 			GRAY_CORE_FATAL("Glew not initialised");
 		}	
 
-		data =  WindowData();
-		glfwSetWindowUserPointer(window, (void*)(&data));
+		glEnable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+		data =  WindowData();
+		glfwSetWindowUserPointer(glfwWindow, (void*)(&data));
+
+		glfwSetKeyCallback(glfwWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 			{
 				WindowData& data =  *(WindowData*)(glfwGetWindowUserPointer(window));
 
@@ -91,7 +98,7 @@ namespace Gray
 				}
 			});
 
-		glfwSetWindowCloseCallback(window, [](GLFWwindow* window) 
+		glfwSetWindowCloseCallback(glfwWindow, [](GLFWwindow* window) 
 			{
 				WindowData& data =  *(WindowData *)(glfwGetWindowUserPointer(window));
 				WindowClosedEvent event;
@@ -102,7 +109,7 @@ namespace Gray
 				}
 			});
 
-		glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods)
+		glfwSetMouseButtonCallback(glfwWindow, [](GLFWwindow* window, int button, int action, int mods)
 			{
 				WindowData& data =  *(WindowData *)(glfwGetWindowUserPointer(window));
 				if (data.listener != nullptr)
@@ -124,7 +131,7 @@ namespace Gray
 				}
 			});
 
-		glfwSetCursorPosCallback(window, [](GLFWwindow* window, double x, double y)
+		glfwSetCursorPosCallback(glfwWindow, [](GLFWwindow* window, double x, double y)
 			{
 				int action = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
 				WindowData& data =  *(WindowData*)(glfwGetWindowUserPointer(window));
@@ -145,7 +152,7 @@ namespace Gray
 				}
 			});
 
-		glfwSetScrollCallback(window, [](GLFWwindow* window, double xOffset, double yOffset)
+		glfwSetScrollCallback(glfwWindow, [](GLFWwindow* window, double xOffset, double yOffset)
 			{
 				WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
 				MouseScrolledEvent event((float)xOffset, (float)yOffset);
@@ -155,13 +162,13 @@ namespace Gray
 				}
 			});
 
-		
+		provider = (void*)glfwWindow;
 	}
 
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(glfwWindow);
 	}
 
 	void WindowsWindow::OnRender()
@@ -187,11 +194,6 @@ namespace Gray
 	void WindowsWindow::SetListener(EventListener* listener)
 	{
 		data.listener = listener;
-	}
-
-	void* WindowsWindow::GetProvider() const
-	{
-		return (void*)window;
 	}
 
 }

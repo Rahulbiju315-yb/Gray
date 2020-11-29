@@ -12,7 +12,9 @@ namespace Gray
 	{
 		window = Window::Create("Gray window", 1200, 700);
 		window->SetListener(this);
+
 		Application::SetApp(this);
+		Init();
 	}
 
 	Application::~Application()
@@ -29,6 +31,7 @@ namespace Gray
 		renderLayer->OnAttatch();
 		AddLayer(renderLayer);
 	}
+
 	//---
 	
 	void Application::AddLayer(Layer* l)
@@ -83,7 +86,9 @@ namespace Gray
 			for (Layer* layer : ls)
 			{
 				imguiLayer->ImguiBegin();
+
 				layer->OnImguiRender();
+				
 				imguiLayer->ImguiEnd();
 			}
 

@@ -7,62 +7,47 @@
 
 namespace Gray
 {
-	RenderLayer::RenderLayer()
+	static int countOpt = 1;
+	static int countNonOpt = 1;
+
+	RenderLayer::RenderLayer() : 
+		cameraLookEn(false), cameraMovEn(false), 
+		projection(glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f)),
+		camera(this), data(nullptr)
 	{
-		data = nullptr;
-
-		Renderer* renederer = new Renderer(); //TO be later done in renderable perhaps ??
-		Renderable::SetRenderer(renederer);
-
-		projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
-
-		camera = new Camera(glm::vec3(0.0f));
-		cameraLookEn = false;
-		cameraMovEn = false;
-		
-
-		lightSource = new LightSourceOpengl(glm::vec3(1.0f, 1.0f, 1.0f));
-		lightSource->SetPos(glm::vec3(1.0f, 0.0f, 5.0f));
-		lightSource->GetShader()->SetUniform("projection", projection);
-		lightSource->GetShader()->SetUniform("light", lightSource->GetColor());
-		lightSource->SetRenderEnabled(true);
-
+		// -- code that must setup lighting for any given scene
+		lightSources.push_back(std::make_shared<PointLight>(LightColor(), Defaults::ORIGIN));
+		lightSources.push_back(std::make_shared<DirectionalLight>(LightColor(), glm::vec3(1.0f, 0.0f, 0.0f)));
+		lightSources.push_back(std::make_shared<SpotLight>(LightColor(), Defaults::ORIGIN, 
+			glm::vec3(1.0f, 0.0f, 0.0f)));
+		// --
 	}
 
 	RenderLayer::~RenderLayer()
 	{
-		delete camera;
 	}
 
 	void RenderLayer::OnAttatch()
 	{
-		
 	}
 
 	void RenderLayer::OnDetatch()
 	{
-		
 	}
 
-	void RenderLayer::AddRenderable(Renderable* r)
+	void RenderLayer::AddRenderable(std::shared_ptr<Renderable> r)
 	{
-		r->GetShader()->SetUniform("materials.ambient", glm::vec3(0.1f));
-		r->GetShader()->SetUniform("materials.specular", glm::vec3(0.5f));
-		r->GetShader()->SetUniform("materials.diffuse", glm::vec3(1.0f));
-
 		r->GetShader()->SetUniform("projection", projection);
-		r->GetShader()->SetUniform("light", lightSource->GetColor()); 
-		r->GetShader()->SetUniform("lightPos", lightSource->GetPos());
-		r->GetShader()->SetUniform("invModel", glm::inverse(r->GetModel()));
+		unique_shaders.insert(r->GetShader().get());
 		renderList.push_back(r);
 	}
 
-	void RenderLayer::RemoveRenderable(Renderable* r)
+	void RenderLayer::RemoveRenderable(std::shared_ptr<Renderable> r)
 	{
-		std::remove(renderList.begin(), renderList.end(), r);
+		renderList.erase(std::remove(renderList.begin(), renderList.end(), r), renderList.end());
 	}
 
-	Renderable* RenderLayer::RenderableAt(int i)
+	std::shared_ptr<Renderable> RenderLayer::RenderableAt(int i)
 	{
 		return renderList.at(i);
 	}
@@ -71,22 +56,42 @@ namespace Gray
 	{
 		Layer::OnUpdate();
 
+		static bool changed;
+
 		Renderable::GetRenderer()->Clear();
 		
 		if(cameraMovEn)
-			camera->OnUpdate(dt);
+			camera.OnUpdate(dt);
 
-		if (lightSource->GetRenderEnabled())
+		for (auto lightSource : lightSources)
 		{
-			lightSource->GetShader()->SetUniform("view", camera->GetView());
-			lightSource->OnUpdate(dt);
+			int pointCount = 0, spotCount = 0;
+
+			for (auto shader : unique_shaders)
+			{
+				if (shader != nullptr)
+				{
+					lightSource->SetUniformFor(shader);
+				}
+			}
 		}
 
-		for (Renderable* renderable : renderList)
+		for (auto shader : unique_shaders)
+		{	
+			/*if(shader)
+				shader->SetUniform("view", camera.GetView()); */
+
+			// Is this opt really necessary ???
+			// For setting the view matrix, this has hardly a performance improvement , even while 
+			// rendering 10000 cubes. 
+		}
+
+		for (auto renderable : renderList)
 		{
 			if (renderable->GetRenderEnabled())
 			{
-				renderable->GetShader()->SetUniform("view", camera->GetView());
+				renderable->GetShader()->SetUniform("view", camera.GetView());
+				renderable->SetUniforms();
 				renderable->OnUpdate(dt);
 			}
 		}
@@ -114,75 +119,68 @@ namespace Gray
 
 	void RenderLayer::OnImguiRender()
 	{
-		static glm::vec3 color = lightSource->GetColor();
 		static bool showLightCube = true;
+		static bool changed;
+		static glm::vec3 ambientStrength(0.2f);
 
-		static bool sel = false;
+		camera.OnImguiRender();
 
-		
-		if (ImGui::Button("Demo"))
+		static int frames = 0;
+		static float time = 0;
+		static float fps = 0.0f;
+
+		frames++;
+		time += dt;
+		if (frames == 100)
 		{
-			sel = !sel;
+			fps = frames / time;
+			frames = 0;
+			time = 0;
 		}
 
-		if (sel)
-		{
-			ImGui::ShowDemoWindow();
-		}
-
-		camera->OnImguiRender();
+		ImGui::Text(("FPS : " + std::to_string(fps)).c_str());
 		ImGui::Checkbox("Enable Camera Look Around", &cameraLookEn);
 		ImGui::Checkbox("Enable Camera Movement", &cameraMovEn);
 
-		lightSource->OnImguiRender();
 
-		for (Renderable* renderable : renderList)
+		for (std::shared_ptr<Renderable> renderable : renderList)
 		{
-			renderable->OnImguiRender();
+			if(ImGui::CollapsingHeader(renderable->GetName().c_str()))
+				renderable->OnImguiRender();
 		}
 	}
 
 	void RenderLayer::OnMouseMoved(MouseMovedEvent& e)
 	{
 		if(cameraLookEn)
-			camera->UpdateLook();
+			camera.UpdateLook();
 	}
 
 	void RenderLayer::SetCameraPos(glm::vec3 pos)
 	{
-		camera->SetPos(pos);
+		camera.SetPos(pos);
 	}
 
 	const glm::vec3& RenderLayer::GetCameraPos()
 	{
-		return camera->GetPos();
+		return camera.GetPos();
 	}
 
 	void RenderLayer::SetCameraDir(glm::vec2 dir)
 	{
-		camera->SetDir(dir);
+		camera.SetDir(dir);
 	}
 
 	const glm::vec2& RenderLayer::GetCameraDir()
 	{
-		return camera->GetDir();
-	}
-
-	void RenderLayer::SetLightColor(glm::vec3 color)
-	{
-		lightSource->SetColor(color);
-	}
-
-	const glm::vec3& RenderLayer::GetLightColor()
-	{
-		return lightSource->GetColor();
+		return camera.GetDir();
 	}
 
 	void RenderLayer::ForEach(ForEachRenderableFunction func)
 	{
-		for (Renderable* renderable : renderList)
+		for (auto renderable : renderList)
 		{
-			func(renderable, data);
+			func(renderable.get(), data);
 		}
 	}
 
@@ -190,6 +188,7 @@ namespace Gray
 	{
 		this->data = data;
 	}
+
 	void* RenderLayer::GetForEachData()
 	{
 		return data;

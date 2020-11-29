@@ -82,10 +82,13 @@
     <ClInclude Include="src\Gray\Graphics\DebugCube.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\LightSource.h">
+    <ClInclude Include="src\Gray\Graphics\Defaults.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\LightSourceOpengl.h">
+    <ClInclude Include="src\Gray\Graphics\LightColor.h">
+      <Filter>Gray\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Materials.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Renderable.h">
@@ -146,6 +149,7 @@
       <Filter>Platform\Opengl\test</Filter>
     </ClInclude>
     <ClInclude Include="src\grpch.h" />
+    <ClInclude Include="src\Gray\Graphics\LightSource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -166,7 +170,7 @@
     <ClCompile Include="src\Gray\Graphics\DebugCube.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\LightSourceOpengl.cpp">
+    <ClCompile Include="src\Gray\Graphics\Defaults.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Layers\ImguiLayer.cpp">
@@ -215,5 +219,7 @@
       <Filter>Platform\Opengl\test</Filter>
     </ClCompile>
     <ClCompile Include="src\grpch.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Renderable.cpp" />
+    <ClCompile Include="src\Gray\Graphics\LightSource.cpp" />
   </ItemGroup>
 </Project>

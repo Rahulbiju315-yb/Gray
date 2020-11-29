@@ -13,7 +13,7 @@ namespace Gray
 		buffer.Bind();
 		const std::vector<VertexAttrib> vec = layout.GetVector();
 
-		int offset = 0;
+		size_t offset = 0;
 		for (int i = 0; i < vec.size(); i++)
 		{
 			glEnableVertexAttribArray(i);

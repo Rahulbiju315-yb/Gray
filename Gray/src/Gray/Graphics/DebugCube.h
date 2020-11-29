@@ -9,13 +9,13 @@ namespace Gray
 	class DebugCube : public Renderable
 	{
 	public:
-		DebugCube(bool initShader=true, glm::vec3 pos=glm::vec3(0.0f));
-		~DebugCube();
+		DebugCube(bool initShader=true, std::shared_ptr<Shader> shader = nullptr, glm::vec3 pos=glm::vec3(0.0f));
 
-		void OnUpdate(float dt) override;
-		void OnImguiRender() override;
+		virtual void OnUpdate(float dt) override;
+		virtual void SetUniforms() override;
+		virtual void OnImguiRender() override;
 
 	private:
-		Texture* tex;
+		Texture tex;
 	};
 }

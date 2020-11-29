@@ -1,7 +1,6 @@
-#include "Gray.h"
 #include "grpch.h"
 
-#include "Gray/Layers/ImguiLayer.h"
+#include "Gray.h"
 #include "Gray/Layers/RenderLayer.h"
 
 #include "Platform/Opengl/test/Util.h"
@@ -12,32 +11,22 @@
 #include "Gray/TempUtil.h"
 #include "Gray/Events/Input.h"
 
-#include "imgui.h"
-#include "test/TestLayerCamera.h"
-#include "test/TestLayerLightSource.h"
-
-#include "Gray/Graphics/Camera.h"
 #include "Gray/Graphics/DebugCube.h"
 
 #include "Gray/Events/KeyCodes.h"
 
-//TO-DO
-//=> Remove inheritance of layer by ImguiLayer ??
-//=> Lighting
-//=> Joystick support
-//=> CODE CLEAN-UP ->> IMP!!!! EMERGENCY!!! CLEAN UP INCLUDES THEY ARE HELLA MESSY
+#include "test/TestManyCubes.h"
+
+#define RAND_FLOAT (float)rand() / RAND_MAX
+
 
 class Sandbox : public Gray::Application
 {
 public:
-	Sandbox()
-	{
-		// Init
-		glEnable(GL_BLEND);
-		glEnable(GL_DEPTH_TEST);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		//EndInit
 
+	Sandbox() : cursorEn(true)
+	{
+		
 	}
 
 	~Sandbox()
@@ -67,15 +56,8 @@ public:
 
 	void Init() override
 	{
-		Gray::Application::Init(); //Should probably be managed by Gray, rather then client
-
-		Gray::DebugCube* dbc = new Gray::DebugCube(true);
-		dbc->SetRenderEnabled(true);
-
-		renderLayer->SetCameraLookAroundEnabled(true);
-		renderLayer->SetCameraMovementEnabled(true);
-		renderLayer->SetCameraPos(glm::vec3(0.0f, 0.0f, 3.0f));
-		renderLayer->AddRenderable(dbc);
+		Test::TestManyCubes tmc(100, 10.0f);
+		tmc.OnInit(renderLayer);
 	}
 
 private:

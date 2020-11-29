@@ -6,13 +6,14 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "GL/glew.h"
 
-
-
-std::unordered_map <std::string, int> hashTable;
+#include "unordered_map"
 
 namespace Gray
 {
-	void LoadShaderProgram(std::string& vertexSource, std::string& fragmentSource, const std::string& file)
+
+	unsigned int Shader::boundShaderID = 0;
+
+	bool LoadShaderProgram(std::string& vertexSource, std::string& fragmentSource, const std::string& file)
 	{
 		std::ifstream shaderFile;
 
@@ -54,10 +55,12 @@ namespace Gray
 		{
 			std::cout << "Error reading file " << file;
 			GRAY_CORE_ERROR("Error Reading shader file");
+			return false;
 		}
+		return true;
 	}
 
-	void CompileShader(const std::string& vertexSource, const std::string& fragmentSource, unsigned int& ID)
+	bool CompileShader(const std::string& vertexSource, const std::string& fragmentSource, unsigned int& ID)
 	{
 		const char* vsource = vertexSource.c_str();
 		const char* fsource = fragmentSource.c_str();
@@ -77,6 +80,7 @@ namespace Gray
 		{
 			glGetShaderInfoLog(vertexID, 512, NULL, infoLog);
 			std::cout << "Error compiling vertex shader source ... \n" << infoLog;
+			return false;
 		}
 
 		glCompileShader(fragmentID);
@@ -85,6 +89,7 @@ namespace Gray
 		{
 			glGetShaderInfoLog(fragmentID, 512, NULL, infoLog);
 			std::cout << "Error compiling fragment shader source ... \n" << infoLog;
+			return false;
 		}
 
 		ID = glCreateProgram();
@@ -96,72 +101,102 @@ namespace Gray
 		{
 			glGetProgramInfoLog(ID, 512, NULL, infoLog);
 			std::cout << "Error linking program ... \n" << infoLog;
+			return false;
 		}
 
 		glDeleteShader(vertexID);
 		glDeleteShader(fragmentID);
 
+		return true;
 	}
+
 
 	Shader::Shader(const std::string& filePath)
 	{
 		ID = 0;
 
 		std::string vertexSource, fragmentSource;
-		LoadShaderProgram(vertexSource, fragmentSource, filePath);
-		CompileShader(vertexSource, fragmentSource, ID);
-
+		bool a = LoadShaderProgram(vertexSource, fragmentSource, filePath);
+		bool b = CompileShader(vertexSource, fragmentSource, ID);
+		
+		success = a & b;
+		attatched = false;
 	}
 
 	void Shader::Bind() const
 	{
-		glUseProgram(ID);
+		if (boundShaderID != ID)
+		{
+			glUseProgram(ID);
+			boundShaderID = ID;
+		}
 	}
 
 	void Shader::Unbind() const
 	{
 		glUseProgram(0);
+		boundShaderID = 0;
 	}
 
-	void Shader::SetUniform(const std::string& name, int i) const
+	void Shader::SetUniform(const std::string& name, int i)
 	{
 		Bind();
 		glUniform1i(GetUniformLocation(name.c_str()), i);
 	}
 
-	void Shader::SetUniform(const std::string& name, float f) const
+	void Shader::SetUniform(const std::string& name, float f)
 	{
 		Bind();
 		glUniform1f(GetUniformLocation(name.c_str()), f);
 	}
 
-	void Shader::SetUniform(const std::string& name, const glm::vec2& v2) const
+	void Shader::SetUniform(const std::string& name, const glm::vec2& v2)
 	{
 		Bind();
 		glUniform2f(GetUniformLocation(name.c_str()), v2.x, v2.y);
 	}
 
-	void Shader::SetUniform(const std::string& name, const glm::vec3& v3) const
+	void Shader::SetUniform(const std::string& name, const glm::vec3& v3)
 	{
 		Bind();
 		glUniform3f(GetUniformLocation(name.c_str()), v3.x, v3.y, v3.z);
 	}
 
-	void Shader::SetUniform(const std::string& name, const glm::vec4& v4) const
+	void Shader::SetUniform(const std::string& name, const glm::vec4& v4)
 	{
 		Bind();
 		glUniform4f(GetUniformLocation(name.c_str()), v4.x, v4.y, v4.z, 1.0f);
 	}
 
-	void Shader::SetUniform(const std::string& name, const glm::mat4& m4) const
+	void Shader::SetUniform(const std::string& name, const glm::mat4& m4)
 	{
 		Bind();
 		glUniformMatrix4fv(GetUniformLocation(name.c_str()), 1, GL_FALSE, glm::value_ptr(m4));
 	}
 
-	int Shader::GetUniformLocation(const std::string& name) const
+	bool Shader::IsLoadSucces()
 	{
-		hashTable[name] = glGetUniformLocation(ID, name.c_str());
-		return hashTable[name];
+		return success;
+	}
+
+	void Shader::SetAttatched(bool attatched)
+	{
+		this->attatched = attatched;
+	}
+
+	bool Shader::IsAttatched()
+	{
+		return attatched;
+	}
+
+	int Shader::GetUniformLocation(const std::string& name)
+	{
+		if(hashTable.find(name) != hashTable.end())
+			return (hashTable.find(name))->second;
+		else
+			hashTable.insert({name, glGetUniformLocation(ID, name.c_str())});
+
+		//GRAY_CORE_INFO("Location of " + name + " is " + std::to_string(hashTable[name]));
+		return (hashTable.find(name))->second;
 	}
 }

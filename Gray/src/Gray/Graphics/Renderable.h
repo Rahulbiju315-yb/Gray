@@ -5,71 +5,78 @@
 
 #include "imgui.h"
 
-#include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+
+#include "Materials.h"
+#include "LightColor.h"
 
 //Inconsistent use of references and pointers.
 //To be fixed after determining the better usage.
+
+//Is it okay for PointLightSource and renderable to be in the same file??
+//Better layout possible?? 
+
 namespace Gray
 {
+
 	class Renderable;
 	class Debug;
-
-	class Renderable
-	{
-	public:
-		virtual void OnUpdate(float dt) { }
-		virtual void OnImguiRender() { }
-
-		void SetRenderEnabled(bool en) { isRenderEnabled = en; }
-		bool GetRenderEnabled() { return isRenderEnabled; }
-
-		void SetName(std::string name) { this->name = name; }
-		const std::string& GetName() { return name; }
-
-		const glm::mat4& GetModel() { return model; }
-		const glm::vec3& GetPos() { return pos; }
-
-		Shader* GetShader() { return shader; }
-
-		void SetPos(glm::vec3 pos) 
-		{ 
-			this->pos = pos; 
-			model = glm::translate(UNIT_MAT4, pos);
-			shader->SetUniform("model", model);
-		}
-
-		static void SetRenderer(Renderer* renderer)
-		{
-			Renderable::renderer = renderer;
-		}
-
-		static Renderer* GetRenderer() { return renderer;  }
-
-
-	protected:
-		std::string name;
-
-		const glm::mat4 UNIT_MAT4 = glm::mat4(1.0f);
-
-		glm::mat4 model;
-		glm::vec3 pos;
-	
-		static Renderer* renderer;
-		VertexBuffer* vb;
-		IndexBuffer* ib;
-		VertexArray* va;
-		Shader* shader;
-
-		Debug* debug;
-
-		bool isRenderEnabled;
-
-	};
+	class PointLightSource;
 
 	class Debug
 	{
 	public:
 		void StandardLightingDebug(Renderable* r);
+
 	};
+
+	class Renderable
+	{
+	public:
+		virtual void OnUpdate(float dt) { }
+		virtual void SetUniforms() {}
+		virtual void OnImguiRender() { }
+
+		void SetRenderEnabled(bool en);
+		bool GetRenderEnabled();
+
+		void SetName(std::string name);
+		const std::string& GetName();
+
+		std::shared_ptr<Shader> GetShader();
+		void SetShader(std::shared_ptr<Shader> shader);
+
+		const glm::vec3& GetPos();
+		void SetPos(glm::vec3 pos);
+
+		static const Renderer* GetRenderer();
+
+		void SetMaterial(Material material);
+		Material* GetMaterial();
+
+	protected:
+		std::string name;
+
+		static const glm::mat4 UNIT_MAT4;
+		static const Renderer renderer;
+
+		Material material;
+
+		std::unique_ptr<VertexBuffer> vb;
+		std::unique_ptr<IndexBuffer> ib;
+		std::unique_ptr<VertexArray> va;
+		std::shared_ptr<Shader> shader;
+
+		Debug debug;
+
+		glm::vec3 scale;
+		glm::vec3 pos;
+
+		bool isRenderEnabled;
+
+		void SetModelUniforms();
+		void SetMaterialUniforms();
+
+	};
+
 }

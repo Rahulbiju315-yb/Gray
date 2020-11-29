@@ -23,8 +23,6 @@ namespace Gray
 
 		void SetListener(EventListener* listener) override;
 
-		void* GetProvider() const override;
-
 		struct WindowData
 		{
 		public:
@@ -41,7 +39,7 @@ namespace Gray
 		unsigned int width;
 		unsigned int height;
 		std::string title;
-		GLFWwindow *window;
+		GLFWwindow *glfwWindow;
 
 		void OnInit() override;
 

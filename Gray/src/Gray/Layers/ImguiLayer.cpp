@@ -8,7 +8,6 @@
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
 
-#include "Gray/Application.h"
 
 namespace Gray
 {
@@ -26,8 +25,7 @@ namespace Gray
 
 	void ImguiLayer::OnAttatch()
 	{
-		Application* app = Application::GetApp();
-
+		
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 
@@ -37,7 +35,7 @@ namespace Gray
 		ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
 
 		wpName = Window::GetProviderName();
-		wp = app->GetProvider();
+		wp = Window::GetProvider();
 
 		if (wpName == WindowProvider::GLFW)
 			ImGui_ImplGlfw_InitForOpenGL((GLFWwindow*)(wp), true);

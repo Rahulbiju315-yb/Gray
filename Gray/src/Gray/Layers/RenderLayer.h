@@ -4,7 +4,7 @@
 
 #include "Gray/Graphics/Renderable.h"
 #include "Gray/Graphics/Camera.h"
-#include "Gray/Graphics/LightSourceOpengl.h"
+#include "Gray/Graphics/LightSource.h"
 
 //Layer for debug purposes.
 namespace Gray
@@ -20,10 +20,10 @@ namespace Gray
 		void OnAttatch() override;
 		void OnDetatch() override;
 
-		void AddRenderable(Renderable* r);
-		void RemoveRenderable(Renderable* r);
+		void AddRenderable(std::shared_ptr<Renderable> r);
+		void RemoveRenderable(std::shared_ptr<Renderable> r);
 
-		Renderable* RenderableAt(int i);
+		std::shared_ptr<Renderable> RenderableAt(int i);
 		
 		void OnUpdate() override;
 		
@@ -40,9 +40,7 @@ namespace Gray
 
 		void SetCameraDir(glm::vec2 dir);
 		const glm::vec2& GetCameraDir();
-		
-		void SetLightColor(glm::vec3 color);
-		const glm::vec3& GetLightColor();
+
 
 		void OnMouseMoved(MouseMovedEvent& e) override;
 
@@ -51,13 +49,13 @@ namespace Gray
 		void* GetForEachData();
 
 	private:
-		std::vector<Renderable*> renderList;
+		std::vector<std::shared_ptr<Renderable>> renderList;
+		std::vector<std::shared_ptr<LightSource>> lightSources;
+		std::set<Shader*> unique_shaders;
+
+		Camera camera;
 		bool cameraMovEn;
 		bool cameraLookEn;
-
-		Camera* camera;
-		LightSourceOpengl* lightSource;
-
 		glm::mat4 projection;
 
 		void* data;

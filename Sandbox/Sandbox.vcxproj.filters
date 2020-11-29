@@ -6,14 +6,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\test\TestLayerCamera.h">
-      <Filter>test</Filter>
-    </ClInclude>
-    <ClInclude Include="src\test\TestLayerLightSource.h">
-      <Filter>test</Filter>
-    </ClInclude>
+    <ClCompile Include="src\Sandbox.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Sandbox.cpp" />
+    <ClInclude Include="src\test\Test.h" />
+    <ClInclude Include="src\test\TestManyCubes.h" />
   </ItemGroup>
 </Project>

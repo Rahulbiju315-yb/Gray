@@ -26,11 +26,12 @@ namespace Gray
 		virtual unsigned int GetHeight() const = 0;
 		virtual const std::string& GetTitle() const = 0;
 
-		virtual void* GetProvider() const = 0;
 		static WindowProvider GetProviderName();
+		static void* GetProvider();
+
 	protected:
 
-
 		static WindowProvider wp;
+		static void* provider;
 	};
 }

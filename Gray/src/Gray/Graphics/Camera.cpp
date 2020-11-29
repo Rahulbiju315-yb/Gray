@@ -3,30 +3,23 @@
 
 #include "Camera.h"
 
-#include "Gray/Application.h"
+#include "Gray/Layers/RenderLayer.h"
 
+#include "cmath"
 namespace Gray
 {
-	Camera::Camera(glm::vec3 pos, glm::vec2 dir)
+	Camera::Camera(RenderLayer* renderLayer, glm::vec3 pos, glm::vec2 dir) : 
+	pos(pos), dir(dir), zLim(glm::vec2(0.1f, 100.0f)), view(glm::mat4(1.0f)), 
+	aspectRatio(4.0f / 3.0f), alpha(45.0f), speed(1.0f), sensitivity(1 / 20.f),
+	mX(-1), mY(-1), renderLayer(renderLayer)
+
 	{
-		this->pos = pos;
-		this->dir = dir;
-
-		aspectRatio = 4.0f / 3.0f;
-		zLim = glm::vec2(0.1f, 100.0f);
-
-		speed = 1.0f;
-		sensitivity = 1 / 20.0f;
-
-		SetZoom(45.0f);
-
-		
-		mX = -1;
-		mY = -1;
+		SetZoom(alpha);
 	}
 
 	Camera::~Camera()
 	{
+
 	}
 
 	void Camera::SetAspectRatio(float aspectRatio)
@@ -73,6 +66,12 @@ namespace Gray
 	{
 		this->dir.x += dyaw;
 		this->dir.y += dpitch;
+
+		if (this->dir.y > 90)
+			this->dir.y = 90.0f;
+
+		else if (this->dir.y < -90)
+			this->dir.y = -90.0f; 
 	}
 
 	float Camera::GetSpeed()
@@ -133,8 +132,8 @@ namespace Gray
 		float yaw = glm::radians(dir.x);
 		float pitch = glm::radians(dir.y);
 
-		glm::vec3 x_ = glm::vec3(cos(yaw), sin(pitch), sin(yaw));
-		glm::vec3 z_ = glm::vec3(-sin(yaw), sin(pitch), cos(yaw));
+		glm::vec3 x_ = glm::vec3(cos(yaw), -sin(pitch), sin(yaw));
+		glm::vec3 z_ = glm::vec3(-sin(yaw), -sin(pitch), cos(yaw));
 
 		view = glm::lookAt(pos, pos - z_, Y_AXIS);
 
@@ -143,7 +142,6 @@ namespace Gray
 
 	void Camera::UpdateLook()
 	{
-		const glm::vec2& dir = GetDir();
 		
 		float mXn = Input::GetMouseX();
 		float mYn = Input::GetMouseY();
@@ -156,7 +154,7 @@ namespace Gray
 
 		else
 		{
-			UpdateDir((mXn - mX) * sensitivity , 0.0f);
+			UpdateDir((mXn - mX) * sensitivity , (- mYn + mY) * sensitivity);
 		}
 
 		mX = mXn;
@@ -183,14 +181,14 @@ namespace Gray
 
 	void Camera::Move(float dt)
 	{
-		Application::GetApp()->GetRenderLayer()->SetForEachData((void*)&pos);
+		renderLayer->SetForEachData((void*)&pos);
 
 		static ForEachRenderableFunction changeViewPos = [](Renderable* renderable, void* data)
 		{
 			renderable->GetShader()->SetUniform("viewPos", *(glm::vec3*)data);
 		};
 
-		Application::GetApp()->GetRenderLayer()->ForEach(changeViewPos);
+		renderLayer->ForEach(changeViewPos);
 
 		const glm::vec2& dir = GetDir();
 		const glm::vec3& pos = GetPos();
@@ -200,32 +198,28 @@ namespace Gray
 
 		float k = dt * speed;
 
-		glm::vec3 x_ = k * glm::normalize(glm::vec3(cos(yaw), sin(0), sin(yaw)));
-		glm::vec3 z_ = k * glm::normalize(glm::vec3(-sin(yaw), sin(0), cos(yaw)));
+		glm::vec3 x_ = k * glm::normalize(glm::vec3(cos(yaw), 0, sin(yaw)));
+		glm::vec3 z_ = k * glm::normalize(glm::vec3(-sin(yaw), 0, cos(yaw)));
 
 		if (Gray::Input::IsKeyPressed(TO_INT(Gray::KeyCodes::Key_W)))
 		{
 			SetPos(pos - z_);
-			GRAY_INFO("camera pos = " + std::to_string(pos.x) + ", " + std::to_string(pos.y));
 
 		}
 
 		if (Gray::Input::IsKeyPressed(TO_INT(Gray::KeyCodes::Key_A)))
 		{
 			SetPos(pos - x_);
-			GRAY_INFO("camera pos = " + std::to_string(pos.x) + ", " + std::to_string(pos.y));
 		}
 
 		else if (Gray::Input::IsKeyPressed(TO_INT(Gray::KeyCodes::Key_S)))
 		{
 			SetPos(pos + z_);
-			GRAY_INFO("camera pos = " + std::to_string(pos.x) + ", " + std::to_string(pos.y));
 		}
 
 		else if (Gray::Input::IsKeyPressed(TO_INT(Gray::KeyCodes::Key_D)))
 		{
 			SetPos(pos + x_);
-			GRAY_INFO("camera pos = " + std::to_string(pos.x) + ", " + std::to_string(pos.y));
 		}
 
 		

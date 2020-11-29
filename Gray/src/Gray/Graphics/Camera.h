@@ -1,16 +1,17 @@
 #pragma once
 
 #include "Renderable.h"
-#include "Gray/Layers/RenderLayer.h"
-
 #include "Gray/Events/Input.h"
+
+
 
 namespace Gray
 {
+	class RenderLayer;
 	class Camera : public Renderable
 	{
 	public:
-		Camera(glm::vec3 pos = glm::vec3(0.0f), glm::vec2 dir = glm::vec2(glm::radians(0.0f)));
+		Camera(RenderLayer* renderLayer, glm::vec3 pos = glm::vec3(0.0f), glm::vec2 dir = glm::vec2(glm::radians(0.0f)));
 		~Camera();
 
 		void SetAspectRatio(float aspectRatio);
@@ -46,8 +47,6 @@ namespace Gray
 		void OnImguiRender() override;
 	private:
 
-		
-
 		const glm::mat4 UNIT_MAT4 = glm::mat4(1.0f);
 		const glm::vec3 Y_AXIS = glm::vec3(0.0f, 1.0f, 0.0f);
 		const glm::vec3 X_AXIS = glm::vec3(1.0f, 0.0f, 0.0f);
@@ -59,13 +58,12 @@ namespace Gray
 		glm::mat4 proj;
 		glm::mat4 view;
 
-		float alpha;
 		float aspectRatio;
-
-		float mX, mY;
+		float alpha;
 		float speed;
 		float sensitivity;
+		float mX, mY;
 
-		bool hasPosChanged;
+		RenderLayer* renderLayer;
 	};
 }
