@@ -3,6 +3,10 @@
 #include "RenderLayer.h"
 
 #include "Gray/Graphics/Renderable.h"
+
+#include "Gray/Graphics/Source/CameraSource.h"
+#include "Gray/Graphics/Source/StaticSource.h"
+
 #include "imgui.h"
 
 namespace Gray
@@ -16,10 +20,12 @@ namespace Gray
 		camera(this), data(nullptr)
 	{
 		// -- code that must setup lighting for any given scene
-		lightSources.push_back(std::make_shared<PointLight>(LightColor(), Defaults::ORIGIN));
-		lightSources.push_back(std::make_shared<DirectionalLight>(LightColor(), glm::vec3(1.0f, 0.0f, 0.0f)));
-		lightSources.push_back(std::make_shared<SpotLight>(LightColor(), Defaults::ORIGIN, 
-			glm::vec3(1.0f, 0.0f, 0.0f)));
+		std::shared_ptr<Source> camSource = std::make_shared<CameraSource>(&camera);
+		lightSources.push_back(std::make_shared<PointLight>(LightColor(), camSource));
+
+		lightSources.push_back(std::make_shared<DirectionalLight>(LightColor(), camSource));
+
+		lightSources.push_back(std::make_shared<SpotLight>(LightColor(),camSource));
 		// --
 	}
 

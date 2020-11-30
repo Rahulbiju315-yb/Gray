@@ -14,7 +14,9 @@ namespace Gray
 		window->SetListener(this);
 
 		Application::SetApp(this);
-		Init();
+
+		imguiLayer = new ImguiLayer();
+		imguiLayer->OnAttatch();
 	}
 
 	Application::~Application()
@@ -22,15 +24,6 @@ namespace Gray
 
 	}
 
-	void Application::Init()
-	{
-		imguiLayer = new ImguiLayer();
-		imguiLayer->OnAttatch();
-
-		renderLayer = new RenderLayer();
-		renderLayer->OnAttatch();
-		AddLayer(renderLayer);
-	}
 
 	//---
 	
@@ -48,11 +41,6 @@ namespace Gray
 	bool Application::RemoveLayerAt(int i)
 	{
 		return ls.RemoveLayer(ls.LayerAt(i));
-	}
-
-	RenderLayer* Application::GetRenderLayer()
-	{
-		return renderLayer;
 	}
 
 	//---

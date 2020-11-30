@@ -8,7 +8,7 @@
 namespace Gray
 {
 	class RenderLayer;
-	class Camera : public Renderable
+	class Camera
 	{
 	public:
 		Camera(RenderLayer* renderLayer, glm::vec3 pos = glm::vec3(0.0f), glm::vec2 dir = glm::vec2(glm::radians(0.0f)));
@@ -32,7 +32,9 @@ namespace Gray
 		void SetSensitivity(float sensitivity);
 
 		const glm::vec3& GetPos();
-		const glm::vec2& GetDir();
+		const glm::vec2& GetYawPitch();
+		const glm::vec3& GetDir();
+
 		float GetAspectRatio();
 		const glm::vec2& GetZLimits();
 
@@ -40,11 +42,11 @@ namespace Gray
 		const glm::mat4& GetProjection();
 		const glm::mat4& GetView();
 
-		void OnUpdate(float dt) override;
+		void OnUpdate(float dt);
 		void Move(float dt);
 		void UpdateLook();
 
-		void OnImguiRender() override;
+		void OnImguiRender();
 	private:
 
 		const glm::mat4 UNIT_MAT4 = glm::mat4(1.0f);
@@ -53,7 +55,8 @@ namespace Gray
 		const glm::vec3 Z_AXIS = glm::vec3(0.0f, 0.0f, 1.0f);
 
 		glm::vec3 pos;
-		glm::vec2 dir;
+		glm::vec3 dir;
+		glm::vec2 yawPitch;
 		glm::vec2 zLim;
 		glm::mat4 proj;
 		glm::mat4 view;

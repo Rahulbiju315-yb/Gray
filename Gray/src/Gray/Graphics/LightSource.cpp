@@ -8,8 +8,8 @@ namespace Gray
 	const unsigned int DirectionalLight::MAX_LIMIT = 1;
 	const unsigned int SpotLight::MAX_LIMIT = 4;
 
-	LightSource::LightSource(LightColor color, unsigned int index) : 
-		color(color),
+	LightSource::LightSource(LightColor color, std::shared_ptr<Source> source,unsigned int index) : 
+		color(color), source(source),
 		k0(Defaults::DEFAULT_K0), k1(Defaults::DEFAULT_K1), k2(Defaults::DEFAULT_K2),
 		index(index)
 	{
@@ -27,13 +27,15 @@ namespace Gray
 		this->k2 = k2;
 	}
 
-	PointLight::PointLight(LightColor color, glm::vec3 pos):
-		pos(pos), LightSource(color)
+	PointLight::PointLight(LightColor color, std::shared_ptr<Source> source):
+		LightSource(color, source)
 	{
 	}
 
 	void PointLight::SetUniformFor(Shader* shader)
 	{
+		shader->SetUniform("pointLight[" + std::to_string(index) + "].pos", source->GetPos());
+
 		shader->SetUniform("pointLight[" + std::to_string(index) + "].ambient", color.GetAmbient());
 		shader->SetUniform("pointLight[" + std::to_string(index) + "].diffuse", color.GetDiffuse());
 		shader->SetUniform("pointLight[" + std::to_string(index) + "].specular", color.GetSpecular());
@@ -43,8 +45,8 @@ namespace Gray
 		shader->SetUniform("pointLight[" + std::to_string(index) + "].quad_term", k2);
 	}
 
-	DirectionalLight::DirectionalLight(LightColor color, glm::vec3 dir) :
-		dir(dir), LightSource(color)
+	DirectionalLight::DirectionalLight(LightColor color, std::shared_ptr<Source> source) :
+		LightSource(color, source)
 	{
 	}
 
@@ -53,11 +55,12 @@ namespace Gray
 		shader->SetUniform("dirLight.ambient", color.GetAmbient());
 		shader->SetUniform("dirLight.diffuse", color.GetDiffuse());
 		shader->SetUniform("dirLight.specular", color.GetSpecular());
-		shader->SetUniform("dirLight.dir", dir);
+
+		shader->SetUniform("dirLight.dir", source->GetDir());
 	}
 
-	SpotLight::SpotLight(LightColor color, glm::vec3 pos, glm::vec3 dir, float cutOff, float outerCutOff) :
-		pos(pos), dir(dir), cutOff(cutOff), outerCutOff(outerCutOff), LightSource(color)
+	SpotLight::SpotLight(LightColor color, std::shared_ptr<Source> source, float cutOff, float outerCutOff) :
+		cutOff(cutOff), outerCutOff(outerCutOff), LightSource(color, source)
 	{
 	}
 
@@ -66,8 +69,10 @@ namespace Gray
 		shader->SetUniform("spotLight[" + std::to_string(index) + "].ambient", color.GetAmbient());
 		shader->SetUniform("spotLight[" + std::to_string(index) + "].diffuse", color.GetDiffuse());
 		shader->SetUniform("spotLight[" + std::to_string(index) + "].specular", color.GetSpecular());
-		shader->SetUniform("spotLight[" + std::to_string(index) + "].dir", dir);
-		shader->SetUniform("spotLight[" + std::to_string(index) + "].pos", pos);
+
+		shader->SetUniform("spotLight[" + std::to_string(index) + "].dir", source->GetDir());
+		shader->SetUniform("spotLight[" + std::to_string(index) + "].pos", source->GetPos());
+
 		shader->SetUniform("spotLight[" + std::to_string(index) + "].cutOff", cutOff);
 		shader->SetUniform("spotLight[" + std::to_string(index) + "].outerCutOff", outerCutOff);
 

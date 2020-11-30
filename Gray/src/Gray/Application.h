@@ -19,12 +19,10 @@ namespace Gray
 		Application();
 		~Application();
 
-		virtual void Init();
+		virtual void Init() = 0;
 		void AddLayer(Layer* l);
 		bool RemoveLayer(Layer* l);
 		bool RemoveLayerAt(int i);
-
-		RenderLayer* GetRenderLayer();
 
 		void Run();
 		unsigned int GetWidth();
@@ -45,7 +43,6 @@ namespace Gray
 		void Clear();
 
 		Window *window;
-		RenderLayer* renderLayer;
 		ImguiLayer *imguiLayer;
 		LayerStack ls;
 

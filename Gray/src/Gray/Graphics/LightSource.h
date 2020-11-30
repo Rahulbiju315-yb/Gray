@@ -3,13 +3,14 @@
 #include "glm/glm.hpp"
 #include "LightColor.h"
 #include "Platform/Opengl/Shader.h"
+#include "Source/Source.h"
 
 namespace Gray
 {
 	class LightSource
 	{
 	public:
-		LightSource(LightColor color, unsigned int index=0);
+		LightSource(LightColor color, std::shared_ptr<Source> source, unsigned int index=0);
 		virtual void SetUniformFor(Shader* shader) = 0;
 
 		std::tuple<float, float, float> GetAttenuation();
@@ -18,6 +19,7 @@ namespace Gray
 	protected:
 
 		LightColor color;
+		std::shared_ptr<Source> source;
 		unsigned int index;
 		float k0, k1, k2;
 	};
@@ -29,12 +31,11 @@ namespace Gray
 	public:
 		static const unsigned int MAX_LIMIT;
 
-		PointLight(LightColor color, glm::vec3 pos);
+		PointLight(LightColor color, std::shared_ptr<Source> source);
 		void SetUniformFor(Shader* shader) override;
 
 	private:
 
-		glm::vec3 pos;
 	};
 
 
@@ -44,12 +45,11 @@ namespace Gray
 	public:
 		static const unsigned int MAX_LIMIT;
 
-		DirectionalLight(LightColor color, glm::vec3 dir);
+		DirectionalLight(LightColor color, std::shared_ptr<Source> source);
 		void SetUniformFor(Shader* shader) override;
 
 	private:
 
-		glm::vec3 dir;
 	};
 
 
@@ -59,16 +59,14 @@ namespace Gray
 	public:
 		static const unsigned int MAX_LIMIT;
 
-		SpotLight(LightColor color, glm::vec3 pos, glm::vec3 dir,
-			float cutOff=glm::cos(glm::radians(45.0f)),
-			float outerCutOff=glm::cos(glm::radians(50.0f)));
+		SpotLight(LightColor color, std::shared_ptr<Source> source,
+			float cutOff=glm::cos(glm::radians(12.0f)),
+			float outerCutOff=glm::cos(glm::radians(17.0f)));
 
 		void SetUniformFor(Shader* shader) override;
 		
 	private:
 
-		glm::vec3 pos;
-		glm::vec3 dir;
 		float cutOff;
 		float outerCutOff;
 	};

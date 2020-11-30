@@ -150,6 +150,9 @@
     </ClInclude>
     <ClInclude Include="src\grpch.h" />
     <ClInclude Include="src\Gray\Graphics\LightSource.h" />
+    <ClInclude Include="src\Gray\Graphics\Source\Source.h" />
+    <ClInclude Include="src\Gray\Graphics\Source\StaticSource.h" />
+    <ClInclude Include="src\Gray\Graphics\Source\CameraSource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -221,5 +224,11 @@
     <ClCompile Include="src\grpch.cpp" />
     <ClCompile Include="src\Gray\Graphics\Renderable.cpp" />
     <ClCompile Include="src\Gray\Graphics\LightSource.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Source\StaticSource.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Source\CameraSource.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

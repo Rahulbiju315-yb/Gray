@@ -42,26 +42,28 @@ public:
 			if (cursorEn)
 			{
 				Gray::TempUtil::EnableCursor();
-				renderLayer->SetCameraLookAroundEnabled(false);
-				renderLayer->SetCameraMovementEnabled(false);
+				renderLayer.SetCameraLookAroundEnabled(false);
+				renderLayer.SetCameraMovementEnabled(false);
 			}
 			else
 			{
 				Gray::TempUtil::DisableCursor();
-				renderLayer->SetCameraLookAroundEnabled(true);
-				renderLayer->SetCameraMovementEnabled(true);
+				renderLayer.SetCameraLookAroundEnabled(true);
+				renderLayer.SetCameraMovementEnabled(true);
 			}
 		};
 	}
 
 	void Init() override
 	{
+		AddLayer(&renderLayer);
 		Test::TestManyCubes tmc(100, 10.0f);
-		tmc.OnInit(renderLayer);
+		tmc.OnInit(&renderLayer);
 	}
 
 private:
 	bool cursorEn;
+	Gray::RenderLayer renderLayer;
 };
 
 Gray::Application* Gray::CreateApplication()

@@ -167,6 +167,9 @@
     <ClInclude Include="src\Gray\Graphics\LightSource.h" />
     <ClInclude Include="src\Gray\Graphics\Materials.h" />
     <ClInclude Include="src\Gray\Graphics\Renderable.h" />
+    <ClInclude Include="src\Gray\Graphics\Source\CameraSource.h" />
+    <ClInclude Include="src\Gray\Graphics\Source\Source.h" />
+    <ClInclude Include="src\Gray\Graphics\Source\StaticSource.h" />
     <ClInclude Include="src\Gray\Layers\ImguiLayer.h" />
     <ClInclude Include="src\Gray\Layers\Layer.h" />
     <ClInclude Include="src\Gray\Layers\LayerStack.h" />
@@ -197,6 +200,8 @@
     <ClCompile Include="src\Gray\Graphics\Defaults.cpp" />
     <ClCompile Include="src\Gray\Graphics\LightSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Renderable.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Source\CameraSource.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Source\StaticSource.cpp" />
     <ClCompile Include="src\Gray\Layers\ImguiLayer.cpp" />
     <ClCompile Include="src\Gray\Layers\Layer.cpp" />
     <ClCompile Include="src\Gray\Layers\LayerStack.cpp" />
@@ -226,6 +231,10 @@
     <ProjectReference Include="vendor\imguiFileChooser\imguiFileChooser.vcxproj">
       <Project>{13346F10-FF2C-8E62-285F-73E714B76D6E}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,8 +8,8 @@
 #include "cmath"
 namespace Gray
 {
-	Camera::Camera(RenderLayer* renderLayer, glm::vec3 pos, glm::vec2 dir) : 
-	pos(pos), dir(dir), zLim(glm::vec2(0.1f, 100.0f)), view(glm::mat4(1.0f)), 
+	Camera::Camera(RenderLayer* renderLayer, glm::vec3 pos, glm::vec2 yawPitch) : 
+	pos(pos), yawPitch(yawPitch), zLim(glm::vec2(0.1f, 100.0f)), view(glm::mat4(1.0f)), 
 	aspectRatio(4.0f / 3.0f), alpha(45.0f), speed(1.0f), sensitivity(1 / 20.f),
 	mX(-1), mY(-1), renderLayer(renderLayer)
 
@@ -51,27 +51,32 @@ namespace Gray
 		this->pos.z += dz;
 	}
 
-	void Camera::SetDir(glm::vec2 dir)
+	void Camera::SetDir(glm::vec2 yawPitch)
 	{
-		this->dir = dir;
+		this->yawPitch = yawPitch;
 	}
 
 	void Camera::SetDir(float yaw, float pitch)
 	{
-		this->dir.x = yaw;
-		this->dir.y = pitch;
+		this->yawPitch.x = yaw;
+		this->yawPitch.y = pitch;
 	}
 
 	void Camera::UpdateDir(float dyaw, float dpitch)
 	{
-		this->dir.x += dyaw;
-		this->dir.y += dpitch;
+		this->yawPitch.x += dyaw;
+		this->yawPitch.y += dpitch;
 
-		if (this->dir.y > 90)
-			this->dir.y = 90.0f;
+		if (this->yawPitch.y > 90)
+			this->yawPitch.y = 90.0f;
 
-		else if (this->dir.y < -90)
-			this->dir.y = -90.0f; 
+		else if (this->yawPitch.y < -90)
+			this->yawPitch.y = -90.0f; 
+
+		float yaw = glm::radians(yawPitch.x);
+		float pitch = glm::radians(yawPitch.y);
+
+		dir = -glm::vec3(-sin(yaw), -sin(pitch), cos(yaw));
 	}
 
 	float Camera::GetSpeed()
@@ -99,7 +104,12 @@ namespace Gray
 		return pos;
 	}
 
-	const glm::vec2& Camera::GetDir()
+	const glm::vec2& Camera::GetYawPitch()
+	{
+		return yawPitch;
+	}
+
+	const glm::vec3& Camera::GetDir()
 	{
 		return dir;
 	}
@@ -129,8 +139,8 @@ namespace Gray
 	const glm::mat4& Camera::GetView()
 	{
 
-		float yaw = glm::radians(dir.x);
-		float pitch = glm::radians(dir.y);
+		float yaw = glm::radians(yawPitch.x);
+		float pitch = glm::radians(yawPitch.y);
 
 		glm::vec3 x_ = glm::vec3(cos(yaw), -sin(pitch), sin(yaw));
 		glm::vec3 z_ = glm::vec3(-sin(yaw), -sin(pitch), cos(yaw));
@@ -165,10 +175,10 @@ namespace Gray
 	void Camera::OnImguiRender()
 	{
 		glm::vec3 pos = GetPos();
-		glm::vec2 dir = GetDir();
+		glm::vec2 yawPitch = GetYawPitch();
 
 		std::string cPos = "Pos : " + std::to_string(pos.x) + ", " + std::to_string(pos.y);
-		std::string cDir = "Dir (yaw, pitch) : " + std::to_string(dir.x) + ", " + std::to_string(pos.y);
+		std::string cDir = "Dir (yaw, pitch) : " + std::to_string(yawPitch.x) + ", " + std::to_string(pos.y);
 
 		ImGui::Text(cPos.c_str());
 		ImGui::Text(cDir.c_str());
@@ -190,11 +200,11 @@ namespace Gray
 
 		renderLayer->ForEach(changeViewPos);
 
-		const glm::vec2& dir = GetDir();
+		const glm::vec2& yawPitch = GetYawPitch();
 		const glm::vec3& pos = GetPos();
 
-		float yaw = glm::radians(dir.x);
-		float pitch = glm::radians(dir.y);
+		float yaw = glm::radians(yawPitch.x);
+		float pitch = glm::radians(yawPitch.y);
 
 		float k = dt * speed;
 
