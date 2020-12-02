@@ -8,10 +8,11 @@ namespace Gray
 	const unsigned int DirectionalLight::MAX_LIMIT = 1;
 	const unsigned int SpotLight::MAX_LIMIT = 4;
 
-	LightSource::LightSource(LightColor color, std::shared_ptr<Source> source,unsigned int index) : 
+	
+	LightSource::LightSource(LightType type,LightColor color, std::shared_ptr<Source> source) : 
 		color(color), source(source),
 		k0(Defaults::DEFAULT_K0), k1(Defaults::DEFAULT_K1), k2(Defaults::DEFAULT_K2),
-		index(index)
+		index(0), type(type)
 	{
 	}
 
@@ -27,58 +28,77 @@ namespace Gray
 		this->k2 = k2;
 	}
 
+	void LightSource::SetIndex(unsigned int index)
+	{
+		this->index = index;
+	}
+
+	unsigned int LightSource::GetIndex()
+	{
+		return index;
+	}
+
+	LightType LightSource::GetType() { return type; }
+
 	PointLight::PointLight(LightColor color, std::shared_ptr<Source> source):
-		LightSource(color, source)
+		LightSource(LightType::PointLight, color, source)
 	{
 	}
 
-	void PointLight::SetUniformFor(Shader* shader)
+	void PointLight::SetUniformsFor(Shader* shader)
 	{
-		shader->SetUniform("pointLight[" + std::to_string(index) + "].pos", source->GetPos());
+		std::string prefix = "pointLight[" + std::to_string(this->index) + "].";
+	
+		shader->SetUniform(prefix + "pos", source->GetPos());
 
-		shader->SetUniform("pointLight[" + std::to_string(index) + "].ambient", color.GetAmbient());
-		shader->SetUniform("pointLight[" + std::to_string(index) + "].diffuse", color.GetDiffuse());
-		shader->SetUniform("pointLight[" + std::to_string(index) + "].specular", color.GetSpecular());
-
-		shader->SetUniform("pointLight[" + std::to_string(index) + "].const_term", k0);
-		shader->SetUniform("pointLight[" + std::to_string(index) + "].lin_term", k1);
-		shader->SetUniform("pointLight[" + std::to_string(index) + "].quad_term", k2);
+		shader->SetUniform(prefix + "ambient", color.GetAmbient());
+		shader->SetUniform(prefix + "diffuse", color.GetDiffuse());
+		shader->SetUniform(prefix + "specular", color.GetSpecular());
+						  
+		shader->SetUniform(prefix + "const_term", k0);
+		shader->SetUniform(prefix + "lin_term", k1);
+		shader->SetUniform(prefix + "quad_term", k2);
 	}
 
 	DirectionalLight::DirectionalLight(LightColor color, std::shared_ptr<Source> source) :
-		LightSource(color, source)
+		LightSource(LightType::DirectionalLight, color, source)
 	{
 	}
 
-	void DirectionalLight::SetUniformFor(Shader* shader)
+	void DirectionalLight::SetUniformsFor(Shader* shader)
 	{
-		shader->SetUniform("dirLight.ambient", color.GetAmbient());
-		shader->SetUniform("dirLight.diffuse", color.GetDiffuse());
-		shader->SetUniform("dirLight.specular", color.GetSpecular());
+		std::string prefix = "DirectionalLight[" + std::to_string(this->index) + "].";
 
-		shader->SetUniform("dirLight.dir", source->GetDir());
+		shader->SetUniform(prefix + "ambient", color.GetAmbient());
+		shader->SetUniform(prefix + "diffuse", color.GetDiffuse());
+		shader->SetUniform(prefix + "specular", color.GetSpecular());
+							
+		shader->SetUniform(prefix + "dir", source->GetDir());
 	}
 
 	SpotLight::SpotLight(LightColor color, std::shared_ptr<Source> source, float cutOff, float outerCutOff) :
-		cutOff(cutOff), outerCutOff(outerCutOff), LightSource(color, source)
+		cutOff(cutOff), outerCutOff(outerCutOff), 
+		LightSource(LightType::SpotLight, color, source)
 	{
 	}
 
-	void SpotLight::SetUniformFor(Shader* shader)
+	void SpotLight::SetUniformsFor(Shader* shader)
 	{
-		shader->SetUniform("spotLight[" + std::to_string(index) + "].ambient", color.GetAmbient());
-		shader->SetUniform("spotLight[" + std::to_string(index) + "].diffuse", color.GetDiffuse());
-		shader->SetUniform("spotLight[" + std::to_string(index) + "].specular", color.GetSpecular());
+		std::string prefix = "spotLight[" + std::to_string(this->index) + "].";
 
-		shader->SetUniform("spotLight[" + std::to_string(index) + "].dir", source->GetDir());
-		shader->SetUniform("spotLight[" + std::to_string(index) + "].pos", source->GetPos());
-
-		shader->SetUniform("spotLight[" + std::to_string(index) + "].cutOff", cutOff);
-		shader->SetUniform("spotLight[" + std::to_string(index) + "].outerCutOff", outerCutOff);
-
-		shader->SetUniform("spotLight[" + std::to_string(index) + "].const_term", k0);
-		shader->SetUniform("spotLight[" + std::to_string(index) + "].lin_term", k1);
-		shader->SetUniform("spotLight[" + std::to_string(index) + "].quad_term", k2);
+		shader->SetUniform(prefix + "ambient", color.GetAmbient());
+		shader->SetUniform(prefix + "diffuse", color.GetDiffuse());
+		shader->SetUniform(prefix + "specular", color.GetSpecular());
+							
+		shader->SetUniform(prefix + "dir", source->GetDir());
+		shader->SetUniform(prefix + "pos", source->GetPos());
+							
+		shader->SetUniform(prefix + "cutOff", cutOff);
+		shader->SetUniform(prefix + "outerCutOff", outerCutOff);
+							
+		shader->SetUniform(prefix + "const_term", k0);
+		shader->SetUniform(prefix + "lin_term", k1);
+		shader->SetUniform(prefix + "quad_term", k2);
 	}
 	
 }

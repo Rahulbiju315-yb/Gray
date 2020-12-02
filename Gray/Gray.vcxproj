@@ -164,11 +164,15 @@
     <ClInclude Include="src\Gray\Graphics\DebugCube.h" />
     <ClInclude Include="src\Gray\Graphics\Defaults.h" />
     <ClInclude Include="src\Gray\Graphics\LightColor.h" />
+    <ClInclude Include="src\Gray\Graphics\LightingManager.h" />
     <ClInclude Include="src\Gray\Graphics\LightSource.h" />
     <ClInclude Include="src\Gray\Graphics\Materials.h" />
     <ClInclude Include="src\Gray\Graphics\Renderable.h" />
+    <ClInclude Include="src\Gray\Graphics\RenderList.h" />
+    <ClInclude Include="src\Gray\Graphics\Scene.h" />
     <ClInclude Include="src\Gray\Graphics\Source\CameraSource.h" />
     <ClInclude Include="src\Gray\Graphics\Source\Source.h" />
+    <ClInclude Include="src\Gray\Graphics\Source\SourceFactory.h" />
     <ClInclude Include="src\Gray\Graphics\Source\StaticSource.h" />
     <ClInclude Include="src\Gray\Layers\ImguiLayer.h" />
     <ClInclude Include="src\Gray\Layers\Layer.h" />
@@ -198,9 +202,13 @@
     <ClCompile Include="src\Gray\Graphics\Debug.cpp" />
     <ClCompile Include="src\Gray\Graphics\DebugCube.cpp" />
     <ClCompile Include="src\Gray\Graphics\Defaults.cpp" />
+    <ClCompile Include="src\Gray\Graphics\LightingManager.cpp" />
     <ClCompile Include="src\Gray\Graphics\LightSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Renderable.cpp" />
+    <ClCompile Include="src\Gray\Graphics\RenderList.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Scene.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\CameraSource.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Source\SourceFactory.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\StaticSource.cpp" />
     <ClCompile Include="src\Gray\Layers\ImguiLayer.cpp" />
     <ClCompile Include="src\Gray\Layers\Layer.cpp" />
@@ -234,7 +242,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

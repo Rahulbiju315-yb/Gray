@@ -153,6 +153,10 @@
     <ClInclude Include="src\Gray\Graphics\Source\Source.h" />
     <ClInclude Include="src\Gray\Graphics\Source\StaticSource.h" />
     <ClInclude Include="src\Gray\Graphics\Source\CameraSource.h" />
+    <ClInclude Include="src\Gray\Graphics\Scene.h" />
+    <ClInclude Include="src\Gray\Graphics\LightingManager.h" />
+    <ClInclude Include="src\Gray\Graphics\RenderList.h" />
+    <ClInclude Include="src\Gray\Graphics\Source\SourceFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -226,9 +230,12 @@
     <ClCompile Include="src\Gray\Graphics\LightSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\StaticSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\CameraSource.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Scene.cpp" />
+    <ClCompile Include="src\Gray\Graphics\LightingManager.cpp" />
+    <ClCompile Include="src\Gray\Graphics\RenderList.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Source\SourceFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

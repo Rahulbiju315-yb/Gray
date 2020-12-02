@@ -38,18 +38,21 @@ public:
 	{
 		if (e.GetKeyCode() == TO_INT(Gray::KeyCodes::Key_T))
 		{
-			cursorEn = !cursorEn;
-			if (cursorEn)
+			if (scene)
 			{
-				Gray::TempUtil::EnableCursor();
-				renderLayer.SetCameraLookAroundEnabled(false);
-				renderLayer.SetCameraMovementEnabled(false);
-			}
-			else
-			{
-				Gray::TempUtil::DisableCursor();
-				renderLayer.SetCameraLookAroundEnabled(true);
-				renderLayer.SetCameraMovementEnabled(true);
+				cursorEn = !cursorEn;
+				if (cursorEn)
+				{
+					Gray::TempUtil::EnableCursor();
+					scene->GetCamera()->SetLookAroundEnabled(false);
+					scene->GetCamera()->SetMoveEnabled(false);
+				}
+				else
+				{
+					Gray::TempUtil::DisableCursor();
+					scene->GetCamera()->SetLookAroundEnabled(true);
+					scene->GetCamera()->SetMoveEnabled(true);
+				}
 			}
 		};
 	}
@@ -58,12 +61,14 @@ public:
 	{
 		AddLayer(&renderLayer);
 		Test::TestManyCubes tmc(100, 10.0f);
-		tmc.OnInit(&renderLayer);
+		scene = tmc.OnInit(&renderLayer);
 	}
 
 private:
 	bool cursorEn;
 	Gray::RenderLayer renderLayer;
+	std::shared_ptr<Gray::Scene> scene;
+
 };
 
 Gray::Application* Gray::CreateApplication()

@@ -24,6 +24,21 @@ namespace Gray
 		//model = glm::scale(glm::translate(UNIT_MAT4, pos), scale);
 	}
 	
+	const glm::vec3& Renderable::GetDir()
+	{
+		return glm::vec3(0);
+	}
+
+	void Renderable::SetYawPitch(glm::vec2 yawPitch)
+	{
+		this->yawPitch = yawPitch;
+
+		float yaw = glm::radians(yawPitch.x);
+		float pitch = glm::radians(yawPitch.y);
+
+		dir = glm::vec3(0);
+	}
+
 	const Renderer* Renderable::GetRenderer() { return &renderer; }
 
 	void Renderable::SetMaterial(Material material) { this->material = material; }

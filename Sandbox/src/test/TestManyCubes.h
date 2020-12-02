@@ -3,6 +3,9 @@
 #include "Test.h"
 #include "Gray/Graphics/Materials.h"
 #include "Platform/Opengl/Texture.h"
+#include "Gray/Graphics/Scene.h"
+#include "Gray/Graphics/LightSource.h"
+#include "Gray/Graphics/Source/SourceFactory.h"
 
 namespace Test
 {
@@ -15,8 +18,10 @@ namespace Test
 			
 		}
 
-		void OnInit(Gray::RenderLayer* renderLayer) override
+		std::shared_ptr<Gray::Scene> OnInit(Gray::RenderLayer* renderLayer) override
 		{
+			std::shared_ptr<Gray::Scene> scene = std::make_shared<Gray::Scene>();
+
 			std::shared_ptr<Gray::DebugCube> dbcRoot = std::make_shared<Gray::DebugCube>(true);
 			dbcRoot->SetRenderEnabled(false);
 
@@ -43,13 +48,20 @@ namespace Test
 
 				dbc->SetPos(glm::vec3(x, y, z));
 
-				renderLayer->AddRenderable(std::move(dbc));
-				
+				scene->Add(std::move(dbc));
 			}
 			
-			GRAY_INFO("Size :" + std::to_string(sizeof(std::tuple<float, float, float>)));
-			renderLayer->SetCameraMovementEnabled(true);
-			renderLayer->SetCameraPos(glm::vec3(0.0f, 0.0f, 3.0f));
+			scene->Add(std::make_shared<Gray::PointLight>(Gray::LightColor(),
+				Gray::SourceFactory::CreateSource(scene->GetCamera())));
+
+			scene->Add(std::make_shared<Gray::PointLight>(Gray::LightColor(),
+				Gray::SourceFactory::CreateSource(Gray::Defaults::ORIGIN)));
+
+			scene->GetCamera()->SetMoveEnabled(true);
+			scene->GetCamera()->SetPos(glm::vec3(0.0f, 0.0f, 3.0f));
+
+			renderLayer->SetScene(scene);
+			return scene;
 		}
 
 	private:

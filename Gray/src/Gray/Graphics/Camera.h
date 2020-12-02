@@ -2,16 +2,16 @@
 
 #include "Renderable.h"
 #include "Gray/Events/Input.h"
-
-
+#include "Gray/Events/KeyCodes.h"
 
 namespace Gray
 {
-	class RenderLayer;
+	class Scene;
 	class Camera
 	{
 	public:
-		Camera(RenderLayer* renderLayer, glm::vec3 pos = glm::vec3(0.0f), glm::vec2 dir = glm::vec2(glm::radians(0.0f)));
+		Camera(Scene* scene, glm::vec3 pos = glm::vec3(0.0f), glm::vec2 dir = glm::vec2(90.0f,
+			0.0f));
 		~Camera();
 
 		void SetAspectRatio(float aspectRatio);
@@ -27,10 +27,14 @@ namespace Gray
 		
 		float GetSpeed();
 		float GetSensitivity();
+		bool GetMoveEnabled();
+		bool GetLookAroundEnabled();
 
 		void SetSpeed(float speed);
 		void SetSensitivity(float sensitivity);
-
+		void SetMoveEnabled(bool en);
+		void SetLookAroundEnabled(bool en);
+	
 		const glm::vec3& GetPos();
 		const glm::vec2& GetYawPitch();
 		const glm::vec3& GetDir();
@@ -47,6 +51,8 @@ namespace Gray
 		void UpdateLook();
 
 		void OnImguiRender();
+
+		void SetViewUniformsFor(Shader* shader);
 	private:
 
 		const glm::mat4 UNIT_MAT4 = glm::mat4(1.0f);
@@ -67,6 +73,8 @@ namespace Gray
 		float sensitivity;
 		float mX, mY;
 
-		RenderLayer* renderLayer;
+		bool camMoveEn;
+		bool camLookAroundEn;
+		Scene* scene;
 	};
 }

@@ -30,6 +30,7 @@ void main()
 
 #define NR_SPOT_LIGHTS 4
 #define NR_POINT_LIGHTS 10
+#define NR_DIRECTIONAL_LIGHTS 1
 
 in vec2 TexCoord;
 in vec3 Normal;
@@ -92,7 +93,11 @@ struct SpotLight
 
 uniform PointLight pointLight[NR_POINT_LIGHTS];
 uniform SpotLight spotLight[NR_SPOT_LIGHTS];
-uniform DirectionalLight dirLight;
+uniform DirectionalLight dirLight[NR_DIRECTIONAL_LIGHTS];
+
+uniform int nrOfPointLights;
+uniform int nrOfSpotLights;
+uniform int nrOfDirectionalLights;
 
 vec3 CalcPointLight(PointLight source, vec3 normal, vec3 viewDir)
 {
@@ -170,16 +175,16 @@ void main()
 	vec3 viewDir = normalize(viewPos - FragPos);
 
 	vec3 lighting;
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < nrOfPointLights; i++)
 		lighting += CalcPointLight(pointLight[i], norm, viewDir);
 	
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < nrOfSpotLights; i++)
 		lighting += CalcSpotLight(spotLight[i], norm, viewDir);
 
-	lighting += CalcDirectionalLight(dirLight, norm, viewDir);
+	for (int i = 0; i < nrOfDirectionalLights; i++)
+		lighting += CalcDirectionalLight(dirLight[i], norm, viewDir);
 
 	vec3 emission = vec3(texture(material.emission, TexCoord));
 
 	FragColor = vec4(emission + lighting, 1.0f);
-	//FragColor = vec4(1.0f);
 }

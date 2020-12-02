@@ -18,10 +18,8 @@
 
 namespace Gray
 {
-
 	class Renderable;
 	class Debug;
-	class PointLightSource;
 
 	class Debug
 	{
@@ -49,6 +47,9 @@ namespace Gray
 		const glm::vec3& GetPos();
 		void SetPos(glm::vec3 pos);
 
+		const glm::vec3& GetDir();
+		void SetYawPitch(glm::vec2 yawPitch);
+
 		static const Renderer* GetRenderer();
 
 		void SetMaterial(Material material);
@@ -71,6 +72,8 @@ namespace Gray
 
 		glm::vec3 scale;
 		glm::vec3 pos;
+		glm::vec2 yawPitch;
+		glm::vec2 dir;
 
 		bool isRenderEnabled;
 
@@ -78,5 +81,6 @@ namespace Gray
 		void SetMaterialUniforms();
 
 	};
+	typedef std::shared_ptr<Renderable> SharedRenderable;
 
 }
