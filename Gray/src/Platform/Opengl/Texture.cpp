@@ -39,7 +39,6 @@ namespace Gray
 		unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, STBI_rgb_alpha);
 		if (data)
 		{
-			//glPixelStorei(GL_UNPACK_ALIGNMENT, 2);
 			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, externalFormat, GL_UNSIGNED_BYTE, data);
 			glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -53,7 +52,7 @@ namespace Gray
 		stbi_image_free(data);
 	}
 
-	void Texture::Bind(int slot) 
+	void Texture::Bind(int slot)  const
 	{
 		if (hasLoaded && (!isBound || slot != this->slot))
 		{
@@ -65,7 +64,7 @@ namespace Gray
 		}
 	}
 
-	void Texture::Unbind(int slot)
+	void Texture::Unbind(int slot) const
 	{
 		if (hasLoaded && isBound)
 		{
@@ -77,7 +76,7 @@ namespace Gray
 		}
 	}
 
-	int Texture::GetSlot()
+	int Texture::GetSlot() const
 	{
 		return slot;
 	}

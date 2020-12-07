@@ -21,10 +21,10 @@ namespace Gray
 			this->shininess = shininess;
 		}
 
-		Texture* GetEmission() { return &emission; }
-		Texture* GetDiffuse() { return &diffuse; }
-		Texture* GetSpecular() { return &specular; }
-		const float GetShininess() { return shininess; }
+		const Texture* GetEmission() const { return &emission; }
+		const Texture* GetDiffuse() const { return &diffuse; }
+		const Texture* GetSpecular() const { return &specular; }
+		const float GetShininess() const { return shininess; }
 
 		void SetEmission(Texture emission) { this->emission = emission; }
 		void SetDiffuse(Texture diffuse) { this->diffuse = diffuse; }

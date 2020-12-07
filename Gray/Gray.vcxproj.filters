@@ -85,9 +85,6 @@
     <ClInclude Include="src\Gray\Graphics\Defaults.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\LightColor.h">
-      <Filter>Gray\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Materials.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
@@ -149,7 +146,6 @@
       <Filter>Platform\Opengl\test</Filter>
     </ClInclude>
     <ClInclude Include="src\grpch.h" />
-    <ClInclude Include="src\Gray\Graphics\LightSource.h" />
     <ClInclude Include="src\Gray\Graphics\Source\Source.h" />
     <ClInclude Include="src\Gray\Graphics\Source\StaticSource.h" />
     <ClInclude Include="src\Gray\Graphics\Source\CameraSource.h" />
@@ -157,6 +153,19 @@
     <ClInclude Include="src\Gray\Graphics\LightingManager.h" />
     <ClInclude Include="src\Gray\Graphics\RenderList.h" />
     <ClInclude Include="src\Gray\Graphics\Source\SourceFactory.h" />
+    <ClInclude Include="src\Gray\Graphics\Source\RenderableSource.h" />
+    <ClInclude Include="src\Gray\Graphics\Light\LightSource.h" />
+    <ClInclude Include="src\Gray\Graphics\Light\LightColor.h">
+      <Filter>Gray\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Light\PointLight.h" />
+    <ClInclude Include="src\Gray\Graphics\Light\DirectionalLight.h" />
+    <ClInclude Include="src\Gray\Graphics\Light\SpotLight.h" />
+    <ClInclude Include="src\Gray\Graphics\Uniforms\UniformManager.h" />
+    <ClInclude Include="src\Gray\Graphics\Uniforms\MaterialUM.h" />
+    <ClInclude Include="src\Gray\Graphics\Uniforms\ModelUM.h" />
+    <ClInclude Include="src\Gray\Graphics\Uniforms\ModelUMFactory.h" />
+    <ClInclude Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -169,9 +178,6 @@
       <Filter>Gray\Events</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Camera.cpp">
-      <Filter>Gray\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Debug.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\DebugCube.cpp">
@@ -227,13 +233,21 @@
     </ClCompile>
     <ClCompile Include="src\grpch.cpp" />
     <ClCompile Include="src\Gray\Graphics\Renderable.cpp" />
-    <ClCompile Include="src\Gray\Graphics\LightSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\StaticSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\CameraSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Scene.cpp" />
     <ClCompile Include="src\Gray\Graphics\LightingManager.cpp" />
     <ClCompile Include="src\Gray\Graphics\RenderList.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\SourceFactory.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Source\RenderableSource.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Light\LightSource.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Light\PointLight.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Light\DirectionalLight.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Light\SpotLight.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Uniforms\MaterialUM.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Uniforms\ModelUM.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Uniforms\ModelUMFactory.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

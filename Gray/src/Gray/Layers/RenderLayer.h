@@ -4,7 +4,7 @@
 
 #include "Gray/Graphics/Renderable.h"
 #include "Gray/Graphics/Camera.h"
-#include "Gray/Graphics/LightSource.h"
+#include "Gray/Graphics/Light/LightSource.h"
 #include "Gray/Graphics/Scene.h"
 
 //Layer for debug purposes.

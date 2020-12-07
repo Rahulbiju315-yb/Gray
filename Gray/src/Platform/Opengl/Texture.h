@@ -9,19 +9,20 @@ namespace Gray
 	{
 	private:
 		unsigned int ID;
-		int slot;
+		
+		mutable int slot;
+		mutable bool isBound;
 
 		bool hasLoaded;
-		bool isBound;
 
 	public:
 		Texture();
 		Texture(const std::string& path, int internalFormat = GL_RGBA, int externalFormat = GL_RGBA);
 		
 		void LoadTexture(const std::string& path, int internalFormat = GL_RGBA, int externalFormat = GL_RGBA);
-		void Bind(int slot = 0) ;
-		void Unbind(int slot = 0) ;
+		void Bind(int slot = 0) const;
+		void Unbind(int slot = 0) const;
 
-		int GetSlot();
+		int GetSlot() const;
 	};
 }

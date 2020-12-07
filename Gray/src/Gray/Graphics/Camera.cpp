@@ -1,4 +1,3 @@
-
 #include "grpch.h"
 
 #include "Camera.h"

@@ -3,6 +3,9 @@
 
 namespace Gray
 {
+	LightingManager::LightingManager() : countPointLights(0), countDirLights(0), countSpotLights(0)
+	{
+	}
 	void LightingManager::AddLight(SharedLightSource light)
 	{
 		lightSources.push_back(light);

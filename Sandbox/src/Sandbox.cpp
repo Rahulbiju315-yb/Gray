@@ -16,9 +16,11 @@
 #include "Gray/Events/KeyCodes.h"
 
 #include "test/TestManyCubes.h"
+#include "test/TestMemory.h"
 
 #define RAND_FLOAT (float)rand() / RAND_MAX
 
+// TO - DO  -> LightSource from inheritance to composition
 
 class Sandbox : public Gray::Application
 {
@@ -59,8 +61,8 @@ public:
 
 	void Init() override
 	{
-		AddLayer(&renderLayer);
-		Test::TestManyCubes tmc(100, 10.0f);
+		/*AddLayer(&renderLayer);*/
+		Test::TestManyCubes tmc(10000, 50.0f);
 		scene = tmc.OnInit(&renderLayer);
 	}
 

@@ -1,12 +1,14 @@
 #pragma once
 
-#include "LightSource.h"
+#include "Light/LightSource.h"
 
 namespace Gray
 {
 	class LightingManager
 	{
 	public:
+		LightingManager();
+
 		void AddLight(SharedLightSource light);
 		bool RemoveLight(SharedLightSource light);
 

@@ -11,7 +11,7 @@
 namespace Gray
 {
 
-	unsigned int Shader::boundShaderID = 0;
+	unsigned int boundShaderID = 0;
 
 	bool LoadShaderProgram(std::string& vertexSource, std::string& fragmentSource, const std::string& file)
 	{
@@ -138,37 +138,37 @@ namespace Gray
 		boundShaderID = 0;
 	}
 
-	void Shader::SetUniform(const std::string& name, int i)
+	void Shader::SetUniform(const std::string& name, int i) const 
 	{
 		Bind();
 		glUniform1i(GetUniformLocation(name.c_str()), i);
 	}
 
-	void Shader::SetUniform(const std::string& name, float f)
+	void Shader::SetUniform(const std::string& name, float f) const
 	{
 		Bind();
 		glUniform1f(GetUniformLocation(name.c_str()), f);
 	}
 
-	void Shader::SetUniform(const std::string& name, const glm::vec2& v2)
+	void Shader::SetUniform(const std::string& name, const glm::vec2& v2) const 
 	{
 		Bind();
 		glUniform2f(GetUniformLocation(name.c_str()), v2.x, v2.y);
 	}
 
-	void Shader::SetUniform(const std::string& name, const glm::vec3& v3)
+	void Shader::SetUniform(const std::string& name, const glm::vec3& v3) const 
 	{
 		Bind();
 		glUniform3f(GetUniformLocation(name.c_str()), v3.x, v3.y, v3.z);
 	}
 
-	void Shader::SetUniform(const std::string& name, const glm::vec4& v4)
+	void Shader::SetUniform(const std::string& name, const glm::vec4& v4) const
 	{
 		Bind();
 		glUniform4f(GetUniformLocation(name.c_str()), v4.x, v4.y, v4.z, 1.0f);
 	}
 
-	void Shader::SetUniform(const std::string& name, const glm::mat4& m4)
+	void Shader::SetUniform(const std::string& name, const glm::mat4& m4) const
 	{
 		Bind();
 		glUniformMatrix4fv(GetUniformLocation(name.c_str()), 1, GL_FALSE, glm::value_ptr(m4));
@@ -189,14 +189,13 @@ namespace Gray
 		return attatched;
 	}
 
-	int Shader::GetUniformLocation(const std::string& name)
+	int Shader::GetUniformLocation(const std::string& name) const
 	{
 		if(hashTable.find(name) != hashTable.end())
 			return (hashTable.find(name))->second;
 		else
 			hashTable.insert({name, glGetUniformLocation(ID, name.c_str())});
 
-		//GRAY_CORE_INFO("Location of " + name + " is " + std::to_string(hashTable[name]));
 		return (hashTable.find(name))->second;
 	}
 }

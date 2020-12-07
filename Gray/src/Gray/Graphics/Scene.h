@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Renderable.h"
-#include "LightSource.h"
+#include "Light/LightSource.h"
 #include "Camera.h"
 #include "RenderList.h"
 #include "LightingManager.h"

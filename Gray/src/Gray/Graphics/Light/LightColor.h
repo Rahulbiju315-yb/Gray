@@ -1,7 +1,7 @@
 #pragma once
 
 #include "glm/glm.hpp"
-#include "Defaults.h"
+#include "Gray/Graphics/Defaults.h"
 
 namespace Gray
 {

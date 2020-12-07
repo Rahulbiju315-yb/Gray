@@ -2,6 +2,8 @@
 
 #include "DebugCube.h"
 #include "Platform/Opengl/test/Util.h"
+#include "Uniforms/MaterialUMFactory.h"
+#include "Uniforms/ModelUMFactory.h"
 
 namespace Gray
 {
@@ -23,22 +25,31 @@ namespace Gray
 		}
 
 		scale = glm::vec3(1.0f);
+
+		modelUM = CreateModelUM(ModelUMType::SimpleModelUM);
+		materialUM = CreateMaterialUM(MaterialUMType::SimpleMaterialUM);
+
 	}
 
-
-	void DebugCube::SetUniforms()
+	void DebugCube::SetUniforms() const
 	{
 		SetModelUniforms();
 		SetMaterialUniforms();
 	}
 
-	void DebugCube::OnUpdate(float dt)
+	void DebugCube::OnUpdate(float dt) const
 	{
 		renderer.Draw(*va, *ib, *shader);
 	}
 
-	void DebugCube::OnImguiRender()
+	void DebugCube::OnImguiRender() const
 	{
-		debug.StandardLightingDebug(this);
+	}
+
+	void DebugCube::free()
+	{
+		va = nullptr;
+		vb = nullptr;
+		ib = nullptr;
 	}
 }

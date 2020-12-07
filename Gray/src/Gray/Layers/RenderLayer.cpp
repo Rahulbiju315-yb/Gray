@@ -81,12 +81,6 @@ namespace Gray
 		}
 
 		ImGui::Text(("FPS : " + std::to_string(fps)).c_str());
-
-		for (auto renderable : *scene)
-		{
-			if(ImGui::CollapsingHeader(renderable->GetName().c_str()))
-				renderable->OnImguiRender();
-		}
 	}
 
 	void RenderLayer::OnMouseMoved(MouseMovedEvent& e)

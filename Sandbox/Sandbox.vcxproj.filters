@@ -11,5 +11,6 @@
   <ItemGroup>
     <ClInclude Include="src\test\Test.h" />
     <ClInclude Include="src\test\TestManyCubes.h" />
+    <ClInclude Include="src\test\TestMemory.h" />
   </ItemGroup>
 </Project>

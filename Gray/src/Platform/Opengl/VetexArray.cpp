@@ -23,6 +23,7 @@ namespace Gray
 			offset += vec[i].count * sizeof(vec[i].type);
 		}
 
+		buffer.Unbind();
 		Unbind();
 	}
 

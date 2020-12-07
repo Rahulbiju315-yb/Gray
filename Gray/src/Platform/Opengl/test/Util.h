@@ -26,8 +26,8 @@ namespace Gray
 	{
 	public:
 		
-		static void sampleCube(std::unique_ptr<VertexBuffer>& vb, std::unique_ptr<IndexBuffer>& ib, 
-			std::unique_ptr<VertexArray>& va, std::shared_ptr<Shader>& shader, bool loadSampleShader=true);
+		static void sampleCube(std::shared_ptr<VertexBuffer>& vb, std::shared_ptr<IndexBuffer>& ib, 
+			std::shared_ptr<VertexArray>& va, std::shared_ptr<Shader>& shader, bool loadSampleShader=true);
 		static void genCube(float x, float y, float z, float side, float* vertexPositions, int stride = 3);
 		static void genQuad(float x, float y, float z, float side, int dir, float* vertexPosition, int stride = 3);
 		static void genTri(std::vector<glm::vec3> p, float* vertexPositions, int stride);

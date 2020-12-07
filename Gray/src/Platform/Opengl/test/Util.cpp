@@ -7,8 +7,8 @@ namespace Gray
 {
 
 
-	void Util::sampleCube(std::unique_ptr<VertexBuffer>& vb,std::unique_ptr<IndexBuffer>& ib, 
-		std::unique_ptr<VertexArray>& va, std::shared_ptr<Shader>& shader, bool loadSampleShader)
+	void Util::sampleCube(std::shared_ptr<VertexBuffer>& vb,std::shared_ptr<IndexBuffer>& ib, 
+		std::shared_ptr<VertexArray>& va, std::shared_ptr<Shader>& shader, bool loadSampleShader)
 	{
 
 		static float vertices[] = {
@@ -60,15 +60,15 @@ namespace Gray
 		};
 
 
-		vb = std::make_unique<VertexBuffer>(vertices, sizeof(vertices));
-		ib = std::make_unique<IndexBuffer>(indices, 36);
+		vb = std::make_shared<VertexBuffer>(vertices, sizeof(vertices));
+		ib = std::make_shared<IndexBuffer>(indices, 36);
 
 		BufferLayout layout;
 		layout.Push<float>(3);
 		layout.Push<float>(3);
 		layout.Push<float>(2);
 
-		va = std::make_unique<VertexArray>(*vb, layout);
+		va = std::make_shared<VertexArray>(*vb, layout);
 
 		if (loadSampleShader)
 		{
