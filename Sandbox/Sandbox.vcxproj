@@ -145,7 +145,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\test\TestMemory.h" />
     <ClInclude Include="src\test\Test.h" />
     <ClInclude Include="src\test\TestManyCubes.h" />
   </ItemGroup>

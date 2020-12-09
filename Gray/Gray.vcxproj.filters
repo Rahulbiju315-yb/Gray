@@ -166,6 +166,8 @@
     <ClInclude Include="src\Gray\Graphics\Uniforms\ModelUM.h" />
     <ClInclude Include="src\Gray\Graphics\Uniforms\ModelUMFactory.h" />
     <ClInclude Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.h" />
+    <ClInclude Include="src\Gray\Graphics\Model\Model.h" />
+    <ClInclude Include="src\Platform\Opengl\RenderData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -248,6 +250,7 @@
     <ClCompile Include="src\Gray\Graphics\Uniforms\ModelUM.cpp" />
     <ClCompile Include="src\Gray\Graphics\Uniforms\ModelUMFactory.cpp" />
     <ClCompile Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Model\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

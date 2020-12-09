@@ -5,30 +5,15 @@
 
 namespace Gray
 {
+    MaterialUM SimpleMaterialUM();
+
     MaterialUM CreateMaterialUM(MaterialUMType type)
     {
         switch (type)
         {
             case MaterialUMType::SimpleMaterialUM :
             {
-                static F_MaterialSetter setter = [](const Shader& shader, Renderable* renderable)
-                {
-                    const Material& material = renderable->GetMaterial();
-                    shader.SetUniform("material.diffuse", 0);
-                    shader.SetUniform("material.specular", 1);
-                    shader.SetUniform("material.emission", 2);
-
-                    material.GetDiffuse()->Bind(0);
-                    material.GetSpecular()->Bind(1);
-                    material.GetEmission()->Bind(2);
-
-                    shader.SetUniform("material.shininess", material.GetShininess());
-                };
-
-                MaterialUM matUM;
-                matUM.SetSetterFunction(setter);
-
-                return matUM;
+                return SimpleMaterialUM();
             }
 
             default:
@@ -38,4 +23,32 @@ namespace Gray
             }
         }
     }
+
+    MaterialUM SimpleMaterialUM()
+    {
+		static F_MaterialSetter setter = [](const Shader& shader, Renderable* renderable)
+                {
+                    static std::string diff = "material.diffuse";
+                    static std::string spec = "material.specular";
+                    static std::string emm = "material.emission";
+                    static std::string shine = "material.shininess";
+
+                    Material* material = renderable->GetMaterial();
+                    shader.SetUniform(diff, 0);
+                    shader.SetUniform(spec, 1);
+                    shader.SetUniform(emm, 2);
+                    shader.SetUniform(shine, material->GetShininess());
+            
+                    material->GetDiffuse()->Bind(0);
+                    material->GetSpecular()->Bind(1);
+                    material->GetEmission()->Bind(2);
+
+                };
+
+        MaterialUM matUM;
+        matUM.SetSetterFunction(setter);
+
+        return matUM;
+    }
+
 }

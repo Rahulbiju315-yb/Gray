@@ -8,28 +8,26 @@
 namespace Gray
 {
 
-	DebugCube::DebugCube(bool initShader, std::shared_ptr<Shader> shader, glm::vec3 pos)
+	DebugCube::DebugCube()
 	{
 		isRenderEnabled = true;
 
-		Util::sampleCube(vb, ib, va, this->shader, initShader);
-
-		SetPos(pos);
-
-		if(!initShader)
-		{
-			if (shader == nullptr)
-				GRAY_CORE_ERROR("No default shader specified and initShader set to null!!");
-
-			this->shader = shader;
-		}
-
-		scale = glm::vec3(1.0f);
-
-		modelUM = CreateModelUM(ModelUMType::SimpleModelUM);
-		materialUM = CreateMaterialUM(MaterialUMType::SimpleMaterialUM);
+		Util::sampleCube(renderData.vb, renderData.ib, renderData.va, this->shader, true);
+		model.SetPos(glm::vec3(0.0f));
 
 	}
+
+	DebugCube::DebugCube(std::shared_ptr<Shader> shader, RenderData data)
+	{
+		if (!shader)
+		{
+			GRAY_CORE_WARN("No shader specified for debugcube constructor");
+		}
+
+		this->shader = shader;
+		this->renderData = data;
+	}
+
 
 	void DebugCube::SetUniforms() const
 	{
@@ -39,17 +37,11 @@ namespace Gray
 
 	void DebugCube::OnUpdate(float dt) const
 	{
-		renderer.Draw(*va, *ib, *shader);
+		renderer.Draw(*(renderData.va), *(renderData.ib), *shader);
 	}
 
 	void DebugCube::OnImguiRender() const
 	{
 	}
 
-	void DebugCube::free()
-	{
-		va = nullptr;
-		vb = nullptr;
-		ib = nullptr;
-	}
 }

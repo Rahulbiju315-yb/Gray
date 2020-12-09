@@ -5,11 +5,7 @@
 
 namespace Gray
 {
-	template<typename T>
-	std::shared_ptr<T> CreateLight(std::shared_ptr<Source> s, LightColor color)
-	{
-		return std::make_shared<T>(color, s);
-	}
+
 
 	LightSource::LightSource(LightType type,LightColor color, std::shared_ptr<Source> source) :
 		color(color), source(source),

@@ -23,7 +23,7 @@ namespace Test
 		{
 			std::shared_ptr<Gray::Scene> scene = std::make_shared<Gray::Scene>();
 
-			std::shared_ptr<Gray::DebugCube> dbcRoot = std::make_shared<Gray::DebugCube>(true);
+			std::shared_ptr<Gray::DebugCube> dbcRoot = std::make_shared<Gray::DebugCube>();
 			dbcRoot->SetRenderEnabled(true);
 
 			Gray::Texture tex;
@@ -35,26 +35,30 @@ namespace Test
 			Gray::Texture tex3;
 			tex3.LoadTexture("res/textures/container2spec.png", GL_RGBA, GL_RGBA);
 
-			Gray::Material material = dbcRoot->GetMaterial();
-			material.SetDiffuse(tex);
-			material.SetSpecular(tex2);
+			Gray::Material* material = dbcRoot->GetMaterial();
+			material->SetDiffuse(tex);
+			material->SetSpecular(tex2);
 
 			for (int i = 0; i < n; i++)
 			{
-				//std::shared_ptr<Gray::DebugCube> dbc = std::make_shared<Gray::DebugCube>(false, dbcRoot->GetShader());
-				std::shared_ptr<Gray::DebugCube> dbc = std::make_shared<Gray::DebugCube>(*dbcRoot);
+				std::shared_ptr<Gray::DebugCube> dbc = std::make_shared<Gray::DebugCube>(dbcRoot->GetShader(),
+					dbcRoot->GetRenderData());
+
+				dbc->SetMaterial(*material);
 
 				float x = (n * RAND_FLOAT - n/2) / closeness;
 				float y = (n * RAND_FLOAT - n/2) / closeness;
 				float z = (n * RAND_FLOAT - n/2) / closeness;
 
-				dbc->SetPos(glm::vec3(x, y, z));
+				dbc->GetModel()->SetPos(glm::vec3(x, y, z));
 
 				scene->Add(dbc);
 			}
 			
 			//scene->Add(Gray::CreateLight<Gray::PointLight>(Gray::CreateSource(dbcRoot)));
-			scene->Add(Gray::CreateLight<Gray::PointLight>(Gray::CreateSource(Gray::Defaults::ORIGIN)));
+			Gray::SharedLightSource ls =
+				Gray::CreateLight<Gray::PointLight>(Gray::CreateSource(Gray::Defaults::ORIGIN));
+			scene->Add(ls);
 
 
 			scene->GetCamera()->SetMoveEnabled(true);
@@ -65,6 +69,7 @@ namespace Test
 			GRAY_INFO("IndexBuffer " + std::to_string(sizeof(Gray::IndexBuffer)));
 			GRAY_INFO("Shader " + std::to_string(sizeof(Gray::Shader)));
 			renderLayer->SetScene(scene);
+
 			return scene;
 		}
 

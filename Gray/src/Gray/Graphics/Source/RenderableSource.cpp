@@ -9,10 +9,10 @@ namespace Gray
 	}
 	const glm::vec3& RenderableSource::GetPos()
 	{
-		return renderable->GetPos();
+		return renderable->GetModel()->GetPos();
 	}
 	const glm::vec3& RenderableSource::GetDir()
 	{
-		return renderable->GetDir();
+		return renderable->GetModel()->GetDir();
 	}
 }

@@ -1,12 +1,16 @@
 #pragma once
 
 #include "Platform/Opengl/Renderer.h"
-#include "Platform/Opengl/Opengl.h"
+#include "Platform/Opengl/Shader.h"
+#include "Platform/Opengl/RenderData.h"
 
 #include "imgui.h"
 #include "Materials.h"
+
 #include "Uniforms/MaterialUM.h"
 #include "Uniforms/ModelUM.h"
+
+#include "Model/Model.h"
 
 //Inconsistent use of references and pointers.
 //To be fixed after determining the better usage.
@@ -19,6 +23,12 @@ namespace Gray
 	class Renderable
 	{
 	public:
+		Renderable(const Renderable&) = delete;
+		Renderable& operator=(const Renderable&) = delete;
+
+		Renderable();
+		Renderable(RenderData renderData);
+
 		virtual void OnUpdate(float dt) const = 0;
 		virtual void SetUniforms() const = 0;
 		virtual void OnImguiRender() const { }
@@ -26,54 +36,41 @@ namespace Gray
 		void SetRenderEnabled(bool en);
 		bool GetRenderEnabled() const;
 
-		void SetName(std::string name);
-		const std::string& GetName() const;
-
 		std::shared_ptr<Shader> GetShader();
 		void SetShader(std::shared_ptr<Shader> shader);
 
-		const glm::vec3& GetPos() const;
-		void SetPos(glm::vec3 pos);
-
-		const glm::vec3& GetDir() const;
-		void SetYawPitch(glm::vec2 yawPitch);
-
-		static const Renderer* GetRenderer();
-
 		void SetMaterial(Material material);
-		const Material& GetMaterial() const;
-
+		Material* GetMaterial();
+		
 		void SetMaterialUM(MaterialUM materialUM);
 		void SetModelUM(ModelUM modelUM);
 
-		const glm::mat4& GetModel() const;
+		Model* GetModel();
+
+		void SetRenderData(RenderData renderData);
+		RenderData GetRenderData() const;
+
+		static const Renderer* GetRenderer();
 
 	protected:
-		std::string name;
-
-		static const glm::mat4 UNIT_MAT4;
 		static const Renderer renderer;
 
 		Material material;
-		MaterialUM materialUM;
-
-		std::shared_ptr<VertexBuffer> vb;
-		std::shared_ptr<IndexBuffer> ib;
-		std::shared_ptr<VertexArray> va;
+		Model model;
+		RenderData renderData;
 		std::shared_ptr<Shader> shader;
-
-		glm::mat4 model;
-		ModelUM modelUM;
-
-		glm::vec3 scale;
-		glm::vec3 pos;
-		glm::vec2 yawPitch;
-		glm::vec3 dir;
 
 		bool isRenderEnabled;
 
 		void SetModelUniforms() const;
 		void SetMaterialUniforms() const;
+
+		const ModelUM& GetModelUM() const;
+		const MaterialUM& GetMaterialUM() const;
+		
+	private:
+		ModelUM modelUM;
+		MaterialUM materialUM;
 
 	};
 	typedef std::shared_ptr<Renderable> SharedRenderable;

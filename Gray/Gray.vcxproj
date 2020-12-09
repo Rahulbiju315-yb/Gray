@@ -170,6 +170,7 @@
     <ClInclude Include="src\Gray\Graphics\Light\PointLight.h" />
     <ClInclude Include="src\Gray\Graphics\Light\SpotLight.h" />
     <ClInclude Include="src\Gray\Graphics\Materials.h" />
+    <ClInclude Include="src\Gray\Graphics\Model\Model.h" />
     <ClInclude Include="src\Gray\Graphics\Renderable.h" />
     <ClInclude Include="src\Gray\Graphics\RenderList.h" />
     <ClInclude Include="src\Gray\Graphics\Scene.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="src\Platform\Opengl\BufferLayout.h" />
     <ClInclude Include="src\Platform\Opengl\IndexBuffer.h" />
     <ClInclude Include="src\Platform\Opengl\Opengl.h" />
+    <ClInclude Include="src\Platform\Opengl\RenderData.h" />
     <ClInclude Include="src\Platform\Opengl\Renderer.h" />
     <ClInclude Include="src\Platform\Opengl\Shader.h" />
     <ClInclude Include="src\Platform\Opengl\Texture.h" />
@@ -215,6 +217,7 @@
     <ClCompile Include="src\Gray\Graphics\Light\LightSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Light\PointLight.cpp" />
     <ClCompile Include="src\Gray\Graphics\Light\SpotLight.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Model\Model.cpp" />
     <ClCompile Include="src\Gray\Graphics\Renderable.cpp" />
     <ClCompile Include="src\Gray\Graphics\RenderList.cpp" />
     <ClCompile Include="src\Gray\Graphics\Scene.cpp" />

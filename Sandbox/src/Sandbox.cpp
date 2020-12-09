@@ -16,7 +16,6 @@
 #include "Gray/Events/KeyCodes.h"
 
 #include "test/TestManyCubes.h"
-#include "test/TestMemory.h"
 
 #define RAND_FLOAT (float)rand() / RAND_MAX
 
@@ -61,7 +60,7 @@ public:
 
 	void Init() override
 	{
-		/*AddLayer(&renderLayer);*/
+		AddLayer(&renderLayer);
 		Test::TestManyCubes tmc(10000, 50.0f);
 		scene = tmc.OnInit(&renderLayer);
 	}

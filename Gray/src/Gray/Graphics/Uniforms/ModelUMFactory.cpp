@@ -14,9 +14,13 @@ namespace Gray
 				{
 					if (renderable)
 					{
-						const glm::mat4& model = renderable->GetModel();
-						shader.SetUniform("model", model);
-						shader.SetUniform("invModel", glm::inverse(model));
+						static std::string mod = "model";
+						static std::string invMod = "invModel";
+
+						const glm::mat4& model = renderable->GetModel()->GetModelMatrix();
+						
+						shader.SetUniform(mod, model);
+						shader.SetUniform(invMod, glm::inverse(model));
 					}
 				};
 

@@ -17,6 +17,7 @@ namespace Gray
 	{
 	public:
 		ModelUM();
+
 		void TieWith(Renderable* renderable);
 		void SetSetterFunction(F_ModelSetter setter);
 		

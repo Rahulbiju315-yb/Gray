@@ -12,7 +12,5 @@ class PointLight : public LightSource
 		PointLight(LightColor color, std::shared_ptr<Source> source);
 		void SetUniformsFor(Shader* shader) override;
 
-	private:
-
 	};
 }

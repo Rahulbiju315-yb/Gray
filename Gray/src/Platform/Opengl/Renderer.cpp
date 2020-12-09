@@ -12,10 +12,6 @@ namespace Gray
 		ib.Bind();
 
 		glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
-
-		//shader.Unbind();
-		//va.Unbind();
-		//ib.Unbind();
 	}
 
 	void Renderer::Clear() const

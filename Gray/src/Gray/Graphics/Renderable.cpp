@@ -1,13 +1,25 @@
 #include "grpch.h"
 #include "Renderable.h"
+#include "Uniforms/MaterialUMFactory.h"
+#include "Uniforms/ModelUMFactory.h"
 #include "glm/gtc/matrix_transform.hpp"
 
 namespace Gray
 {
-	const glm::mat4 Renderable::UNIT_MAT4(1.0f);
 	const Renderer Renderable::renderer;
 
-	void Renderable::SetRenderEnabled(bool en) 
+	Renderable::Renderable() : isRenderEnabled(true)
+	{
+		SetModelUM(CreateModelUM(ModelUMType::SimpleModelUM));
+		SetMaterialUM(CreateMaterialUM(MaterialUMType::SimpleMaterialUM));
+	}
+
+	Renderable::Renderable(RenderData renderData)
+	{
+		this->renderData = renderData;
+	}
+
+	void Renderable::SetRenderEnabled(bool en)
 	{
 		isRenderEnabled = en; 
 	}
@@ -15,16 +27,6 @@ namespace Gray
 	bool Renderable::GetRenderEnabled() const 
 	{ 
 		return isRenderEnabled; 
-	}
-
-	void Renderable::SetName(std::string name) 
-	{ 
-		this->name = name; 
-	}
-
-	const std::string& Renderable::GetName() const 
-	{ 
-		return name;
 	}
 
 	std::shared_ptr<Shader> Renderable::GetShader() 
@@ -37,32 +39,6 @@ namespace Gray
 		this->shader = shader; 
 	}
 
-	const glm::vec3& Renderable::GetPos() const
-	{ 
-		return pos; 
-	}
-
-	void Renderable::SetPos(glm::vec3 pos)
-	{
-		this->pos = pos;
-		model = glm::scale(glm::translate(UNIT_MAT4, pos), scale);
-	}
-	
-	const glm::vec3& Renderable::GetDir() const 
-	{ 
-		return dir;  
-	} // NOTICEEEEE
-
-	void Renderable::SetYawPitch(glm::vec2 yawPitch)
-	{
-		this->yawPitch = yawPitch;
-
-		float yaw = glm::radians(yawPitch.x);
-		float pitch = glm::radians(yawPitch.y);
-
-		dir = glm::vec3(0); //WTH ???!!!
-	}
-
 	const Renderer* Renderable::GetRenderer()
 	{
 		return &renderer; 
@@ -73,26 +49,36 @@ namespace Gray
 		this->material = material; 
 	}
 
-	const Material& Renderable::GetMaterial() const 
+	Material* Renderable::GetMaterial()
 	{ 
-		return material;
+		return &material;
 	}
 
 	void Renderable::SetMaterialUM(MaterialUM materialUM)
 	{
 		materialUM.TieWith(this);
-		this->materialUM = std::move(materialUM);
+		this->materialUM = materialUM;
 	}
 
 	void Renderable::SetModelUM(ModelUM modelUM)
 	{
 		modelUM.TieWith(this);
-		this->modelUM = std::move(modelUM);
+		this->modelUM = modelUM;
 	}
 
-	const glm::mat4& Renderable::GetModel() const
+	Model* Renderable::GetModel()
 	{
-		return model;
+		return &model;
+	}
+
+	RenderData Renderable::GetRenderData() const
+	{
+		return renderData;
+	}
+
+	void Renderable::SetRenderData(RenderData renderData)
+	{
+		this->renderData = renderData;
 	}
 
 	void Renderable::SetModelUniforms() const
@@ -103,6 +89,16 @@ namespace Gray
 	void Renderable::SetMaterialUniforms() const
 	{
 		materialUM.SetUniformFor(*shader);
+	}
+
+	const ModelUM& Renderable::GetModelUM() const
+	{
+		return modelUM;
+	}
+
+	const MaterialUM& Renderable::GetMaterialUM() const
+	{
+		return materialUM;
 	}
 
 }

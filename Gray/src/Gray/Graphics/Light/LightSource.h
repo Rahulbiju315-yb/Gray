@@ -19,8 +19,11 @@ namespace Gray
 	static const unsigned int DIRECTIONAL_MAX_LIMIT = 1;
 	static const unsigned int SPOT_MAX_LIMIT = 4;
 
-	template<typename T>
-	std::shared_ptr<T> CreateLight(std::shared_ptr<Source> s, LightColor color = LightColor());
+	template<class T>
+	std::shared_ptr<T> CreateLight(std::shared_ptr<Source> s, LightColor color = LightColor())
+	{
+		return std::make_shared<T>(color, s);
+	}
 
 	class LightSource
 	{
