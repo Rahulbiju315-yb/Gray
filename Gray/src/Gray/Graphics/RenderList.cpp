@@ -3,12 +3,12 @@
 
 namespace Gray
 {
-	void RenderList::AddRenderable(SharedRenderable r)
+	void RenderList::AddRenderable(std::shared_ptr<Renderable> r)
 	{
 		renderables.push_back(r);
 	}
 
-	bool RenderList::RemoveRenderable(SharedRenderable r)
+	bool RenderList::RemoveRenderable(std::shared_ptr<Renderable> r)
 	{
 		for (auto renderable : renderables)
 		{
@@ -20,11 +20,11 @@ namespace Gray
 		}
 		return false;
 	}
-	std::vector<SharedRenderable>::iterator RenderList::begin()
+	std::vector<std::shared_ptr<Renderable>>::iterator RenderList::begin()
 	{
 		return renderables.begin();
 	}
-	std::vector<SharedRenderable>::iterator RenderList::end()
+	std::vector<std::shared_ptr<Renderable>>::iterator RenderList::end()
 	{
 		return renderables.end();
 	}

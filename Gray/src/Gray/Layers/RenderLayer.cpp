@@ -53,7 +53,6 @@ namespace Gray
 		{
 			if (renderable->GetRenderEnabled())
 			{
-				renderable->SetUniforms();
 				renderable->OnUpdate(dt);
 			}
 		}
@@ -81,6 +80,7 @@ namespace Gray
 		}
 
 		ImGui::Text(("FPS : " + std::to_string(fps)).c_str());
+		//GRAY_INFO(("FPS : " + std::to_string(fps)));
 	}
 
 	void RenderLayer::OnMouseMoved(MouseMovedEvent& e)

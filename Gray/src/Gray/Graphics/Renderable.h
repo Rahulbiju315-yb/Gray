@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RenderListItem.h"
+
 #include "Platform/Opengl/Renderer.h"
 #include "Platform/Opengl/Shader.h"
 #include "Platform/Opengl/RenderData.h"
@@ -8,9 +10,9 @@
 #include "Materials.h"
 
 #include "Uniforms/MaterialUM.h"
-#include "Uniforms/ModelUM.h"
+#include "Uniforms/TransformUM.h"
 
-#include "Model/Model.h"
+#include "Transform.h"
 
 //Inconsistent use of references and pointers.
 //To be fixed after determining the better usage.
@@ -20,17 +22,12 @@
 
 namespace Gray
 {
-	class Renderable
+	class Renderable : public RenderListItem
 	{
 	public:
-		Renderable(const Renderable&) = delete;
-		Renderable& operator=(const Renderable&) = delete;
-
 		Renderable();
-		Renderable(RenderData renderData);
 
-		virtual void OnUpdate(float dt) const = 0;
-		virtual void SetUniforms() const = 0;
+		virtual void OnUpdate(float dt) const override = 0;
 		virtual void OnImguiRender() const { }
 
 		void SetRenderEnabled(bool en);
@@ -39,40 +36,18 @@ namespace Gray
 		std::shared_ptr<Shader> GetShader();
 		void SetShader(std::shared_ptr<Shader> shader);
 
-		void SetMaterial(Material material);
-		Material* GetMaterial();
-		
-		void SetMaterialUM(MaterialUM materialUM);
-		void SetModelUM(ModelUM modelUM);
-
-		Model* GetModel();
-
-		void SetRenderData(RenderData renderData);
-		RenderData GetRenderData() const;
-
 		static const Renderer* GetRenderer();
+
+		void SetTransformUM(TransformUM tUM);
+		void SetMaterialUM(MaterialUM matUM);
 
 	protected:
 		static const Renderer renderer;
-
-		Material material;
-		Model model;
-		RenderData renderData;
-		std::shared_ptr<Shader> shader;
-
 		bool isRenderEnabled;
 
-		void SetModelUniforms() const;
-		void SetMaterialUniforms() const;
-
-		const ModelUM& GetModelUM() const;
-		const MaterialUM& GetMaterialUM() const;
-		
-	private:
-		ModelUM modelUM;
-		MaterialUM materialUM;
-
+		std::shared_ptr<Shader> shader;
+		TransformUM tUM;
+		MaterialUM matUM;
 	};
-	typedef std::shared_ptr<Renderable> SharedRenderable;
 
 }

@@ -19,8 +19,8 @@ namespace Gray
 
 		Camera* GetCamera();
 
-		std::vector<SharedRenderable>::iterator begin();
-		std::vector<SharedRenderable>::iterator end();
+		std::vector<std::shared_ptr<Renderable>>::iterator begin();
+		std::vector<std::shared_ptr<Renderable>>::iterator end();
 		
 		std::vector<SharedLightSource>::iterator lightsBegin();
 		std::vector<SharedLightSource>::iterator lightsEnd();
@@ -28,7 +28,7 @@ namespace Gray
 		std::set<Shader*>::iterator shaderBegin();
 		std::set<Shader*>::iterator shaderEnd();
 
-		void Add(SharedRenderable renderable);
+		void Add(std::shared_ptr<Renderable> renderable);
 		void Add(SharedLightSource lightSource);
 
 		LightingManager* GetLightingManager();

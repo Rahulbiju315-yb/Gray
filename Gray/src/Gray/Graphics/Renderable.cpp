@@ -1,7 +1,7 @@
 #include "grpch.h"
 #include "Renderable.h"
 #include "Uniforms/MaterialUMFactory.h"
-#include "Uniforms/ModelUMFactory.h"
+#include "Uniforms/TransformUMFactory.h"
 #include "glm/gtc/matrix_transform.hpp"
 
 namespace Gray
@@ -10,13 +10,6 @@ namespace Gray
 
 	Renderable::Renderable() : isRenderEnabled(true)
 	{
-		SetModelUM(CreateModelUM(ModelUMType::SimpleModelUM));
-		SetMaterialUM(CreateMaterialUM(MaterialUMType::SimpleMaterialUM));
-	}
-
-	Renderable::Renderable(RenderData renderData)
-	{
-		this->renderData = renderData;
 	}
 
 	void Renderable::SetRenderEnabled(bool en)
@@ -44,61 +37,14 @@ namespace Gray
 		return &renderer; 
 	}
 
-	void Renderable::SetMaterial(Material material)
+	void Renderable::SetTransformUM(TransformUM tUM)
 	{
-		this->material = material; 
+		this->tUM = tUM;
 	}
 
-	Material* Renderable::GetMaterial()
-	{ 
-		return &material;
-	}
-
-	void Renderable::SetMaterialUM(MaterialUM materialUM)
+	void Renderable::SetMaterialUM(MaterialUM matUM)
 	{
-		materialUM.TieWith(this);
-		this->materialUM = materialUM;
-	}
-
-	void Renderable::SetModelUM(ModelUM modelUM)
-	{
-		modelUM.TieWith(this);
-		this->modelUM = modelUM;
-	}
-
-	Model* Renderable::GetModel()
-	{
-		return &model;
-	}
-
-	RenderData Renderable::GetRenderData() const
-	{
-		return renderData;
-	}
-
-	void Renderable::SetRenderData(RenderData renderData)
-	{
-		this->renderData = renderData;
-	}
-
-	void Renderable::SetModelUniforms() const
-	{
-		modelUM.SetUniformFor(*shader);
-	}
-
-	void Renderable::SetMaterialUniforms() const
-	{
-		materialUM.SetUniformFor(*shader);
-	}
-
-	const ModelUM& Renderable::GetModelUM() const
-	{
-		return modelUM;
-	}
-
-	const MaterialUM& Renderable::GetMaterialUM() const
-	{
-		return materialUM;
+		this->matUM = matUM;
 	}
 
 }

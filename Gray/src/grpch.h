@@ -16,3 +16,5 @@
 #include "Gray/Log.h"
 
 #include "GL/glew.h"
+
+using uint = unsigned int;

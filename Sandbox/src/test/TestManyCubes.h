@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 
 #include "Test.h"
 #include "Gray/Graphics/Materials.h"
@@ -35,22 +36,24 @@ namespace Test
 			Gray::Texture tex3;
 			tex3.LoadTexture("res/textures/container2spec.png", GL_RGBA, GL_RGBA);
 
-			Gray::Material* material = dbcRoot->GetMaterial();
-			material->SetDiffuse(tex);
-			material->SetSpecular(tex2);
+			Gray::Material& material = dbcRoot->GetMaterial();
+			material.AddDiffuse(tex);
+			material.AddSpecular(tex2);
 
 			for (int i = 0; i < n; i++)
 			{
 				std::shared_ptr<Gray::DebugCube> dbc = std::make_shared<Gray::DebugCube>(dbcRoot->GetShader(),
 					dbcRoot->GetRenderData());
 
-				dbc->SetMaterial(*material);
+				Gray::Material& material = dbc->GetMaterial();
+				material.AddDiffuse(tex);
+				material.AddSpecular(tex2);
 
 				float x = (n * RAND_FLOAT - n/2) / closeness;
 				float y = (n * RAND_FLOAT - n/2) / closeness;
 				float z = (n * RAND_FLOAT - n/2) / closeness;
 
-				dbc->GetModel()->SetPos(glm::vec3(x, y, z));
+				(dbc->GetTransform()).SetPos(glm::vec3(x, y, z));
 
 				scene->Add(dbc);
 			}

@@ -46,7 +46,7 @@ namespace Gray
 		}
 		else
 		{
-			std::cout << "Error loading image";
+			GRAY_CORE_ERROR("Cannot load texture " + path);
 			hasLoaded = false;
 		}
 		stbi_image_free(data);

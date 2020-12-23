@@ -18,6 +18,7 @@ IncludeDirs["imguiFileChooser"] = "Gray/vendor/imguiFileChooser/"
 IncludeDirs["dirent"] = "Gray/vendor/imgui/"
 IncludeDirs["glm"] = "Gray/vendor/glm/"
 IncludeDirs["glew"] = "Gray/vendor/glew/include/"
+IncludeDirs["assimp"] = "Gray/vendor/assimp/include/"
 
 include "Gray/vendor/glfw"
 include "Gray/vendor/imgui"
@@ -52,16 +53,19 @@ project "Gray"
 		"%{IncludeDirs.imguiFileChooser}",
 		"%{IncludeDirs.glew}",
 		"%{IncludeDirs.glm}",
+		"%{IncludeDirs.assimp}",
 		"%{prj.name}/src"
 	}
 
 	libdirs
 	{
-		"%{prj.name}/vendor/glew/lib/Release/x64/"
+		"%{prj.name}/vendor/glew/lib/Release/x64/",
+		"%{prj.name}/vendor/assimp/lib/Release/"
 	}
 
 	links
 	{
+		"assimp-vc142-mt.lib",
 		"glew32s.lib",
 		"GLFW",
 		"opengl32",
@@ -124,16 +128,19 @@ project "Sandbox"
 		"%{IncludeDirs.glew}",
 		"%{IncludeDirs.glm}",
 		"%{IncludeDirs.imguiFileChooser}",
+		"%{IncludeDirs.assimp}",
 		"Gray/src"
 	}
 
 	libdirs
 	{
-		"Gray/vendor/glew/lib/Release/x64/"
+		"Gray/vendor/glew/lib/Release/x64/",
+		"Gray/vendor/assimp/lib/Release/"
 	}
 
 	links
 	{
+		"assimp-vc142-mt.lib",
 		"Gray",
 		"glew32s.lib",
 		"opengl32"

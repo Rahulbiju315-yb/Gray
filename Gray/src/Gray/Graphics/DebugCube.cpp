@@ -3,7 +3,7 @@
 #include "DebugCube.h"
 #include "Platform/Opengl/test/Util.h"
 #include "Uniforms/MaterialUMFactory.h"
-#include "Uniforms/ModelUMFactory.h"
+#include "Uniforms/TransformUMFactory.h"
 
 namespace Gray
 {
@@ -13,8 +13,10 @@ namespace Gray
 		isRenderEnabled = true;
 
 		Util::sampleCube(renderData.vb, renderData.ib, renderData.va, this->shader, true);
-		model.SetPos(glm::vec3(0.0f));
+		transform.SetPos(glm::vec3(0.0f));
 
+		SetMaterialUM(CreateMaterialUM(MaterialUMType::SimpleMaterialUM));
+		SetTransformUM(CreateTransformUM(TransformUMType::SimpleTransformUM));
 	}
 
 	DebugCube::DebugCube(std::shared_ptr<Shader> shader, RenderData data)
@@ -26,17 +28,16 @@ namespace Gray
 
 		this->shader = shader;
 		this->renderData = data;
-	}
 
-
-	void DebugCube::SetUniforms() const
-	{
-		SetModelUniforms();
-		SetMaterialUniforms();
+		SetMaterialUM(CreateMaterialUM(MaterialUMType::SimpleMaterialUM));
+		SetTransformUM(CreateTransformUM(TransformUMType::SimpleTransformUM));
 	}
 
 	void DebugCube::OnUpdate(float dt) const
 	{
+		tUM.SetUniformFor(*shader, transform);
+		matUM.SetUniformFor(*shader, &material);
+
 		renderer.Draw(*(renderData.va), *(renderData.ib), *shader);
 	}
 
@@ -44,4 +45,25 @@ namespace Gray
 	{
 	}
 
+	Material& DebugCube::GetMaterial()
+	{
+		return material;
+	}
+
+	void DebugCube::SetRenderData(const RenderData& data)
+	{
+		this->renderData = renderData;
+	}
+
+	const RenderData& DebugCube::GetRenderData() const
+	{
+		return renderData;
+	}
+
+	Transform& DebugCube::GetTransform()
+	{
+		return transform;
+	}
+
+	
 }

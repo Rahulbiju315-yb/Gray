@@ -66,7 +66,6 @@ namespace Gray
 		Init();
 		while (run)
 		{
-			//Clear();
 
 			for (Layer *layer : ls)
 				layer->OnUpdate();

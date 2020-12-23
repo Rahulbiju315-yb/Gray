@@ -77,7 +77,7 @@
       <PrecompiledHeaderFile>grpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GLEW_STATIC;GRAY_PLATFORM_WINDOWS;GRAY_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\imguiFileChooser;vendor\glew\include;vendor\glm;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\imguiFileChooser;vendor\glew\include;vendor\glm;vendor\assimp\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -88,8 +88,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;vendor\assimp\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -98,7 +98,7 @@
       <PrecompiledHeaderFile>grpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GLEW_STATIC;GRAY_PLATFORM_WINDOWS;GRAY_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\imguiFileChooser;vendor\glew\include;vendor\glm;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\imguiFileChooser;vendor\glew\include;vendor\glm;vendor\assimp\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -113,8 +113,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;vendor\assimp\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -123,7 +123,7 @@
       <PrecompiledHeaderFile>grpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GLEW_STATIC;GRAY_PLATFORM_WINDOWS;GRAY_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\imguiFileChooser;vendor\glew\include;vendor\glm;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\imguiFileChooser;vendor\glew\include;vendor\glm;vendor\assimp\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -138,8 +138,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;vendor\assimp\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -165,25 +165,30 @@
     <ClInclude Include="src\Gray\Graphics\Defaults.h" />
     <ClInclude Include="src\Gray\Graphics\Light\DirectionalLight.h" />
     <ClInclude Include="src\Gray\Graphics\Light\LightColor.h" />
-    <ClInclude Include="src\Gray\Graphics\LightingManager.h" />
     <ClInclude Include="src\Gray\Graphics\Light\LightSource.h" />
     <ClInclude Include="src\Gray\Graphics\Light\PointLight.h" />
     <ClInclude Include="src\Gray\Graphics\Light\SpotLight.h" />
+    <ClInclude Include="src\Gray\Graphics\LightingManager.h" />
     <ClInclude Include="src\Gray\Graphics\Materials.h" />
+    <ClInclude Include="src\Gray\Graphics\Model\Mesh.h" />
     <ClInclude Include="src\Gray\Graphics\Model\Model.h" />
-    <ClInclude Include="src\Gray\Graphics\Renderable.h" />
+    <ClInclude Include="src\Gray\Graphics\Model\ModelMaterialUM.h" />
+    <ClInclude Include="src\Gray\Graphics\Model\RenderableModel.h" />
+    <ClInclude Include="src\Gray\Graphics\RenderGroup.h" />
+    <ClInclude Include="src\Gray\Graphics\RenderListItem.h" />
+    <ClInclude Include="src\Gray\Graphics\Transform.h" />
     <ClInclude Include="src\Gray\Graphics\RenderList.h" />
+    <ClInclude Include="src\Gray\Graphics\Renderable.h" />
     <ClInclude Include="src\Gray\Graphics\Scene.h" />
     <ClInclude Include="src\Gray\Graphics\Source\CameraSource.h" />
-    <ClInclude Include="src\Gray\Graphics\Source\RenderableSource.h" />
     <ClInclude Include="src\Gray\Graphics\Source\Source.h" />
     <ClInclude Include="src\Gray\Graphics\Source\SourceFactory.h" />
     <ClInclude Include="src\Gray\Graphics\Source\StaticSource.h" />
+    <ClInclude Include="src\Gray\Graphics\Transformable.h" />
     <ClInclude Include="src\Gray\Graphics\Uniforms\MaterialUM.h" />
     <ClInclude Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.h" />
-    <ClInclude Include="src\Gray\Graphics\Uniforms\ModelUM.h" />
-    <ClInclude Include="src\Gray\Graphics\Uniforms\ModelUMFactory.h" />
-    <ClInclude Include="src\Gray\Graphics\Uniforms\UniformManager.h" />
+    <ClInclude Include="src\Gray\Graphics\Uniforms\TransformUM.h" />
+    <ClInclude Include="src\Gray\Graphics\Uniforms\TransformUMFactory.h" />
     <ClInclude Include="src\Gray\Layers\ImguiLayer.h" />
     <ClInclude Include="src\Gray\Layers\Layer.h" />
     <ClInclude Include="src\Gray\Layers\LayerStack.h" />
@@ -212,23 +217,25 @@
     <ClCompile Include="src\Gray\Graphics\Camera.cpp" />
     <ClCompile Include="src\Gray\Graphics\DebugCube.cpp" />
     <ClCompile Include="src\Gray\Graphics\Defaults.cpp" />
-    <ClCompile Include="src\Gray\Graphics\LightingManager.cpp" />
     <ClCompile Include="src\Gray\Graphics\Light\DirectionalLight.cpp" />
     <ClCompile Include="src\Gray\Graphics\Light\LightSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Light\PointLight.cpp" />
     <ClCompile Include="src\Gray\Graphics\Light\SpotLight.cpp" />
+    <ClCompile Include="src\Gray\Graphics\LightingManager.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Model\Mesh.cpp" />
     <ClCompile Include="src\Gray\Graphics\Model\Model.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Renderable.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Model\RenderableModel.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Transform.cpp" />
     <ClCompile Include="src\Gray\Graphics\RenderList.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Renderable.cpp" />
     <ClCompile Include="src\Gray\Graphics\Scene.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\CameraSource.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Source\RenderableSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\SourceFactory.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\StaticSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Uniforms\MaterialUM.cpp" />
     <ClCompile Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Uniforms\ModelUM.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Uniforms\ModelUMFactory.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Uniforms\TransformUM.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Uniforms\TransformUMFactory.cpp" />
     <ClCompile Include="src\Gray\Layers\ImguiLayer.cpp" />
     <ClCompile Include="src\Gray\Layers\Layer.cpp" />
     <ClCompile Include="src\Gray\Layers\LayerStack.cpp" />
@@ -258,9 +265,6 @@
     <ProjectReference Include="vendor\imguiFileChooser\imguiFileChooser.vcxproj">
       <Project>{13346F10-FF2C-8E62-285F-73E714B76D6E}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

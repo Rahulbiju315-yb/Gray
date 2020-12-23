@@ -13,12 +13,12 @@ namespace Gray
 		return &camera;
 	}
 
-	std::vector<SharedRenderable>::iterator Scene::begin()
+	std::vector<std::shared_ptr<Renderable>>::iterator Scene::begin()
 	{
 		return renderList.begin();
 	}
 
-	std::vector<SharedRenderable>::iterator Scene::end()
+	std::vector<std::shared_ptr<Renderable>>::iterator Scene::end()
 	{
 		return renderList.end();
 	}
@@ -43,7 +43,7 @@ namespace Gray
 		return unique_shaders.end();
 	}
 
-	void Scene::Add(SharedRenderable renderable)
+	void Scene::Add(std::shared_ptr<Renderable> renderable)
 	{
 		static glm::mat4 projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
 		renderable->GetShader()->SetUniform("projection", projection);

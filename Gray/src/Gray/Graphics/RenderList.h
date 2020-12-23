@@ -7,12 +7,12 @@ namespace Gray
 	class RenderList
 	{
 	public:
-		void AddRenderable(SharedRenderable r);
-		bool RemoveRenderable(SharedRenderable r);
+		void AddRenderable(std::shared_ptr<Renderable> r);
+		bool RemoveRenderable(std::shared_ptr<Renderable> r);
 
-		std::vector<SharedRenderable>::iterator begin();
-		std::vector<SharedRenderable>::iterator end();
+		std::vector<std::shared_ptr<Renderable>>::iterator begin();
+		std::vector<std::shared_ptr<Renderable>>::iterator end();
 
-		std::vector<SharedRenderable> renderables;
+		std::vector<std::shared_ptr<Renderable>> renderables;
 	};
 }

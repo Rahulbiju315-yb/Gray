@@ -16,12 +16,6 @@ namespace Gray
 	const int Y = 1;
 	const int Z = 2;
 
-	struct Vertex
-	{
-		float position[3];
-		float texCoord[2];
-	};
-
 	class Util
 	{
 	public:

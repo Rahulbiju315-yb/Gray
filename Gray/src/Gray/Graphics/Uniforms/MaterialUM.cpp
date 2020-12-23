@@ -4,20 +4,14 @@
 
 namespace Gray
 {
-	MaterialUM::MaterialUM() : renderable(nullptr)
+	MaterialUM::MaterialUM()
 	{
-		setter = [](const Shader& shader, Renderable* renderable) {};
+		setter = [](const Shader& shader, const Material*) {};
 	}
 
-	void MaterialUM::SetUniformFor(const Shader& shader) const
+	void MaterialUM::SetUniformFor(const Shader& shader, const Material* material) const
 	{
-		if(renderable)
-			setter(shader, renderable);
-	}
-
-	void MaterialUM::TieWith(Renderable* renderable)
-	{
-		this->renderable = renderable;
+		setter(shader, material);
 	}
 
 	void MaterialUM::SetSetterFunction(F_MaterialSetter setter)
