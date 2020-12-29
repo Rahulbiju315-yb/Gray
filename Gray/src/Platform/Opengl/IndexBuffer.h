@@ -5,12 +5,19 @@ namespace Gray
 	class  IndexBuffer
 	{
 	private:
-		unsigned int ID;
+		uint ID;
 		int count;
+		static uint boundIB_ID;
 
 	public:
-		IndexBuffer(unsigned int indices[], int count);
+		IndexBuffer(uint indices[], int count);
+		IndexBuffer(const IndexBuffer& ib) = delete;
+		IndexBuffer(IndexBuffer&& ib) noexcept;
+
 		~IndexBuffer();
+
+		IndexBuffer& operator=(const IndexBuffer& ib) = delete;
+		IndexBuffer& operator=(IndexBuffer&& ib) = delete;
 
 		void  Bind() const;
 		void Unbind() const;

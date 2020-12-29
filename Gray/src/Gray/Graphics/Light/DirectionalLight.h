@@ -7,12 +7,10 @@ namespace Gray
 	class DirectionalLight : public LightSource
 	{
 	public:
-		static const unsigned int MAX_LIMIT;
+		static const uint MAX_LIMIT;
 
-		DirectionalLight(LightColor color, std::shared_ptr<Source> source);
-		void SetUniformsFor(Shader* shader) override;
-
-	private:
+		DirectionalLight();
+		void SetUniformsFor(const Shader& shader) override;
 
 	};
 }

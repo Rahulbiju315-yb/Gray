@@ -1,6 +1,7 @@
 #include "grpch.h"
 
 #include "Application.h"
+#include "TempUtil.h"
 
 namespace Gray
 {
@@ -8,7 +9,7 @@ namespace Gray
 	Application* Application::app = nullptr;
 
 
-	Application::Application()
+	Application::Application() : lastTime(-1)
 	{
 		window = Window::Create("Gray window", 1200, 700);
 		window->SetListener(this);
@@ -24,9 +25,6 @@ namespace Gray
 
 	}
 
-
-	//---
-	
 	void Application::AddLayer(Layer* l)
 	{
 		l->OnAttatch();
@@ -43,11 +41,6 @@ namespace Gray
 		return ls.RemoveLayer(ls.LayerAt(i));
 	}
 
-	//---
-
-
-
-	//---
 
 	void Application::OnWindowClosed(WindowClosedEvent& event) 
 	{
@@ -55,20 +48,13 @@ namespace Gray
 		GRAY_INFO("Window closed called");
 	}
 
-	//---
-
-	
-
-	//---
 
 	void Application::Run()
 	{
 		Init();
 		while (run)
 		{
-
-			for (Layer *layer : ls)
-				layer->OnUpdate();
+			OnUpdate();
 
 			for (Layer* layer : ls)
 			{
@@ -118,12 +104,28 @@ namespace Gray
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
-	unsigned int Application::GetWidth()
+	float Application::GetDT()
+	{
+		float dt = -1;
+		if (!(lastTime == -1))
+		{
+			dt = TempUtil::GetTime() - lastTime;
+		}
+		else
+		{
+			dt = 0;
+		}
+		lastTime = TempUtil::GetTime();
+
+		return dt;
+	}
+
+	uint Application::GetWidth()
 	{
 		return window->GetWidth();
 	}
 	
-	unsigned int Application::GetHeight()
+	uint Application::GetHeight()
 	{
 		return window->GetHeight();
 	}

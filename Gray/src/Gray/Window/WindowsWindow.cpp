@@ -13,7 +13,7 @@ namespace Gray
 	static bool isGlfwInit = false;
 	WindowProvider Window::wp;
 
-	WindowsWindow::WindowsWindow(const std::string& title, unsigned int width, unsigned int height)
+	WindowsWindow::WindowsWindow(const std::string& title, uint width, uint height)
 	{
 		this->title = title;
 		this->width = width;
@@ -176,12 +176,12 @@ namespace Gray
 		
 	}
 
-	unsigned int WindowsWindow::GetWidth() const
+	uint WindowsWindow::GetWidth() const
 	{
 		return width;
 	}
 
-	unsigned int WindowsWindow::GetHeight() const
+	uint WindowsWindow::GetHeight() const
 	{
 		return height;
 	}

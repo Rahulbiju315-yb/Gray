@@ -3,9 +3,9 @@
 
 namespace Gray
 {
-	Scene::Scene() : camera(this)
+	Scene::Scene(int renderListCapacity) : camera(this), validProjection(false), validShaderSet(false)
 	{
-
+		renderList.SetCapacity(renderListCapacity);
 	}
 
 	Camera* Scene::GetCamera()
@@ -13,48 +13,31 @@ namespace Gray
 		return &camera;
 	}
 
-	std::vector<std::shared_ptr<Renderable>>::iterator Scene::begin()
+	std::vector<RenderableModel>::iterator Scene::begin()
 	{
 		return renderList.begin();
 	}
 
-	std::vector<std::shared_ptr<Renderable>>::iterator Scene::end()
+	std::vector<RenderableModel>::iterator Scene::end()
 	{
 		return renderList.end();
 	}
 
-	std::vector<std::shared_ptr<LightSource>>::iterator Scene::lightsBegin()
+	RenderableModel* Scene::CreateRenderModel()
 	{
-		return lightMan.begin();
+		validShaderSet = false;
+		validProjection = false;
+
+		auto renderable = renderList.CreateRenderModel();
+		return renderable;
 	}
 
-	std::vector<std::shared_ptr<LightSource>>::iterator Scene::lightsEnd()
+	LightSource* Scene::CreateLight(LightType type, std::unique_ptr<Source> s)
 	{
-		return lightMan.end();
-	}
+		LightSource* ls = lightMan.CreateLight(type);
+		ls->source = std::move(s);
 
-	std::set<Shader*>::iterator Scene::shaderBegin()
-	{
-		return unique_shaders.begin();
-	}
-
-	std::set<Shader*>::iterator Scene::shaderEnd()
-	{
-		return unique_shaders.end();
-	}
-
-	void Scene::Add(std::shared_ptr<Renderable> renderable)
-	{
-		static glm::mat4 projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
-		renderable->GetShader()->SetUniform("projection", projection);
-
-		renderList.AddRenderable(renderable);
-		unique_shaders.insert(renderable->GetShader().get());
-	}
-
-	void Scene::Add(SharedLightSource lightSource)
-	{
-		lightMan.AddLight(lightSource);
+		return ls;
 	}
 
 	LightingManager* Scene::GetLightingManager()
@@ -67,23 +50,20 @@ namespace Gray
 		return &renderList;
 	}
 
+	const std::set<Shader*>& Scene::GetShaderSet()
+	{
+		return unique_shaders;
+	}
+
 	void Scene::LightUpScene()
 	{
-		auto [countPointLights, countDirLights, countSpotLights] = lightMan.GetLightCounts();
 		for (auto shader : unique_shaders)
 		{
-			shader->SetUniform("nrOfPointLights", countPointLights);
-			shader->SetUniform("nrOfDirectionalLights", countDirLights);
-			shader->SetUniform("nrOfSpotLights", countSpotLights);
-
-			for (auto light : lightMan)
-			{
-				light->SetUniformsFor(shader);
-			}
+			lightMan.SetUniformsFor(*shader);
 		}
 	}
 
-	void Scene::SetView()
+	void Scene::SetViewUniform()
 	{
 		for (auto shader : unique_shaders)
 		{
@@ -96,6 +76,31 @@ namespace Gray
 		for (auto shader : unique_shaders)
 		{
 			shader->SetUniform("view", view);
+		}
+	}
+
+	void Scene::ComputeShaderSet()
+	{
+		if (!validShaderSet)
+		{
+			for (auto& renderable : renderList)
+			{
+				unique_shaders.insert(renderable.GetShader().get());
+			}
+
+			validShaderSet = true;
+		}
+	}
+
+	void Scene::SetProjectionUniform()
+	{
+		if (!validProjection)
+		{
+			for (auto shader : unique_shaders)
+			{
+				shader->SetUniform("projection", camera.GetProjection());
+			}
+			validProjection = true;
 		}
 	}
 }

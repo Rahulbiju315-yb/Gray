@@ -28,7 +28,9 @@ namespace Gray
 		Mesh();
 
 		void SetupMesh(float* vertices, uint n_vert,
-			 uint* indices, uint n_ind);
+			 uint* indices, uint n_ind, const BufferLayout& layout);
+
+		void SetupMesh(const RenderData& renderData);
 
 		const RenderData& GetRenderData() const { return data; }
 		Material& GetMaterial() const { return material; }

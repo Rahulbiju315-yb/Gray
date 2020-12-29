@@ -12,7 +12,6 @@ namespace Gray
 		virtual const glm::vec3& GetDir() override;
 		virtual const glm::vec3& GetPos() override;
 
-	private:
 		glm::vec3 pos;
 		glm::vec3 dir;
 	};

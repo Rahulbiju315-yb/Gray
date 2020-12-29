@@ -12,18 +12,30 @@ namespace Gray
 	{
 	public:
 		Model();
+		Model(const Model& model) = delete;
+		Model(Model&& model) noexcept;
 
 		void LoadModel(const std::string& path, const std::string& fName);
 
 		std::vector<Mesh>::iterator begin();
 		std::vector<Mesh>::iterator end();
 
+
 	private:
+		std::vector<Mesh> meshes;
+		std::vector<std::shared_ptr<Material>> materials;
+
+		std::unordered_map<std::string, Texture> unique_tex;
 		bool isLoaded;
 
-		std::vector<Mesh> meshes;
-		
 		void ProcessNode(aiNode* node, const aiScene* scene);
 		void ProcessMesh(aiMesh* mesh, const aiScene* scene);
+		void ProcessMaterial(aiMaterial* material, Mesh& mesh);
+		void ProcessTextures(aiMaterial* material, Material& newMat, aiTextureType type);
+		void CreateMaterials(const aiScene* scene);
+
+		std::vector<std::shared_ptr<Material>>& GetMaterials();
+
+		friend class RenderableModel;
 	};
 }

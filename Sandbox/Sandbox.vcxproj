@@ -138,6 +138,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\test\Test.h" />
+    <ClInclude Include="src\test\TestCleanup.h" />
+    <ClInclude Include="src\test\TestFrameBuffer.h" />
     <ClInclude Include="src\test\TestManyCubes.h" />
     <ClInclude Include="src\test\TestModelLoading.h" />
     <ClInclude Include="src\test\TestScene.h" />

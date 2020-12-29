@@ -1,7 +1,5 @@
 #pragma once
 
-#include "RenderListItem.h"
-
 #include "Platform/Opengl/Renderer.h"
 #include "Platform/Opengl/Shader.h"
 #include "Platform/Opengl/RenderData.h"
@@ -22,12 +20,13 @@
 
 namespace Gray
 {
-	class Renderable : public RenderListItem
+	class Renderable
 	{
 	public:
 		Renderable();
+		Renderable(Renderable&& r) = default;
 
-		virtual void OnUpdate(float dt) const override = 0;
+		virtual void OnUpdate(float dt)  = 0;
 		virtual void OnImguiRender() const { }
 
 		void SetRenderEnabled(bool en);
@@ -49,5 +48,6 @@ namespace Gray
 		TransformUM tUM;
 		MaterialUM matUM;
 	};
+
 
 }

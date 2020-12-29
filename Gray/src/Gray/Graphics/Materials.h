@@ -14,21 +14,21 @@ namespace Gray
 
 
 		}
-
-		const std::vector<Texture>& GetEmissionMaps() const { return emissionMaps; }
-		const std::vector<Texture>& GetDiffuseMaps() const { return diffuseMaps; }
-		const std::vector<Texture>& GetSpecularMaps() const { return specularMaps; }
+		
+		const std::vector<Texture*>& GetEmissionMaps() const { return emissionMaps; }
+		const std::vector<Texture*>& GetDiffuseMaps() const { return diffuseMaps; }
+		const std::vector<Texture*>& GetSpecularMaps() const { return specularMaps; }
 		const float GetShininess() const { return shininess; }
 
-		void AddEmission(Texture emission) { emissionMaps.push_back(emission); }
-		void AddDiffuse(Texture diffuse) { diffuseMaps.push_back(diffuse);  }
-		void AddSpecular(Texture specular) { specularMaps.push_back(specular); }
+		void AddEmission(Texture* emission) { emissionMaps.push_back(emission); }
+		void AddDiffuse(Texture* diffuse) { diffuseMaps.push_back(diffuse);  }
+		void AddSpecular(Texture* specular) { specularMaps.push_back(specular); }
 		void SetShininess(float shininess) { this->shininess = shininess; }
 
 	private:
-		std::vector<Texture> emissionMaps;
-		std::vector<Texture> specularMaps;
-		std::vector<Texture> diffuseMaps;
+		std::vector<Texture*> emissionMaps;
+		std::vector<Texture*> specularMaps;
+		std::vector<Texture*> diffuseMaps;
 
 		float shininess;
 	};

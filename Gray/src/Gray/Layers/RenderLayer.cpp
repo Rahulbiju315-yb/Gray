@@ -45,16 +45,27 @@ namespace Gray
 
 		Renderable::GetRenderer()->Clear();
 
-		scene->GetCamera()->OnUpdate(dt);
-		scene->SetView();
-		scene->LightUpScene();
-
-		for (auto renderable : *scene)
+		if (scene)
 		{
-			if (renderable->GetRenderEnabled())
+			scene->ComputeShaderSet();
+			scene->GetCamera()->OnUpdate(dt);
+
+			scene->SetProjectionUniform();
+			scene->SetViewUniform();
+
+			scene->LightUpScene();
+
+			for (auto& renderable : *scene)
 			{
-				renderable->OnUpdate(dt);
+				if (renderable.GetRenderEnabled())
+				{
+					renderable.OnUpdate(dt);
+				}
 			}
+		}
+		else
+		{
+			GRAY_WARN("Empty Scene");
 		}
 	}
 
@@ -64,8 +75,10 @@ namespace Gray
 		static bool changed;
 		static glm::vec3 ambientStrength(0.2f);
 
-		scene->GetCamera()->OnImguiRender();
-
+		if (scene)
+		{
+			scene->GetCamera()->OnImguiRender();
+		}
 		static int frames = 0;
 		static float time = 0;
 		static float fps = 0.0f;
@@ -80,12 +93,12 @@ namespace Gray
 		}
 
 		ImGui::Text(("FPS : " + std::to_string(fps)).c_str());
-		//GRAY_INFO(("FPS : " + std::to_string(fps)));
 	}
 
 	void RenderLayer::OnMouseMoved(MouseMovedEvent& e)
 	{
-		scene->GetCamera()->UpdateLook();
+		if(scene)
+			scene->GetCamera()->UpdateLook();
 	}
 
 }

@@ -20,7 +20,7 @@ namespace Test
 			
 		}
 
-		std::shared_ptr<Gray::Scene> OnInit(Gray::RenderLayer* renderLayer) override
+		void OnInit() override
 		{
 			std::shared_ptr<Gray::Scene> scene = std::make_shared<Gray::Scene>();
 			std::shared_ptr<Gray::DebugCube> dbcRoot = std::make_shared<Gray::DebugCube>();
@@ -49,7 +49,6 @@ namespace Test
 
 			scene->GetCamera()->SetMoveEnabled(true);
 			scene->GetCamera()->SetPos(glm::vec3(0.0f, 0.0f, 3.0f));
-			renderLayer->SetScene(scene);
 
 			return scene;
 		}

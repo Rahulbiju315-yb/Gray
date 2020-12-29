@@ -20,13 +20,15 @@ namespace Gray
 		~Application();
 
 		virtual void Init() = 0;
+		virtual void OnUpdate() = 0;
+
 		void AddLayer(Layer* l);
 		bool RemoveLayer(Layer* l);
 		bool RemoveLayerAt(int i);
 
 		void Run();
-		unsigned int GetWidth();
-		unsigned int GetHeight();
+		uint GetWidth();
+		uint GetHeight();
 		void* GetProvider();
 		WindowProvider GetProviderName();
 
@@ -41,6 +43,7 @@ namespace Gray
 
 	protected:
 		void Clear();
+		float GetDT();
 
 		Window *window;
 		ImguiLayer *imguiLayer;
@@ -48,6 +51,8 @@ namespace Gray
 
 		static Application* app;
 
+	private:
+		float lastTime;
 	};
 
 	Application* CreateApplication();

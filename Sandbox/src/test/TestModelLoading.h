@@ -26,21 +26,27 @@ namespace Test
 			
 		}
 
-		std::shared_ptr<Gray::Scene> OnInit(Gray::RenderLayer* renderLayer) override
+		std::shared_ptr<Gray::Scene> OnInit() override
 		{
-			std::shared_ptr<Gray::Scene> scene = std::make_shared<Gray::Scene>();
-			
-			std::unique_ptr<Gray::Model> temp = std::make_unique<Gray::Model>();
-			temp->LoadModel("res/models/backpack", "backpack.obj");
+			scene = std::make_shared<Gray::Scene>(1);
 
-			std::unique_ptr<Gray::RenderableModel> model = std::make_unique<Gray::RenderableModel>(std::move(temp));
+			auto model = scene->CreateRenderModel();
+			model->LoadModel("res/models/backpack/backpack.obj");
 			model->GetTransform().SetPos(glm::vec3(0));
-			scene->Add(Gray::CreateLight<Gray::PointLight>(Gray::CreateSource(scene->GetCamera())));
-			scene->Add(std::move(model));
 
-			renderLayer->SetScene(scene);
+			auto source = std::make_unique<Gray::CameraSource>(scene->GetCamera());
+			auto ls = scene->CreateLight(Gray::LightType::PointLight, std::move(source));
+			ls->SetAttenuation(1.0f, 0.07f, 0.14f);
+
 			return scene;
 		}
 
+		void OnUpdate(float dt) override
+		{
+
+		}
+
+	private:
+		std::shared_ptr<Gray::Scene> scene;
 	};
 }

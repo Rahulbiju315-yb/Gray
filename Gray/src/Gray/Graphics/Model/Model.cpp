@@ -4,14 +4,19 @@
 #include "Platform/Opengl/Texture.h"
 namespace Gray
 {
-	std::unordered_map<std::string, Texture> loaded;
-
-	void ProcessMaterial(aiMaterial* material, Mesh& mesh);
-	void ProcessTextures(aiMaterial* material, Material& newMat, aiTextureType type);
 
 	std::string dir;
 
 	Model::Model() : isLoaded(false)
+	{
+	}
+
+	//TODO Why is the implicit move constructor not noexcept 
+	Model::Model(Model&& model) noexcept
+		:meshes(std::move(model.meshes)),
+		 materials(std::move(model.materials)),
+		 unique_tex(std::move(model.unique_tex)),
+		 isLoaded(std::move(model.isLoaded))
 	{
 	}
 
@@ -24,15 +29,18 @@ namespace Gray
 
 		dir = path;
 
+		CreateMaterials(scene);
+
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
-			GRAY_ERROR("Failed to load model " + path);
+			GRAY_ERROR("Failed to load model " + path + "/" + fName);
 			isLoaded = false;
 		}
 		else
 		{
 			ProcessNode(scene->mRootNode, scene);
 		}
+
 	}
 
 	std::vector<Mesh>::iterator Model::begin()
@@ -62,7 +70,7 @@ namespace Gray
 	void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	{
 		auto vertices{ std::vector<float>() };
-		auto indices{ std::vector<unsigned int>() };
+		auto indices{ std::vector<uint>() };
 
 		for (uint i = 0; i < mesh->mNumVertices; i++)
 		{
@@ -103,20 +111,24 @@ namespace Gray
 			}
 		}
 
-		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-
 		Mesh grayMesh;
-		ProcessMaterial(material, grayMesh);
+		auto& grayMaterial = grayMesh.GetMaterial();
+		grayMaterial = *materials[mesh->mMaterialIndex]; // TODO Make Mesh have a pointer to material than material
 		
+		BufferLayout bl;
+		bl.Push<float>(3);
+		bl.Push<float>(3);
+		bl.Push<float>(2);
+
 		meshes.push_back(grayMesh);
-		meshes.back().SetupMesh(&(vertices[0]), vertices.size(),
-								&(indices[0]), indices.size());  
+		meshes.back().SetupMesh(&(vertices[0]), (uint)vertices.size(),
+								&(indices[0]), (uint)indices.size(), bl);  // TODO PLS fix these warnings abt type conv
 	}
 
-	void ProcessTextures(aiMaterial* material, Material& newMat, aiTextureType type)
+	void Model::ProcessTextures(aiMaterial* material, Material& newMat, aiTextureType type)
 	{
 
-		void(Material:: * addToMat)(Texture) = nullptr; 
+		void(Material:: * addToMat)(Texture*) = nullptr; 
 		switch (type)
 		{
 		case aiTextureType_DIFFUSE:
@@ -145,20 +157,40 @@ namespace Gray
 
 			std::string path = std::string(aiPath.C_Str());
 			Texture* tex = nullptr;
-			if (loaded.find(path) == loaded.end())
-			{
-				loaded.insert({path, Texture(dir + "/" + path, GL_COMPRESSED_RGBA)});
-			}
 
-			tex = &loaded[aiPath.C_Str()];
-			(newMat.*addToMat)(*tex);
+			if (unique_tex.find(path) == unique_tex.end())
+			{
+				unique_tex.insert({path, Texture(dir + "/" + path, GL_COMPRESSED_RGBA)});
+			}
+			tex = &unique_tex[path];
+			
+			(newMat.*addToMat)(tex);
 		}
 	}
+
+	void Model::CreateMaterials(const aiScene* scene)
+	{
+		for (uint i = 0; i < scene->mNumMaterials; i++)
+		{
+			aiMaterial* material = scene->mMaterials[i];
+
+			materials.push_back(std::make_shared<Material>());
+			ProcessTextures(material, *materials[i], aiTextureType_DIFFUSE);
+			ProcessTextures(material, *materials[i], aiTextureType_SPECULAR);
+			ProcessTextures(material, *materials[i], aiTextureType_EMISSIVE);
+		}
+	}
+
+	std::vector<std::shared_ptr<Material>>& Model::GetMaterials()
+	{
+		return materials;
+	}
 	
-	void ProcessMaterial(aiMaterial* material, Mesh& mesh)
+	void Model::ProcessMaterial(aiMaterial* material, Mesh& mesh)
 	{
 		ProcessTextures(material, mesh.GetMaterial(), aiTextureType_DIFFUSE);
 		ProcessTextures(material, mesh.GetMaterial(), aiTextureType_SPECULAR);
 		ProcessTextures(material, mesh.GetMaterial(), aiTextureType_EMISSIVE);
 	}
+
  }

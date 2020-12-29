@@ -8,7 +8,7 @@ namespace Gray
 {
 	void* Window::provider = nullptr;
 
-	Window* Window::Create(const std::string& title, unsigned int width, unsigned int height)
+	Window* Window::Create(const std::string& title, uint width, uint height)
 	{
 		Window* window;
 #ifdef GRAY_PLATFORM_WINDOWS

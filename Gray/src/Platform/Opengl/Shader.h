@@ -26,7 +26,7 @@ namespace Gray
 		void SetAttatched(bool attatched);
 		bool IsAttatched();
 	private:
-		unsigned int ID;
+		uint ID;
 		bool success;
 		bool attatched;
 

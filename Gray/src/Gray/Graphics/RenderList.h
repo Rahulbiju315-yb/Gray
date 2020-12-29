@@ -1,18 +1,19 @@
 #pragma once
 
-#include "Renderable.h"
+#include "Model/RenderableModel.h"
 
 namespace Gray
 {
 	class RenderList
 	{
 	public:
-		void AddRenderable(std::shared_ptr<Renderable> r);
-		bool RemoveRenderable(std::shared_ptr<Renderable> r);
+		void SetCapacity(int capacity);
 
-		std::vector<std::shared_ptr<Renderable>>::iterator begin();
-		std::vector<std::shared_ptr<Renderable>>::iterator end();
+		RenderableModel* CreateRenderModel();
 
-		std::vector<std::shared_ptr<Renderable>> renderables;
+		std::vector<RenderableModel>::iterator begin();
+		std::vector<RenderableModel>::iterator end();
+
+		std::vector<RenderableModel> renderables;
 	};
 }

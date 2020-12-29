@@ -5,20 +5,30 @@
 
 namespace Gray
 {
-	IndexBuffer::IndexBuffer(unsigned int indices[], int count)
+
+	IndexBuffer::IndexBuffer(uint indices[], int count)
 	{
 		glGenBuffers(1, &ID);
 
 		Bind();
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint), indices, GL_STATIC_DRAW);
 		Unbind();
 
 		this->count = count;
 	}
 
+	IndexBuffer::IndexBuffer(IndexBuffer&& ib) noexcept
+		:ID(ib.ID),
+		 count(ib.count)
+	{
+		ib.ID = 0;
+		ib.count = 0;
+	}
+
 	IndexBuffer::~IndexBuffer()
 	{
-
+		if(ID != 0)
+			glDeleteBuffers(1, &ID);
 	}
 
 	void IndexBuffer::Bind() const

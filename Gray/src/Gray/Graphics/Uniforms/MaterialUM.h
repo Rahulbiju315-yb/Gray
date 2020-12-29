@@ -11,7 +11,8 @@ namespace Gray
 
 	enum class MaterialUMType
 	{
-		SimpleMaterialUM
+		SimpleMaterialUM,
+		ModelMaterialUM
 	};
 
 	class MaterialUM

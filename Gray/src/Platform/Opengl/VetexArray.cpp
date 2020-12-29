@@ -5,6 +5,10 @@
 
 namespace Gray
 {
+	VertexArray::VertexArray() : ID(0)
+	{
+	}
+
 	VertexArray::VertexArray(const VertexBuffer& buffer, const BufferLayout& layout)
 	{
 		glGenVertexArrays(1, &ID);
@@ -27,9 +31,16 @@ namespace Gray
 		Unbind();
 	}
 
+	VertexArray::VertexArray(VertexArray&& va) noexcept
+		: ID(va.ID)
+	{
+		va.ID = 0;
+	}
+
 	VertexArray::~VertexArray()
 	{
-
+		if(ID != 0)
+			glDeleteVertexArrays(1, &ID);
 	}
 
 	void VertexArray::Bind() const
@@ -40,6 +51,12 @@ namespace Gray
 	void VertexArray::Unbind() const
 	{
 		glBindVertexArray(0);
+	}
+
+	void VertexArray::TransferTo(VertexArray& va)
+	{
+		if (va.ID != 0)
+			glDeleteVertexArrays(1, &(va.ID));
 	}
 
 }

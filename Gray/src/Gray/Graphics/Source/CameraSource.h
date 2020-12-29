@@ -10,7 +10,6 @@ namespace Gray
 		virtual const glm::vec3& GetPos() override;
 		virtual const glm::vec3& GetDir() override;
 
-	private:
 		Camera* camera;
 	};
 }

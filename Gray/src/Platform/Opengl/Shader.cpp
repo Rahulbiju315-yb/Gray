@@ -11,7 +11,7 @@
 namespace Gray
 {
 
-	unsigned int boundShaderID = 0;
+	uint boundShaderID = 0;
 
 	bool LoadShaderProgram(std::string& vertexSource, std::string& fragmentSource, const std::string& file)
 	{
@@ -60,7 +60,7 @@ namespace Gray
 		return true;
 	}
 
-	bool CompileShader(const std::string& vertexSource, const std::string& fragmentSource, unsigned int& ID)
+	bool CompileShader(const std::string& vertexSource, const std::string& fragmentSource, uint& ID)
 	{
 		const char* vsource = vertexSource.c_str();
 		const char* fsource = fragmentSource.c_str();
@@ -138,7 +138,7 @@ namespace Gray
 		boundShaderID = 0;
 	}
 
-	void Shader::SetUniform(const std::string& name, int i) const 
+	void Shader::SetUniform(const std::string& name, int i) const
 	{
 		Bind();
 		glUniform1i(GetUniformLocation(name.c_str()), i);
@@ -150,13 +150,13 @@ namespace Gray
 		glUniform1f(GetUniformLocation(name.c_str()), f);
 	}
 
-	void Shader::SetUniform(const std::string& name, const glm::vec2& v2) const 
+	void Shader::SetUniform(const std::string& name, const glm::vec2& v2) const
 	{
 		Bind();
 		glUniform2f(GetUniformLocation(name.c_str()), v2.x, v2.y);
 	}
 
-	void Shader::SetUniform(const std::string& name, const glm::vec3& v3) const 
+	void Shader::SetUniform(const std::string& name, const glm::vec3& v3) const
 	{
 		Bind();
 		glUniform3f(GetUniformLocation(name.c_str()), v3.x, v3.y, v3.z);

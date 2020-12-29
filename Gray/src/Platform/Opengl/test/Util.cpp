@@ -49,7 +49,7 @@ namespace Gray
 			-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f,
 		};	
 
-		unsigned int indices[36] =
+		uint indices[36] =
 		{
 			0, 1, 2, 2, 3, 0, //Back
 			4, 5, 6, 6, 7, 4, //Front

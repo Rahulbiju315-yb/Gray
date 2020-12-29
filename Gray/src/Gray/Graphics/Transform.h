@@ -8,6 +8,8 @@ namespace Gray
 	{
 	public:
 		Transform();
+		Transform(Transform&& tr) = default;
+
 		const glm::mat4& GetModelMatrix() const;
 
 		void SetPos(glm::vec3 pos);

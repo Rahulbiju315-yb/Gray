@@ -17,61 +17,45 @@ namespace Test
 	public:
 		TestManyCubes(int n, float closeness=20.f) : n(n), closeness(closeness)
 		{
-			
+			tex1.LoadTexture("res/textures/container2.png", GL_RGBA, GL_RGBA);
+			tex2.LoadTexture("res/textures/container2spec.png", GL_RGBA, GL_RGBA);
+			tex3.LoadTexture("res/textures/container2spec.png", GL_RGBA, GL_RGBA);
 		}
 
-		std::shared_ptr<Gray::Scene> OnInit(Gray::RenderLayer* renderLayer) override
+		std::shared_ptr<Gray::Scene> OnInit() override
 		{
-			std::shared_ptr<Gray::Scene> scene = std::make_shared<Gray::Scene>();
+			auto scene = std::make_shared<Gray::Scene>(n + 1);
 
-			std::shared_ptr<Gray::DebugCube> dbcRoot = std::make_shared<Gray::DebugCube>();
-			dbcRoot->SetRenderEnabled(true);
+			auto rModel = scene->CreateRenderModel();
+			rModel->LoadTestCube();
 
-			Gray::Texture tex;
-			tex.LoadTexture("res/textures/container2.png", GL_RGBA, GL_RGBA);
+			
 
-			Gray::Texture tex2;
-			tex2.LoadTexture("res/textures/container2spec.png", GL_RGBA, GL_RGBA);
-
-			Gray::Texture tex3;
-			tex3.LoadTexture("res/textures/container2spec.png", GL_RGBA, GL_RGBA);
-
-			Gray::Material& material = dbcRoot->GetMaterial();
-			material.AddDiffuse(tex);
-			material.AddSpecular(tex2);
+			auto& material = rModel->begin()->GetMaterial();
+			material.AddDiffuse(&tex1);
+			material.AddSpecular(&tex2);
 
 			for (int i = 0; i < n; i++)
 			{
-				std::shared_ptr<Gray::DebugCube> dbc = std::make_shared<Gray::DebugCube>(dbcRoot->GetShader(),
-					dbcRoot->GetRenderData());
+				auto dbc = scene->CreateRenderModel();
+				dbc->LoadModel(rModel->GetShader(), rModel->begin()->GetRenderData());
 
-				Gray::Material& material = dbc->GetMaterial();
-				material.AddDiffuse(tex);
-				material.AddSpecular(tex2);
+				auto& material = dbc->begin()->GetMaterial();
+				material.AddDiffuse(&tex1);
+				material.AddSpecular(&tex2);
 
 				float x = (n * RAND_FLOAT - n/2) / closeness;
 				float y = (n * RAND_FLOAT - n/2) / closeness;
 				float z = (n * RAND_FLOAT - n/2) / closeness;
 
-				(dbc->GetTransform()).SetPos(glm::vec3(x, y, z));
-
-				scene->Add(dbc);
+				dbc->GetTransform().SetPos(glm::vec3(x, y, z));
 			}
-			
-			//scene->Add(Gray::CreateLight<Gray::PointLight>(Gray::CreateSource(dbcRoot)));
-			Gray::SharedLightSource ls =
-				Gray::CreateLight<Gray::PointLight>(Gray::CreateSource(Gray::Defaults::ORIGIN));
-			scene->Add(ls);
 
+			auto source = std::make_unique<Gray::CameraSource>(scene->GetCamera());
+			auto ls = scene->CreateLight(Gray::LightType::PointLight, std::move(source));
+			ls->SetAttenuation(1.0f, 0.07f, 0.14f);
 
-			scene->GetCamera()->SetMoveEnabled(true);
-			scene->GetCamera()->SetPos(glm::vec3(0.0f, 0.0f, 3.0f));
-
-			GRAY_INFO("VertexArray " + std::to_string(sizeof(Gray::VertexArray)));
-			GRAY_INFO("VertexBuffer " + std::to_string(sizeof(Gray::VertexBuffer)));
-			GRAY_INFO("IndexBuffer " + std::to_string(sizeof(Gray::IndexBuffer)));
-			GRAY_INFO("Shader " + std::to_string(sizeof(Gray::Shader)));
-			renderLayer->SetScene(scene);
+			rModel->GetShader()->SetUniform("projection", scene->GetCamera()->GetProjection());
 
 			return scene;
 		}
@@ -79,5 +63,7 @@ namespace Test
 	private:
 		int n;
 		float closeness;
+
+		Gray::Texture tex1, tex2, tex3;
 	};
 }

@@ -3,28 +3,23 @@
 
 namespace Gray
 {
-	void RenderList::AddRenderable(std::shared_ptr<Renderable> r)
+	void RenderList::SetCapacity(int capacity)
 	{
-		renderables.push_back(r);
+		renderables.reserve(capacity);
 	}
 
-	bool RenderList::RemoveRenderable(std::shared_ptr<Renderable> r)
+	RenderableModel* RenderList::CreateRenderModel()
 	{
-		for (auto renderable : renderables)
-		{
-			if (renderable == r)
-			{
-				renderables.erase(std::remove(renderables.begin(), renderables.end(), r), renderables.end());
-				return true;
-			}
-		}
-		return false;
+		renderables.push_back(RenderableModel());
+		return &(renderables.back());
 	}
-	std::vector<std::shared_ptr<Renderable>>::iterator RenderList::begin()
+
+	std::vector<RenderableModel>::iterator RenderList::begin()
 	{
 		return renderables.begin();
 	}
-	std::vector<std::shared_ptr<Renderable>>::iterator RenderList::end()
+
+	std::vector<RenderableModel>::iterator RenderList::end()
 	{
 		return renderables.end();
 	}

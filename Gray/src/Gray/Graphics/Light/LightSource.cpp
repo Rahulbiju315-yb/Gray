@@ -7,10 +7,10 @@ namespace Gray
 {
 
 
-	LightSource::LightSource(LightType type,LightColor color, std::shared_ptr<Source> source) :
-		color(color), source(source),
+	LightSource::LightSource() :
+		color(Defaults::COLOR_WHITE), source(nullptr),
 		k0(Defaults::DEFAULT_K0), k1(Defaults::DEFAULT_K1), k2(Defaults::DEFAULT_K2),
-		index(0), type(type)
+		index(0), type(LightType::PointLight)
 	{
 		
 	}
@@ -28,12 +28,12 @@ namespace Gray
 		this->k2 = k2;
 	}
 
-	void LightSource::SetIndex(unsigned int index)
+	void LightSource::SetIndex(uint index)
 	{
 		this->index = index;
 	}
 
-	unsigned int LightSource::GetIndex()
+	uint LightSource::GetIndex()
 	{
 		return index;
 	}

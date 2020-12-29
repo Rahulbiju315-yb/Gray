@@ -6,6 +6,7 @@ namespace Test
 	class Test
 	{
 	public :
-		virtual std::shared_ptr<Gray::Scene> OnInit(Gray::RenderLayer* renderLayer) = 0;
+		virtual std::shared_ptr<Gray::Scene> OnInit() = 0;
+		virtual void OnUpdate(float dt) = 0;
 	};
 }

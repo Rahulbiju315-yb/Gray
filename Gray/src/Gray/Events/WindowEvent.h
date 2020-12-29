@@ -6,7 +6,7 @@ namespace Gray
 	class WindowResizedEvent : public Event
 	{
 	public:
-		WindowResizedEvent(unsigned int width, unsigned int height)
+		WindowResizedEvent(uint width, uint height)
 		{
 			this->width = width;
 			this->height = height;
@@ -17,12 +17,12 @@ namespace Gray
 			return "Window Resized : " + std::to_string(width) + ", " + std::to_string(height);
 		}
 
-		unsigned int GetWidth()
+		uint GetWidth()
 		{
 			return width;
 		}
 		
-		unsigned int GetHeight()
+		uint GetHeight()
 		{
 			return height;
 		}
@@ -31,7 +31,7 @@ namespace Gray
 		EVENT_CLASS_CATEGORY(EventCategoryWindow)
 
 	private:
-		unsigned int width, height;
+		uint width, height;
 	};
 	
 	class

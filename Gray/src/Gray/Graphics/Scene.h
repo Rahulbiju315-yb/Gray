@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Renderable.h"
+#include "Model/RenderableModel.h"
 #include "Light/LightSource.h"
 #include "Camera.h"
 #include "RenderList.h"
@@ -15,28 +15,26 @@ namespace Gray
 
 	public:
 
-		Scene();
+		Scene(int renderListCapacity);
 
 		Camera* GetCamera();
 
-		std::vector<std::shared_ptr<Renderable>>::iterator begin();
-		std::vector<std::shared_ptr<Renderable>>::iterator end();
-		
-		std::vector<SharedLightSource>::iterator lightsBegin();
-		std::vector<SharedLightSource>::iterator lightsEnd();
+		std::vector<RenderableModel>::iterator begin();
+		std::vector<RenderableModel>::iterator end();
 
-		std::set<Shader*>::iterator shaderBegin();
-		std::set<Shader*>::iterator shaderEnd();
-
-		void Add(std::shared_ptr<Renderable> renderable);
-		void Add(SharedLightSource lightSource);
+		RenderableModel* CreateRenderModel();
+		LightSource* CreateLight(LightType type, std::unique_ptr<Source> s);
 
 		LightingManager* GetLightingManager();
 		RenderList* GetRenderList();
+		const std::set<Shader*>& GetShaderSet();
 
 		void LightUpScene();
-		void SetView();
+		void SetViewUniform();
 		void SetView(const glm::mat4& view);
+
+		void ComputeShaderSet();
+		void SetProjectionUniform();
 
 	private:
 		RenderList renderList;
@@ -44,6 +42,8 @@ namespace Gray
 		std::set<Shader*> unique_shaders;
 
 		Camera camera;
-		
+		bool validShaderSet;
+		bool validProjection;
 	};
+
 }

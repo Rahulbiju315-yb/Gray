@@ -11,9 +11,11 @@ namespace Gray
 	{
 	public:
 		DebugCube();
-		DebugCube(std::shared_ptr<Shader> shader, RenderData data);
 
-		virtual void OnUpdate(float dt) const override;
+		void LoadSampleRD();
+		void LoadRD(std::shared_ptr<Shader> shader, const RenderData& data);
+
+		virtual void OnUpdate(float dt) override;
 		virtual void OnImguiRender() const override;
 
 		virtual Material& GetMaterial();

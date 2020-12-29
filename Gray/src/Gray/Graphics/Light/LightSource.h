@@ -15,9 +15,9 @@ namespace Gray
 		SpotLight
 	};
 
-	static const unsigned int POINT_MAX_LIMIT = 10;
-	static const unsigned int DIRECTIONAL_MAX_LIMIT = 1;
-	static const unsigned int SPOT_MAX_LIMIT = 4;
+	static const uint POINT_MAX_LIMIT = 10;
+	static const uint DIRECTIONAL_MAX_LIMIT = 1;
+	static const uint SPOT_MAX_LIMIT = 4;
 
 	template<class T>
 	std::shared_ptr<T> CreateLight(std::shared_ptr<Source> s, LightColor color = LightColor())
@@ -28,23 +28,24 @@ namespace Gray
 	class LightSource
 	{
 	public:
-		LightSource(LightType type, LightColor color, std::shared_ptr<Source> source);
-		virtual void SetUniformsFor(Shader* shader) = 0;
+		LightSource();
+		virtual void SetUniformsFor(const Shader& shader) = 0;
 
 		std::tuple<float, float, float> GetAttenuation();
 		void SetAttenuation(float k0, float k1, float k2);
 
-		void SetIndex(unsigned int index);
-		unsigned int GetIndex();
+		void SetIndex(uint index);
+		uint GetIndex();
 
 		LightType GetType();
-	protected:
 
 		LightColor color;
-		std::shared_ptr<Source> source;
+		std::unique_ptr<Source> source;
 
-		unsigned int index;
+	protected:
+		uint index;
 		float k0, k1, k2;
+
 		LightType type;
 	};
 

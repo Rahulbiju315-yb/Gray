@@ -172,10 +172,7 @@
     <ClInclude Include="src\Gray\Graphics\Materials.h" />
     <ClInclude Include="src\Gray\Graphics\Model\Mesh.h" />
     <ClInclude Include="src\Gray\Graphics\Model\Model.h" />
-    <ClInclude Include="src\Gray\Graphics\Model\ModelMaterialUM.h" />
     <ClInclude Include="src\Gray\Graphics\Model\RenderableModel.h" />
-    <ClInclude Include="src\Gray\Graphics\RenderGroup.h" />
-    <ClInclude Include="src\Gray\Graphics\RenderListItem.h" />
     <ClInclude Include="src\Gray\Graphics\Transform.h" />
     <ClInclude Include="src\Gray\Graphics\RenderList.h" />
     <ClInclude Include="src\Gray\Graphics\Renderable.h" />
@@ -198,8 +195,10 @@
     <ClInclude Include="src\Gray\Window\Window.h" />
     <ClInclude Include="src\Gray\Window\WindowsWindow.h" />
     <ClInclude Include="src\Platform\Opengl\BufferLayout.h" />
+    <ClInclude Include="src\Platform\Opengl\FrameBuffer.h" />
     <ClInclude Include="src\Platform\Opengl\IndexBuffer.h" />
     <ClInclude Include="src\Platform\Opengl\Opengl.h" />
+    <ClInclude Include="src\Platform\Opengl\RenderBuffer.h" />
     <ClInclude Include="src\Platform\Opengl\RenderData.h" />
     <ClInclude Include="src\Platform\Opengl\Renderer.h" />
     <ClInclude Include="src\Platform\Opengl\Shader.h" />
@@ -244,7 +243,9 @@
     <ClCompile Include="src\Gray\TempUtil.cpp" />
     <ClCompile Include="src\Gray\Window\Window.cpp" />
     <ClCompile Include="src\Gray\Window\WindowsWindow.cpp" />
+    <ClCompile Include="src\Platform\Opengl\FrameBuffer.cpp" />
     <ClCompile Include="src\Platform\Opengl\IndexBuffer.cpp" />
+    <ClCompile Include="src\Platform\Opengl\RenderBuffer.cpp" />
     <ClCompile Include="src\Platform\Opengl\Renderer.cpp" />
     <ClCompile Include="src\Platform\Opengl\Shader.cpp" />
     <ClCompile Include="src\Platform\Opengl\Texture.cpp" />

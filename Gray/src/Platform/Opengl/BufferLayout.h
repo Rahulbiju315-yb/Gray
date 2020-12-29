@@ -3,66 +3,71 @@
 #include <GL/glew.h>
 #include <vector>
 
-class VertexAttrib
+namespace Gray
 {
-public:
-	unsigned int count;
-	unsigned int type;
-	bool normalized;
-};
 
-class BufferLayout
-{
-private:
-	std::vector<VertexAttrib> attribs;
-	int stride;
 
-public:
-	BufferLayout()
+	class VertexAttrib
 	{
-		stride = 0;
-	}
+	public:
+		uint count;
+		uint type;
+		bool normalized;
+	};
 
-	~BufferLayout()
+	class BufferLayout
 	{
+	private:
+		std::vector<VertexAttrib> attribs;
+		int stride;
 
-	}
+	public:
+		BufferLayout()
+		{
+			stride = 0;
+		}
 
-	template<typename T>
-	void Push(unsigned int count)
-	{
-		//static_assert(false);
-	}
+		~BufferLayout()
+		{
 
-	template<>
-	void Push<float>(unsigned int count)
-	{
-		attribs.push_back({count, GL_FLOAT, false});
-		stride += count * sizeof(GL_FLOAT);
-	}
+		}
 
-	template<>
-	void Push<unsigned int>(unsigned int count)
-	{
-		attribs.push_back({count, GL_UNSIGNED_INT, false});
-		stride += count * sizeof(GL_UNSIGNED_INT);
-	}
+		template<typename T>
+		void Push(uint count)
+		{
+			//static_assert(false);
+		}
 
-	template<>
-	void Push<int>(unsigned int count)
-	{
-		attribs.push_back({count, GL_INT, false});
-		stride += count * sizeof(GL_INT);
-	}
+		template<>
+		void Push<float>(uint count)
+		{
+			attribs.push_back({ count, GL_FLOAT, false });
+			stride += count * sizeof(GL_FLOAT);
+		}
 
-	int GetStride() const
-	{
-		return stride;
-	}
+		template<>
+		void Push<uint>(uint count)
+		{
+			attribs.push_back({ count, GL_UNSIGNED_INT, false });
+			stride += count * sizeof(GL_UNSIGNED_INT);
+		}
 
-	const std::vector<VertexAttrib>& GetVector() const 
-	{
-		return attribs;
-	}
-};
+		template<>
+		void Push<int>(uint count)
+		{
+			attribs.push_back({ count, GL_INT, false });
+			stride += count * sizeof(GL_INT);
+		}
 
+		int GetStride() const
+		{
+			return stride;
+		}
+
+		const std::vector<VertexAttrib>& GetVector() const
+		{
+			return attribs;
+		}
+	};
+
+}

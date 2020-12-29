@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Light/LightSource.h"
+#include "Light/PointLight.h"
+#include "Light/DirectionalLight.h"
+#include "Light/SpotLight.h"
 
 namespace Gray
 {
@@ -9,18 +11,14 @@ namespace Gray
 	public:
 		LightingManager();
 
-		void AddLight(SharedLightSource light);
-		bool RemoveLight(SharedLightSource light);
-
-		std::vector<SharedLightSource>::iterator begin();
-		std::vector<SharedLightSource>::iterator end();
+		LightSource* CreateLight(LightType type);
+		void SetUniformsFor(const Shader& shader);
 
 		std::tuple<int, int, int> GetLightCounts(); // point, directional, spot
-	private:
-		int countPointLights;
-		int countDirLights;
-		int countSpotLights;
 
-		std::vector<SharedLightSource> lightSources;
+	private:
+		std::vector<PointLight> pointLights;
+		std::vector<DirectionalLight> dirLights;
+		std::vector<SpotLight> spotLights;
 	};
 }

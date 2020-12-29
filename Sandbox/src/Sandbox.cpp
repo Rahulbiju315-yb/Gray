@@ -17,6 +17,8 @@
 
 #include "test/TestManyCubes.h"
 #include "test/TestModelLoading.h"
+#include "test/TestCleanup.h"
+#include "test/TestFrameBuffer.h"
 
 #define RAND_FLOAT (float)rand() / RAND_MAX
 
@@ -25,7 +27,6 @@
 class Sandbox : public Gray::Application
 {
 public:
-
 	Sandbox() : cursorEn(true)
 	{
 		
@@ -61,18 +62,19 @@ public:
 
 	void Init() override
 	{
-		AddLayer(&renderLayer);
-		Test::TestModelLoading tml;
-		scene = tml.OnInit(&renderLayer);
+		test = std::make_unique<Test::TestFrameBuffer>();
+		scene = test->OnInit();
+	}
 
-		/*Test::TestManyCubes tmc(1000, 5);
-		scene = tmc.OnInit(&renderLayer);*/
+	void OnUpdate() override
+	{
+		test->OnUpdate(GetDT());
 	}
 
 private:
-	bool cursorEn;
-	Gray::RenderLayer renderLayer;
 	std::shared_ptr<Gray::Scene> scene;
+	std::unique_ptr<Test::Test> test;
+	bool cursorEn;
 
 };
 

@@ -1,65 +1,62 @@
 #include "grpch.h"
 #include "LightingManager.h"
 
+#include "Light/PointLight.h"
+#include "Light/DirectionalLight.h"
+#include "Light/SpotLight.h"
+
 namespace Gray
 {
-	LightingManager::LightingManager() : countPointLights(0), countDirLights(0), countSpotLights(0)
+	LightingManager::LightingManager()
 	{
 	}
-	void LightingManager::AddLight(SharedLightSource light)
-	{
-		lightSources.push_back(light);
 
-		if (light->GetType() == LightType::PointLight)
+	LightSource* LightingManager::CreateLight(LightType type)
+	{
+		LightSource* source;
+		switch (type)
 		{
-			light->SetIndex(countPointLights++);
+		case Gray::LightType::PointLight:
+			pointLights.push_back(PointLight());
+			source = &(pointLights.back());
+			break;
+
+		case Gray::LightType::DirectionalLight:
+			dirLights.push_back(DirectionalLight());
+			source = &(dirLights.back());
+			break;
+
+		case Gray::LightType::SpotLight:
+			spotLights.push_back(SpotLight());
+			source = &(spotLights.back());
+			break;
+
+		default:
+			source = nullptr;
+			break;
 		}
-		else if (light->GetType() == LightType::DirectionalLight)
-		{
-			light->SetIndex(countDirLights++);
-		}
-		else if (light->GetType() == LightType::SpotLight)
-		{
-			light->SetIndex(countSpotLights++);
-		}
+
+		return source;
 	}
 
-	bool LightingManager::RemoveLight(SharedLightSource rlight)
+	void LightingManager::SetUniformsFor(const Shader& shader)
 	{
-		bool found = false;
+		shader.SetUniform("nrOfPointLights", (int)pointLights.size());
+		shader.SetUniform("nrOfDirectionalLights", (int)dirLights.size());
+		shader.SetUniform("nrOfSpotLights", (int)spotLights.size());
 
-		for (auto light : lightSources)
-		{
-			if (rlight == light)
-			{
-				lightSources.erase(std::remove(lightSources.begin(), lightSources.end(), rlight), lightSources.end());
-				if (rlight->GetType() == LightType::PointLight)
-					countPointLights++;
-				else if (rlight->GetType() == LightType::DirectionalLight)
-					countDirLights++;
-				else if (rlight->GetType() == LightType::SpotLight)
-					countSpotLights++;
+		for (auto& pl : pointLights)
+			pl.SetUniformsFor(shader);
 
-				found = true;
-			}
-			if (found)
-				light->SetIndex(light->GetIndex() - 1);
-		}
-		return false;
-	}
+		for (auto& dl : dirLights)
+			dl.SetUniformsFor(shader);
 
-	std::vector<std::shared_ptr<LightSource>>::iterator LightingManager::begin()
-	{
-		return lightSources.begin();
-	}
-
-	std::vector<std::shared_ptr<LightSource>>::iterator LightingManager::end()
-	{
-		return lightSources.end();
+		for (auto& sl : spotLights)
+			sl.SetUniformsFor(shader);
 	}
 
 	std::tuple<int, int, int> LightingManager::GetLightCounts()
 	{
-		return std::tuple<int, int, int>(countPointLights, countDirLights, countSpotLights);
+		return std::tuple<int, int, int>(pointLights.size(), dirLights.size(), spotLights.size());
 	}
 }
