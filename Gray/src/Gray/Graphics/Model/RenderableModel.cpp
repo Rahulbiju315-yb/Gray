@@ -1,4 +1,4 @@
-#include "grpch.h"
+ #include "grpch.h"
 #include "RenderableModel.h"
 
 #include "Gray/Graphics/Uniforms/TransformUMFactory.h"
@@ -8,21 +8,14 @@
 
 namespace Gray
 {
+	uint boundMaterialID;
+
 	RenderableModel::RenderableModel(): validUniforms(false), setter(nullptr)
 	{
 		isRenderEnabled = true;
 
 		SetMaterialUM(CreateMaterialUM(MaterialUMType::SimpleMaterialUM));
 		SetTransformUM(CreateTransformUM(TransformUMType::SimpleTransformUM));
-	}
-
-	void RenderableModel::LoadTestCube(bool loadShader)
-	{
-		model.meshes.push_back(Mesh());
-
-		RenderData renderData;
-		Util::sampleCube(renderData.vb, renderData.ib, renderData.va, this->shader, loadShader);
-		model.meshes.back().SetupMesh(renderData);
 	}
 
 	void RenderableModel::LoadModel(std::string path, bool loadShader)
@@ -33,15 +26,13 @@ namespace Gray
 		
 		model.LoadModel(dir, name);
 		
-		if(loadShader)
-			shader = std::make_shared<Shader>("res/shaders/shader.shader");
-	}
+		if (loadShader)
+		{
+			shader = Shared<Shader>();
+			shader -> LoadProgram("res/shaders/shader.shader");
+		}
 
-	void RenderableModel::LoadModel(std::shared_ptr<Shader> shader, const RenderData& renderData)
-	{
-		this->shader = shader;
-		model.meshes.push_back(Mesh());
-		(model.meshes.back()).SetupMesh(renderData);
+		SortByMaterial();
 	}
 
 	void RenderableModel::LoadModel(float* vertices, uint n_vert, uint* indices, uint n_ind, const BufferLayout& bl,
@@ -50,16 +41,11 @@ namespace Gray
 		model.meshes.push_back(Mesh());
 		model.meshes.back().SetupMesh(vertices, n_vert, indices, n_ind, bl);
 
-		if(loadShader)
-			shader = std::make_shared<Shader>("res/shaders/shader.shader");
-	}
- 
-	void RenderableModel::AddMesh(const RenderData& renderData)
-	{
-		model.meshes.push_back(Mesh());
-		auto mesh = &(model.meshes.back());
-		mesh->SetupMesh(renderData);
-		//model.materials.push_back(std::shared_ptr());
+		if (loadShader)
+		{
+			shader = Shared<Shader>();
+			shader -> LoadProgram("res/shaders/shader.shader");
+		}
 	}
 
 	Mesh* RenderableModel::AddMesh()
@@ -68,17 +54,18 @@ namespace Gray
 		return &model.meshes.back();
 	}
 
-	inline Transform& RenderableModel::GetTransform()
-	{
-		return transform;
-	}
-
 	void RenderableModel::OnUpdate(float dt)
 	{
-		SetUniforms();
+		tUM.SetUniformFor(*shader, transform);
 		for (auto& mesh : model)
 		{
-			auto& rData = mesh.GetRenderData();
+			if (boundMaterialID != mesh.material.ID)
+			{
+				matUM.SetUniformFor(*shader, &mesh.material);
+				boundMaterialID = mesh.material.ID;
+			}
+
+			auto& rData = mesh.renderData;
 			renderer.Draw(*(rData.va), *(rData.ib), *shader);
 		}
 	}
@@ -93,46 +80,20 @@ namespace Gray
 		return model.end();
 	}
 
-	void RenderableModel::InvalidateUniforms()
-	{
-		validUniforms = false;
-	}
-
 	void RenderableModel::SetUniformSetter(UniformSetter setter)
 	{
 		this->setter = setter;
 	}
 
-	void RenderableModel::SetUniforms()
+	
+	bool GroupByMaterialComparator(const Mesh& m1, const Mesh& m2)
 	{
-		if (!validUniforms)
-		{
-			if (!setter) // Default to the following uniform settings
-			{
-				tUM.SetUniformFor(*shader, transform);
-				auto& materials = model.GetMaterials();
-
-				if (model.GetMaterials().size() == 1)
-				{
-					GRAY_WARN("No materials provided for rendering the given model");
-					matUM.SetUniformFor(*shader, &materials[0]);
-				}
-
-				else if (model.GetMaterials().size() != 0)
-				{
-					auto& material = materials[1];
-					matUM.SetUniformFor(*shader, &material);
-				}
-
-				if (materials.size() > 1)
-					GRAY_WARN("number of materials for this model is greater than 1. Only first material will be used");
-
-				validUniforms = true;
-			}
-			else
-			{
-				setter(*shader, *this);
-			}
-		}
+		return m1.material.ID < m2.material.ID;
 	}
+
+	void RenderableModel::SortByMaterial()
+	{
+		std::sort(model.meshes.begin(), model.meshes.end(), &GroupByMaterialComparator);
+	}
+
 }

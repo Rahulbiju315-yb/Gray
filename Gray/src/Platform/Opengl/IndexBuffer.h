@@ -1,26 +1,41 @@
 #pragma once
 
+#include "Gray/Util/ResourceManager.h"
+#include "Shared.h"
+#include "NoCopy.h"
+
 namespace Gray
 {
 	class  IndexBuffer
 	{
-	private:
-		uint ID;
-		int count;
-		static uint boundIB_ID;
-
+	
 	public:
-		IndexBuffer(uint indices[], int count);
-		IndexBuffer(const IndexBuffer& ib) = delete;
-		IndexBuffer(IndexBuffer&& ib) noexcept;
-
-		~IndexBuffer();
-
-		IndexBuffer& operator=(const IndexBuffer& ib) = delete;
-		IndexBuffer& operator=(IndexBuffer&& ib) = delete;
-
 		void  Bind() const;
 		void Unbind() const;
-		int GetCount() const;
+		bool IsBound() const;
+
+		void LoadBufferData(uint indices[], int count);
+
+		int GetCount() const; 
+
+	private:
+		IndexBuffer();
+
+		IndexBuffer(const IndexBuffer&) = default;
+		IndexBuffer(IndexBuffer&&) = default;
+
+		IndexBuffer& operator=(const IndexBuffer&) = default;
+		IndexBuffer& operator=(IndexBuffer&&) = default;
+
+		void CopyFrom(const IndexBuffer& va);
+		void CreateIfEmpty();
+		void Free();
+
+		uint ID;
+		mutable int count; // Vertice count
+		static uint boundIB_ID;
+
+		friend class Shared<IndexBuffer>;
+		friend class NoCopy<IndexBuffer>;
 	};
 }

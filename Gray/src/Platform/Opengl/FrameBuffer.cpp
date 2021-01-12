@@ -3,29 +3,14 @@
 
 namespace Gray
 {
-	FrameBuffer::FrameBuffer() : ID(0)
+	std::vector<FrameBuffer> unreferencedFB;
+
+	FrameBuffer::FrameBuffer() 
+		: ID(0)
 	{
-		glGenFramebuffers(1, &ID);
 	}
 
-	FrameBuffer::FrameBuffer(const Texture& tex, int index) : FrameBuffer()
-	{
-		AddAttachment(tex, AttachmentType::Color, index);
-	}
-
-	FrameBuffer::FrameBuffer(FrameBuffer&& fb) noexcept:
-		ID(std::move(fb.ID))
-	{
-		fb.ID = 0;
-	}
-
-	FrameBuffer::~FrameBuffer()
-	{
-		if(ID != 0)
-			glDeleteFramebuffers(1, &ID);
-	}
-
-	void FrameBuffer::Bind()
+	void FrameBuffer::Bind() const
 	{
 		if (!IsComplete())
 		{
@@ -39,24 +24,33 @@ namespace Gray
 		}
 	}
 
-	void FrameBuffer::Unbind()
+	void FrameBuffer::Unbind() const
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
+	bool FrameBuffer::IsBound() const
+	{
+		return ID == boundFB_ID;
+	}
+
 	void FrameBuffer::AddAttachment(const Texture& tex, AttachmentType type, int index)
 	{
+		CreateIfEmpty();
+
 		uint attachmentType = AttachmentTypeToUINT(type);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, GL_TEXTURE_2D, tex.GetID(), 0);
 	}
 
 	void FrameBuffer::AddAttachment(const RenderBuffer& rb, AttachmentType type, int index)
 	{
+		CreateIfEmpty();
+
 		uint attachmentType = AttachmentTypeToUINT(type);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, GL_TEXTURE_2D, rb.GetID(), 0);
 	}
 
-	bool FrameBuffer::IsComplete()
+	bool FrameBuffer::IsComplete() const 
 	{
 		return glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
 	}
@@ -82,4 +76,22 @@ namespace Gray
 		}
 		return attachmentType;
 	}
+
+
+	void FrameBuffer::CopyFrom(const FrameBuffer& fb)
+	{
+		ID = fb.ID;
+	}
+
+	void FrameBuffer::CreateIfEmpty()
+	{
+		if(ID == 0)
+			glGenFramebuffers(1, &ID);
+	}
+
+	void FrameBuffer::Free()
+	{
+		glDeleteFramebuffers(1, &ID);
+	}
+
 }

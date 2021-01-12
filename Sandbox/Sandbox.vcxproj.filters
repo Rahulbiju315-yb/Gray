@@ -9,15 +9,7 @@
     <ClInclude Include="src\test\Test.h">
       <Filter>test</Filter>
     </ClInclude>
-    <ClInclude Include="src\test\TestManyCubes.h">
-      <Filter>test</Filter>
-    </ClInclude>
-    <ClInclude Include="src\test\TestScene.h">
-      <Filter>test</Filter>
-    </ClInclude>
     <ClInclude Include="src\test\TestModelLoading.h" />
-    <ClInclude Include="src\test\TestCleanup.h" />
-    <ClInclude Include="src\test\TestFrameBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox.cpp" />

@@ -57,6 +57,9 @@ namespace Gray
 
 	std::tuple<int, int, int> LightingManager::GetLightCounts()
 	{
-		return std::tuple<int, int, int>(pointLights.size(), dirLights.size(), spotLights.size());
+		return std::tuple<int, int, int>
+			((int)pointLights.size(), 
+			(int)dirLights.size(), 
+			(int)spotLights.size());
 	}
 }

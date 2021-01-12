@@ -2,7 +2,6 @@
 
 #include "Platform/Opengl/Renderer.h"
 #include "Platform/Opengl/Shader.h"
-#include "Platform/Opengl/RenderData.h"
 
 #include "imgui.h"
 #include "Materials.h"
@@ -32,8 +31,8 @@ namespace Gray
 		void SetRenderEnabled(bool en);
 		bool GetRenderEnabled() const;
 
-		std::shared_ptr<Shader> GetShader();
-		void SetShader(std::shared_ptr<Shader> shader);
+		Shared<Shader> GetShader();
+		void SetShader(Shared<Shader> shader);
 
 		static const Renderer* GetRenderer();
 
@@ -44,7 +43,7 @@ namespace Gray
 		static const Renderer renderer;
 		bool isRenderEnabled;
 
-		std::shared_ptr<Shader> shader;
+		Shared<Shader> shader;
 		TransformUM tUM;
 		MaterialUM matUM;
 	};

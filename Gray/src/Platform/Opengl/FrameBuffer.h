@@ -1,7 +1,8 @@
 #pragma once
 #include "Texture.h"
 #include "RenderBuffer.h"
-
+#include "NoCopy.h"
+#include "Shared.h"
 namespace Gray
 {
 	enum class AttachmentType
@@ -15,25 +16,31 @@ namespace Gray
 	class FrameBuffer
 	{
 	public:
-		FrameBuffer();
-		FrameBuffer(const Texture& tex, int index=0); // Color attachment texture
-		FrameBuffer(const FrameBuffer& fb) = delete;
-		FrameBuffer(FrameBuffer&& fb) noexcept;
-
-		~FrameBuffer();
-
-		FrameBuffer& operator=(const FrameBuffer& fb) = delete;
+		~FrameBuffer() = default;
 		
+		void Bind() const;
+		void Unbind() const;
+		bool IsBound() const;
+	
+		void AddAttachment(const Texture& tex, AttachmentType type, int index = 0);
+		void AddAttachment(const RenderBuffer& rb, AttachmentType type, int index = 0);
 
-		void Bind();
-		void Unbind();
-		void AddAttachment(const Texture& tex, AttachmentType type, int index=0);
-		void AddAttachment(const RenderBuffer& rb, AttachmentType type, int index=0);
-
-		bool IsComplete();
+		bool IsComplete() const;
 
 	private:
+		FrameBuffer();
+		FrameBuffer(const FrameBuffer& fb) = default;
+		FrameBuffer(FrameBuffer&& fb) = default;
+
+		void CopyFrom(const FrameBuffer& va);
+		void CreateIfEmpty();
+		void Free();
+
 		uint ID;
+		static uint boundFB_ID;
+		
+		friend class NoCopy<FrameBuffer>;
+		friend class Shared<FrameBuffer>;
 	};
 
 	uint AttachmentTypeToUINT(AttachmentType type);

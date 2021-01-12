@@ -23,9 +23,9 @@ namespace Gray
 
 	private:
 		std::vector<Mesh> meshes;
-		std::vector<std::shared_ptr<Material>> materials;
+		std::vector<Material> materials;
 
-		std::unordered_map<std::string, Texture> unique_tex;
+		std::unordered_map<std::string, NoCopy<Texture>> unique_tex;
 		bool isLoaded;
 
 		void ProcessNode(aiNode* node, const aiScene* scene);
@@ -33,8 +33,6 @@ namespace Gray
 		void ProcessMaterial(aiMaterial* material, Mesh& mesh);
 		void ProcessTextures(aiMaterial* material, Material& newMat, aiTextureType type);
 		void CreateMaterials(const aiScene* scene);
-
-		std::vector<std::shared_ptr<Material>>& GetMaterials();
 
 		friend class RenderableModel;
 	};

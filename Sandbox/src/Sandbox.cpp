@@ -11,14 +11,9 @@
 #include "Gray/TempUtil.h"
 #include "Gray/Events/Input.h"
 
-#include "Gray/Graphics/DebugCube.h"
-
 #include "Gray/Events/KeyCodes.h"
 
-#include "test/TestManyCubes.h"
 #include "test/TestModelLoading.h"
-#include "test/TestCleanup.h"
-#include "test/TestFrameBuffer.h"
 
 #define RAND_FLOAT (float)rand() / RAND_MAX
 
@@ -62,19 +57,53 @@ public:
 
 	void Init() override
 	{
-		test = std::make_unique<Test::TestFrameBuffer>();
+		test = std::make_unique<Test::TestModelLoading>();
 		scene = test->OnInit();
 	}
 
-	void OnUpdate() override
+	void OnImguiRender(float dt) override
 	{
-		test->OnUpdate(GetDT());
+		static bool showLightCube = true;
+		static bool changed;
+		static glm::vec3 ambientStrength(0.2f);
+
+		if (scene)
+		{
+			scene->GetCamera()->OnImguiRender();
+		}
+		static int frames = 0;
+		static float time = 0;
+		static float fps = 0.0f;
+
+		frames++;
+		time += dt;
+		if (frames == 100)
+		{
+			fps = frames / time;
+			frames = 0;
+			time = 0;
+		}
+
+		ImGui::Text(("FPS : " + std::to_string(fps)).c_str());
+	}
+
+	void OnUpdate(float dt) override
+	{
+		Gray::Renderable::GetRenderer()->Clear();
+		test->OnUpdate(dt);
+	}
+
+	void OnMouseMoved(Gray::MouseMovedEvent& e) override
+	{
+		if (scene)
+			scene->GetCamera()->UpdateLook();
 	}
 
 private:
 	std::shared_ptr<Gray::Scene> scene;
 	std::unique_ptr<Test::Test> test;
 	bool cursorEn;
+
 
 };
 

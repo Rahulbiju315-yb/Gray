@@ -3,36 +3,37 @@
 
 namespace Gray
 {
+
+	std::vector<RenderBuffer> unreferencedRB;
+
 	RenderBuffer::RenderBuffer() : ID(0)
 	{
 	}
 
-	RenderBuffer::RenderBuffer(RenderBuffer&& rb) noexcept :
-		ID(std::move(rb.ID))
+	void RenderBuffer::CreateBuffer(RBType type, int width, int height)
 	{
-		rb.ID;
-	}
+		CreateIfEmpty();
+		Bind();
 
-	RenderBuffer::~RenderBuffer()
-	{
-		if (ID != 0)
-			glDeleteRenderbuffers(1, &ID);
-	}
-
-	void RenderBuffer::CreateBuffer(RBType type, int width, int height) const
-	{
 		uint rbType = RBTypeToUINT(type);
 		glRenderbufferStorage(GL_RENDERBUFFER, rbType, width, height);
 	}
 
 	void RenderBuffer::Bind() const
 	{
+		boundRB_ID = ID;
 		glBindRenderbuffer(GL_RENDERBUFFER, ID);
 	}
 
 	void RenderBuffer::Unbind() const
 	{
+		boundRB_ID = 0;
 		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	}
+
+	bool RenderBuffer::IsBound() const
+	{
+		return ID == boundRB_ID;
 	}
 
 	uint RenderBuffer::GetID() const
@@ -58,4 +59,21 @@ namespace Gray
 
 		return rbType;
 	}
+
+	void RenderBuffer::CopyFrom(const RenderBuffer& rb)
+	{
+		ID = rb.ID;
+	}
+
+	void RenderBuffer::CreateIfEmpty()
+	{
+		if(ID == 0)
+		glGenRenderbuffers(1, &ID);
+	}
+
+	void RenderBuffer::Free()
+	{
+		glDeleteRenderbuffers(1, &ID);
+	}
+
 }

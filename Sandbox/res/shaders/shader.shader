@@ -101,69 +101,69 @@ uniform int nrOfPointLights;
 uniform int nrOfSpotLights;
 uniform int nrOfDirectionalLights;
 
-vec3 CalcPointLight(PointLight source, vec3 normal, vec3 viewDir)
+vec4 CalcPointLight(PointLight source, vec3 normal, vec3 viewDir)
 {
 	float d = length(FragPos - source.pos);
 	float attenuation = 1.0f / (source.const_term + d * source.lin_term + d * d * source.quad_term);
 
-	vec3 ambient;
-	vec3 diffuse;
-	vec3 specular;
+	vec4 ambient;
+	vec4 diffuse;
+	vec4 specular;
 
-	ambient = vec3(texture(material.diffuse, TexCoord)) * source.ambient;
+	ambient = texture(material.diffuse, TexCoord) * vec4(source.ambient, 1);
 
 	vec3 sourceDir = normalize(source.pos - FragPos);
 	float diff = max(dot(normal, sourceDir), 0);
-	diffuse = vec3(texture(material.diffuse, TexCoord)) * diff * source.diffuse;
+	diffuse = texture(material.diffuse, TexCoord) * diff * vec4(source.diffuse, 1);
 
 	vec3 reflectDir = normalize(reflect(-sourceDir, normal));
 	float spec = pow(max(dot(reflectDir, viewDir), 0), material.shininess);
-	specular = vec3(texture(material.specular, TexCoord)) * spec * source.specular;
+	specular = texture(material.specular, TexCoord) * spec * vec4(source.specular, 1);
 
 	return (ambient + diffuse + specular) * attenuation;
 }
 
-vec3 CalcDirectionalLight(DirectionalLight source, vec3 normal, vec3 viewDir)
+vec4 CalcDirectionalLight(DirectionalLight source, vec3 normal, vec3 viewDir)
 {
-	vec3 ambient;
-	vec3 diffuse;
-	vec3 specular;
+	vec4 ambient;
+	vec4 diffuse;
+	vec4 specular;
 
-	ambient = vec3(texture(material.diffuse, TexCoord)) * source.ambient;
+	ambient = texture(material.diffuse, TexCoord) * vec4(source.ambient, 1);
 
 	vec3 sourceDir = normalize(source.dir);
 	float diff = max(dot(normal, sourceDir), 0);
-	diffuse = vec3(texture(material.diffuse, TexCoord)) * diff * source.diffuse;
+	diffuse = texture(material.diffuse, TexCoord) * diff * vec4(source.diffuse, 1);
 
 	vec3 reflectDir = normalize(reflect(-sourceDir, normal));
 	float spec = pow(max(dot(reflectDir, viewDir), 0), material.shininess);
-	specular = vec3(texture(material.specular, TexCoord)) * spec * source.specular;
+	specular = texture(material.specular, TexCoord) * spec * vec4(source.specular, 1);
 
 	return (ambient + diffuse + specular);
 }
 
-vec3 CalcSpotLight(SpotLight source, vec3 normal, vec3 viewDir)
+vec4 CalcSpotLight(SpotLight source, vec3 normal, vec3 viewDir)
 {
 	float d = length(FragPos - source.pos);
 	float attenuation = 1.0f / (source.const_term + d * source.lin_term + d * d * source.quad_term);
 
-	vec3 ambient;
-	vec3 diffuse;
-	vec3 specular;
+	vec4 ambient;
+	vec4 diffuse;
+	vec4 specular;
 
 	vec3 sourceDir = normalize(source.pos - FragPos);
-	ambient = vec3(texture(material.diffuse, TexCoord)) * source.ambient;
+	ambient = texture(material.diffuse, TexCoord) * vec4(source.ambient, 1);
 
 	float theta = dot(sourceDir, -normalize(source.dir));
 	float epsilon = source.cutOff - source.outerCutOff;
 	float intensity = clamp((theta - source.outerCutOff) / epsilon, 0.0, 1.0);
 
 	float diff = max(dot(normal, sourceDir), 0);
-	diffuse = vec3(texture(material.diffuse, TexCoord)) * diff * source.diffuse;
+	diffuse = texture(material.diffuse, TexCoord) * diff * vec4(source.diffuse, 1);
 
 	vec3 reflectDir = normalize(reflect(-sourceDir, normal));
 	float spec = pow(max(dot(reflectDir, viewDir), 0), material.shininess);
-	specular = vec3(texture(material.specular, TexCoord)) * spec * source.specular;
+	specular = texture(material.specular, TexCoord) * spec * vec4(source.specular, 1);
 
 	diffuse *= intensity;
 	specular *= intensity;
@@ -176,7 +176,7 @@ void main()
 	vec3 norm = normalize(Normal);
 	vec3 viewDir = normalize(viewPos - FragPos);
 
-	vec3 lighting;
+	vec4 lighting;
 	for (int i = 0; i < nrOfPointLights; i++)
 		lighting += CalcPointLight(pointLight[i], norm, viewDir);
 	
@@ -186,8 +186,8 @@ void main()
 	for (int i = 0; i < nrOfDirectionalLights; i++)
 		lighting += CalcDirectionalLight(dirLight[i], norm, viewDir);
 
-	vec3 emission = vec3(texture(material.emission, TexCoord));
+	vec4 emission = texture(material.emission, TexCoord);
 
-	FragColor = vec4(emission + lighting, 1.0f);
+	FragColor = vec4(emission + lighting);
 	//FragColor = vec4(1.0f);
 }

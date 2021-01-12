@@ -18,10 +18,12 @@ namespace Gray
 		 unique_tex(std::move(model.unique_tex)),
 		 isLoaded(std::move(model.isLoaded))
 	{
+	
 	}
 
 	void Model::LoadModel(const std::string& path, const std::string& fName)
 	{
+		GRAY_CORE_INFO("Reading model from path : " + path + "\nFile Name : " + fName);
 		isLoaded = true;
 
 		Assimp::Importer importer;
@@ -72,6 +74,8 @@ namespace Gray
 		auto vertices{ std::vector<float>() };
 		auto indices{ std::vector<uint>() };
 
+		vertices.reserve((size_t)mesh->mNumVertices * 8);
+
 		for (uint i = 0; i < mesh->mNumVertices; i++)
 		{
 			float px = mesh->mVertices[i].x;
@@ -112,85 +116,90 @@ namespace Gray
 		}
 
 		Mesh grayMesh;
-		auto& grayMaterial = grayMesh.GetMaterial();
-		grayMaterial = *materials[mesh->mMaterialIndex]; // TODO Make Mesh have a pointer to material than material
-		
-		BufferLayout bl;
-		bl.Push<float>(3);
-		bl.Push<float>(3);
-		bl.Push<float>(2);
+		grayMesh.material = materials[mesh->mMaterialIndex]; 
 
-		meshes.push_back(grayMesh);
+		BufferLayout bl;
+		bl.Push<float>(3); // Position
+		bl.Push<float>(3); // Normal
+		bl.Push<float>(2); // Texture Coords
+
+		meshes.push_back(std::move(grayMesh));
 		meshes.back().SetupMesh(&(vertices[0]), (uint)vertices.size(),
-								&(indices[0]), (uint)indices.size(), bl);  // TODO PLS fix these warnings abt type conv
+								&(indices[0]), (uint)indices.size(), bl); 
 	}
 
 	void Model::ProcessTextures(aiMaterial* material, Material& newMat, aiTextureType type)
 	{
 
-		void(Material:: * addToMat)(Texture*) = nullptr; 
+		void(Material:: * addToMat)(Texture*) = nullptr;
 		switch (type)
 		{
 		case aiTextureType_DIFFUSE:
-			addToMat = &Material::AddDiffuse;
+			addToMat = &Material::SetDiffuse;
 			break;
 
 		case aiTextureType_EMISSIVE:
-			addToMat = &Material::AddEmission;
+			addToMat = &Material::SetEmission;
 			break;
 
 		case aiTextureType_SPECULAR:
-			addToMat = &Material::AddSpecular;
+			addToMat = &Material::SetSpecular;
 			break;
 
 		default:
 			GRAY_CORE_ERROR("Texture Type Not defined in Gray!!!! Defaulting to Diffuse");
-			addToMat = &Material::AddDiffuse;
+			addToMat = &Material::SetDiffuse;
 
 		}
-		
-	
-		for (uint i = 0; i < material->GetTextureCount(type); i++)
+
+		//Load the last texture of the given type, since Gray can only handle
+		//materials with single texture for each texture maps.
+
+		uint i = material->GetTextureCount(type) - 1;
+
+		aiString aiPath;
+		material->GetTexture(type, i, &aiPath);
+
+		std::string path = std::string(aiPath.C_Str());
+		Texture* tex = nullptr;
+
+		if (path != "")
 		{
-			aiString aiPath;
-			material->GetTexture(type, i, &aiPath);
-
-			std::string path = std::string(aiPath.C_Str());
-			Texture* tex = nullptr;
-
+			GRAY_CORE_INFO("Attempting to load " + dir + " -> " + path);
 			if (unique_tex.find(path) == unique_tex.end())
 			{
-				unique_tex.insert({path, Texture(dir + "/" + path, GL_COMPRESSED_RGBA)});
+				NoCopy<Texture> texture; 
+				texture->LoadTexture(dir + "/" + path, GL_COMPRESSED_RGBA);
+				unique_tex.insert({ path,  std::move(texture)});
 			}
-			tex = &unique_tex[path];
-			
+			tex = unique_tex[path].Get();
+
 			(newMat.*addToMat)(tex);
 		}
 	}
 
+	//Populates the materials vectors from materials loaded by assimp
 	void Model::CreateMaterials(const aiScene* scene)
 	{
+		materials.reserve(scene->mNumMaterials);
+
 		for (uint i = 0; i < scene->mNumMaterials; i++)
 		{
 			aiMaterial* material = scene->mMaterials[i];
 
-			materials.push_back(std::make_shared<Material>());
-			ProcessTextures(material, *materials[i], aiTextureType_DIFFUSE);
-			ProcessTextures(material, *materials[i], aiTextureType_SPECULAR);
-			ProcessTextures(material, *materials[i], aiTextureType_EMISSIVE);
+			materials.push_back(Material());
+			ProcessTextures(material, materials[i], aiTextureType_DIFFUSE);
+			ProcessTextures(material, materials[i], aiTextureType_SPECULAR);
+			ProcessTextures(material, materials[i], aiTextureType_EMISSIVE);
+			materials[i].ID = i;
 		}
 	}
 
-	std::vector<std::shared_ptr<Material>>& Model::GetMaterials()
-	{
-		return materials;
-	}
-	
+	//Load a single material
 	void Model::ProcessMaterial(aiMaterial* material, Mesh& mesh)
 	{
-		ProcessTextures(material, mesh.GetMaterial(), aiTextureType_DIFFUSE);
-		ProcessTextures(material, mesh.GetMaterial(), aiTextureType_SPECULAR);
-		ProcessTextures(material, mesh.GetMaterial(), aiTextureType_EMISSIVE);
+		ProcessTextures(material, mesh.material, aiTextureType_DIFFUSE);
+		ProcessTextures(material, mesh.material, aiTextureType_SPECULAR);
+		ProcessTextures(material, mesh.material, aiTextureType_EMISSIVE);
 	}
-
  }

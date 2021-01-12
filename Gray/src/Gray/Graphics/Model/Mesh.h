@@ -5,22 +5,17 @@
 
 #include "glm/glm.hpp"
 
-#include "Platform/Opengl/RenderData.h"
-
+#include "Platform/Opengl/VertexArray.h"
+#include "Platform/Opengl/VertexBuffer.h"
+#include "Platform/Opengl/IndexBuffer.h"
 namespace Gray
 {
-	struct Vertex
+	struct MeshRenderData
 	{
-		glm::vec3 pos;
-		glm::vec3 normal;
-		glm::vec2 texCoord;
-
-		Vertex(glm::vec3 pos, glm::vec3 normal, glm::vec2 texCoord) : 
-			pos(pos), normal(normal), texCoord(texCoord)
-		{
-		}
+		NoCopy<VertexBuffer> vb;
+		NoCopy<VertexArray> va;
+		NoCopy<IndexBuffer> ib;
 	};
-
 
 	class Mesh
 	{
@@ -30,13 +25,7 @@ namespace Gray
 		void SetupMesh(float* vertices, uint n_vert,
 			 uint* indices, uint n_ind, const BufferLayout& layout);
 
-		void SetupMesh(const RenderData& renderData);
-
-		const RenderData& GetRenderData() const { return data; }
-		Material& GetMaterial() const { return material; }
-
-	private:
-		mutable Material material;
-		RenderData data;
+		Material material;
+		MeshRenderData renderData;
 	};
 }

@@ -50,14 +50,14 @@ namespace Gray
 		return &renderList;
 	}
 
-	const std::set<Shader*>& Scene::GetShaderSet()
+	const std::set<Shared<Shader>, SharedShaderComp>& Scene::GetShaderSet()
 	{
 		return unique_shaders;
 	}
 
 	void Scene::LightUpScene()
 	{
-		for (auto shader : unique_shaders)
+		for (auto& shader : unique_shaders)
 		{
 			lightMan.SetUniformsFor(*shader);
 		}
@@ -65,15 +65,15 @@ namespace Gray
 
 	void Scene::SetViewUniform()
 	{
-		for (auto shader : unique_shaders)
+		for (auto& shader : unique_shaders)
 		{
-			camera.SetViewUniformsFor(shader);
+			camera.SetViewUniformsFor(shader.Get());
 		}
 	}
 
 	void Scene::SetView(const glm::mat4& view)
 	{
-		for (auto shader : unique_shaders)
+		for (auto& shader : unique_shaders)
 		{
 			shader->SetUniform("view", view);
 		}
@@ -85,7 +85,7 @@ namespace Gray
 		{
 			for (auto& renderable : renderList)
 			{
-				unique_shaders.insert(renderable.GetShader().get());
+				unique_shaders.insert(renderable.GetShader());
 			}
 
 			validShaderSet = true;

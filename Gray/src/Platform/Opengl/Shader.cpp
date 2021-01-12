@@ -10,10 +10,30 @@
 
 namespace Gray
 {
+	uint Shader::boundShader_ID = 0;
 
-	uint boundShaderID = 0;
+	
+	Shader::Shader() : ID(0), success(false)
+	{
+	}
 
-	bool LoadShaderProgram(std::string& vertexSource, std::string& fragmentSource, const std::string& file)
+	Shader::Shader(const std::string& filePath) : Shader()
+	{
+		LoadProgram(filePath);
+	}
+
+	bool Shader::LoadProgram(const std::string& filePath)
+	{
+		CreateIfEmpty();
+
+		std::string vertexSource, fragmentSource;
+		bool a = LoadShaderSource(vertexSource, fragmentSource, filePath);
+		bool b = CompileShader(vertexSource, fragmentSource, ID);
+		
+		return a & b;
+	}
+
+	bool LoadShaderSource(std::string& vertexSource, std::string& fragmentSource, const std::string& file)
 	{
 		std::ifstream shaderFile;
 
@@ -60,7 +80,7 @@ namespace Gray
 		return true;
 	}
 
-	bool CompileShader(const std::string& vertexSource, const std::string& fragmentSource, uint& ID)
+	bool CompileShader(const std::string& vertexSource, const std::string& fragmentSource, const uint& ID)
 	{
 		const char* vsource = vertexSource.c_str();
 		const char* fsource = fragmentSource.c_str();
@@ -92,7 +112,6 @@ namespace Gray
 			return false;
 		}
 
-		ID = glCreateProgram();
 		glAttachShader(ID, vertexID);
 		glAttachShader(ID, fragmentID);
 		glLinkProgram(ID);
@@ -110,32 +129,42 @@ namespace Gray
 		return true;
 	}
 
-
-	Shader::Shader(const std::string& filePath)
+	void Shader::CopyFrom(const Shader& shader)
 	{
-		ID = 0;
+		ID = shader.ID;
+		success = shader.success;
+		hashTable = shader.hashTable;
+	}
 
-		std::string vertexSource, fragmentSource;
-		bool a = LoadShaderProgram(vertexSource, fragmentSource, filePath);
-		bool b = CompileShader(vertexSource, fragmentSource, ID);
-		
-		success = a & b;
-		attatched = false;
+	void Shader::CreateIfEmpty()
+	{
+		if(ID == 0)
+			ID = glCreateProgram();
+	}
+
+	void Shader::Free()
+	{
+		glDeleteProgram(ID);
 	}
 
 	void Shader::Bind() const
 	{
-		if (boundShaderID != ID)
+		if (boundShader_ID != ID)
 		{
 			glUseProgram(ID);
-			boundShaderID = ID;
+			boundShader_ID = ID;
 		}
 	}
 
 	void Shader::Unbind() const
 	{
 		glUseProgram(0);
-		boundShaderID = 0;
+		boundShader_ID = 0;
+	}
+
+	bool Shader::IsBound() const
+	{
+		return ID == boundShader_ID;
 	}
 
 	void Shader::SetUniform(const std::string& name, int i) const
@@ -174,19 +203,14 @@ namespace Gray
 		glUniformMatrix4fv(GetUniformLocation(name.c_str()), 1, GL_FALSE, glm::value_ptr(m4));
 	}
 
-	bool Shader::IsLoadSucces()
+	bool Shader::IsLoadSucces() const
 	{
 		return success;
 	}
 
-	void Shader::SetAttatched(bool attatched)
+	uint Shader::GetID() const
 	{
-		this->attatched = attatched;
-	}
-
-	bool Shader::IsAttatched()
-	{
-		return attatched;
+		return ID;
 	}
 
 	int Shader::GetUniformLocation(const std::string& name) const

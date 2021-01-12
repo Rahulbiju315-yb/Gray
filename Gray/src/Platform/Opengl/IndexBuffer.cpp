@@ -5,44 +5,60 @@
 
 namespace Gray
 {
+	std::vector<IndexBuffer> unreferencedIB;
+	uint IndexBuffer::boundIB_ID = 0;
 
-	IndexBuffer::IndexBuffer(uint indices[], int count)
+	IndexBuffer::IndexBuffer() : ID(0), count(0)
 	{
-		glGenBuffers(1, &ID);
-
-		Bind();
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint), indices, GL_STATIC_DRAW);
-		Unbind();
-
-		this->count = count;
-	}
-
-	IndexBuffer::IndexBuffer(IndexBuffer&& ib) noexcept
-		:ID(ib.ID),
-		 count(ib.count)
-	{
-		ib.ID = 0;
-		ib.count = 0;
-	}
-
-	IndexBuffer::~IndexBuffer()
-	{
-		if(ID != 0)
-			glDeleteBuffers(1, &ID);
 	}
 
 	void IndexBuffer::Bind() const
 	{
+		boundIB_ID = ID;
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID);
 	}
 
 	void IndexBuffer::Unbind() const
 	{
+		boundIB_ID = 0;
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
+
+	bool IndexBuffer::IsBound() const
+	{
+		return ID == boundIB_ID;
+	}
+
+	void IndexBuffer::LoadBufferData(uint indices[], int count)
+	{
+		CreateIfEmpty();
+
+		Bind();
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint), indices, GL_STATIC_DRAW);
+		this->count = count;
+		Unbind();
 	}
 
 	int IndexBuffer::GetCount() const
 	{
 		return count;
 	}
+
+	void IndexBuffer::CopyFrom(const IndexBuffer& ib)
+	{
+		ID = ib.ID;
+		count = ib.count;
+	}
+
+	void IndexBuffer::CreateIfEmpty()
+	{
+		if(ID == 0)
+			glGenBuffers(1, &ID);
+	}
+
+	void IndexBuffer::Free()
+	{
+		glDeleteBuffers(1, &ID);
+	}
+
 }

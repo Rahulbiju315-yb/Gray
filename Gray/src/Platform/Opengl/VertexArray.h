@@ -2,30 +2,36 @@
 
 #include "VertexBuffer.h"
 #include "BufferLayout.h"
-#include "Gray/Core.h"
-
+#include "NoCopy.h"
+#include "Shared.h"
 namespace Gray
 {
 	class VertexArray
 	{
 	public:
-		VertexArray();
-		VertexArray(const VertexBuffer& buffer, const BufferLayout& layout);
-		VertexArray(const VertexArray& va) = delete;
-		VertexArray(VertexArray&& va) noexcept;
-
-		~VertexArray();
-
-		VertexArray& operator=(const VertexArray& va) = delete;
-		VertexArray& operator=(VertexArray&& va) = delete;
-
+		void SetAttribPointers(const VertexBuffer& buffer, const BufferLayout& layout);
 		void Bind() const;
 		void Unbind() const;
-		
-		void TransferTo(VertexArray& va);
 
+		bool IsBound() const;
 	private:
 		uint ID;
 		static uint boundVA_ID;
+
+		VertexArray();
+
+		VertexArray(const VertexArray&) = default;
+		VertexArray(VertexArray&&) = default;
+
+		VertexArray& operator=(const VertexArray&) = default;
+		VertexArray& operator=(VertexArray&&) = default;
+
+		void CopyFrom(const VertexArray& va);
+		void CreateIfEmpty();
+		void Free();
+
+		friend class Shared<VertexArray>;
+		friend class NoCopy<VertexArray>;
+
 	};
 }

@@ -4,32 +4,40 @@
 #include "Platform/Opengl/Texture.h"
 namespace Gray
 {
-
-	//move code to .cpp file
-	struct Material
+	class Material
 	{
 	public:
-		Material() : shininess(32)
+		Material()
+			: shininess(32.0f), diffuse(nullptr), specular(nullptr), emission(nullptr), ID(0)
 		{
-
-
 		}
-		
-		const std::vector<Texture*>& GetEmissionMaps() const { return emissionMaps; }
-		const std::vector<Texture*>& GetDiffuseMaps() const { return diffuseMaps; }
-		const std::vector<Texture*>& GetSpecularMaps() const { return specularMaps; }
-		const float GetShininess() const { return shininess; }
 
-		void AddEmission(Texture* emission) { emissionMaps.push_back(emission); }
-		void AddDiffuse(Texture* diffuse) { diffuseMaps.push_back(diffuse);  }
-		void AddSpecular(Texture* specular) { specularMaps.push_back(specular); }
-		void SetShininess(float shininess) { this->shininess = shininess; }
+		bool operator==(const Material& other) 
+		{
+			return (diffuse == other.diffuse)
+				&& (specular == other.specular)
+				&& (emission == other.emission)
+				&& (shininess == other.shininess);
+		}
 
+		void SetDiffuse(Texture* diff) { diffuse = diff; }
+		void SetSpecular(Texture* spec) { specular = spec; }
+		void SetEmission(Texture* emm) { emission = emm; }
+		void SetShininess(float sh) { shininess = sh; }
+
+		Texture* GetDiffuse() const { return diffuse; }
+		Texture* GetSpecular() const { return specular; }
+		Texture* GetEmission() const { return emission; }
+
+		float GetShininess() const { return shininess; }
+
+		uint ID;
 	private:
-		std::vector<Texture*> emissionMaps;
-		std::vector<Texture*> specularMaps;
-		std::vector<Texture*> diffuseMaps;
+		Texture* diffuse;
+		Texture* specular;
+		Texture* emission;
 
 		float shininess;
 	};
+
 }

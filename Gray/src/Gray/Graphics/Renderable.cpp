@@ -22,12 +22,12 @@ namespace Gray
 		return isRenderEnabled; 
 	}
 
-	std::shared_ptr<Shader> Renderable::GetShader() 
+	Shared<Shader> Renderable::GetShader() 
 	{ 
 		return shader; 
 	}
 
-	void Renderable::SetShader(std::shared_ptr<Shader> shader) 
+	void Renderable::SetShader(Shared<Shader> shader) 
 	{ 
 		this->shader = shader; 
 	}

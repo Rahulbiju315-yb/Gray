@@ -35,7 +35,6 @@ namespace Gray
 		template<typename T>
 		void Push(uint count)
 		{
-			//static_assert(false);
 		}
 
 		template<>

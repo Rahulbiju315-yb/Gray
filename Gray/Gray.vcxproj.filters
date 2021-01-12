@@ -91,9 +91,6 @@
     <ClInclude Include="src\Gray\Graphics\Camera.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\DebugCube.h">
-      <Filter>Gray\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Defaults.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
@@ -178,9 +175,6 @@
     <ClInclude Include="src\Platform\Opengl\Opengl.h">
       <Filter>Platform\Opengl</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\Opengl\RenderData.h">
-      <Filter>Platform\Opengl</Filter>
-    </ClInclude>
     <ClInclude Include="src\Platform\Opengl\Renderer.h">
       <Filter>Platform\Opengl</Filter>
     </ClInclude>
@@ -199,9 +193,6 @@
     <ClInclude Include="src\Platform\Opengl\stb_image.h">
       <Filter>Platform\Opengl</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\Opengl\test\Util.h">
-      <Filter>Platform\Opengl\test</Filter>
-    </ClInclude>
     <ClInclude Include="src\grpch.h" />
     <ClInclude Include="src\Gray\Graphics\Transform.h">
       <Filter>Gray\Graphics\Model</Filter>
@@ -218,6 +209,9 @@
     <ClInclude Include="src\Gray\Graphics\Transformable.h" />
     <ClInclude Include="src\Platform\Opengl\FrameBuffer.h" />
     <ClInclude Include="src\Platform\Opengl\RenderBuffer.h" />
+    <ClInclude Include="src\Gray\Util\ResourceManager.h" />
+    <ClInclude Include="src\Platform\Opengl\NoCopy.h" />
+    <ClInclude Include="src\Platform\Opengl\Shared.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -230,9 +224,6 @@
       <Filter>Gray\Events</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Camera.cpp">
-      <Filter>Gray\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\DebugCube.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Defaults.cpp">
@@ -316,12 +307,6 @@
     <ClCompile Include="src\Platform\Opengl\VertexBuffer.cpp">
       <Filter>Platform\Opengl</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\Opengl\VetexArray.cpp">
-      <Filter>Platform\Opengl</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Platform\Opengl\test\Util.cpp">
-      <Filter>Platform\Opengl\test</Filter>
-    </ClCompile>
     <ClCompile Include="src\grpch.cpp" />
     <ClCompile Include="src\Gray\Graphics\Transform.cpp">
       <Filter>Gray\Graphics\Model</Filter>
@@ -337,5 +322,11 @@
     <ClCompile Include="src\Gray\Graphics\Model\RenderableModel.cpp" />
     <ClCompile Include="src\Platform\Opengl\FrameBuffer.cpp" />
     <ClCompile Include="src\Platform\Opengl\RenderBuffer.cpp" />
+    <ClCompile Include="src\Platform\Opengl\VertexArray.cpp">
+      <Filter>Platform\Opengl</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\Platform\readme.txt" />
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 namespace Gray
 {
     MaterialUM SimpleMaterialUM();
-    MaterialUM ModelMaterialUM();
+    //MaterialUM ModelMaterialUM();
 
     MaterialUM CreateMaterialUM(MaterialUMType type)
     {
@@ -19,7 +19,7 @@ namespace Gray
 
             case MaterialUMType::ModelMaterialUM :
             {
-                return ModelMaterialUM();
+                return SimpleMaterialUM();
             }
 
             default:
@@ -41,19 +41,27 @@ namespace Gray
                 static std::string emm = "material.emission";
                 static std::string shine = "material.shininess";
 
-                shader.SetUniform(diff, 0);
-                shader.SetUniform(spec, 1);
-                shader.SetUniform(emm, 2);
-                shader.SetUniform(shine, material->GetShininess());
+                if (material)
+                {
+                    shader.SetUniform(diff, 0);
+                    shader.SetUniform(spec, 1);
+                    shader.SetUniform(emm, 2);
+                    shader.SetUniform(shine, material->GetShininess());
 
-                if (material->GetDiffuseMaps().size() != 0)
-                    (material->GetDiffuseMaps()[0])->Bind(0);
 
-                if (material->GetSpecularMaps().size() != 0)
-                    (material->GetSpecularMaps()[0])->Bind(1);
+                    Texture* diffuse = material->GetDiffuse();
+                    Texture* specular = material->GetSpecular();
+                    Texture* emissive = material->GetEmission();
 
-                if (material->GetEmissionMaps().size() != 0)
-                    (material->GetEmissionMaps()[0])->Bind(2);
+                    if (diffuse)
+                        diffuse->Bind(0);
+
+                    if (specular)
+                        specular->Bind(1);
+
+                    if (emissive)
+                        emissive->Bind(2);
+                }
             }
 
         };
@@ -64,7 +72,7 @@ namespace Gray
         return matUM;
     }
 
-	MaterialUM ModelMaterialUM()
+	/*MaterialUM ModelMaterialUM()
     {
         static F_MaterialSetter fms = [](const Shader& shader, const Material* material)
         {
@@ -79,16 +87,14 @@ namespace Gray
                 shader.SetUniform(spec, 1);
                 shader.SetUniform(shine, material->GetShininess());
 
-                if (material->GetDiffuseMaps().size() != 0)
-                    (material->GetDiffuseMaps()[0])->Bind(0);
 
-                if (material->GetSpecularMaps().size() != 0)
-                    (material->GetSpecularMaps()[0])->Bind(1);
+                material->GetDiffuse()->Bind(0);
+                material->GetSpecular()->Bind(1);
             }
         };
 
         static MaterialUM modelMatUM;
         modelMatUM.SetSetterFunction(fms);
         return modelMatUM;
-    }
+    }*/
 }

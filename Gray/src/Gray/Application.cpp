@@ -25,23 +25,6 @@ namespace Gray
 
 	}
 
-	void Application::AddLayer(Layer* l)
-	{
-		l->OnAttatch();
-		ls.PushLayer(l);
-	}
-
-	bool Application::RemoveLayer(Layer* l)
-	{
-		return ls.RemoveLayer(l);
-	}
-
-	bool Application::RemoveLayerAt(int i)
-	{
-		return ls.RemoveLayer(ls.LayerAt(i));
-	}
-
-
 	void Application::OnWindowClosed(WindowClosedEvent& event) 
 	{
 		run = false;
@@ -54,16 +37,13 @@ namespace Gray
 		Init();
 		while (run)
 		{
-			OnUpdate();
+			float dt = GetDT();
 
-			for (Layer* layer : ls)
-			{
-				imguiLayer->ImguiBegin();
+			OnUpdate(dt);
 
-				layer->OnImguiRender();
-				
-				imguiLayer->ImguiEnd();
-			}
+			imguiLayer->ImguiBegin();
+			OnImguiRender(dt);
+			imguiLayer->ImguiEnd();
 
 			window->OnUpdate();
 		}
@@ -72,11 +52,6 @@ namespace Gray
 	void Application::OnEvent(Event& e)
 	{
 		AllListeners::OnEvent(e);
-
-		for (std::vector<Layer*>::reverse_iterator x = ls.rbegin(); x != ls.rend(); x++)
-		{
-			(*x)->OnEvent(e);
-		}
 	}
 
 	Application* Application::GetApp()
@@ -106,8 +81,8 @@ namespace Gray
 
 	float Application::GetDT()
 	{
-		float dt = -1;
-		if (!(lastTime == -1))
+		float dt = 0;
+		if (lastTime > 0)
 		{
 			dt = TempUtil::GetTime() - lastTime;
 		}

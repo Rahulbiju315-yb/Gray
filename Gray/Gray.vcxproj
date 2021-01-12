@@ -161,7 +161,6 @@
     <ClInclude Include="src\Gray\Events\WindowListener.h" />
     <ClInclude Include="src\Gray\Events\WindowsInput.h" />
     <ClInclude Include="src\Gray\Graphics\Camera.h" />
-    <ClInclude Include="src\Gray\Graphics\DebugCube.h" />
     <ClInclude Include="src\Gray\Graphics\Defaults.h" />
     <ClInclude Include="src\Gray\Graphics\Light\DirectionalLight.h" />
     <ClInclude Include="src\Gray\Graphics\Light\LightColor.h" />
@@ -192,21 +191,22 @@
     <ClInclude Include="src\Gray\Layers\RenderLayer.h" />
     <ClInclude Include="src\Gray\Log.h" />
     <ClInclude Include="src\Gray\TempUtil.h" />
+    <ClInclude Include="src\Gray\Util\ResourceManager.h" />
     <ClInclude Include="src\Gray\Window\Window.h" />
     <ClInclude Include="src\Gray\Window\WindowsWindow.h" />
     <ClInclude Include="src\Platform\Opengl\BufferLayout.h" />
     <ClInclude Include="src\Platform\Opengl\FrameBuffer.h" />
     <ClInclude Include="src\Platform\Opengl\IndexBuffer.h" />
+    <ClInclude Include="src\Platform\Opengl\NoCopy.h" />
     <ClInclude Include="src\Platform\Opengl\Opengl.h" />
     <ClInclude Include="src\Platform\Opengl\RenderBuffer.h" />
-    <ClInclude Include="src\Platform\Opengl\RenderData.h" />
     <ClInclude Include="src\Platform\Opengl\Renderer.h" />
     <ClInclude Include="src\Platform\Opengl\Shader.h" />
+    <ClInclude Include="src\Platform\Opengl\Shared.h" />
     <ClInclude Include="src\Platform\Opengl\Texture.h" />
     <ClInclude Include="src\Platform\Opengl\VertexArray.h" />
     <ClInclude Include="src\Platform\Opengl\VertexBuffer.h" />
     <ClInclude Include="src\Platform\Opengl\stb_image.h" />
-    <ClInclude Include="src\Platform\Opengl\test\Util.h" />
     <ClInclude Include="src\grpch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -214,7 +214,6 @@
     <ClCompile Include="src\Gray\Events\Events.cpp" />
     <ClCompile Include="src\Gray\Events\WindowsInput.cpp" />
     <ClCompile Include="src\Gray\Graphics\Camera.cpp" />
-    <ClCompile Include="src\Gray\Graphics\DebugCube.cpp" />
     <ClCompile Include="src\Gray\Graphics\Defaults.cpp" />
     <ClCompile Include="src\Gray\Graphics\Light\DirectionalLight.cpp" />
     <ClCompile Include="src\Gray\Graphics\Light\LightSource.cpp" />
@@ -250,8 +249,7 @@
     <ClCompile Include="src\Platform\Opengl\Shader.cpp" />
     <ClCompile Include="src\Platform\Opengl\Texture.cpp" />
     <ClCompile Include="src\Platform\Opengl\VertexBuffer.cpp" />
-    <ClCompile Include="src\Platform\Opengl\VetexArray.cpp" />
-    <ClCompile Include="src\Platform\Opengl\test\Util.cpp" />
+    <ClCompile Include="src\Platform\Opengl\VertexArray.cpp" />
     <ClCompile Include="src\grpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -266,6 +264,9 @@
     <ProjectReference Include="vendor\imguiFileChooser\imguiFileChooser.vcxproj">
       <Project>{13346F10-FF2C-8E62-285F-73E714B76D6E}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\Platform\readme.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

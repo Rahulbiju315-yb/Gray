@@ -215,9 +215,9 @@ namespace Gray
 		if (camMoveEn)
 		{
 			const auto& view = scene->GetCamera()->GetView();
-			auto unique_shaders = scene->GetShaderSet();
+			auto& unique_shaders = scene->GetShaderSet();
 
-			for (auto shader : unique_shaders)
+			for (auto& shader : unique_shaders)
 				shader->SetUniform("viewPos", pos);
 
 			const glm::vec2& yawPitch = GetYawPitch();

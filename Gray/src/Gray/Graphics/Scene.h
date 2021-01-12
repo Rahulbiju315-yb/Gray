@@ -9,9 +9,15 @@
 
 namespace Gray
 {
+	struct SharedShaderComp
+	{
+		bool operator()(const Shared<Shader>& first, const Shared<Shader>& second) const
+		{
+			return first->GetID() < second->GetID();
+		}
+	};
 	class Scene
 	{
-		typedef void (*ForEachRenderableFunction)(Renderable* , void*);
 
 	public:
 
@@ -27,7 +33,7 @@ namespace Gray
 
 		LightingManager* GetLightingManager();
 		RenderList* GetRenderList();
-		const std::set<Shader*>& GetShaderSet();
+		const std::set<Shared<Shader>, SharedShaderComp>& GetShaderSet();
 
 		void LightUpScene();
 		void SetViewUniform();
@@ -39,7 +45,7 @@ namespace Gray
 	private:
 		RenderList renderList;
 		LightingManager lightMan;
-		std::set<Shader*> unique_shaders;
+		std::set<Shared<Shader>, SharedShaderComp> unique_shaders;
 
 		Camera camera;
 		bool validShaderSet;

@@ -20,20 +20,17 @@ namespace Gray
 		~Application();
 
 		virtual void Init() = 0;
-		virtual void OnUpdate() = 0;
-
-		void AddLayer(Layer* l);
-		bool RemoveLayer(Layer* l);
-		bool RemoveLayerAt(int i);
+		virtual void OnUpdate(float dt) = 0;
+		virtual void OnImguiRender(float dt) = 0;
 
 		void Run();
+
 		uint GetWidth();
 		uint GetHeight();
 		void* GetProvider();
 		WindowProvider GetProviderName();
 
 		void OnWindowClosed(WindowClosedEvent& event) override;
-
 		void OnEvent(Event& e) override;
 
 		static Application* GetApp();
@@ -43,16 +40,15 @@ namespace Gray
 
 	protected:
 		void Clear();
-		float GetDT();
 
 		Window *window;
 		ImguiLayer *imguiLayer;
-		LayerStack ls;
 
 		static Application* app;
 
 	private:
 		float lastTime;
+		float GetDT();
 	};
 
 	Application* CreateApplication();

@@ -1,5 +1,9 @@
 #pragma once
 
+#include "Gray/Util/ResourceManager.h"
+#include "Shared.h"
+#include "NoCopy.h"
+
 namespace Gray
 {
 	enum class RBType //Render buffer Type
@@ -12,21 +16,32 @@ namespace Gray
 	class RenderBuffer
 	{
 	public:
-		RenderBuffer();
-		RenderBuffer(const RenderBuffer&) = delete;
-		RenderBuffer(RenderBuffer&&) noexcept;
-
-		~RenderBuffer();
-
-		RenderBuffer& operator=(const RenderBuffer&) = delete;
-
-		void CreateBuffer(RBType type, int width, int height) const;
+		void CreateBuffer(RBType type, int width, int height);
 		void Bind() const;
 		void Unbind() const;
+		
+		bool IsBound() const;
+
 		uint GetID() const;
 
 	private:
+		static uint boundRB_ID;
 		uint ID;
+
+		RenderBuffer();
+
+		RenderBuffer(const RenderBuffer&) = default;
+		RenderBuffer(RenderBuffer&&) = default;
+
+		RenderBuffer& operator=(const RenderBuffer&) = default;
+		RenderBuffer& operator=(RenderBuffer&&) = default;
+
+		void CopyFrom(const RenderBuffer&);
+		void CreateIfEmpty();
+		void Free();
+
+		friend class Shared<RenderBuffer>;
+		friend class NoCopy<RenderBuffer>;
 	};
 
 	uint RBTypeToUINT(RBType type);

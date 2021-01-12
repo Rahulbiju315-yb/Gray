@@ -1,26 +1,37 @@
 #pragma once
 
-#include "Gray/Core.h"
+#include "Gray/Util/ResourceManager.h"
+#include "NoCopy.h"
+#include "Shared.h"
 namespace Gray
 {
 
 	class VertexBuffer
 	{
+	public:
+		void Bind() const;
+		void Unbind() const;
+		bool IsBound() const;
+
+		void LoadBufferData(void* data, size_t size);
 	private:
 		uint ID;
 		static uint boundVB_ID;
+		
+		VertexBuffer(); // Default unitialised state with ID = 0
 
-	public:
-		VertexBuffer(void* data, uint size);
-		VertexBuffer(const VertexBuffer& vb) = delete;
-		VertexBuffer(VertexBuffer&& vb) noexcept;
+		VertexBuffer(const VertexBuffer&) = default;
+		VertexBuffer(VertexBuffer&&) = default;
 
-		~VertexBuffer();
+		VertexBuffer& operator=(const VertexBuffer&) = default;
+		VertexBuffer& operator=(VertexBuffer&&) = default;
 
-		VertexBuffer& operator=(const VertexBuffer& vb) = delete;
+		void CopyFrom(const VertexBuffer& vb);
+		void CreateIfEmpty();
+		void Free();
 
-		void Bind() const;
-		void Unbind() const;
+		friend class Shared<VertexBuffer>;
+		friend class NoCopy<VertexBuffer>;
 	};
 
 }

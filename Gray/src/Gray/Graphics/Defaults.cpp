@@ -4,11 +4,6 @@
 
 namespace Gray
 {
-	const Texture Defaults::DEFAULT_EMISSION = Texture();
-	const Texture Defaults::DEFAULT_SPECULAR = Texture();
-	const Texture Defaults::DEFAULT_DIFFUSE = Texture();
-	const float Defaults::DEFAULT_SHININESS = 32.0f;
-
 	const glm::vec3 Defaults::DEFAULT_LIGHT_DIFFUSE = glm::vec3(0.5f);
 	const glm::vec3 Defaults::DEFAULT_LIGHT_AMBIENT = glm::vec3(0.0f);
 	const glm::vec3 Defaults::DEFAULT_LIGHT_SPECULAR = glm::vec3(1.0f);
