@@ -25,6 +25,9 @@
     <Filter Include="Gray\Layers">
       <UniqueIdentifier>{17B4715D-8369-EA52-0C5E-E4297812E156}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Gray\Util">
+      <UniqueIdentifier>{A5FE84BE-1169-3935-5AA7-EADAC650178A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Gray\Window">
       <UniqueIdentifier>{3F2AA577-ABDF-1D6D-34D4-1744A0881471}</UniqueIdentifier>
     </Filter>
@@ -33,9 +36,6 @@
     </Filter>
     <Filter Include="Platform\Opengl">
       <UniqueIdentifier>{5E812C1D-CA0C-9AE1-D31D-1DD63F28F6E1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Platform\Opengl\test">
-      <UniqueIdentifier>{ADE4FD00-9973-87CA-4292-9BC52E009870}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +115,15 @@
     <ClInclude Include="src\Gray\Graphics\Materials.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Model\Mesh.h">
+      <Filter>Gray\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Model\Model.h">
+      <Filter>Gray\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Model\RenderableModel.h">
+      <Filter>Gray\Graphics\Model</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gray\Graphics\RenderList.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
@@ -136,10 +145,22 @@
     <ClInclude Include="src\Gray\Graphics\Source\StaticSource.h">
       <Filter>Gray\Graphics\Source</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Transform.h">
+      <Filter>Gray\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Transformable.h">
+      <Filter>Gray\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Uniforms\MaterialUM.h">
       <Filter>Gray\Graphics\Uniforms</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.h">
+      <Filter>Gray\Graphics\Uniforms</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Uniforms\TransformUM.h">
+      <Filter>Gray\Graphics\Uniforms</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Uniforms\TransformUMFactory.h">
       <Filter>Gray\Graphics\Uniforms</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Layers\ImguiLayer.h">
@@ -160,6 +181,9 @@
     <ClInclude Include="src\Gray\TempUtil.h">
       <Filter>Gray</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Util\ResourceManager.h">
+      <Filter>Gray\Util</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gray\Window\Window.h">
       <Filter>Gray\Window</Filter>
     </ClInclude>
@@ -169,16 +193,28 @@
     <ClInclude Include="src\Platform\Opengl\BufferLayout.h">
       <Filter>Platform\Opengl</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\FrameBuffer.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\Opengl\IndexBuffer.h">
       <Filter>Platform\Opengl</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\NoCopy.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\Opengl\Opengl.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\RenderBuffer.h">
       <Filter>Platform\Opengl</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Opengl\Renderer.h">
       <Filter>Platform\Opengl</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Opengl\Shader.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\Shared.h">
       <Filter>Platform\Opengl</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Opengl\Texture.h">
@@ -194,24 +230,8 @@
       <Filter>Platform\Opengl</Filter>
     </ClInclude>
     <ClInclude Include="src\grpch.h" />
-    <ClInclude Include="src\Gray\Graphics\Transform.h">
-      <Filter>Gray\Graphics\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Model\Model.h" />
-    <ClInclude Include="src\Gray\Graphics\Uniforms\TransformUMFactory.h">
-      <Filter>Gray\Graphics\Uniforms</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Uniforms\TransformUM.h">
-      <Filter>Gray\Graphics\Uniforms</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Model\Mesh.h" />
-    <ClInclude Include="src\Gray\Graphics\Model\RenderableModel.h" />
-    <ClInclude Include="src\Gray\Graphics\Transformable.h" />
-    <ClInclude Include="src\Platform\Opengl\FrameBuffer.h" />
-    <ClInclude Include="src\Platform\Opengl\RenderBuffer.h" />
-    <ClInclude Include="src\Gray\Util\ResourceManager.h" />
-    <ClInclude Include="src\Platform\Opengl\NoCopy.h" />
-    <ClInclude Include="src\Platform\Opengl\Shared.h" />
+    <ClInclude Include="src\Gray\Graphics\ResourceManager.h" />
+    <ClInclude Include="src\Platform\Opengl\WeakRef.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -244,6 +264,15 @@
     <ClCompile Include="src\Gray\Graphics\LightingManager.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Model\Mesh.cpp">
+      <Filter>Gray\Graphics\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Model\Model.cpp">
+      <Filter>Gray\Graphics\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Model\RenderableModel.cpp">
+      <Filter>Gray\Graphics\Model</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gray\Graphics\RenderList.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
@@ -262,10 +291,19 @@
     <ClCompile Include="src\Gray\Graphics\Source\StaticSource.cpp">
       <Filter>Gray\Graphics\Source</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Transform.cpp">
+      <Filter>Gray\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Uniforms\MaterialUM.cpp">
       <Filter>Gray\Graphics\Uniforms</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.cpp">
+      <Filter>Gray\Graphics\Uniforms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Uniforms\TransformUM.cpp">
+      <Filter>Gray\Graphics\Uniforms</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Uniforms\TransformUMFactory.cpp">
       <Filter>Gray\Graphics\Uniforms</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Layers\ImguiLayer.cpp">
@@ -292,7 +330,13 @@
     <ClCompile Include="src\Gray\Window\WindowsWindow.cpp">
       <Filter>Gray\Window</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Opengl\FrameBuffer.cpp">
+      <Filter>Platform\Opengl</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Opengl\IndexBuffer.cpp">
+      <Filter>Platform\Opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Opengl\RenderBuffer.cpp">
       <Filter>Platform\Opengl</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Opengl\Renderer.cpp">
@@ -304,29 +348,12 @@
     <ClCompile Include="src\Platform\Opengl\Texture.cpp">
       <Filter>Platform\Opengl</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Opengl\VertexArray.cpp">
+      <Filter>Platform\Opengl</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Opengl\VertexBuffer.cpp">
       <Filter>Platform\Opengl</Filter>
     </ClCompile>
     <ClCompile Include="src\grpch.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Transform.cpp">
-      <Filter>Gray\Graphics\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Uniforms\TransformUMFactory.cpp">
-      <Filter>Gray\Graphics\Uniforms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Uniforms\TransformUM.cpp">
-      <Filter>Gray\Graphics\Uniforms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Model\Model.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Model\Mesh.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Model\RenderableModel.cpp" />
-    <ClCompile Include="src\Platform\Opengl\FrameBuffer.cpp" />
-    <ClCompile Include="src\Platform\Opengl\RenderBuffer.cpp" />
-    <ClCompile Include="src\Platform\Opengl\VertexArray.cpp">
-      <Filter>Platform\Opengl</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="src\Platform\readme.txt" />
   </ItemGroup>
 </Project>

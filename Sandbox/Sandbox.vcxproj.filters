@@ -9,7 +9,9 @@
     <ClInclude Include="src\test\Test.h">
       <Filter>test</Filter>
     </ClInclude>
-    <ClInclude Include="src\test\TestModelLoading.h" />
+    <ClInclude Include="src\test\TestModelLoading.h">
+      <Filter>test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox.cpp" />

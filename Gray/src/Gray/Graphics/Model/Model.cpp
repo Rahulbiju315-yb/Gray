@@ -2,29 +2,30 @@
 #include "Model.h"
 
 #include "Platform/Opengl/Texture.h"
+#include "Gray/Graphics/ResourceManager.h"
 namespace Gray
 {
 
-	std::string dir;
-
-	Model::Model() : isLoaded(false)
+	Model::Model() : isLoaded(false), flipTextures(true)
 	{
 	}
 
 	//TODO Why is the implicit move constructor not noexcept 
 	Model::Model(Model&& model) noexcept
 		:meshes(std::move(model.meshes)),
-		 materials(std::move(model.materials)),
-		 unique_tex(std::move(model.unique_tex)),
-		 isLoaded(std::move(model.isLoaded))
+		materials(std::move(model.materials)),
+		unique_tex(std::move(model.unique_tex)),
+		isLoaded(std::move(model.isLoaded)),
+		flipTextures(model.flipTextures)
 	{
 	
 	}
 
-	void Model::LoadModel(const std::string& path, const std::string& fName)
+	void Model::LoadModel(const std::string& path, const std::string& fName, bool flipTextures)
 	{
 		GRAY_CORE_INFO("Reading model from path : " + path + "\nFile Name : " + fName);
 		isLoaded = true;
+		this->flipTextures = flipTextures;
 
 		Assimp::Importer importer;
 		auto scene = importer.ReadFile(path + "/" + fName, aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -131,7 +132,7 @@ namespace Gray
 	void Model::ProcessTextures(aiMaterial* material, Material& newMat, aiTextureType type)
 	{
 
-		void(Material:: * addToMat)(Texture*) = nullptr;
+		void(Material:: * addToMat)(const Texture*) = nullptr;
 		switch (type)
 		{
 		case aiTextureType_DIFFUSE:
@@ -160,22 +161,12 @@ namespace Gray
 		aiString aiPath;
 		material->GetTexture(type, i, &aiPath);
 
+		const Texture* tex = nullptr;
 		std::string path = std::string(aiPath.C_Str());
-		Texture* tex = nullptr;
+		tex = GetTexture(dir + "/" + path, flipTextures);
 
-		if (path != "")
-		{
-			GRAY_CORE_INFO("Attempting to load " + dir + " -> " + path);
-			if (unique_tex.find(path) == unique_tex.end())
-			{
-				NoCopy<Texture> texture; 
-				texture->LoadTexture(dir + "/" + path, GL_COMPRESSED_RGBA);
-				unique_tex.insert({ path,  std::move(texture)});
-			}
-			tex = unique_tex[path].Get();
-
-			(newMat.*addToMat)(tex);
-		}
+		(newMat.*addToMat)(tex);
+		
 	}
 
 	//Populates the materials vectors from materials loaded by assimp
@@ -187,15 +178,14 @@ namespace Gray
 		{
 			aiMaterial* material = scene->mMaterials[i];
 
-			materials.push_back(Material());
+			materials.push_back(CreateMaterial());
 			ProcessTextures(material, materials[i], aiTextureType_DIFFUSE);
 			ProcessTextures(material, materials[i], aiTextureType_SPECULAR);
 			ProcessTextures(material, materials[i], aiTextureType_EMISSIVE);
-			materials[i].ID = i;
 		}
 	}
 
-	//Load a single material
+	//Get texture maps for a material
 	void Model::ProcessMaterial(aiMaterial* material, Mesh& mesh)
 	{
 		ProcessTextures(material, mesh.material, aiTextureType_DIFFUSE);

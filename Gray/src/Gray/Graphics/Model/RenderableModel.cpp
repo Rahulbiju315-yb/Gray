@@ -4,8 +4,6 @@
 #include "Gray/Graphics/Uniforms/TransformUMFactory.h"
 #include "Gray/Graphics/Uniforms/MaterialUMFactory.h"
 
-#include "Platform/Opengl/test/Util.h"
-
 namespace Gray
 {
 	uint boundMaterialID;
@@ -18,13 +16,12 @@ namespace Gray
 		SetTransformUM(CreateTransformUM(TransformUMType::SimpleTransformUM));
 	}
 
-	void RenderableModel::LoadModel(std::string path, bool loadShader)
+	void RenderableModel::LoadModel(std::string path, bool flipTexture, bool loadShader)
 	{
 		std::string dir = path.substr(0, path.find_last_of('/'));
 		std::string name = path.substr(path.find_last_of('/') + 1, path.size());
 
-		
-		model.LoadModel(dir, name);
+		model.LoadModel(dir, name, flipTexture);
 		
 		if (loadShader)
 		{
@@ -59,10 +56,10 @@ namespace Gray
 		tUM.SetUniformFor(*shader, transform);
 		for (auto& mesh : model)
 		{
-			if (boundMaterialID != mesh.material.ID)
+			if (boundMaterialID != mesh.material.GetID())
 			{
 				matUM.SetUniformFor(*shader, &mesh.material);
-				boundMaterialID = mesh.material.ID;
+				boundMaterialID = mesh.material.GetID();
 			}
 
 			auto& rData = mesh.renderData;
@@ -88,7 +85,7 @@ namespace Gray
 	
 	bool GroupByMaterialComparator(const Mesh& m1, const Mesh& m2)
 	{
-		return m1.material.ID < m2.material.ID;
+		return m1.material.GetID() < m2.material.GetID();
 	}
 
 	void RenderableModel::SortByMaterial()

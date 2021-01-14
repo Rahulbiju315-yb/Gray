@@ -3,7 +3,6 @@
 #include "Gray.h"
 #include "Gray/Layers/RenderLayer.h"
 
-#include "Platform/Opengl/test/Util.h"
 #include "Platform/Opengl/Opengl.h"
 
 #include "glm/glm.hpp"
@@ -22,7 +21,7 @@
 class Sandbox : public Gray::Application
 {
 public:
-	Sandbox() : cursorEn(true)
+	Sandbox() : cursorEn(true), render(false)
 	{
 		
 	}
@@ -52,11 +51,22 @@ public:
 					scene->GetCamera()->SetMoveEnabled(true);
 				}
 			}
-		};
+
+
+		}
+
+		if (e.GetKeyCode() == TO_INT(Gray::KeyCodes::Key_Space))
+		{
+			render = true;
+		}
 	}
 
 	void Init() override
 	{
+		glEnable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		test = std::make_unique<Test::TestModelLoading>();
 		scene = test->OnInit();
 	}
@@ -89,8 +99,25 @@ public:
 
 	void OnUpdate(float dt) override
 	{
-		Gray::Renderable::GetRenderer()->Clear();
-		test->OnUpdate(dt);
+		
+		//Gray::Renderable::GetRenderer()->Clear();
+		scene->ComputeShaderSet();
+		scene->GetCamera()->OnUpdate(dt);
+
+		scene->SetViewUniform();
+		scene->SetProjectionUniform();
+		scene->LightUpScene();
+		scene->GetCamera()->OnUpdate(dt);
+
+		if (true)
+		{
+			Gray::Renderable::GetRenderer()->Clear();
+			for (auto& renderable : *scene)
+			{
+				renderable.OnUpdate(dt);
+			}
+			render = false;
+		}
 	}
 
 	void OnMouseMoved(Gray::MouseMovedEvent& e) override
@@ -103,8 +130,8 @@ private:
 	std::shared_ptr<Gray::Scene> scene;
 	std::unique_ptr<Test::Test> test;
 	bool cursorEn;
-
-
+	
+	bool render;
 };
 
 Gray::Application* Gray::CreateApplication()

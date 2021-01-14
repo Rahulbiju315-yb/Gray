@@ -19,6 +19,7 @@ namespace Gray
 		virtual void OnUpdate() = 0;
 		virtual void OnRender() = 0;
 
+		virtual void PollEvents() = 0;
 
 		virtual void SetListener(EventListener *listener) = 0;
 

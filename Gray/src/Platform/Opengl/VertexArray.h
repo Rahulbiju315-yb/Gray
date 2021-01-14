@@ -4,6 +4,8 @@
 #include "BufferLayout.h"
 #include "NoCopy.h"
 #include "Shared.h"
+#include "WeakRef.h"
+
 namespace Gray
 {
 	class VertexArray
@@ -32,6 +34,7 @@ namespace Gray
 
 		friend class Shared<VertexArray>;
 		friend class NoCopy<VertexArray>;
+		friend class WeakRef<VertexArray>;
 
 	};
 }

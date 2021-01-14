@@ -63,11 +63,7 @@ namespace Gray
 		if (GLEW_OK != err)
 		{
 			GRAY_CORE_FATAL("Glew not initialised");
-		}	
-
-		glEnable(GL_BLEND);
-		glEnable(GL_DEPTH_TEST);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
 
 		data =  WindowData();
 		glfwSetWindowUserPointer(glfwWindow, (void*)(&data));
@@ -165,9 +161,14 @@ namespace Gray
 		provider = (void*)glfwWindow;
 	}
 
-	void WindowsWindow::OnUpdate()
+	void WindowsWindow::PollEvents()
 	{
 		glfwPollEvents();
+	}
+
+	void WindowsWindow::OnUpdate()
+	{
+		PollEvents();
 		glfwSwapBuffers(glfwWindow);
 	}
 
@@ -175,6 +176,7 @@ namespace Gray
 	{
 		
 	}
+
 
 	uint WindowsWindow::GetWidth() const
 	{

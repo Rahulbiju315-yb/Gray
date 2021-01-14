@@ -3,6 +3,7 @@
 #include "glm/glm.hpp"
 #include "Shared.h"
 #include "NoCopy.h"
+#include "WeakRef.h"
 
 namespace Gray
 {
@@ -52,6 +53,7 @@ namespace Gray
 
 		friend class NoCopy<Shader>;
 		friend class Shared<Shader>;
+		friend class WeakRef<Shader>;
 	};
 
 	bool LoadShaderSource(std::string& vertexSource, std::string& fragmentSource, const std::string& file);

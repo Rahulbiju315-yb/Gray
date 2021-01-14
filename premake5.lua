@@ -60,12 +60,12 @@ project "Gray"
 	libdirs
 	{
 		"%{prj.name}/vendor/glew/lib/Release/x64/",
-		"%{prj.name}/vendor/assimp/lib/Release/"
+		"%{prj.name}/vendor/assimp/lib/Debug/"
 	}
 
 	links
 	{
-		"assimp-vc142-mt.lib",
+		"assimp-vc140-mt.lib",
 		"glew32s.lib",
 		"GLFW",
 		"opengl32",
@@ -134,13 +134,11 @@ project "Sandbox"
 
 	libdirs
 	{
-		"Gray/vendor/glew/lib/Release/x64/",
-		"Gray/vendor/assimp/lib/Release/"
+		"Gray/vendor/glew/lib/Release/x64/"
 	}
 
 	links
 	{
-		"assimp-vc142-mt.lib",
 		"Gray",
 		"glew32s.lib",
 		"opengl32"

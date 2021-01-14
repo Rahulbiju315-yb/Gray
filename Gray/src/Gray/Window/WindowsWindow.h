@@ -15,6 +15,7 @@ namespace Gray
 
 		void OnUpdate() override;
 		void OnRender() override;
+		void PollEvents() override;
 
 		uint GetWidth() const override;
 		uint GetHeight() const override;

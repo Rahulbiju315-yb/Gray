@@ -110,6 +110,11 @@ namespace Gray
 		return window->GetProvider();
 	}
 
+	Window* Application::GetWindow()
+	{
+		return window;
+	}
+
 	WindowProvider Application::GetProviderName()
 	{
 		return window->GetProviderName();

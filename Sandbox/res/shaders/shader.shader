@@ -53,8 +53,6 @@ uniform Material material;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 
-
-
 struct PointLight
 {
 	vec3 pos;
@@ -188,6 +186,7 @@ void main()
 
 	vec4 emission = texture(material.emission, TexCoord);
 
-	FragColor = vec4(emission + lighting);
+	FragColor = vec4(lighting + emission);
+	//FragColor.a = 1;
 	//FragColor = vec4(1.0f);
 }

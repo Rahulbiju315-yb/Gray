@@ -3,6 +3,7 @@
 #include "RenderBuffer.h"
 #include "NoCopy.h"
 #include "Shared.h"
+#include "WeakRef.h"
 namespace Gray
 {
 	enum class AttachmentType
@@ -41,6 +42,8 @@ namespace Gray
 		
 		friend class NoCopy<FrameBuffer>;
 		friend class Shared<FrameBuffer>;
+		friend class WeakRef<FrameBuffer>;
+
 	};
 
 	uint AttachmentTypeToUINT(AttachmentType type);

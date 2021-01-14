@@ -88,8 +88,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;vendor\assimp\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc140-mt.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;vendor\assimp\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -113,8 +113,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;vendor\assimp\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc140-mt.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;vendor\assimp\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -138,8 +138,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;vendor\assimp\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc140-mt.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;vendor\assimp\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -172,14 +172,15 @@
     <ClInclude Include="src\Gray\Graphics\Model\Mesh.h" />
     <ClInclude Include="src\Gray\Graphics\Model\Model.h" />
     <ClInclude Include="src\Gray\Graphics\Model\RenderableModel.h" />
-    <ClInclude Include="src\Gray\Graphics\Transform.h" />
     <ClInclude Include="src\Gray\Graphics\RenderList.h" />
     <ClInclude Include="src\Gray\Graphics\Renderable.h" />
+    <ClInclude Include="src\Gray\Graphics\ResourceManager.h" />
     <ClInclude Include="src\Gray\Graphics\Scene.h" />
     <ClInclude Include="src\Gray\Graphics\Source\CameraSource.h" />
     <ClInclude Include="src\Gray\Graphics\Source\Source.h" />
     <ClInclude Include="src\Gray\Graphics\Source\SourceFactory.h" />
     <ClInclude Include="src\Gray\Graphics\Source\StaticSource.h" />
+    <ClInclude Include="src\Gray\Graphics\Transform.h" />
     <ClInclude Include="src\Gray\Graphics\Transformable.h" />
     <ClInclude Include="src\Gray\Graphics\Uniforms\MaterialUM.h" />
     <ClInclude Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.h" />
@@ -208,6 +209,7 @@
     <ClInclude Include="src\Platform\Opengl\VertexBuffer.h" />
     <ClInclude Include="src\Platform\Opengl\stb_image.h" />
     <ClInclude Include="src\grpch.h" />
+    <ClInclude Include="src\Platform\Opengl\WeakRef.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp" />
@@ -223,13 +225,13 @@
     <ClCompile Include="src\Gray\Graphics\Model\Mesh.cpp" />
     <ClCompile Include="src\Gray\Graphics\Model\Model.cpp" />
     <ClCompile Include="src\Gray\Graphics\Model\RenderableModel.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Transform.cpp" />
     <ClCompile Include="src\Gray\Graphics\RenderList.cpp" />
     <ClCompile Include="src\Gray\Graphics\Renderable.cpp" />
     <ClCompile Include="src\Gray\Graphics\Scene.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\CameraSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\SourceFactory.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\StaticSource.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Transform.cpp" />
     <ClCompile Include="src\Gray\Graphics\Uniforms\MaterialUM.cpp" />
     <ClCompile Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.cpp" />
     <ClCompile Include="src\Gray\Graphics\Uniforms\TransformUM.cpp" />
@@ -248,8 +250,8 @@
     <ClCompile Include="src\Platform\Opengl\Renderer.cpp" />
     <ClCompile Include="src\Platform\Opengl\Shader.cpp" />
     <ClCompile Include="src\Platform\Opengl\Texture.cpp" />
-    <ClCompile Include="src\Platform\Opengl\VertexBuffer.cpp" />
     <ClCompile Include="src\Platform\Opengl\VertexArray.cpp" />
+    <ClCompile Include="src\Platform\Opengl\VertexBuffer.cpp" />
     <ClCompile Include="src\grpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -264,9 +266,6 @@
     <ProjectReference Include="vendor\imguiFileChooser\imguiFileChooser.vcxproj">
       <Project>{13346F10-FF2C-8E62-285F-73E714B76D6E}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="src\Platform\readme.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

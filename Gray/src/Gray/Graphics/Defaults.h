@@ -7,7 +7,8 @@ namespace Gray
 	class Defaults
 	{
 	public:
-
+		
+		static const Texture* BlankTex();
 		static const glm::vec3 DEFAULT_LIGHT_DIFFUSE;
 		static const glm::vec3 DEFAULT_LIGHT_AMBIENT;
 		static const glm::vec3 DEFAULT_LIGHT_SPECULAR;

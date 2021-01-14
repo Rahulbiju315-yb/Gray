@@ -15,7 +15,7 @@ namespace Gray
 		Model(const Model& model) = delete;
 		Model(Model&& model) noexcept;
 
-		void LoadModel(const std::string& path, const std::string& fName);
+		void LoadModel(const std::string& path, const std::string& fName, bool flipTextures=true);
 
 		std::vector<Mesh>::iterator begin();
 		std::vector<Mesh>::iterator end();
@@ -26,7 +26,9 @@ namespace Gray
 		std::vector<Material> materials;
 
 		std::unordered_map<std::string, NoCopy<Texture>> unique_tex;
-		bool isLoaded;
+		std::string dir; 
+		mutable bool isLoaded;
+		mutable bool flipTextures;
 
 		void ProcessNode(aiNode* node, const aiScene* scene);
 		void ProcessMesh(aiMesh* mesh, const aiScene* scene);

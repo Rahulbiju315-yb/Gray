@@ -3,6 +3,8 @@
 #include "Gray/Util/ResourceManager.h"
 #include "NoCopy.h"
 #include "Shared.h"
+#include "WeakRef.h"
+
 namespace Gray
 {
 
@@ -32,6 +34,7 @@ namespace Gray
 
 		friend class Shared<VertexBuffer>;
 		friend class NoCopy<VertexBuffer>;
+		friend class WeakRef<VertexBuffer>;
 	};
 
 }

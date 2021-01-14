@@ -15,7 +15,7 @@ namespace Gray
 		RenderableModel(const RenderableModel& model) = delete;
 		RenderableModel(RenderableModel&& model) = default;
 
-		void LoadModel(std::string path, bool loadShader = true);
+		void LoadModel(std::string path, bool flipTexture, bool loadShader = true);
 		void LoadModel(float* vertices, uint n_vert, uint* indices, uint n_ind, const BufferLayout& bl,
 			bool loadShader = true);
 

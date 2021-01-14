@@ -16,4 +16,15 @@ namespace Gray
 	const glm::vec3 Defaults::COLOR_WHITE = glm::vec3(1.0f);
 	const glm::vec3 Defaults::COLOR_BLACK = glm::vec3(0.0f);
 	
+	const Texture* Defaults::BlankTex()
+	{
+		static NoCopy<Texture> blankTexture;
+		if (blankTexture->GetID() == 0)
+		{
+			char data[4] = {0, 0, 0, 0};
+			blankTexture->LoadTexture(data, 1, 1);
+		}
+		return blankTexture.Get();
+	}
+
 }

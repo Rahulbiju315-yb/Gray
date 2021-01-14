@@ -2,42 +2,37 @@
 #include "glm/glm.hpp"
 #include "Defaults.h"
 #include "Platform/Opengl/Texture.h"
+
 namespace Gray
 {
 	class Material
 	{
 	public:
 		Material()
-			: shininess(32.0f), diffuse(nullptr), specular(nullptr), emission(nullptr), ID(0)
+			: shininess(32.0f), ID(0)
 		{
 		}
 
-		bool operator==(const Material& other) 
-		{
-			return (diffuse == other.diffuse)
-				&& (specular == other.specular)
-				&& (emission == other.emission)
-				&& (shininess == other.shininess);
-		}
-
-		void SetDiffuse(Texture* diff) { diffuse = diff; }
-		void SetSpecular(Texture* spec) { specular = spec; }
-		void SetEmission(Texture* emm) { emission = emm; }
+		void SetDiffuse(const Texture* diff) { diffuse = WeakRef<Texture>(diff); }
+		void SetSpecular(const Texture* spec) { specular = WeakRef<Texture>(spec); }
+		void SetEmission(const Texture* emm) { emission = WeakRef<Texture>(emm); }
 		void SetShininess(float sh) { shininess = sh; }
 
-		Texture* GetDiffuse() const { return diffuse; }
-		Texture* GetSpecular() const { return specular; }
-		Texture* GetEmission() const { return emission; }
+		const Texture* GetDiffuse() const { return diffuse.Get(); }
+		const Texture* GetSpecular() const { return specular.Get(); }
+		const Texture* GetEmission() const { return emission.Get(); }
 
 		float GetShininess() const { return shininess; }
+		uint GetID() const { return ID; }
+
+	private:
+		WeakRef<Texture> diffuse;
+		WeakRef<Texture> specular;
+		WeakRef<Texture> emission;
+		float shininess;
 
 		uint ID;
-	private:
-		Texture* diffuse;
-		Texture* specular;
-		Texture* emission;
-
-		float shininess;
+		friend Material CreateMaterial();
 	};
 
 }

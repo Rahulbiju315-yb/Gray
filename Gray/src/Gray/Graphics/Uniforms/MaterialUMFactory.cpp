@@ -41,27 +41,35 @@ namespace Gray
                 static std::string emm = "material.emission";
                 static std::string shine = "material.shininess";
 
-                if (material)
-                {
-                    shader.SetUniform(diff, 0);
-                    shader.SetUniform(spec, 1);
-                    shader.SetUniform(emm, 2);
-                    shader.SetUniform(shine, material->GetShininess());
 
+                shader.SetUniform(diff, 1);
+                shader.SetUniform(spec, 2);
+                shader.SetUniform(emm, 3);
+                shader.SetUniform(shine, material->GetShininess());
 
-                    Texture* diffuse = material->GetDiffuse();
-                    Texture* specular = material->GetSpecular();
-                    Texture* emissive = material->GetEmission();
+                const Texture* diffuse = material->GetDiffuse();
+                const Texture* specular = material->GetSpecular();
+                const Texture* emissive = material->GetEmission();
 
-                    if (diffuse)
-                        diffuse->Bind(0);
+                if (diffuse)
+                    diffuse->Bind(1);
+                else
+                    Defaults::BlankTex()->Bind(1);
 
-                    if (specular)
-                        specular->Bind(1);
+                if (specular)
+                    specular->Bind(2);
+                else
+                    Defaults::BlankTex()->Bind(2);
 
-                    if (emissive)
-                        emissive->Bind(2);
-                }
+                if (emissive)
+                    emissive->Bind(3);
+                else 
+                    Defaults::BlankTex()->Bind(3);
+                
+            }
+            else
+            {
+                GRAY_CORE_WARN("Null Material");
             }
 
         };
@@ -71,30 +79,4 @@ namespace Gray
 
         return matUM;
     }
-
-	/*MaterialUM ModelMaterialUM()
-    {
-        static F_MaterialSetter fms = [](const Shader& shader, const Material* material)
-        {
-            if (material)
-            {
-                static std::string diff = "material.diffuse";
-                static std::string spec = "material.specular";
-                static std::string emm = "material.emission";
-                static std::string shine = "material.shininess";
-
-                shader.SetUniform(diff, 0);
-                shader.SetUniform(spec, 1);
-                shader.SetUniform(shine, material->GetShininess());
-
-
-                material->GetDiffuse()->Bind(0);
-                material->GetSpecular()->Bind(1);
-            }
-        };
-
-        static MaterialUM modelMatUM;
-        modelMatUM.SetSetterFunction(fms);
-        return modelMatUM;
-    }*/
 }

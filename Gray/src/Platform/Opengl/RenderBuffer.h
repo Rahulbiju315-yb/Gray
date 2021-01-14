@@ -3,6 +3,7 @@
 #include "Gray/Util/ResourceManager.h"
 #include "Shared.h"
 #include "NoCopy.h"
+#include "WeakRef.h"
 
 namespace Gray
 {
@@ -42,6 +43,8 @@ namespace Gray
 
 		friend class Shared<RenderBuffer>;
 		friend class NoCopy<RenderBuffer>;
+		friend class WeakRef<RenderBuffer>;
+
 	};
 
 	uint RBTypeToUINT(RBType type);

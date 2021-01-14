@@ -58,7 +58,6 @@ namespace Gray
 
 		virtual bool IsKeyPressedImpl(int keyCode) = 0;
 		virtual bool IsMouseButtonPressedImpl(int mouseButton) = 0;
-
 		virtual  float GetMouseXImpl() = 0;
 		virtual  float GetMouseYImpl() = 0;
 		virtual  std::pair<float, float> GetMousePosImpl() = 0;

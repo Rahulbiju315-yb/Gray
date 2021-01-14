@@ -28,7 +28,8 @@ namespace Gray
 		NoCopy(const NoCopy<T>&) = delete;
 
 		// Moves the handle from src to current object. Makes the src handle an empty resource
-		NoCopy(NoCopy<T>&& src) : resource(*src.Get())
+		NoCopy(NoCopy<T>&& src) noexcept 
+			: resource(*src.Get())
 		{
 			src->ID = 0;
 		}
