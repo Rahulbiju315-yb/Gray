@@ -10,20 +10,12 @@ namespace Gray
 {
 	void TempUtil::DisableCursor()
 	{
-		void* window;
-		window = Window::GetProvider();
-		
-		if(Window::GetProviderName() == WindowProvider::GLFW)
-			glfwSetInputMode((GLFWwindow*)window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		glfwSetInputMode(Window::GetWindow()->GetGLFWwindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 
 	void TempUtil::EnableCursor()
 	{
-		void* window;
-		window = Window::GetProvider();
-		
-		if(Window::GetProviderName() == WindowProvider::GLFW)
-			glfwSetInputMode((GLFWwindow*)window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		glfwSetInputMode(Window::GetWindow()->GetGLFWwindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
 	float TempUtil::GetTime()

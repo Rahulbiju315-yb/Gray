@@ -12,12 +12,16 @@ namespace Gray
 	{
 	public:
 		void SetAttribPointers(const VertexBuffer& buffer, const BufferLayout& layout);
+
 		void Bind() const;
 		void Unbind() const;
-
 		bool IsBound() const;
+
+		uint GetAttribCount() { return n_attribs; }
 	private:
 		uint ID;
+		uint n_attribs;
+
 		static uint boundVA_ID;
 
 		VertexArray();

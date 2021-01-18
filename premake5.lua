@@ -14,7 +14,6 @@ IncludeDirs = {}
 IncludeDirs["glfw"] = "Gray/vendor/glfw/include"
 IncludeDirs["spdlog"] = "Gray/vendor/spdlog/include"
 IncludeDirs["imgui"] = "Gray/vendor/imgui/"
-IncludeDirs["imguiFileChooser"] = "Gray/vendor/imguiFileChooser/"
 IncludeDirs["dirent"] = "Gray/vendor/imgui/"
 IncludeDirs["glm"] = "Gray/vendor/glm/"
 IncludeDirs["glew"] = "Gray/vendor/glew/include/"
@@ -22,7 +21,6 @@ IncludeDirs["assimp"] = "Gray/vendor/assimp/include/"
 
 include "Gray/vendor/glfw"
 include "Gray/vendor/imgui"
-include "Gray/vendor/imguiFileChooser"
 
 project "Gray"
 	location "Gray"
@@ -50,7 +48,6 @@ project "Gray"
 		"%{IncludeDirs.glfw}",
 		"%{IncludeDirs.dirent}",
 		"%{IncludeDirs.imgui}",
-		"%{IncludeDirs.imguiFileChooser}",
 		"%{IncludeDirs.glew}",
 		"%{IncludeDirs.glm}",
 		"%{IncludeDirs.assimp}",
@@ -60,7 +57,6 @@ project "Gray"
 	libdirs
 	{
 		"%{prj.name}/vendor/glew/lib/Release/x64/",
-		"%{prj.name}/vendor/assimp/lib/Debug/"
 	}
 
 	links
@@ -70,7 +66,6 @@ project "Gray"
 		"GLFW",
 		"opengl32",
 		"imgui",
-		"imguiFileChooser"
 	}
 
 	defines
@@ -88,16 +83,28 @@ project "Gray"
 
 
 	filter "configurations:Debug"
+		libdirs
+		{
+			"%{prj.name}/vendor/assimp/lib/Debug/"
+		}
 		defines "GRAY_DEBUG"
 		runtime "Debug"
 		symbols "on"
 	
 	filter "configurations:Release"
+		libdirs
+		{
+			"%{prj.name}/vendor/assimp/lib/Release/"
+		}
 		defines "GRAY_RELEASE"
 		runtime "Release"
 		optimize "on"
 
 	filter "configurations:Dist"
+		libdirs
+		{
+			"%{prj.name}/vendor/assimp/lib/Release/"
+		}
 		defines "GRAY_DIST"
 		runtime "Release"
 		optimize "on"
@@ -127,7 +134,6 @@ project "Sandbox"
 		"%{IncludeDirs.imgui}",
 		"%{IncludeDirs.glew}",
 		"%{IncludeDirs.glm}",
-		"%{IncludeDirs.imguiFileChooser}",
 		"%{IncludeDirs.assimp}",
 		"Gray/src"
 	}

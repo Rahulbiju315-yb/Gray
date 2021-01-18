@@ -1,5 +1,4 @@
 #pragma once
-#include "Gray/Core.h"
 
 namespace Gray
 {
@@ -7,7 +6,8 @@ namespace Gray
 	{
 		MousePressed, MouseReleased, MouseMoved, MouseDragged, MouseScrolled,
 		KeyPressed, KeyReleased,
-		WindowClosed, WindowResized, WindowFocussed, WindowLostFocus, WindowMoved
+		WindowClosed, WindowResized, WindowFocussed, WindowLostFocus, WindowMoved,
+		Other
 	};
 
 #define BIT(x) 1 << x 

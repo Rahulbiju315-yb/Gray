@@ -10,13 +10,13 @@ namespace Gray
     void Mesh::SetupMesh(float* vertices, uint n_vert,
         uint* indices, uint n_ind, const BufferLayout& layout)
     {
-        auto vb = NoCopy<VertexBuffer>();
+        auto vb = Shared<VertexBuffer>();
         vb -> LoadBufferData(vertices, n_vert * sizeof(float));
 
-        auto ib = NoCopy<IndexBuffer>();
+        auto ib = Shared<IndexBuffer>();
         ib -> LoadBufferData(indices, n_ind);
 
-        auto va = NoCopy<VertexArray>();
+        auto va = Shared<VertexArray>();
         va -> SetAttribPointers(*vb, layout);
 
         renderData.vb = std::move(vb);

@@ -4,8 +4,7 @@
 namespace Gray
 {
 
-	std::vector<RenderBuffer> unreferencedRB;
-
+	uint RenderBuffer::boundRB_ID = 0;
 	RenderBuffer::RenderBuffer() : ID(0)
 	{
 	}

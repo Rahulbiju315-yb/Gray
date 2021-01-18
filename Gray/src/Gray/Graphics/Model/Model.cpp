@@ -6,44 +6,35 @@
 namespace Gray
 {
 
-	Model::Model() : isLoaded(false), flipTextures(true)
+	Model::Model()
 	{
 	}
 
-	//TODO Why is the implicit move constructor not noexcept 
-	Model::Model(Model&& model) noexcept
-		:meshes(std::move(model.meshes)),
-		materials(std::move(model.materials)),
-		unique_tex(std::move(model.unique_tex)),
-		isLoaded(std::move(model.isLoaded)),
-		flipTextures(model.flipTextures)
+	void Model::LoadModel(const std::string& path, bool flipTextures)
 	{
-	
-	}
-
-	void Model::LoadModel(const std::string& path, const std::string& fName, bool flipTextures)
-	{
-		GRAY_CORE_INFO("Reading model from path : " + path + "\nFile Name : " + fName);
-		isLoaded = true;
-		this->flipTextures = flipTextures;
+		GRAY_CORE_INFO("Reading model from path : " + path);
 
 		Assimp::Importer importer;
-		auto scene = importer.ReadFile(path + "/" + fName, aiProcess_Triangulate | aiProcess_FlipUVs);
+		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 
-		dir = path;
+		this->path = path;
 
-		CreateMaterials(scene);
+		CreateMaterials(scene, flipTextures);
 
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
-			GRAY_ERROR("Failed to load model " + path + "/" + fName);
-			isLoaded = false;
+			GRAY_ERROR("Failed to load model " + path);
 		}
 		else
 		{
-			ProcessNode(scene->mRootNode, scene);
+			ProcessNode(scene->mRootNode, scene, flipTextures);
 		}
 
+	}
+
+	std::string Model::GetPath()
+	{
+		return path;
 	}
 
 	std::vector<Mesh>::iterator Model::begin()
@@ -56,24 +47,9 @@ namespace Gray
 		return  meshes.end();
 	}
 
-	void Model::ProcessNode(aiNode* node, const aiScene* scene)
-	{
-		for (uint i = 0; i < node->mNumMeshes; i++)
-		{
-			auto mesh = scene->mMeshes[node->mMeshes[i]];
-			ProcessMesh(mesh, scene);
-		}
-
-		for (uint i = 0; i < node->mNumChildren; i++)
-		{
-			ProcessNode(node->mChildren[i], scene);
-		}
-	}
-
-	void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+	std::vector<float> Model::LoadVertices(aiMesh* mesh)
 	{
 		auto vertices{ std::vector<float>() };
-		auto indices{ std::vector<uint>() };
 
 		vertices.reserve((size_t)mesh->mNumVertices * 8);
 
@@ -87,14 +63,22 @@ namespace Gray
 			vertices.push_back(py);
 			vertices.push_back(pz);
 			
-			float nx = mesh->mNormals[i].x;
-			float ny = mesh->mNormals[i].y;
-			float nz = mesh->mNormals[i].z;
+			if (mesh->mNormals)
+			{
+				float nx = mesh->mNormals[i].x;
+				float ny = mesh->mNormals[i].y;
+				float nz = mesh->mNormals[i].z;
 
-			vertices.push_back(nx);
-			vertices.push_back(ny);
-			vertices.push_back(nz);
-
+				vertices.push_back(nx);
+				vertices.push_back(ny);
+				vertices.push_back(nz);
+			}
+			else
+			{
+				vertices.push_back(1);
+				vertices.push_back(1);
+				vertices.push_back(1);
+			}
 			if (mesh->mTextureCoords[0])
 			{
 				vertices.push_back((mesh->mTextureCoords[0][i]).x);
@@ -107,6 +91,20 @@ namespace Gray
 			}
 		}
 
+		return vertices;
+	}
+
+	std::vector<uint> Model::LoadIndices(aiMesh* mesh)
+	{
+		auto indices{ std::vector<uint>() };
+		
+		auto size{ size_t(0) };
+		for (uint i = 0; i < mesh->mNumFaces; i++)
+		{
+			size += mesh->mFaces[i].mNumIndices;
+		}
+		indices.reserve(size);
+
 		for (uint i = 0; i < mesh->mNumFaces; i++)
 		{
 			auto face = mesh->mFaces[i];
@@ -115,6 +113,28 @@ namespace Gray
 				indices.push_back(face.mIndices[j]);
 			}
 		}
+		return indices;
+	}
+
+	void Model::ProcessNode(aiNode* node, const aiScene* scene, bool flipTextures)
+	{
+		for (uint i = 0; i < node->mNumMeshes; i++)
+		{
+			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+			CreateMesh(mesh, scene, flipTextures);
+		}
+
+		for (uint i = 0; i < node->mNumChildren; i++)
+		{
+			ProcessNode(node->mChildren[i], scene, flipTextures);
+		}
+	}
+
+	
+	void Model::CreateMesh(aiMesh* mesh, const aiScene* scene, bool flipTextures)
+	{
+		std::vector<float> vertices = LoadVertices(mesh);
+		std::vector<uint> indices = LoadIndices(mesh);
 
 		Mesh grayMesh;
 		grayMesh.material = materials[mesh->mMaterialIndex]; 
@@ -129,8 +149,9 @@ namespace Gray
 								&(indices[0]), (uint)indices.size(), bl); 
 	}
 
-	void Model::ProcessTextures(aiMaterial* material, Material& newMat, aiTextureType type)
+	void Model::ProcessTextures(aiMaterial* material, Material& newMat, aiTextureType type, bool flipTextures)
 	{
+		std::string dir = path.substr(0, path.find_last_of('/'));
 
 		void(Material:: * addToMat)(const Texture*) = nullptr;
 		switch (type)
@@ -155,22 +176,20 @@ namespace Gray
 
 		//Load the last texture of the given type, since Gray can only handle
 		//materials with single texture for each texture maps.
-
 		uint i = material->GetTextureCount(type) - 1;
 
 		aiString aiPath;
 		material->GetTexture(type, i, &aiPath);
 
 		const Texture* tex = nullptr;
-		std::string path = std::string(aiPath.C_Str());
-		tex = GetTexture(dir + "/" + path, flipTextures);
-
+		std::string fnameTexture = std::string(aiPath.C_Str());
+		tex = GetTexture(dir + "/" + fnameTexture, flipTextures);
 		(newMat.*addToMat)(tex);
 		
 	}
 
 	//Populates the materials vectors from materials loaded by assimp
-	void Model::CreateMaterials(const aiScene* scene)
+	void Model::CreateMaterials(const aiScene* scene, bool flipTextures)
 	{
 		materials.reserve(scene->mNumMaterials);
 
@@ -179,17 +198,9 @@ namespace Gray
 			aiMaterial* material = scene->mMaterials[i];
 
 			materials.push_back(CreateMaterial());
-			ProcessTextures(material, materials[i], aiTextureType_DIFFUSE);
-			ProcessTextures(material, materials[i], aiTextureType_SPECULAR);
-			ProcessTextures(material, materials[i], aiTextureType_EMISSIVE);
+			ProcessTextures(material, materials[i], aiTextureType_DIFFUSE, flipTextures);
+			ProcessTextures(material, materials[i], aiTextureType_SPECULAR, flipTextures);
+			ProcessTextures(material, materials[i], aiTextureType_EMISSIVE, flipTextures);
 		}
-	}
-
-	//Get texture maps for a material
-	void Model::ProcessMaterial(aiMaterial* material, Mesh& mesh)
-	{
-		ProcessTextures(material, mesh.material, aiTextureType_DIFFUSE);
-		ProcessTextures(material, mesh.material, aiTextureType_SPECULAR);
-		ProcessTextures(material, mesh.material, aiTextureType_EMISSIVE);
 	}
  }

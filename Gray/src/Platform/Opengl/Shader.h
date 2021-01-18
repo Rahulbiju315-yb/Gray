@@ -24,6 +24,7 @@ namespace Gray
 		void SetUniform(const std::string& name, const glm::vec3& v3) const;
 		void SetUniform(const std::string& name, const glm::vec4& v4) const;
 		void SetUniform(const std::string& name, const glm::mat4& m4) const;
+		void SetUniform(const std::string& name, const glm::mat3& m3) const;
 
 		bool IsLoadSucces() const;
 

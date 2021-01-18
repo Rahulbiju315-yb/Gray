@@ -10,6 +10,7 @@ namespace Gray
 		void SetCapacity(int capacity);
 
 		RenderableModel* CreateRenderModel();
+		void ClearList();
 
 		std::vector<RenderableModel>::iterator begin();
 		std::vector<RenderableModel>::iterator end();

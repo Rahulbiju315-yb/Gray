@@ -103,4 +103,15 @@ namespace Gray
 			validProjection = true;
 		}
 	}
+
+	void Scene::SetCapacity(int n)
+	{
+		renderList.SetCapacity(n);
+	}
+
+	void Scene::ClearScene()
+	{
+		renderList.ClearList();
+		lightMan.ClearList();
+	}
 }

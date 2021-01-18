@@ -220,15 +220,10 @@ namespace Gray
 			for (auto& shader : unique_shaders)
 				shader->SetUniform("viewPos", pos);
 
-			const glm::vec2& yawPitch = GetYawPitch();
 			const glm::vec3& pos = GetPos();
-
-			float yaw = glm::radians(yawPitch.x);
-			float pitch = glm::radians(yawPitch.y);
-
 			float k = dt * speed;
 
-			glm::vec3 z_ = k * glm::normalize(glm::vec3(dir.x, 0, dir.z));
+			glm::vec3 z_ = k * glm::normalize(glm::vec3(dir.x, dir.y, dir.z));
 			glm::vec3 x_ = k * glm::normalize(glm::vec3(-dir.z, 0, dir.x));
 
 			if (Gray::Input::IsKeyPressed((int)(Gray::KeyCodes::Key_W)))

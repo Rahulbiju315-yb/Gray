@@ -8,7 +8,7 @@ namespace Gray
 	std::vector<VertexArray> unreferencedVA;
 	uint VertexArray::boundVA_ID = 0;
 
-	VertexArray::VertexArray() : ID(0)
+	VertexArray::VertexArray() : ID(0),  n_attribs(0)
 	{
 	}
 
@@ -19,15 +19,17 @@ namespace Gray
 		Bind();
 		buffer.Bind();
 
-		const std::vector<VertexAttrib> vec = layout.GetVector();
 		size_t offset = 0;
+		const std::vector<VertexAttrib> vec = layout.GetVector();
 		for (int i = 0; i < vec.size(); i++)
 		{
-			glEnableVertexAttribArray(i);
-			glVertexAttribPointer(i, vec[i].count, vec[i].type,
+			glEnableVertexAttribArray(n_attribs);
+			
+			glVertexAttribPointer(n_attribs, vec[i].count, vec[i].type,
 				vec[i].normalized, layout.GetStride(), (void*)offset);
-
 			offset += vec[i].count * sizeof(vec[i].type);
+
+			n_attribs++;
 		}
 
 		buffer.Unbind();
@@ -54,6 +56,7 @@ namespace Gray
 	void VertexArray::CopyFrom(const VertexArray& va)
 	{
 		ID = va.ID;
+		n_attribs = va.n_attribs;
 	}
 
 	void VertexArray::CreateIfEmpty()

@@ -15,9 +15,16 @@ namespace Gray
 		void Unbind() const;
 		bool IsBound() const;
 
+		size_t GetSize() { return size; }
+		uint GetID() { return ID; }
+
 		void LoadBufferData(void* data, size_t size);
+		void CopyBufferData(const VertexBuffer& src, uint rOffset, uint wOffset, size_t size);
+		void AppendBufferData(const VertexBuffer& src);
 	private:
 		uint ID;
+		size_t size;
+
 		static uint boundVB_ID;
 		
 		VertexBuffer(); // Default unitialised state with ID = 0

@@ -1,38 +1,63 @@
 #pragma once
 
 #include "Gray/Events/EventListener.h"
+#include "GLFW/glfw3.h"
+#include "Callbacks.h"
 
 namespace Gray
 {
-	enum class WindowProvider
-	{
-		GLFW,
-		Unknown
-	};
 
 	class Window
 	{
 	public:	
-		static Window* Create(const std::string& title, uint width = 1200, uint height = 700);
+		static Window* GetWindow(const std::string& title="Gray Window", uint width = 1200, uint height = 700);
+
+		void OnUpdate();
+		void PollEvents();
+
+		void AddListener(EventListener* listener);
+
+		uint GetWidth() const;
+		uint GetHeight() const;
+		const std::string& GetTitle() const;
+
+		GLFWwindow* GetGLFWwindow();
+
+		bool ShouldBeClosed();
+
+	private:
+		Window();
+		Window(const Window&) = delete;
+		Window(Window&&);
+
+		void Initialize(const std::string& title, uint width, uint height);
+
+		~Window();
+
+		Window& operator=(const Window&) = delete;
+		Window& operator=(Window&& src) = delete;
+
+		void InitImgui();
+		void DestroyImgui();
 		
-		virtual void OnInit() = 0;
-		virtual void OnUpdate() = 0;
-		virtual void OnRender() = 0;
+		void BeginImgui();
+		void EndImgui();
 
-		virtual void PollEvents() = 0;
+		void SetCallbacks();
+		void InitGlew();
 
-		virtual void SetListener(EventListener *listener) = 0;
+		uint width;
+		uint height;
 
-		virtual uint GetWidth() const = 0;
-		virtual uint GetHeight() const = 0;
-		virtual const std::string& GetTitle() const = 0;
+		std::string title;
+		Callbacks callbacks;
+		GLFWwindow* glfwWindow;
 
-		static WindowProvider GetProviderName();
-		static void* GetProvider();
+		bool initialized;
 
-	protected:
+		static Window singleton;
 
-		static WindowProvider wp;
-		static void* provider;
+		friend class Application;
+		friend void FrameBufferSizeCallback(GLFWwindow*, int width, int height);
 	};
 }

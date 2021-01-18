@@ -5,6 +5,7 @@
 layout (location = 0) in vec3 inPos;
 layout (location = 1) in vec3 inNormal;
 layout (location = 2) in vec2 inTexCoord;
+layout (location = 3) in vec3 offsets;
 
 out vec2 TexCoord;
 out vec3 Normal;
@@ -17,9 +18,7 @@ uniform mat4 projection;
 
 void main()
 {
-	FragPos = vec3(model * vec4(inPos, 1.0f));
-	//FragPos = vec3(vec2(inTexCoord), 0);
-
+	FragPos = vec3(model * vec4(inPos + offsets, 1.0f));
 	TexCoord = vec2(inTexCoord);
 	Normal = mat3(transpose(invModel)) * inNormal;
 
@@ -116,7 +115,7 @@ vec4 CalcPointLight(PointLight source, vec3 normal, vec3 viewDir)
 
 	vec3 reflectDir = normalize(reflect(-sourceDir, normal));
 	float spec = pow(max(dot(reflectDir, viewDir), 0), material.shininess);
-	specular = texture(material.specular, TexCoord) * spec * vec4(source.specular, 1);
+	specular = texture(material.specular, TexCoord) * spec * vec4(source.specular, 0);
 
 	return (ambient + diffuse + specular) * attenuation;
 }
@@ -185,8 +184,11 @@ void main()
 		lighting += CalcDirectionalLight(dirLight[i], norm, viewDir);
 
 	vec4 emission = texture(material.emission, TexCoord);
+	
+	if (lighting.a < 0.2)
+		discard;
 
-	FragColor = vec4(lighting + emission);
-	//FragColor.a = 1;
-	//FragColor = vec4(1.0f);
+	FragColor = vec4(lighting);
+	FragColor.a = 1;
+	FragColor = vec4(1.0f);
 }

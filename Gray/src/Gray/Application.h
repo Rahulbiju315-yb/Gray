@@ -2,55 +2,39 @@
 
 #include "Window/Window.h"
 
-#include "Events/AllListeners.h"
-
-#include "Layers/LayerStack.h"
-#include "Layers/ImguiLayer.h"
-#include "Layers/RenderLayer.h"
-
-#include "imgui.h"
-
-
 namespace Gray
 {
-	class Application : public AllListeners
+	class Application
 	{
 	public:
-		Application();
-		~Application();
-
-		virtual void Init() = 0;
-		virtual void OnUpdate(float dt) = 0;
-		virtual void OnImguiRender(float dt) = 0;
-
 		void Run();
 
 		uint GetWidth();
 		uint GetHeight();
-		void* GetProvider();
 		Window* GetWindow();
-		WindowProvider GetProviderName();
-
-		void OnWindowClosed(WindowClosedEvent& event) override;
-		void OnEvent(Event& e) override;
-
 		static Application* GetApp();
-		static void SetApp(Application* app);
-
-		static ImGuiContext* GetImguiContext();
 
 	protected:
+		Application();
+		Application(const Application&) = delete;
+		Application(Application&&) = delete;
+
+		Application& operator=(const Application&) = delete;
+		Application& operator=(Application&&) = delete;
+
 		void Clear();
-
+		
+		virtual void OnInit() = 0;
+		virtual void OnUpdate(float dt) = 0;
+		virtual void OnImguiRender(float dt) = 0;
+		
 		Window *window;
-		ImguiLayer *imguiLayer;
-
-		static Application* app;
+		static Application* singleton;
 
 	private:
+
 		float lastTime;
 		float GetDT();
 	};
 
-	Application* CreateApplication();
 }

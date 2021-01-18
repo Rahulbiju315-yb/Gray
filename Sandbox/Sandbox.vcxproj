@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GRAY_PLATFORM_WINDOWS;GLEW_STATIC;GRAY_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Gray\vendor\spdlog\include;..\Gray\vendor\glfw\include;..\Gray\vendor\imgui;..\Gray\vendor\glew\include;..\Gray\vendor\glm;..\Gray\vendor\imguiFileChooser;..\Gray\vendor\assimp\include;..\Gray\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Gray\vendor\spdlog\include;..\Gray\vendor\glfw\include;..\Gray\vendor\imgui;..\Gray\vendor\glew\include;..\Gray\vendor\glm;..\Gray\vendor\assimp\include;..\Gray\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -97,7 +97,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GRAY_PLATFORM_WINDOWS;GLEW_STATIC;GRAY_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Gray\vendor\spdlog\include;..\Gray\vendor\glfw\include;..\Gray\vendor\imgui;..\Gray\vendor\glew\include;..\Gray\vendor\glm;..\Gray\vendor\imguiFileChooser;..\Gray\vendor\assimp\include;..\Gray\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Gray\vendor\spdlog\include;..\Gray\vendor\glfw\include;..\Gray\vendor\imgui;..\Gray\vendor\glew\include;..\Gray\vendor\glm;..\Gray\vendor\assimp\include;..\Gray\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -119,7 +119,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GRAY_PLATFORM_WINDOWS;GLEW_STATIC;GRAY_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Gray\vendor\spdlog\include;..\Gray\vendor\glfw\include;..\Gray\vendor\imgui;..\Gray\vendor\glew\include;..\Gray\vendor\glm;..\Gray\vendor\imguiFileChooser;..\Gray\vendor\assimp\include;..\Gray\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Gray\vendor\spdlog\include;..\Gray\vendor\glfw\include;..\Gray\vendor\imgui;..\Gray\vendor\glew\include;..\Gray\vendor\glm;..\Gray\vendor\assimp\include;..\Gray\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -137,8 +137,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\test\AllTests.h" />
     <ClInclude Include="src\test\Test.h" />
     <ClInclude Include="src\test\TestModelLoading.h" />
+    <ClInclude Include="src\test\TestOffscreen.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox.cpp" />

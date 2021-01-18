@@ -203,6 +203,12 @@ namespace Gray
 		glUniformMatrix4fv(GetUniformLocation(name.c_str()), 1, GL_FALSE, glm::value_ptr(m4));
 	}
 
+	void Shader::SetUniform(const std::string& name, const glm::mat3& m3) const
+	{
+		Bind();
+		glUniformMatrix3fv(GetUniformLocation(name.c_str()), 1, GL_FALSE, glm::value_ptr(m3));
+	}
+
 	bool Shader::IsLoadSucces() const
 	{
 		return success;

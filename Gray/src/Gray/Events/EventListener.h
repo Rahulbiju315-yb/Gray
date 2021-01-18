@@ -8,6 +8,6 @@ namespace Gray
 	class EventListener
 	{
 	public:
-		virtual void OnEvent(Event& e) = 0;
+		virtual void OnEvent(Event& e, EventType type) = 0;
 	};
 }

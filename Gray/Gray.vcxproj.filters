@@ -22,9 +22,6 @@
     <Filter Include="Gray\Graphics\Uniforms">
       <UniqueIdentifier>{5AEEAA6B-46E8-D3BD-2F55-6ACE1BEE392A}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Gray\Layers">
-      <UniqueIdentifier>{17B4715D-8369-EA52-0C5E-E4297812E156}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Gray\Util">
       <UniqueIdentifier>{A5FE84BE-1169-3935-5AA7-EADAC650178A}</UniqueIdentifier>
     </Filter>
@@ -37,20 +34,16 @@
     <Filter Include="Platform\Opengl">
       <UniqueIdentifier>{5E812C1D-CA0C-9AE1-D31D-1DD63F28F6E1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="imguiFileChooser">
+      <UniqueIdentifier>{13346F10-FF2C-8E62-285F-73E714B76D6E}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Gray.h" />
     <ClInclude Include="src\Gray\Application.h">
       <Filter>Gray</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Core.h">
+    <ClInclude Include="src\Gray\Debug.h">
       <Filter>Gray</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\EntryPoint.h">
-      <Filter>Gray</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Events\AllListeners.h">
-      <Filter>Gray\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Events\Event.h">
       <Filter>Gray\Events</Filter>
@@ -67,25 +60,13 @@
     <ClInclude Include="src\Gray\Events\KeyEvent.h">
       <Filter>Gray\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Events\KeyListener.h">
-      <Filter>Gray\Events</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gray\Events\MouseCodes.h">
       <Filter>Gray\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Events\MouseEvent.h">
       <Filter>Gray\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Events\MouseListener.h">
-      <Filter>Gray\Events</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gray\Events\WindowEvent.h">
-      <Filter>Gray\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Events\WindowListener.h">
-      <Filter>Gray\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Events\WindowsInput.h">
       <Filter>Gray\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Camera.h">
@@ -130,6 +111,9 @@
     <ClInclude Include="src\Gray\Graphics\Renderable.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\ResourceManager.h">
+      <Filter>Gray\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Scene.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
@@ -163,18 +147,6 @@
     <ClInclude Include="src\Gray\Graphics\Uniforms\TransformUMFactory.h">
       <Filter>Gray\Graphics\Uniforms</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Layers\ImguiLayer.h">
-      <Filter>Gray\Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Layers\Layer.h">
-      <Filter>Gray\Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Layers\LayerStack.h">
-      <Filter>Gray\Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Layers\RenderLayer.h">
-      <Filter>Gray\Layers</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gray\Log.h">
       <Filter>Gray</Filter>
     </ClInclude>
@@ -184,10 +156,10 @@
     <ClInclude Include="src\Gray\Util\ResourceManager.h">
       <Filter>Gray\Util</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Window\Window.h">
+    <ClInclude Include="src\Gray\Window\Callbacks.h">
       <Filter>Gray\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Window\WindowsWindow.h">
+    <ClInclude Include="src\Gray\Window\Window.h">
       <Filter>Gray\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Opengl\BufferLayout.h">
@@ -226,12 +198,20 @@
     <ClInclude Include="src\Platform\Opengl\VertexBuffer.h">
       <Filter>Platform\Opengl</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\WeakRef.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\Opengl\stb_image.h">
       <Filter>Platform\Opengl</Filter>
     </ClInclude>
     <ClInclude Include="src\grpch.h" />
-    <ClInclude Include="src\Gray\Graphics\ResourceManager.h" />
-    <ClInclude Include="src\Platform\Opengl\WeakRef.h" />
+    <ClInclude Include="src\imguiFileChooser\ImGuiFileDialog.h">
+      <Filter>imguiFileChooser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imguiFileChooser\ImGuiFileDialogConfig.h">
+      <Filter>imguiFileChooser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\imguiFileChooser\dirent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -240,7 +220,7 @@
     <ClCompile Include="src\Gray\Events\Events.cpp">
       <Filter>Gray\Events</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gray\Events\WindowsInput.cpp">
+    <ClCompile Include="src\Gray\Events\Input.cpp">
       <Filter>Gray\Events</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Camera.cpp">
@@ -279,6 +259,9 @@
     <ClCompile Include="src\Gray\Graphics\Renderable.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\ResourceManager.cpp">
+      <Filter>Gray\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Scene.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
@@ -306,28 +289,16 @@
     <ClCompile Include="src\Gray\Graphics\Uniforms\TransformUMFactory.cpp">
       <Filter>Gray\Graphics\Uniforms</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gray\Layers\ImguiLayer.cpp">
-      <Filter>Gray\Layers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Layers\Layer.cpp">
-      <Filter>Gray\Layers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Layers\LayerStack.cpp">
-      <Filter>Gray\Layers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Layers\RenderLayer.cpp">
-      <Filter>Gray\Layers</Filter>
-    </ClCompile>
     <ClCompile Include="src\Gray\Log.cpp">
       <Filter>Gray</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\TempUtil.cpp">
       <Filter>Gray</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gray\Window\Window.cpp">
+    <ClCompile Include="src\Gray\Window\Callbacks.cpp">
       <Filter>Gray\Window</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gray\Window\WindowsWindow.cpp">
+    <ClCompile Include="src\Gray\Window\Window.cpp">
       <Filter>Gray\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Opengl\FrameBuffer.cpp">
@@ -355,5 +326,8 @@
       <Filter>Platform\Opengl</Filter>
     </ClCompile>
     <ClCompile Include="src\grpch.cpp" />
+    <ClCompile Include="src\imguiFileChooser\ImGuiFileDialog.cpp">
+      <Filter>imguiFileChooser</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

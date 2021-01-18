@@ -21,7 +21,7 @@ namespace Gray
 	class Texture
 	{
 	public:
-		void LoadTexture(char* data, int width, int height, int internalFormat=GL_RGBA, int externalFormat=GL_RGBA);
+		void LoadTextureFrom(void* data, int width, int height, int internalFormat=GL_RGBA, int externalFormat=GL_RGBA);
 		bool LoadTexture(const std::string& path, bool flip, int internalFormat = GL_RGBA, int externalFormat = GL_RGBA);
 		void LoadEmptyTexture(int width, int height, int internalFormat = GL_RGBA, int externalFormat = GL_RGBA);
 		void LoadDepthTexture(int width, int height);

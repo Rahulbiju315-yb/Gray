@@ -12,7 +12,6 @@
 #include "unordered_map"
 #include "stdlib.h"
 
-#include "Gray/Core.h"
 #include "Gray/Log.h"
 
 #include "GL/glew.h"

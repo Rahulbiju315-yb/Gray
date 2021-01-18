@@ -12,29 +12,26 @@ namespace Gray
 	{
 	public:
 		Model();
-		Model(const Model& model) = delete;
-		Model(Model&& model) noexcept;
 
-		void LoadModel(const std::string& path, const std::string& fName, bool flipTextures=true);
+		void LoadModel(const std::string& path, bool flipTextures=true);
+		std::string GetPath();
 
 		std::vector<Mesh>::iterator begin();
 		std::vector<Mesh>::iterator end();
 
-
 	private:
 		std::vector<Mesh> meshes;
 		std::vector<Material> materials;
+		std::string path; 
 
-		std::unordered_map<std::string, NoCopy<Texture>> unique_tex;
-		std::string dir; 
-		mutable bool isLoaded;
-		mutable bool flipTextures;
+		std::vector<float> LoadVertices(aiMesh* mesh);
+		std::vector<uint> LoadIndices(aiMesh* mesh);
 
-		void ProcessNode(aiNode* node, const aiScene* scene);
-		void ProcessMesh(aiMesh* mesh, const aiScene* scene);
-		void ProcessMaterial(aiMaterial* material, Mesh& mesh);
-		void ProcessTextures(aiMaterial* material, Material& newMat, aiTextureType type);
-		void CreateMaterials(const aiScene* scene);
+		void ProcessNode(aiNode* node, const aiScene* scene, bool flipTextures);
+		void CreateMesh(aiMesh* mesh, const aiScene* scene, bool flipTextures);
+
+		void CreateMaterials(const aiScene* scene, bool flipTextures);
+		void ProcessTextures(aiMaterial* material, Material& newMat, aiTextureType type, bool flipTextures);
 
 		friend class RenderableModel;
 	};

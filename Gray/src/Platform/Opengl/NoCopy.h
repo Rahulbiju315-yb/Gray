@@ -49,10 +49,10 @@ namespace Gray
 			return *this;
 		}
 
-		T* operator->() { return Get(); }
-		T& operator*() { return *Get(); }
+		T* operator->() const { return Get(); }
+		T& operator*() const { return *Get(); }
 
-		T* Get() { return &resource; }
+		T* Get() const { return &resource; }
 
 	private:
 		mutable T resource;

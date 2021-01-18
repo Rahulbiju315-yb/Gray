@@ -6,10 +6,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\test\AllTests.h">
+      <Filter>test</Filter>
+    </ClInclude>
     <ClInclude Include="src\test\Test.h">
       <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="src\test\TestModelLoading.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\TestOffscreen.h">
       <Filter>test</Filter>
     </ClInclude>
   </ItemGroup>

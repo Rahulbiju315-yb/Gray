@@ -42,6 +42,9 @@ namespace Gray
 		void ComputeShaderSet();
 		void SetProjectionUniform();
 
+		void ClearScene();
+		void SetCapacity(int n);
+
 	private:
 		RenderList renderList;
 		LightingManager lightMan;

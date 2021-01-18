@@ -1,0 +1,145 @@
+#pragma once
+
+#include "Test.h"
+#include "Gray/Graphics/Materials.h"
+#include "Platform/Opengl/Texture.h"
+
+#include "Gray/Graphics/Scene.h"
+
+#include "Gray/Graphics/Light/PointLight.h"
+#include "Gray/Graphics/Source/SourceFactory.h"
+
+#include "Gray/Graphics/Model/RenderableModel.h"
+#include "Platform/Opengl/FrameBuffer.h"
+#include <glm/gtc/type_ptr.hpp>
+#define RAND_FLOAT (float)rand() / RAND_MAX
+
+namespace Test
+{
+	void fill(float* arr, float f, int n);
+
+	class TestOffscreen : public Test
+	{
+	public:
+		TestOffscreen()
+			: scene(Gray::Scene(1))
+		{
+
+			// FrameBuffer setup
+			colorAttachment->LoadEmptyTexture(1200, 700, GL_RGB, GL_RGB);
+			depthAttachment->LoadDepthTexture(1200, 700);
+			debug->LoadTexture("res/textures/matrix.jpg", true, GL_RGB, GL_RGBA);
+
+			offScreen->AddAttachment(*colorAttachment, Gray::AttachmentType::Color);
+			offScreen->AddAttachment(*depthAttachment, Gray::AttachmentType::Depth);
+
+			colorAttachment->Bind(0);
+
+			GRAY_INFO("Is offscreen complete ? " + std::to_string(offScreen->IsComplete()));
+			
+			// Shader loading and uniform setting
+			textureShader->LoadProgram("res/shaders/textureShader.shader");
+			textureShader->SetUniform("tex", 0);
+
+			fill(kernel, 1.0 / 9, 9);
+
+		}
+
+		Gray::Scene* OnInit() override
+		{
+
+			auto model = scene.CreateRenderModel();
+			model->LoadModel("res/models/47-obj/Handgun_obj.obj", false);
+			//model->LoadModel("res/models/backpack/backpack.obj", true);
+
+			std::vector<float> offsets;
+			offsets.reserve(3);
+
+			offsets.push_back(0);
+			offsets.push_back(0);
+			offsets.push_back(0);
+
+			model->SetOffsets(std::move(offsets));
+
+			auto source = std::make_unique<Gray::CameraSource>(scene.GetCamera());
+			auto ls = scene.CreateLight(Gray::LightType::PointLight, std::move(source));
+			ls->SetAttenuation(1.0f, 0, 0);
+
+			return &scene;
+		}
+
+		void OnImguiRender(float dt) override
+		{
+			KernelDebug();
+		}
+
+		void OnUpdate(float dt) override
+		{
+			offScreen->Bind();
+			glClearColor(0.1f, 0.19f, 0.25f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glEnable(GL_DEPTH_TEST);
+
+			for (auto& renderable : scene)
+			{
+				renderable.OnUpdate(dt);
+			}
+			offScreen->Unbind();
+			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
+
+			colorAttachment->Bind(0);
+			Gray::Renderable::GetRenderer()->DrawScreenQuad(*textureShader);
+		}
+		
+
+		// Debug Methods
+
+		void KernelDebug()
+		{
+			static float av = 1.0f / 9;
+			static bool changed = true;
+			static float kernelArr[9] = 
+			{ 
+				av, av, av,
+			    av, av, av,
+				av, av, av
+			};
+
+			ImGui::LabelText("Kernel", "");
+
+			changed = ImGui::InputFloat3("Row 1", &kernel[0], 0, 1);
+			changed |= ImGui::InputFloat3("Row 2", &kernel[3], 0, 1);
+			changed |= ImGui::InputFloat3("Row 3", &kernel[6], 0, 1);
+
+			if (changed)
+			{
+				float sum = 0;
+				for (int i = 0; i < 9; i++)
+					sum += kernelArr[i];
+
+				for(int i = 0; i < 9; i++)
+					textureShader->SetUniform("kernel["+std::to_string(i)+"]", kernel[i] / sum);
+			}
+
+		}
+	private:
+		float kernel[9];
+
+		Gray::Scene scene;
+		Gray::NoCopy<Gray::FrameBuffer> offScreen;
+		Gray::NoCopy<Gray::Texture> colorAttachment;
+		Gray::NoCopy<Gray::Texture> depthAttachment;
+		Gray::NoCopy<Gray::Texture> debug;
+
+		Gray::NoCopy<Gray::Shader> textureShader;
+
+	};
+
+	// fills an array with f for first n elements
+	void fill(float* arr, float f, int n)
+	{
+		for (int i = 0; i < n; i++)
+			arr[i] = f;
+	}
+}

@@ -1,5 +1,6 @@
  #include "grpch.h"
 #include "RenderableModel.h"
+#include "Gray/Graphics/ResourceManager.h"
 
 #include "Gray/Graphics/Uniforms/TransformUMFactory.h"
 #include "Gray/Graphics/Uniforms/MaterialUMFactory.h"
@@ -8,7 +9,7 @@ namespace Gray
 {
 	uint boundMaterialID;
 
-	RenderableModel::RenderableModel(): validUniforms(false), setter(nullptr)
+	RenderableModel::RenderableModel(): validUniforms(false), setter(nullptr), n_instances(0)
 	{
 		isRenderEnabled = true;
 
@@ -18,12 +19,9 @@ namespace Gray
 
 	void RenderableModel::LoadModel(std::string path, bool flipTexture, bool loadShader)
 	{
-		std::string dir = path.substr(0, path.find_last_of('/'));
-		std::string name = path.substr(path.find_last_of('/') + 1, path.size());
-
-		model.LoadModel(dir, name, flipTexture);
+		model = GetModel(path, flipTexture);
 		
-		if (loadShader)
+		if (loadShader && shader->GetID() == 0)
 		{
 			shader = Shared<Shader>();
 			shader -> LoadProgram("res/shaders/shader.shader");
@@ -63,7 +61,7 @@ namespace Gray
 			}
 
 			auto& rData = mesh.renderData;
-			renderer.Draw(*(rData.va), *(rData.ib), *shader);
+			renderer.Draw(*(rData.va), *(rData.ib), *shader, n_instances);
 		}
 	}
 
@@ -82,6 +80,25 @@ namespace Gray
 		this->setter = setter;
 	}
 
+	void RenderableModel::SetOffsets(std::vector<float> offsets)
+	{
+		NoCopy<VertexBuffer> vb;
+		vb->LoadBufferData(&(offsets[0]), sizeof(float) * offsets.size());
+
+		BufferLayout layout;
+		layout.Push<float>(3);
+		for (Mesh& mesh : model)
+		{
+			mesh.renderData.va->SetAttribPointers(*vb, layout);
+			uint lastAttrib = mesh.renderData.va->GetAttribCount() - 1;
+			
+			mesh.renderData.va->Bind();
+			glVertexAttribDivisor(lastAttrib, 1);
+		}
+		offsetsBuffer = std::move(vb);
+
+		n_instances = (uint)(offsets.size() / 3);
+	}
 	
 	bool GroupByMaterialComparator(const Mesh& m1, const Mesh& m2)
 	{

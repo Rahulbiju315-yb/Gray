@@ -3,8 +3,7 @@
 
 namespace Gray
 {
-	std::vector<FrameBuffer> unreferencedFB;
-
+	uint FrameBuffer::boundFB_ID = 0;
 	FrameBuffer::FrameBuffer() 
 		: ID(0)
 	{
@@ -37,6 +36,7 @@ namespace Gray
 	void FrameBuffer::AddAttachment(const Texture& tex, AttachmentType type, int index)
 	{
 		CreateIfEmpty();
+		Bind();
 
 		uint attachmentType = AttachmentTypeToUINT(type);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, GL_TEXTURE_2D, tex.GetID(), 0);
@@ -45,6 +45,7 @@ namespace Gray
 	void FrameBuffer::AddAttachment(const RenderBuffer& rb, AttachmentType type, int index)
 	{
 		CreateIfEmpty();
+		Bind();
 
 		uint attachmentType = AttachmentTypeToUINT(type);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, GL_TEXTURE_2D, rb.GetID(), 0);

@@ -55,6 +55,13 @@ namespace Gray
 			sl.SetUniformsFor(shader);
 	}
 
+	void LightingManager::ClearList()
+	{
+		pointLights.clear();
+		dirLights.clear();
+		spotLights.clear();
+	}
+
 	std::tuple<int, int, int> LightingManager::GetLightCounts()
 	{
 		return std::tuple<int, int, int>

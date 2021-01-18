@@ -77,7 +77,7 @@
       <PrecompiledHeaderFile>grpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GLEW_STATIC;GRAY_PLATFORM_WINDOWS;GRAY_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\imguiFileChooser;vendor\glew\include;vendor\glm;vendor\assimp\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\glew\include;vendor\glm;vendor\assimp\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -98,7 +98,7 @@
       <PrecompiledHeaderFile>grpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GLEW_STATIC;GRAY_PLATFORM_WINDOWS;GRAY_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\imguiFileChooser;vendor\glew\include;vendor\glm;vendor\assimp\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\glew\include;vendor\glm;vendor\assimp\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -113,8 +113,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc140-mt.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;vendor\assimp\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc140-mt.lib;glew32s.lib;opengl32.lib;imguiFileChooser.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;vendor\assimp\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -123,7 +123,7 @@
       <PrecompiledHeaderFile>grpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GLEW_STATIC;GRAY_PLATFORM_WINDOWS;GRAY_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\imguiFileChooser;vendor\glew\include;vendor\glm;vendor\assimp\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;vendor\glfw\include;vendor\imgui;vendor\glew\include;vendor\glm;vendor\assimp\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -138,28 +138,21 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc140-mt.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;vendor\assimp\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc140-mt.lib;glew32s.lib;opengl32.lib;imguiFileChooser.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;vendor\assimp\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Gray.h" />
     <ClInclude Include="src\Gray\Application.h" />
-    <ClInclude Include="src\Gray\Core.h" />
-    <ClInclude Include="src\Gray\EntryPoint.h" />
-    <ClInclude Include="src\Gray\Events\AllListeners.h" />
+    <ClInclude Include="src\Gray\Debug.h" />
     <ClInclude Include="src\Gray\Events\Event.h" />
     <ClInclude Include="src\Gray\Events\EventListener.h" />
     <ClInclude Include="src\Gray\Events\Input.h" />
     <ClInclude Include="src\Gray\Events\KeyCodes.h" />
     <ClInclude Include="src\Gray\Events\KeyEvent.h" />
-    <ClInclude Include="src\Gray\Events\KeyListener.h" />
     <ClInclude Include="src\Gray\Events\MouseCodes.h" />
     <ClInclude Include="src\Gray\Events\MouseEvent.h" />
-    <ClInclude Include="src\Gray\Events\MouseListener.h" />
     <ClInclude Include="src\Gray\Events\WindowEvent.h" />
-    <ClInclude Include="src\Gray\Events\WindowListener.h" />
-    <ClInclude Include="src\Gray\Events\WindowsInput.h" />
     <ClInclude Include="src\Gray\Graphics\Camera.h" />
     <ClInclude Include="src\Gray\Graphics\Defaults.h" />
     <ClInclude Include="src\Gray\Graphics\Light\DirectionalLight.h" />
@@ -186,15 +179,12 @@
     <ClInclude Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.h" />
     <ClInclude Include="src\Gray\Graphics\Uniforms\TransformUM.h" />
     <ClInclude Include="src\Gray\Graphics\Uniforms\TransformUMFactory.h" />
-    <ClInclude Include="src\Gray\Layers\ImguiLayer.h" />
-    <ClInclude Include="src\Gray\Layers\Layer.h" />
-    <ClInclude Include="src\Gray\Layers\LayerStack.h" />
-    <ClInclude Include="src\Gray\Layers\RenderLayer.h" />
     <ClInclude Include="src\Gray\Log.h" />
     <ClInclude Include="src\Gray\TempUtil.h" />
     <ClInclude Include="src\Gray\Util\ResourceManager.h" />
+    <ClInclude Include="src\Gray\Window\Callbacks.h" />
     <ClInclude Include="src\Gray\Window\Window.h" />
-    <ClInclude Include="src\Gray\Window\WindowsWindow.h" />
+    <ClInclude Include="src\imguiFileChooser\dirent.h" />
     <ClInclude Include="src\Platform\Opengl\BufferLayout.h" />
     <ClInclude Include="src\Platform\Opengl\FrameBuffer.h" />
     <ClInclude Include="src\Platform\Opengl\IndexBuffer.h" />
@@ -207,14 +197,16 @@
     <ClInclude Include="src\Platform\Opengl\Texture.h" />
     <ClInclude Include="src\Platform\Opengl\VertexArray.h" />
     <ClInclude Include="src\Platform\Opengl\VertexBuffer.h" />
+    <ClInclude Include="src\Platform\Opengl\WeakRef.h" />
     <ClInclude Include="src\Platform\Opengl\stb_image.h" />
     <ClInclude Include="src\grpch.h" />
-    <ClInclude Include="src\Platform\Opengl\WeakRef.h" />
+    <ClInclude Include="src\imguiFileChooser\ImGuiFileDialog.h" />
+    <ClInclude Include="src\imguiFileChooser\ImGuiFileDialogConfig.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp" />
     <ClCompile Include="src\Gray\Events\Events.cpp" />
-    <ClCompile Include="src\Gray\Events\WindowsInput.cpp" />
+    <ClCompile Include="src\Gray\Events\Input.cpp" />
     <ClCompile Include="src\Gray\Graphics\Camera.cpp" />
     <ClCompile Include="src\Gray\Graphics\Defaults.cpp" />
     <ClCompile Include="src\Gray\Graphics\Light\DirectionalLight.cpp" />
@@ -227,6 +219,7 @@
     <ClCompile Include="src\Gray\Graphics\Model\RenderableModel.cpp" />
     <ClCompile Include="src\Gray\Graphics\RenderList.cpp" />
     <ClCompile Include="src\Gray\Graphics\Renderable.cpp" />
+    <ClCompile Include="src\Gray\Graphics\ResourceManager.cpp" />
     <ClCompile Include="src\Gray\Graphics\Scene.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\CameraSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\SourceFactory.cpp" />
@@ -236,14 +229,10 @@
     <ClCompile Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.cpp" />
     <ClCompile Include="src\Gray\Graphics\Uniforms\TransformUM.cpp" />
     <ClCompile Include="src\Gray\Graphics\Uniforms\TransformUMFactory.cpp" />
-    <ClCompile Include="src\Gray\Layers\ImguiLayer.cpp" />
-    <ClCompile Include="src\Gray\Layers\Layer.cpp" />
-    <ClCompile Include="src\Gray\Layers\LayerStack.cpp" />
-    <ClCompile Include="src\Gray\Layers\RenderLayer.cpp" />
     <ClCompile Include="src\Gray\Log.cpp" />
     <ClCompile Include="src\Gray\TempUtil.cpp" />
+    <ClCompile Include="src\Gray\Window\Callbacks.cpp" />
     <ClCompile Include="src\Gray\Window\Window.cpp" />
-    <ClCompile Include="src\Gray\Window\WindowsWindow.cpp" />
     <ClCompile Include="src\Platform\Opengl\FrameBuffer.cpp" />
     <ClCompile Include="src\Platform\Opengl\IndexBuffer.cpp" />
     <ClCompile Include="src\Platform\Opengl\RenderBuffer.cpp" />
@@ -255,6 +244,7 @@
     <ClCompile Include="src\grpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\imguiFileChooser\ImGuiFileDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\glfw\GLFW.vcxproj">
@@ -262,9 +252,6 @@
     </ProjectReference>
     <ProjectReference Include="vendor\imgui\imgui.vcxproj">
       <Project>{0098A80F-6CAC-D0C0-352E-7420A101CDF1}</Project>
-    </ProjectReference>
-    <ProjectReference Include="vendor\imguiFileChooser\imguiFileChooser.vcxproj">
-      <Project>{13346F10-FF2C-8E62-285F-73E714B76D6E}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -13,6 +13,7 @@ namespace Gray
 
 		LightSource* CreateLight(LightType type);
 		void SetUniformsFor(const Shader& shader);
+		void ClearList();
 
 		std::tuple<int, int, int> GetLightCounts(); // point, directional, spot
 

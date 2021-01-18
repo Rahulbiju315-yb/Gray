@@ -14,6 +14,11 @@ namespace Gray
 		return &(renderables.back());
 	}
 
+	void RenderList::ClearList()
+	{
+		renderables.clear();
+	}
+
 	std::vector<RenderableModel>::iterator RenderList::begin()
 	{
 		return renderables.begin();

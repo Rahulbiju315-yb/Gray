@@ -12,9 +12,9 @@ namespace Gray
 {
 	struct MeshRenderData
 	{
-		NoCopy<VertexBuffer> vb;
-		NoCopy<VertexArray> va;
-		NoCopy<IndexBuffer> ib;
+		Shared<VertexBuffer> vb;
+		Shared<VertexArray> va;
+		Shared<IndexBuffer> ib;
 	};
 
 	class Mesh
