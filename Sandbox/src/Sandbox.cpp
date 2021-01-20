@@ -9,7 +9,7 @@
 
 #include "Gray/Events/KeyCodes.h"
 #include "Gray/Debug.h"
-
+#include "Platform/Opengl/Renderer.h"
 #include "test/AllTests.h"
 
 #define RAND_FLOAT (float)rand() / RAND_MAX
@@ -52,13 +52,8 @@ public:
 
 	void OnUpdate(float dt) override
 	{
-		scene->ComputeShaderSet();
-		scene->SetViewUniform();
-		scene->SetProjectionUniform();
-		scene->LightUpScene();
-		scene->GetCamera()->OnUpdate(dt);
-
-		Gray::Renderable::GetRenderer()->Clear();
+		Gray::ClearDepthColor();
+		scene->GetCamera()->Move(dt);
 		test->OnUpdate(dt);
 	}
 
@@ -81,14 +76,10 @@ public:
 				if (cursorEn)
 				{
 					Gray::TempUtil::EnableCursor();
-					scene->GetCamera()->SetLookAroundEnabled(false);
-					scene->GetCamera()->SetMoveEnabled(false);
 				}
 				else
 				{
 					Gray::TempUtil::DisableCursor();
-					scene->GetCamera()->SetLookAroundEnabled(true);
-					scene->GetCamera()->SetMoveEnabled(true);
 				}
 			}
 		}
@@ -96,8 +87,10 @@ public:
 
 	void OnMouseMoved(Gray::MouseMovedEvent& e)
 	{
-		if (scene)
+		if (scene && !cursorEn)
+		{
 			scene->GetCamera()->UpdateLook();
+		}
 	}
 
 private:

@@ -26,9 +26,9 @@ namespace Gray
 			int g = (int)(color.g);
 			int b = (int)(color.b);
 			
-			char data[4] = {(char)r, (char)g, (char)b, 0};
+			unsigned char data[4] = {(unsigned char)r, (unsigned char)g, (unsigned char)b, 0};
 
-			blankTexture->LoadTextureFrom(data, 1, 1, GL_RGB, GL_RGBA);
+			blankTexture->LoadTextureFrom(data, 1, 1, 4);
 		}
 		return blankTexture.Get();
 	}

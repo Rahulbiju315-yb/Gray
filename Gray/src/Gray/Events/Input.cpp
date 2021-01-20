@@ -5,6 +5,9 @@
 
 namespace Gray
 {
+    float Input::dmx = 0;
+    float Input::dmy = 0;
+
 	bool Input::IsKeyPressed(int keyCode)
     {
         GLFWwindow* window = Window::GetWindow()->GetGLFWwindow();
@@ -31,6 +34,8 @@ namespace Gray
         return {(float)x, (float)y};
     }
 
+
+
     float Input::GetMouseX()
     {
 		GLFWwindow* window = Window::GetWindow()->GetGLFWwindow();
@@ -45,5 +50,15 @@ namespace Gray
 
         auto [x, y] = GetMousePos();
         return y;
+    }
+
+	float Input::GetMouseDX()
+    {
+        return dmx;
+    }
+
+    float Input::GetMouseDY()
+    {
+        return dmy;
     }
 }

@@ -3,7 +3,7 @@
 
 namespace Gray
 {
-	Scene::Scene(int renderListCapacity) : camera(this), validProjection(false), validShaderSet(false)
+	Scene::Scene(int renderListCapacity) : camera(Camera())
 	{
 		renderList.SetCapacity(renderListCapacity);
 	}
@@ -25,9 +25,6 @@ namespace Gray
 
 	RenderableModel* Scene::CreateRenderModel()
 	{
-		validShaderSet = false;
-		validProjection = false;
-
 		auto renderable = renderList.CreateRenderModel();
 		return renderable;
 	}
@@ -63,45 +60,44 @@ namespace Gray
 		}
 	}
 
-	void Scene::SetViewUniform()
+	void Scene::RenderModels()
 	{
-		for (auto& shader : unique_shaders)
-		{
-			camera.SetViewUniformsFor(shader.Get());
-		}
+		LightUpScene();
+		SetViewUniforms();
+		for (RenderableModel& r : renderList)
+			r.Render();
 	}
 
-	void Scene::SetView(const glm::mat4& view)
+	void Scene::SetViewUniforms()
 	{
-		for (auto& shader : unique_shaders)
+		for (const Shared<Shader>& shader : unique_shaders)
 		{
-			shader->SetUniform("view", view);
+			shader->SetUniform("view", camera.GetView());
 		}
 	}
 
 	void Scene::ComputeShaderSet()
 	{
-		if (!validShaderSet)
-		{
-			for (auto& renderable : renderList)
-			{
-				unique_shaders.insert(renderable.GetShader());
-			}
+		unique_shaders.clear();
 
-			validShaderSet = true;
+		for (auto& renderable : renderList)
+		{
+			unique_shaders.insert(renderable.GetShader());
 		}
 	}
 
 	void Scene::SetProjectionUniform()
 	{
-		if (!validProjection)
+		for (auto shader : unique_shaders)
 		{
-			for (auto shader : unique_shaders)
-			{
-				shader->SetUniform("projection", camera.GetProjection());
-			}
-			validProjection = true;
+			shader->SetUniform("projection", camera.GetProjection());
 		}
+	}
+
+	void Scene::SetPerspective(Perspective p)
+	{
+		camera.SetPerspective(p);
+		SetProjectionUniform();
 	}
 
 	void Scene::SetCapacity(int n)
@@ -113,5 +109,6 @@ namespace Gray
 	{
 		renderList.ClearList();
 		lightMan.ClearList();
+		unique_shaders.clear();
 	}
 }

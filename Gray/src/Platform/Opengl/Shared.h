@@ -7,8 +7,8 @@ namespace Gray
 	// The sharing is implemented via reference counting.
 	// The shared resource gets deleted when no handle points to the resource.
 	// Sharing occurs through copy construction / copy assignment / move construction / move assignment.
-	// An empty resource cannot be shared. Attempting to copy/move construct from an empty resource will be 
-	// equivalent to calling the default constructor and copy/move assigning an empty resoruce will do nothing.
+	// An empty resource cannot be shared. Attempting to copy/move construct or copy/move assign an empty resource
+	// will return it to the initial state when the default constructor was called.
 
 	template<class T>
 	class Shared
@@ -34,6 +34,7 @@ namespace Gray
 			}
 			else
 			{
+				resource = T();
 				refCount = new int;
 				*refCount = 1; 
 			}
@@ -49,13 +50,14 @@ namespace Gray
 			}
 			else
 			{
+				resource = T();
 				refCount = new int;
 				*refCount = 1; 
 			}
 		}
 
 		//Releases ownership
-		~Shared() { ReleaseOwnership(); }
+		~Shared() { ReleaseOwnership(); resource.ID = 0; }
 
 		//Releases ownership of current resource.
 		//Gains a shared ownership of the resource in src.
@@ -71,6 +73,14 @@ namespace Gray
 				refCount = src.refCount;
 				(*refCount)++;
 			}
+			else if (src->ID == 0)
+			{
+				ReleaseOwnership();
+
+				resource = T();
+				refCount = new int;
+				*refCount = 1; 
+			}
 			return *this;
 		}
 
@@ -84,6 +94,14 @@ namespace Gray
 
 				refCount = src.refCount;
 				(*refCount)++;
+			}
+			else if (src->ID == 0)
+			{
+				ReleaseOwnership();
+
+				resource = T();
+				refCount = new int;
+				*refCount = 1; 
 			}
 			return *this;
 		}
@@ -115,7 +133,7 @@ namespace Gray
 			}
 			else
 			{
-				*refCount--;
+				(*refCount)--;
 			}
 		}
 

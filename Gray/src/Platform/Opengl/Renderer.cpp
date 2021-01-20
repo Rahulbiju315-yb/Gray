@@ -13,6 +13,7 @@ namespace Gray
 		NoCopy<VertexBuffer> vb;
 		NoCopy<VertexArray> va;
 	};
+
 	const ScreenQuadData& ScreenQuad()
 	{
 		static ScreenQuadData sData;
@@ -39,7 +40,7 @@ namespace Gray
 		return sData;
 	}
 
-	void Renderer::DrawScreenQuad(const Shader& shader) const
+	void DrawScreenQuad(const Shader& shader)
 	{
 		shader.Bind();
 		const ScreenQuadData& sd = ScreenQuad();
@@ -47,7 +48,7 @@ namespace Gray
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
 
-	void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const
+	void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader)
 	{
 		shader.Bind();
 		va.Bind();
@@ -56,8 +57,8 @@ namespace Gray
 		glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
-	void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader
-		, uint n_instances) const
+	void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader
+		, uint n_instances)
 	{
 		shader.Bind();
 		va.Bind();
@@ -66,8 +67,21 @@ namespace Gray
 		glDrawElementsInstanced(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, 0, n_instances);
 	}
 
-	void Renderer::Clear() const
+	void ClearColor(glm::vec4 color)
 	{
+		glClearColor(color.r, color.g, color.b, color.a);
+		glClear(GL_COLOR_BUFFER_BIT);
+	}
+
+	void ClearDepth()
+	{
+		glClear(GL_DEPTH_BUFFER_BIT);
+	}
+
+	void ClearDepthColor(glm::vec4 color)
+	{
+		glClearColor(color.r, color.g, color.b, color.a);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
+
 }

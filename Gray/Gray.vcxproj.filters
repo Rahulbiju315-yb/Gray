@@ -108,12 +108,6 @@
     <ClInclude Include="src\Gray\Graphics\RenderList.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Renderable.h">
-      <Filter>Gray\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\ResourceManager.h">
-      <Filter>Gray\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Scene.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
@@ -134,18 +128,6 @@
     </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Transformable.h">
       <Filter>Gray\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Uniforms\MaterialUM.h">
-      <Filter>Gray\Graphics\Uniforms</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.h">
-      <Filter>Gray\Graphics\Uniforms</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Uniforms\TransformUM.h">
-      <Filter>Gray\Graphics\Uniforms</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Uniforms\TransformUMFactory.h">
-      <Filter>Gray\Graphics\Uniforms</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Log.h">
       <Filter>Gray</Filter>
@@ -212,6 +194,12 @@
       <Filter>imguiFileChooser</Filter>
     </ClInclude>
     <ClInclude Include="src\imguiFileChooser\dirent.h" />
+    <ClInclude Include="src\Platform\Opengl\CubeMap.h" />
+    <ClInclude Include="src\Gray\Graphics\Skybox.h" />
+    <ClInclude Include="src\Gray\Graphics\Perspective.h" />
+    <ClInclude Include="src\Gray\Graphics\Resource\ResourceManager.h">
+      <Filter>Gray\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -256,12 +244,6 @@
     <ClCompile Include="src\Gray\Graphics\RenderList.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Renderable.cpp">
-      <Filter>Gray\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\ResourceManager.cpp">
-      <Filter>Gray\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Scene.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
@@ -276,18 +258,6 @@
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Transform.cpp">
       <Filter>Gray\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Uniforms\MaterialUM.cpp">
-      <Filter>Gray\Graphics\Uniforms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.cpp">
-      <Filter>Gray\Graphics\Uniforms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Uniforms\TransformUM.cpp">
-      <Filter>Gray\Graphics\Uniforms</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Uniforms\TransformUMFactory.cpp">
-      <Filter>Gray\Graphics\Uniforms</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Log.cpp">
       <Filter>Gray</Filter>
@@ -329,5 +299,12 @@
     <ClCompile Include="src\imguiFileChooser\ImGuiFileDialog.cpp">
       <Filter>imguiFileChooser</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Opengl\CubeMap.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Skybox.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Resource\RMModel.cpp">
+      <Filter>Gray\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Resource\RMTexture.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Resource\RMShader.cpp" />
   </ItemGroup>
 </Project>

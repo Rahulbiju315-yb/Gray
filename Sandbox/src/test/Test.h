@@ -4,6 +4,8 @@
 
 namespace Test
 {
+	const std::string GUN = "res/models/47-obj/Handgun_obj.obj";
+	const std::string BAG = "res/models/backpack/backpack.obj";
 	class Test
 	{
 	public :

@@ -2,7 +2,8 @@
 #include "Model.h"
 
 #include "Platform/Opengl/Texture.h"
-#include "Gray/Graphics/ResourceManager.h"
+#include "Gray/Graphics/Resource/ResourceManager.h"
+
 namespace Gray
 {
 
@@ -13,6 +14,8 @@ namespace Gray
 	void Model::LoadModel(const std::string& path, bool flipTextures)
 	{
 		GRAY_CORE_INFO("Reading model from path : " + path);
+		meshes.clear();
+		materials.clear();
 
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -29,7 +32,7 @@ namespace Gray
 		{
 			ProcessNode(scene->mRootNode, scene, flipTextures);
 		}
-
+		LoadTexIfFree();
 	}
 
 	std::string Model::GetPath()
@@ -153,7 +156,7 @@ namespace Gray
 	{
 		std::string dir = path.substr(0, path.find_last_of('/'));
 
-		void(Material:: * addToMat)(const Texture*) = nullptr;
+		void(Material:: * addToMat)(WeakRef<Texture>) = nullptr;
 		switch (type)
 		{
 		case aiTextureType_DIFFUSE:
@@ -181,9 +184,9 @@ namespace Gray
 		aiString aiPath;
 		material->GetTexture(type, i, &aiPath);
 
-		const Texture* tex = nullptr;
+		WeakRef<Texture> tex;
 		std::string fnameTexture = std::string(aiPath.C_Str());
-		tex = GetTexture(dir + "/" + fnameTexture, flipTextures);
+		tex = GetTextureParallel(dir + "/" + fnameTexture);
 		(newMat.*addToMat)(tex);
 		
 	}

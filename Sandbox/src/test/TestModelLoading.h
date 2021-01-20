@@ -9,6 +9,7 @@
 
 #include "imgui.h"
 #include "imguiFileChooser/ImGuiFileDialog.h"
+#include "Gray/Graphics/Resource/ResourceManager.h"
 
 #define RAND_FLOAT (float)rand() / RAND_MAX
 
@@ -18,7 +19,7 @@ namespace Test
 	{
 	public:
 		TestModelLoading(int n=100, float closeness=10)
-			: closeness(closeness), n(n), scene(Gray::Scene(1)), path("res/models/47-obj/Handgun_obj.obj")
+			: closeness(closeness), n(n), scene(Gray::Scene(1)), path(BAG)
 		{
 			
 		}
@@ -44,22 +45,22 @@ namespace Test
 				float x = (n * RAND_FLOAT - n / 2) / closeness;
 				offsets.push_back(x);
 			}
-			model->SetOffsets(std::move(offsets));
+			model->SetInstanceOffsets(std::move(offsets));
 
 			auto source = std::make_unique<Gray::CameraSource>(scene.GetCamera());
 			auto ls = scene.CreateLight(Gray::LightType::PointLight, std::move(source));
 			ls->SetAttenuation(1.0f, 0, 0);
+
+			scene.ComputeShaderSet();
+			scene.SetProjectionUniform();
 
 			return &scene;
 		}
 
 		void OnUpdate(float dt) override
 		{
-			
-			for (auto& renderable : scene)
-			{
-				renderable.OnUpdate(dt);
-			}
+			if(Gray::LoadTexIfFree())
+				scene.RenderModels();
 		}
 
 		// Debug 
@@ -68,6 +69,7 @@ namespace Test
 		{
 			DebugFileChooser();
 			DebugNumberAndDensity();
+			DebugReloadButtons();
 		}
 
 		void DebugFileChooser()
@@ -92,7 +94,9 @@ namespace Test
 		void DebugNumberAndDensity()
 		{
 			static bool changed = false;
-			changed = ImGui::InputInt("Number of models", &n);
+			changed = ImGui::InputInt("Number of models", &n) && n <= 1000;
+			
+
 			changed |= ImGui::InputFloat("Closeness", &closeness);
 
 			if (changed)
@@ -101,6 +105,25 @@ namespace Test
 			}
 		}
 
+		void DebugReloadButtons()
+		{
+			static bool pressed = false;
+
+			pressed = ImGui::Button("Reload Scene");
+			if (pressed)
+				OnInit();
+
+			pressed = ImGui::Button("Reload resource");
+			if (pressed)
+			{
+				for (int i = 0; i < 5; i++)
+				{
+					Gray::ReloadModel(path, true);
+					Gray::RMReloadShaders();
+					OnInit();
+				}
+			}
+		}
 	private:
 		Gray::Scene scene;
 

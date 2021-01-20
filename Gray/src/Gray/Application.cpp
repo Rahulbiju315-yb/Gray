@@ -2,6 +2,8 @@
 
 #include "Application.h"
 #include "TempUtil.h"
+#include "Events/Input.h"
+
 namespace Gray
 {
 	bool run = true;
@@ -28,26 +30,28 @@ namespace Gray
 
 		while (!window->ShouldBeClosed())
 		{
+			DeltaCursorUpdate();
+			
+			// Application update
 			float dt = GetDT();
 			OnUpdate(dt);
 
+			// Imgui render
 			window->BeginImgui();
 			OnImguiRender(dt);
 			window->EndImgui();
 
+			//Window redraw
 			window->OnUpdate();
 		}
 	}
 
-	Application* Application::GetApp()
-	{
-		return singleton;
-	}
+	// Getters
+	Application* Application::GetApp() { return singleton; }
+	uint Application::GetWidth() { return window->GetWidth(); }
+	uint Application::GetHeight() { return window->GetHeight(); }
+	Window* Application::GetWindow() { return window; }
 
-	void Application::Clear()
-	{
-		glClear(GL_COLOR_BUFFER_BIT);
-	}
 
 	float Application::GetDT()
 	{
@@ -65,18 +69,19 @@ namespace Gray
 		return dt;
 	}
 
-	uint Application::GetWidth()
+	void Application::DeltaCursorUpdate()
 	{
-		return window->GetWidth();
-	}
-	
-	uint Application::GetHeight()
-	{
-		return window->GetHeight();
+		static float mOX = Input::GetMouseX(), mOY = Input::GetMouseY();
+		float mX = Input::GetMouseX();
+		float mY = Input::GetMouseY();
+
+		// Mouse position change since last frame
+		Input::dmx = mX - mOX;
+		Input::dmy = mY - mOY;
+
+		mOX = mX;
+		mOY = mY;
 	}
 
-	Window* Application::GetWindow()
-	{
-		return window;
-	}
+
 }

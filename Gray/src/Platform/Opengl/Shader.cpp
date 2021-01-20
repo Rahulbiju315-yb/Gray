@@ -70,6 +70,8 @@ namespace Gray
 			vertexSource = vertex;
 			fragmentSource = fragment;
 
+			shaderFile.close();
+
 		}
 		catch (std::ifstream::failure e)
 		{

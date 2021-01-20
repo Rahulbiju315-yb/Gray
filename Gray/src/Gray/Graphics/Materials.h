@@ -13,14 +13,14 @@ namespace Gray
 		{
 		}
 
-		void SetDiffuse(const Texture* diff) { diffuse = WeakRef<Texture>(diff); }
-		void SetSpecular(const Texture* spec) { specular = WeakRef<Texture>(spec); }
-		void SetEmission(const Texture* emm) { emission = WeakRef<Texture>(emm); }
+		void SetDiffuse(WeakRef<Texture> diff) { diffuse = diff; }
+		void SetSpecular(WeakRef<Texture> spec) { specular = spec; }
+		void SetEmission(WeakRef<Texture> emm) { emission = emm; }
 		void SetShininess(float sh) { shininess = sh; }
 
-		const Texture* GetDiffuse() const { return diffuse.Get(); }
-		const Texture* GetSpecular() const { return specular.Get(); }
-		const Texture* GetEmission() const { return emission.Get(); }
+		WeakRef<Texture> GetDiffuse() const { return diffuse.Get(); }
+		WeakRef<Texture> GetSpecular() const { return specular.Get(); }
+		WeakRef<Texture> GetEmission() const { return emission.Get(); }
 
 		float GetShininess() const { return shininess; }
 		uint GetID() const { return ID; }

@@ -13,6 +13,13 @@
 namespace Gray
 {
 	Window Window::singleton;
+	void MessageCallback(GLenum source,
+			GLenum type,
+			GLuint id,
+			GLenum severity,
+			GLsizei length,
+			const GLchar* message,
+			const void* userParam);
 
 	Window* Window::GetWindow(const std::string& title, uint width, uint height)
 	{
@@ -61,6 +68,12 @@ namespace Gray
 		glfwMakeContextCurrent(glfwWindow);
 		glfwSetFramebufferSizeCallback(glfwWindow, FrameBufferSizeCallback);
 		InitGlew();
+
+
+
+		// During init, enable debug output
+		//glEnable              ( GL_DEBUG_OUTPUT );
+		//glDebugMessageCallback( MessageCallback, 0 );
 		InitImgui();
 		SetCallbacks();
 	}
@@ -234,5 +247,15 @@ namespace Gray
 		Window::singleton.height = height;
 
 		glViewport(0, 0, width, height);
+	}
+
+	void MessageCallback(GLenum source, GLenum type, GLuint id, 
+		GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+	{
+		
+	  fprintf( stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+			   ( type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "" ),
+				type, severity, message );
+
 	}
 }

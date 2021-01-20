@@ -34,18 +34,20 @@ namespace Gray
 			src->ID = 0;
 		}
 
-		~NoCopy() { resource.Free(); }
+		~NoCopy() { resource.Free(); resource.ID = 0; }
 
 		NoCopy<T>& operator=(const NoCopy<T>&) = delete;
 
 		// Releases the currently owned handle.
 		// Moves the handle from rhs to current object. Makes the rhs handle an empty resource
-		NoCopy<T>& operator=(NoCopy<T>&& rhs)
+		NoCopy<T>& operator=(NoCopy<T>&& rhs) noexcept
 		{
-			resource.Free();
-			resource.CopyFrom(*rhs.Get());
-			rhs->ID = 0;
-
+			if (resource.ID != rhs->ID)
+			{
+				resource.Free();
+				resource.CopyFrom(*rhs.Get());
+				rhs->ID = 0;
+			}
 			return *this;
 		}
 

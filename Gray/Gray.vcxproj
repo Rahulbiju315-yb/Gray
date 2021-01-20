@@ -113,7 +113,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc140-mt.lib;glew32s.lib;opengl32.lib;imguiFileChooser.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc140-mt.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>vendor\glew\lib\Release\x64;vendor\assimp\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -165,20 +165,17 @@
     <ClInclude Include="src\Gray\Graphics\Model\Mesh.h" />
     <ClInclude Include="src\Gray\Graphics\Model\Model.h" />
     <ClInclude Include="src\Gray\Graphics\Model\RenderableModel.h" />
+    <ClInclude Include="src\Gray\Graphics\Perspective.h" />
     <ClInclude Include="src\Gray\Graphics\RenderList.h" />
-    <ClInclude Include="src\Gray\Graphics\Renderable.h" />
-    <ClInclude Include="src\Gray\Graphics\ResourceManager.h" />
+    <ClInclude Include="src\Gray\Graphics\Resource\ResourceManager.h" />
     <ClInclude Include="src\Gray\Graphics\Scene.h" />
+    <ClInclude Include="src\Gray\Graphics\Skybox.h" />
     <ClInclude Include="src\Gray\Graphics\Source\CameraSource.h" />
     <ClInclude Include="src\Gray\Graphics\Source\Source.h" />
     <ClInclude Include="src\Gray\Graphics\Source\SourceFactory.h" />
     <ClInclude Include="src\Gray\Graphics\Source\StaticSource.h" />
     <ClInclude Include="src\Gray\Graphics\Transform.h" />
     <ClInclude Include="src\Gray\Graphics\Transformable.h" />
-    <ClInclude Include="src\Gray\Graphics\Uniforms\MaterialUM.h" />
-    <ClInclude Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.h" />
-    <ClInclude Include="src\Gray\Graphics\Uniforms\TransformUM.h" />
-    <ClInclude Include="src\Gray\Graphics\Uniforms\TransformUMFactory.h" />
     <ClInclude Include="src\Gray\Log.h" />
     <ClInclude Include="src\Gray\TempUtil.h" />
     <ClInclude Include="src\Gray\Util\ResourceManager.h" />
@@ -186,6 +183,7 @@
     <ClInclude Include="src\Gray\Window\Window.h" />
     <ClInclude Include="src\imguiFileChooser\dirent.h" />
     <ClInclude Include="src\Platform\Opengl\BufferLayout.h" />
+    <ClInclude Include="src\Platform\Opengl\CubeMap.h" />
     <ClInclude Include="src\Platform\Opengl\FrameBuffer.h" />
     <ClInclude Include="src\Platform\Opengl\IndexBuffer.h" />
     <ClInclude Include="src\Platform\Opengl\NoCopy.h" />
@@ -218,21 +216,20 @@
     <ClCompile Include="src\Gray\Graphics\Model\Model.cpp" />
     <ClCompile Include="src\Gray\Graphics\Model\RenderableModel.cpp" />
     <ClCompile Include="src\Gray\Graphics\RenderList.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Renderable.cpp" />
-    <ClCompile Include="src\Gray\Graphics\ResourceManager.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Resource\RMModel.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Resource\RMShader.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Resource\RMTexture.cpp" />
     <ClCompile Include="src\Gray\Graphics\Scene.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Skybox.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\CameraSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\SourceFactory.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\StaticSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Transform.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Uniforms\MaterialUM.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Uniforms\MaterialUMFactory.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Uniforms\TransformUM.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Uniforms\TransformUMFactory.cpp" />
     <ClCompile Include="src\Gray\Log.cpp" />
     <ClCompile Include="src\Gray\TempUtil.cpp" />
     <ClCompile Include="src\Gray\Window\Callbacks.cpp" />
     <ClCompile Include="src\Gray\Window\Window.cpp" />
+    <ClCompile Include="src\Platform\Opengl\CubeMap.cpp" />
     <ClCompile Include="src\Platform\Opengl\FrameBuffer.cpp" />
     <ClCompile Include="src\Platform\Opengl\IndexBuffer.cpp" />
     <ClCompile Include="src\Platform\Opengl\RenderBuffer.cpp" />

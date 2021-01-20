@@ -15,7 +15,7 @@ namespace Gray
 	}
 
 
-	void Texture::LoadTextureFrom(void* data, int width, int height, int internalFormat, int externalFormat)
+	void Texture::LoadTextureFrom(unsigned char* data, int width, int height, int nrChannels)
 	{
 		CreateIfEmpty();
 		Bind();
@@ -25,8 +25,21 @@ namespace Gray
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, externalFormat, GL_UNSIGNED_BYTE, data);
+		uint inf, exf;
+
+		exf = GL_RGBA;
+
+		if (nrChannels == 3)
+		{
+			inf = GL_COMPRESSED_RGB;
+		}
+		else
+		{
+			inf = GL_COMPRESSED_RGBA;
+		}
+		glTexImage2D(GL_TEXTURE_2D, 0, inf, width, height, 0, exf, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
+		
 	}
 
 	bool Texture::LoadTexture(const std::string& path, bool flip, int internalFormat, int externalFormat)
@@ -43,22 +56,9 @@ namespace Gray
 		int width, height, nrChannels;
 		unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, STBI_rgb_alpha);
 
-		uint inf, exf;
-
-		if (nrChannels == 3)
-		{
-			inf = GL_COMPRESSED_RGB;
-			exf = GL_RGB;
-		}
-		else
-		{
-			inf = GL_COMPRESSED_RGBA;
-			exf = GL_RGBA;
-		}
 		if (data)
 		{
-			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, externalFormat, GL_UNSIGNED_BYTE, data);
-			glGenerateMipmap(GL_TEXTURE_2D);
+			LoadTextureFrom(data, width, height, nrChannels);
 		}
 		else
 		{
@@ -111,6 +111,7 @@ namespace Gray
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, 
 				GL_DEPTH24_STENCIL8, GL_UNSIGNED_BYTE, nullptr);
 	}
+
 
 	void Texture::Bind(int slot) const
 	{

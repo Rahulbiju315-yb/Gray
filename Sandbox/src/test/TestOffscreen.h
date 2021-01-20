@@ -11,7 +11,10 @@
 
 #include "Gray/Graphics/Model/RenderableModel.h"
 #include "Platform/Opengl/FrameBuffer.h"
+#include "Platform/Opengl/Renderer.h"
+
 #include <glm/gtc/type_ptr.hpp>
+
 #define RAND_FLOAT (float)rand() / RAND_MAX
 
 namespace Test
@@ -50,7 +53,6 @@ namespace Test
 
 			auto model = scene.CreateRenderModel();
 			model->LoadModel("res/models/47-obj/Handgun_obj.obj", false);
-			//model->LoadModel("res/models/backpack/backpack.obj", true);
 
 			std::vector<float> offsets;
 			offsets.reserve(3);
@@ -59,7 +61,7 @@ namespace Test
 			offsets.push_back(0);
 			offsets.push_back(0);
 
-			model->SetOffsets(std::move(offsets));
+			model->SetInstanceOffsets(std::move(offsets));
 
 			auto source = std::make_unique<Gray::CameraSource>(scene.GetCamera());
 			auto ls = scene.CreateLight(Gray::LightType::PointLight, std::move(source));
@@ -68,30 +70,26 @@ namespace Test
 			return &scene;
 		}
 
+		void OnUpdate(float dt) override
+		{
+			offScreen->Bind();
+			Gray::ClearDepthColor(glm::vec4(0.1f, 0.19f, 0.25f, 1.0f));
+			glEnable(GL_DEPTH_TEST);
+
+			scene.RenderModels();
+
+			offScreen->Unbind();
+
+			Gray::ClearColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+			colorAttachment->Bind(0);
+			DrawScreenQuad(*textureShader);
+		}
+
 		void OnImguiRender(float dt) override
 		{
 			KernelDebug();
 		}
 
-		void OnUpdate(float dt) override
-		{
-			offScreen->Bind();
-			glClearColor(0.1f, 0.19f, 0.25f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			glEnable(GL_DEPTH_TEST);
-
-			for (auto& renderable : scene)
-			{
-				renderable.OnUpdate(dt);
-			}
-			offScreen->Unbind();
-			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
-
-			colorAttachment->Bind(0);
-			Gray::Renderable::GetRenderer()->DrawScreenQuad(*textureShader);
-		}
-		
 
 		// Debug Methods
 
@@ -123,6 +121,7 @@ namespace Test
 			}
 
 		}
+
 	private:
 		float kernel[9];
 

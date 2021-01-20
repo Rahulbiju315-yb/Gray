@@ -1,86 +1,44 @@
- #include "grpch.h"
+#include "grpch.h"
 #include "RenderableModel.h"
-#include "Gray/Graphics/ResourceManager.h"
-
-#include "Gray/Graphics/Uniforms/TransformUMFactory.h"
-#include "Gray/Graphics/Uniforms/MaterialUMFactory.h"
+#include "Gray/Graphics/Resource/ResourceManager.h"
+#include "Platform/Opengl/Renderer.h"
 
 namespace Gray
 {
+	bool GroupByMaterialComparator(const Mesh& m1, const Mesh& m2);
+
 	uint boundMaterialID;
-
-	RenderableModel::RenderableModel(): validUniforms(false), setter(nullptr), n_instances(0)
+	RenderableModel::RenderableModel(): n_instances(0)
 	{
-		isRenderEnabled = true;
-
-		SetMaterialUM(CreateMaterialUM(MaterialUMType::SimpleMaterialUM));
-		SetTransformUM(CreateTransformUM(TransformUMType::SimpleTransformUM));
 	}
 
-	void RenderableModel::LoadModel(std::string path, bool flipTexture, bool loadShader)
+	void RenderableModel::LoadModel(const std::string& path, bool flipTexture, const std::string& pathToShader)
 	{
 		model = GetModel(path, flipTexture);
-		
-		if (loadShader && shader->GetID() == 0)
-		{
-			shader = Shared<Shader>();
-			shader -> LoadProgram("res/shaders/shader.shader");
-		}
-
+		shader = RMGetShader(pathToShader);
 		SortByMaterial();
 	}
 
-	void RenderableModel::LoadModel(float* vertices, uint n_vert, uint* indices, uint n_ind, const BufferLayout& bl,
-		bool loadShader)
-	{
-		model.meshes.push_back(Mesh());
-		model.meshes.back().SetupMesh(vertices, n_vert, indices, n_ind, bl);
+	Transform& RenderableModel::GetTransform() { return transform; }
 
-		if (loadShader)
-		{
-			shader = Shared<Shader>();
-			shader -> LoadProgram("res/shaders/shader.shader");
-		}
-	}
-
-	Mesh* RenderableModel::AddMesh()
+	void RenderableModel::Render()
 	{
-		model.meshes.push_back(Mesh());
-		return &model.meshes.back();
-	}
-
-	void RenderableModel::OnUpdate(float dt)
-	{
-		tUM.SetUniformFor(*shader, transform);
+		SetTransformUniforms();
 		for (auto& mesh : model)
 		{
 			if (boundMaterialID != mesh.material.GetID())
 			{
-				matUM.SetUniformFor(*shader, &mesh.material);
+				SetMaterialUniforms(mesh.material);
 				boundMaterialID = mesh.material.GetID();
 			}
 
 			auto& rData = mesh.renderData;
-			renderer.Draw(*(rData.va), *(rData.ib), *shader, n_instances);
+			Draw(*(rData.va), *(rData.ib), *shader, n_instances);
 		}
 	}
 
-	std::vector<Mesh>::iterator RenderableModel::begin()
-	{
-		return model.begin();
-	}
-
-	std::vector<Mesh>::iterator RenderableModel::end()
-	{
-		return model.end();
-	}
-
-	void RenderableModel::SetUniformSetter(UniformSetter setter)
-	{
-		this->setter = setter;
-	}
-
-	void RenderableModel::SetOffsets(std::vector<float> offsets)
+	
+	void RenderableModel::SetInstanceOffsets(std::vector<float> offsets)
 	{
 		NoCopy<VertexBuffer> vb;
 		vb->LoadBufferData(&(offsets[0]), sizeof(float) * offsets.size());
@@ -99,15 +57,48 @@ namespace Gray
 
 		n_instances = (uint)(offsets.size() / 3);
 	}
-	
-	bool GroupByMaterialComparator(const Mesh& m1, const Mesh& m2)
-	{
-		return m1.material.GetID() < m2.material.GetID();
-	}
+
+	const Shared<Shader> RenderableModel::GetShader(){ return shader; }
 
 	void RenderableModel::SortByMaterial()
 	{
 		std::sort(model.meshes.begin(), model.meshes.end(), &GroupByMaterialComparator);
 	}
+	
+	void RenderableModel::SetTransformUniforms()
+	{
+		static std::string mod = "model";
+		static std::string invMod = "invModel";
 
+		const glm::mat4& model = transform.GetModelMatrix();
+		
+		shader->SetUniform(mod, model);
+		shader->SetUniform(invMod, glm::inverse(model));
+	}
+
+	void RenderableModel::SetMaterialUniforms(const Material& material)
+	{
+		static std::string diff = "material.diffuse";
+        static std::string spec = "material.specular";
+        static std::string emm = "material.emission";
+        static std::string shine = "material.shininess";
+
+        shader->SetUniform(diff, 1);
+        shader->SetUniform(spec, 2);
+        shader->SetUniform(emm, 3);
+        shader->SetUniform(shine, material.GetShininess());
+
+        WeakRef<Texture> diffuse = material.GetDiffuse();
+        WeakRef<Texture> specular = material.GetSpecular();
+        WeakRef<Texture> emissive = material.GetEmission();
+
+		diffuse->Bind(1);
+		specular->Bind(2);
+		emissive->Bind(3);
+	}
+
+	bool GroupByMaterialComparator(const Mesh& m1, const Mesh& m2)
+	{
+		return m1.material.GetID() < m2.material.GetID();
+	}
 }

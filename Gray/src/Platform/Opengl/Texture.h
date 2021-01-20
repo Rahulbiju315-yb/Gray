@@ -21,13 +21,12 @@ namespace Gray
 	class Texture
 	{
 	public:
-		void LoadTextureFrom(void* data, int width, int height, int internalFormat=GL_RGBA, int externalFormat=GL_RGBA);
+		void LoadTextureFrom(unsigned char* data, int width, int height, int nrChannels);
 		bool LoadTexture(const std::string& path, bool flip, int internalFormat = GL_RGBA, int externalFormat = GL_RGBA);
 		void LoadEmptyTexture(int width, int height, int internalFormat = GL_RGBA, int externalFormat = GL_RGBA);
 		void LoadDepthTexture(int width, int height);
 		void LoadStencilTexture(int width, int height);
 		void LoadDepthStencilTexture(int width, int height);
-
 		void Bind(int slot = 0) const;
 		void Unbind(int slot = 0) const;
 		bool IsBound() const;
@@ -36,7 +35,6 @@ namespace Gray
 		
 	private:
 		static std::unordered_map<int, uint> boundTexture_IDs;
-
 		uint ID;
 
 		Texture();

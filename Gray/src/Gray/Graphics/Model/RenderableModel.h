@@ -1,43 +1,38 @@
 #pragma once
 
 #include "Model.h"
-#include "Gray/Graphics/Renderable.h"
-#include "Gray/Graphics/Transformable.h"
+#include "Gray/Graphics/Transform.h"
+#include "Platform/Opengl/Shader.h"
 
 namespace Gray
 {
-	typedef void (*UniformSetter)(const Shader&, RenderableModel&);
 
-	class RenderableModel : public Renderable, public Transformable
+	class RenderableModel
 	{
 	public:
 		RenderableModel();
 		RenderableModel(const RenderableModel& model) = delete;
 		RenderableModel(RenderableModel&& model) = default;
 
-		void LoadModel(std::string path, bool flipTexture, bool loadShader = true);
+		void LoadModel(const std::string& path, bool flipTexture, 
+			const std::string& pathToShader="res/shaders/shader.shader");
 
-		void LoadModel(float* vertices, uint n_vert, uint* indices, uint n_ind, const BufferLayout& bl,
-			bool loadShader = true);
+		Transform& GetTransform();
+		virtual void Render();
 
-		Mesh* AddMesh();
+		void SetTransformUniforms();
+		void SetMaterialUniforms(const Material& material);
 
-		virtual Transform& GetTransform() override { return transform; }
-		virtual void OnUpdate(float dt) override;
-		
-		std::vector<Mesh>::iterator begin();
-		std::vector<Mesh>::iterator end();
+		void SetInstanceOffsets(std::vector<float> offsets);
 
-		void SetUniformSetter(UniformSetter setter);
-		void SetOffsets(std::vector<float> offsets);
+		const Shared<Shader> GetShader();
 
 	private:
 		Model model;
 		Transform transform;
-		UniformSetter setter;
+		Shared<Shader> shader;
 		NoCopy<VertexBuffer> offsetsBuffer;
 		uint n_instances;
-		bool validUniforms;
 
 		void SortByMaterial();
 	};

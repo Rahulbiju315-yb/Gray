@@ -40,6 +40,8 @@ namespace Gray
 
 		uint attachmentType = AttachmentTypeToUINT(type);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, GL_TEXTURE_2D, tex.GetID(), 0);
+
+		Unbind();
 	}
 
 	void FrameBuffer::AddAttachment(const RenderBuffer& rb, AttachmentType type, int index)
@@ -49,6 +51,8 @@ namespace Gray
 
 		uint attachmentType = AttachmentTypeToUINT(type);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, GL_TEXTURE_2D, rb.GetID(), 0);
+
+		Unbind();
 	}
 
 	bool FrameBuffer::IsComplete() const 

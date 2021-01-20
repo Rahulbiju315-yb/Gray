@@ -36,11 +36,12 @@ namespace Gray
 		const std::set<Shared<Shader>, SharedShaderComp>& GetShaderSet();
 
 		void LightUpScene();
-		void SetViewUniform();
-		void SetView(const glm::mat4& view);
+		void RenderModels();
+		void SetViewUniforms();
 
 		void ComputeShaderSet();
 		void SetProjectionUniform();
+		void SetPerspective(Perspective p);
 
 		void ClearScene();
 		void SetCapacity(int n);
@@ -51,8 +52,6 @@ namespace Gray
 		std::set<Shared<Shader>, SharedShaderComp> unique_shaders;
 
 		Camera camera;
-		bool validShaderSet;
-		bool validProjection;
 	};
 
 }

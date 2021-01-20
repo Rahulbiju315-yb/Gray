@@ -48,10 +48,11 @@ namespace Gray
 		WeakRef& operator=(const WeakRef&) = default;
 		WeakRef& operator=(WeakRef&&) = default;
 
-		const T& operator*() const { return resource; }
-		const T* Get() const { return &resource; }
-		
+		T& operator*() const { return resource; }
+		T* Get() const { return &resource; }
+		T* operator->() const { return Get(); }
+
 	private:
-		T resource;
+		mutable T resource;
 	};
 }

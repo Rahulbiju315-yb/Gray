@@ -19,6 +19,7 @@ uniform mat4 projection;
 void main()
 {
 	FragPos = vec3(model * vec4(inPos + offsets, 1.0f));
+	//FragPos.z = 0;
 	TexCoord = vec2(inTexCoord);
 	Normal = mat3(transpose(invModel)) * inNormal;
 
@@ -190,5 +191,5 @@ void main()
 
 	FragColor = vec4(lighting);
 	FragColor.a = 1;
-	FragColor = vec4(1.0f);
+	//FragColor = vec4(1.0f);
 }
