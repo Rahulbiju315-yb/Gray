@@ -11,11 +11,12 @@ namespace Gray
 	public:
 		LightingManager();
 
-		LightSource* CreateLight(LightType type);
+		int CreateLight(LightType type);
 		void SetUniformsFor(const Shader& shader);
 		void ClearList();
 
 		std::tuple<int, int, int> GetLightCounts(); // point, directional, spot
+		LightSource& GetLightSource(int i, LightType type);
 
 	private:
 		std::vector<PointLight> pointLights;

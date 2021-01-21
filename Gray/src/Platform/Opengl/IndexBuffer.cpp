@@ -44,6 +44,11 @@ namespace Gray
 		return count;
 	}
 
+	uint IndexBuffer::GetID() const
+	{
+		return ID;
+	}
+
 	void IndexBuffer::CopyFrom(const IndexBuffer& ib)
 	{
 		ID = ib.ID;

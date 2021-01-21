@@ -7,17 +7,24 @@
 
 namespace Gray
 {
+	const std::string DEFAULT_SHADER = "res/models/shaders/shader.shader";
 
-	WeakRef<Texture> GetTexture(const std::string& path, bool flipTextures = true);
-	void ReloadModel(const std::string& path, bool flipTexture);
+	//WeakRef<Texture> GetTexture(const std::string& path, bool flipTextures = true);
+	//void ReloadModel(const std::string& path, bool flipTexture);
+	void AddModelFileForImport(const std::string& path);
+	bool TryLoadSceneForModel(Model& m);
+	bool IsModelPathsEmpty();
 
 	Material CreateMaterial();
-	Model GetModel(std::string path, bool flipTexture = true);
+
+	bool IsModelLoaded(const std::string& path);
+	Model GetModel(const std::string& path);
+
 	Shared<Shader> RMGetShader(const std::string& path);
 	void RMReloadShaders();
 
-	WeakRef<Texture> GetTextureParallel(const std::string& path);
-	bool LoadTexIfFree();
+	WeakRef<Texture> GetTexture(const std::string& path);
+	bool ImageLoadDone();
 
 	struct Image
 	{

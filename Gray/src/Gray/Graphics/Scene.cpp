@@ -1,63 +1,70 @@
 #include "grpch.h"
 #include "Scene.h"
+#include "Gray/Graphics/Resource/ResourceManager.h"
 
 namespace Gray
 {
-	Scene::Scene(int renderListCapacity) : camera(Camera())
+	Scene::Scene(int renderListCapacity) : camera(Camera()), reloadIndex(-1)
 	{
-		renderList.SetCapacity(renderListCapacity);
+		SetCapacity(renderListCapacity);
 	}
 
-	Camera* Scene::GetCamera()
+		
+	void Scene::SetCapacity(int n)
 	{
-		return &camera;
+		renderList.reserve(n);
 	}
 
-	std::vector<RenderableModel>::iterator Scene::begin()
+	int Scene::CreateRModel()
 	{
-		return renderList.begin();
+		renderList.push_back(RenderableModel());
+
+		return (int)renderList.size() - 1;
 	}
 
-	std::vector<RenderableModel>::iterator Scene::end()
+	int Scene::CreateLight(LightType type, std::unique_ptr<Source> s)
 	{
-		return renderList.end();
+		int index = lightMan.CreateLight(type);
+		lightMan.GetLightSource(index, type).source = std::move(s);
+
+		return index;
 	}
 
-	RenderableModel* Scene::CreateRenderModel()
+	void Scene::SetModelPath(int i, const std::string& path)
 	{
-		auto renderable = renderList.CreateRenderModel();
-		return renderable;
+		assert(i < renderList.size());
+		renderList[i].SetPath(path);
+		dirtyModels.push_back(i);
+
+		if (reloadIndex == -1)
+			reloadIndex = 0;
 	}
 
-	LightSource* Scene::CreateLight(LightType type, std::unique_ptr<Source> s)
+	bool Scene::IsSceneComplete()
 	{
-		LightSource* ls = lightMan.CreateLight(type);
-		ls->source = std::move(s);
-
-		return ls;
+		return reloadIndex == -1 && Gray::ImageLoadDone();
 	}
 
-	LightingManager* Scene::GetLightingManager()
+	RenderableModel& Scene::GetRModel(int i)
 	{
-		return &lightMan;
+		assert(i < renderList.size());
+		return renderList[i];
 	}
 
-	RenderList* Scene::GetRenderList()
+	LightSource& Scene::GetLight(int i, LightType type)
 	{
-		return &renderList;
+		return lightMan.GetLightSource(i, type);
 	}
 
-	const std::set<Shared<Shader>, SharedShaderComp>& Scene::GetShaderSet()
+	Camera& Scene::GetCamera()
 	{
-		return unique_shaders;
+		return camera;
 	}
 
-	void Scene::LightUpScene()
+	void Scene::SetPerspective(Perspective p)
 	{
-		for (auto& shader : unique_shaders)
-		{
-			lightMan.SetUniformsFor(*shader);
-		}
+		camera.SetPerspective(p);
+		SetProjectionUniform();
 	}
 
 	void Scene::RenderModels()
@@ -68,11 +75,26 @@ namespace Gray
 			r.Render();
 	}
 
+	void Scene::ClearScene()
+	{
+		renderList.clear();
+		lightMan.ClearList();
+		unique_shaders.clear();
+	}
+
 	void Scene::SetViewUniforms()
 	{
 		for (const Shared<Shader>& shader : unique_shaders)
 		{
 			shader->SetUniform("view", camera.GetView());
+		}
+	}
+
+	void Scene::LightUpScene()
+	{
+		for (auto& shader : unique_shaders)
+		{
+			lightMan.SetUniformsFor(*shader);
 		}
 	}
 
@@ -86,6 +108,12 @@ namespace Gray
 		}
 	}
 
+	void Scene::InitForRender()
+	{
+		ComputeShaderSet();
+		SetProjectionUniform();
+	}
+
 	void Scene::SetProjectionUniform()
 	{
 		for (auto shader : unique_shaders)
@@ -94,21 +122,4 @@ namespace Gray
 		}
 	}
 
-	void Scene::SetPerspective(Perspective p)
-	{
-		camera.SetPerspective(p);
-		SetProjectionUniform();
-	}
-
-	void Scene::SetCapacity(int n)
-	{
-		renderList.SetCapacity(n);
-	}
-
-	void Scene::ClearScene()
-	{
-		renderList.ClearList();
-		lightMan.ClearList();
-		unique_shaders.clear();
-	}
 }

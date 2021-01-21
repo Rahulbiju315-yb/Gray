@@ -10,19 +10,27 @@ namespace Gray
 	uint boundMaterialID;
 	RenderableModel::RenderableModel(): n_instances(0)
 	{
+		shader->LoadProgram("res/shaders/shader.shader");
 	}
 
-	void RenderableModel::LoadModel(const std::string& path, bool flipTexture, const std::string& pathToShader)
+	void RenderableModel::SetPath(const std::string& path)
 	{
-		model = GetModel(path, flipTexture);
-		shader = RMGetShader(pathToShader);
-		SortByMaterial();
+		if (!IsModelLoaded(path))
+			model.SetPath(path);
+		else
+			model = GetModel(path);
+	}
+
+	bool RenderableModel::TryToLoadModel()
+	{
+		return model.TryToLoadModel();
 	}
 
 	Transform& RenderableModel::GetTransform() { return transform; }
 
 	void RenderableModel::Render()
 	{
+		assert(model.meshes.size() != 0);
 		SetTransformUniforms();
 		for (auto& mesh : model)
 		{
@@ -33,6 +41,10 @@ namespace Gray
 			}
 
 			auto& rData = mesh.renderData;
+			assert((rData.va)->GetID() != 0);
+			assert((rData.vb)->GetID() != 0);
+			assert((rData.ib)->GetID() != 0);
+			assert((shader->GetID()) != 0);
 			Draw(*(rData.va), *(rData.ib), *shader, n_instances);
 		}
 	}
@@ -58,7 +70,8 @@ namespace Gray
 		n_instances = (uint)(offsets.size() / 3);
 	}
 
-	const Shared<Shader> RenderableModel::GetShader(){ return shader; }
+	Shared<Shader> RenderableModel::GetShader(){ return shader; }
+	void RenderableModel::SetShader(Shared<Shader> shader) { this->shader = shader; }
 
 	void RenderableModel::SortByMaterial()
 	{

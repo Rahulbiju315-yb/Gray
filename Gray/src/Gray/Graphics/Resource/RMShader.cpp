@@ -7,7 +7,6 @@ namespace Gray
 {
 	std::vector<Shared<Shader>> shaders;
 	std::vector<std::string> paths;
-
 	Shared<Shader> RMGetShader(const std::string& path)
 	{
 		//Linear Search for path in paths

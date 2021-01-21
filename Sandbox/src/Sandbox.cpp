@@ -43,7 +43,7 @@ public:
 	{
 		if (scene)
 		{
-			scene->GetCamera()->OnImguiRender();
+			scene->GetCamera().OnImguiRender();
 		}
 
 		Gray::FPSDebugInfo(dt);
@@ -53,7 +53,7 @@ public:
 	void OnUpdate(float dt) override
 	{
 		Gray::ClearDepthColor();
-		scene->GetCamera()->Move(dt);
+		scene->GetCamera().Move(dt);
 		test->OnUpdate(dt);
 	}
 
@@ -89,7 +89,7 @@ public:
 	{
 		if (scene && !cursorEn)
 		{
-			scene->GetCamera()->UpdateLook();
+			scene->GetCamera().UpdateLook();
 		}
 	}
 

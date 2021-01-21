@@ -11,32 +11,31 @@ namespace Gray
 	{
 	}
 
-	LightSource* LightingManager::CreateLight(LightType type)
+	int LightingManager::CreateLight(LightType type)
 	{
-		LightSource* source;
+		int index = -1;
 		switch (type)
 		{
 		case Gray::LightType::PointLight:
 			pointLights.push_back(PointLight());
-			source = &(pointLights.back());
+			index = (int)pointLights.size();
 			break;
 
 		case Gray::LightType::DirectionalLight:
 			dirLights.push_back(DirectionalLight());
-			source = &(dirLights.back());
+			index = (int)pointLights.size();
 			break;
 
 		case Gray::LightType::SpotLight:
 			spotLights.push_back(SpotLight());
-			source = &(spotLights.back());
+			index = (int)pointLights.size();
 			break;
 
 		default:
-			source = nullptr;
 			break;
 		}
 
-		return source;
+		return index - 1;
 	}
 
 	void LightingManager::SetUniformsFor(const Shader& shader)
@@ -68,5 +67,24 @@ namespace Gray
 			((int)pointLights.size(), 
 			(int)dirLights.size(), 
 			(int)spotLights.size());
+	}
+
+	LightSource& LightingManager::GetLightSource(int i, LightType type)
+	{
+		if (type == LightType::PointLight)
+		{
+			assert(i < pointLights.size());
+			return pointLights[i];
+		}
+		else if (type == LightType::DirectionalLight)
+		{
+			assert(i < dirLights.size());
+			return dirLights[i];
+		}
+		else
+		{
+			assert(i < spotLights.size());
+			return spotLights[i];
+		}
 	}
 }

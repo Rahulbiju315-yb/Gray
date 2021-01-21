@@ -11,28 +11,28 @@ namespace Gray
 	{
 	}
 
-	void Model::LoadModel(const std::string& path, bool flipTextures)
+	void Model::SetPath(const std::string path)
 	{
-		GRAY_CORE_INFO("Reading model from path : " + path);
+		this->path = path;
+		AddModelFileForImport(path);
+	}
+
+	bool Model::TryToLoadModel()
+	{
+		return TryLoadSceneForModel(*this);
+	}
+
+	void Model::LoadScene(const aiScene* scene)
+	{
+		assert(scene != nullptr && "scene null in Model::LoadScene");
+
 		meshes.clear();
 		materials.clear();
 
-		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+		assert(scene->mRootNode != nullptr);
 
-		this->path = path;
-
-		CreateMaterials(scene, flipTextures);
-
-		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
-		{
-			GRAY_ERROR("Failed to load model " + path);
-		}
-		else
-		{
-			ProcessNode(scene->mRootNode, scene, flipTextures);
-		}
-		LoadTexIfFree();
+		CreateMaterials(scene, true);
+		ProcessNode(scene->mRootNode, scene, true);
 	}
 
 	std::string Model::GetPath()
@@ -186,7 +186,7 @@ namespace Gray
 
 		WeakRef<Texture> tex;
 		std::string fnameTexture = std::string(aiPath.C_Str());
-		tex = GetTextureParallel(dir + "/" + fnameTexture);
+		tex = GetTexture(dir + "/" + fnameTexture);
 		(newMat.*addToMat)(tex);
 		
 	}

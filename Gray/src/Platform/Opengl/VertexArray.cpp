@@ -53,6 +53,11 @@ namespace Gray
 		return boundVA_ID == ID;
 	}
 
+	uint VertexArray::GetID()
+	{
+		return ID;
+	}
+
 	void VertexArray::CopyFrom(const VertexArray& va)
 	{
 		ID = va.ID;

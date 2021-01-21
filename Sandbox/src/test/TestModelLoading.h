@@ -24,6 +24,7 @@ namespace Test
 			
 		}
 
+		
 		Gray::Scene* OnInit() override
 		{
 			glClearColor(0, 0, 0, 1);
@@ -31,12 +32,23 @@ namespace Test
 			scene.ClearScene();
 			scene.SetCapacity(1);
 
-			auto model = scene.CreateRenderModel();
-			model->LoadModel(path, false);
+			rIndex = scene.CreateRModel();
+			scene.SetModelPath(rIndex, path);
 
+			Gray::RenderableModel& rmodel = scene.GetRModel(rIndex);
+			auto source = std::make_unique<Gray::CameraSource>(&scene.GetCamera());
+			int index = scene.CreateLight(Gray::LightType::PointLight, std::move(source));
+			scene.GetLight(index, Gray::LightType::PointLight).SetAttenuation(1.0f, 0, 0);
+
+			scene.InitForRender();
+
+			return &scene;
+		}
+
+		void OnLoad(Gray::RenderableModel& model)
+		{
 			std::vector<float> offsets;
 			offsets.reserve((3 * (size_t)n));
-
 			offsets.push_back(0);
 			offsets.push_back(0);
 			offsets.push_back(0);
@@ -45,23 +57,22 @@ namespace Test
 				float x = (n * RAND_FLOAT - n / 2) / closeness;
 				offsets.push_back(x);
 			}
-			model->SetInstanceOffsets(std::move(offsets));
-
-			auto source = std::make_unique<Gray::CameraSource>(scene.GetCamera());
-			auto ls = scene.CreateLight(Gray::LightType::PointLight, std::move(source));
-			ls->SetAttenuation(1.0f, 0, 0);
-
-			scene.ComputeShaderSet();
-			scene.SetProjectionUniform();
-
-			return &scene;
+			scene.GetRModel(rIndex).SetInstanceOffsets(offsets);
 		}
 
 		void OnUpdate(float dt) override
 		{
-			if(Gray::LoadTexIfFree())
+			if (scene.IsSceneComplete())
+			{
 				scene.RenderModels();
+			}
+			else
+			{
+				scene.LoadResources(*this);
+			}
 		}
+
+		
 
 		// Debug 
 
@@ -118,7 +129,7 @@ namespace Test
 			{
 				for (int i = 0; i < 5; i++)
 				{
-					Gray::ReloadModel(path, true);
+					//Gray::ReloadModel(path, true);
 					Gray::RMReloadShaders();
 					OnInit();
 				}
@@ -126,6 +137,7 @@ namespace Test
 		}
 	private:
 		Gray::Scene scene;
+		int rIndex;
 
 		float closeness;
 		int n;

@@ -18,7 +18,7 @@ namespace Gray
 	bool isExec = false;
 	int loadIndex = 0;
 
-	WeakRef<Texture> GetTextureParallel(const std::string& path)
+	WeakRef<Texture> GetTexture(const std::string& path)
 	{
 		GRAY_CORE_INFO("Attempting to load texture : " + path);
 		const Texture* tex = nullptr;
@@ -48,51 +48,31 @@ namespace Gray
 		return llTextures.back();
 	}
 
-	WeakRef<Texture> GetTexture(const std::string& path, bool flipTextures)
-	{
-		GRAY_CORE_INFO("Attempting to load texture : " + path);
-		const Texture* tex = nullptr;
-
-		//Linear Search for path in paths
-		for (int i = 0; i < texturePaths.size(); i++)
-		{
-			if (texturePaths[i] == path)
-			{
-				return textures[i].Get();
-			}
-		}
-
-		//If Not found
-		NoCopy<Texture> texture;
-		if (texture->LoadTexture(path, true))
-		{
-			textures.push_back(std::move(texture));
-			texturePaths.push_back(path);
-
-			return textures.back().Get();
-		}
-		else
-		{
-			return Defaults::BlankTex();
-		}
-	}
-
 	void Load(Image& image) 
 	{ 
 		image.data = stbi_load(image.path.c_str(), &(image.width), &(image.height), 
 			&image.nrChannels, STBI_rgb_alpha);
 		loadIndex++;
+
+		if (image.data)
+			GRAY_CORE_INFO("Succesfully loaded image " + image.path);
+		else
+			GRAY_CORE_WARN("Failed to load image " + image.path);
+
 		isExec = false;
 	}
 
-	// returns true is thread is running
-	bool LoadTexIfFree()
+	// returns true if all image files have been read
+	bool ImageLoadDone()
 	{
 		if (isExec)
 			return false;
 
 		if (imLoadThread.joinable())
 			imLoadThread.join();
+
+		if (loadIndex < 0)
+			return true;
 
 		// All images in To-Load-images list has been loaded.
 		// Load the data to corresponding textures.
@@ -111,8 +91,7 @@ namespace Gray
 			return true;
 		}
 		
-		if (loadIndex < 0)
-			return true;
+
 
 		// The previous image loading has finished. Load the next one in the list.
 		Image& im = imData[loadIndex];
@@ -133,4 +112,5 @@ namespace Gray
 		return m;
 	}
 
+	
 }

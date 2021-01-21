@@ -13,7 +13,10 @@ namespace Gray
 	public:
 		Model();
 
-		void LoadModel(const std::string& path, bool flipTextures=true);
+		void SetPath(const std::string path);
+		bool TryToLoadModel();
+
+		void LoadScene(const aiScene* path);
 		std::string GetPath();
 
 		std::vector<Mesh>::iterator begin();

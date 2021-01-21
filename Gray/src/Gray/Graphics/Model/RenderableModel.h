@@ -14,8 +14,8 @@ namespace Gray
 		RenderableModel(const RenderableModel& model) = delete;
 		RenderableModel(RenderableModel&& model) = default;
 
-		void LoadModel(const std::string& path, bool flipTexture, 
-			const std::string& pathToShader="res/shaders/shader.shader");
+		void SetPath(const std::string& path);
+		bool TryToLoadModel();
 
 		Transform& GetTransform();
 		virtual void Render();
@@ -25,8 +25,8 @@ namespace Gray
 
 		void SetInstanceOffsets(std::vector<float> offsets);
 
-		const Shared<Shader> GetShader();
-
+		Shared<Shader> GetShader();
+		void SetShader(Shared<Shader> shader);
 	private:
 		Model model;
 		Transform transform;

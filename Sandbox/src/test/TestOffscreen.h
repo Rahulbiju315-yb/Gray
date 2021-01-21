@@ -51,21 +51,20 @@ namespace Test
 		Gray::Scene* OnInit() override
 		{
 
-			auto model = scene.CreateRenderModel();
-			model->LoadModel("res/models/47-obj/Handgun_obj.obj", false);
+			int index = scene.CreateRModel();
+			scene.SetModelPath(index, GUN);
 
+			Gray::RenderableModel& rmodel = scene.GetRModel(index);
 			std::vector<float> offsets;
 			offsets.reserve(3);
-
 			offsets.push_back(0);
 			offsets.push_back(0);
 			offsets.push_back(0);
+			rmodel.SetInstanceOffsets(std::move(offsets));
 
-			model->SetInstanceOffsets(std::move(offsets));
-
-			auto source = std::make_unique<Gray::CameraSource>(scene.GetCamera());
-			auto ls = scene.CreateLight(Gray::LightType::PointLight, std::move(source));
-			ls->SetAttenuation(1.0f, 0, 0);
+			auto source = std::make_unique<Gray::CameraSource>(&scene.GetCamera());
+			index = scene.CreateLight(Gray::LightType::PointLight, std::move(source));
+			scene.GetLight(index, Gray::LightType::PointLight).SetAttenuation(1.0f, 0, 0);
 
 			return &scene;
 		}

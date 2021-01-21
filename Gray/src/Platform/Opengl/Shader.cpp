@@ -28,6 +28,8 @@ namespace Gray
 
 		std::string vertexSource, fragmentSource;
 		bool a = LoadShaderSource(vertexSource, fragmentSource, filePath);
+		assert(vertexSource.length() != 0);
+		assert(fragmentSource.length() != 0);
 		bool b = CompileShader(vertexSource, fragmentSource, ID);
 		
 		return a & b;

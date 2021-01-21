@@ -18,7 +18,7 @@ namespace Gray
 		void LoadBufferData(uint indices[], int count);
 
 		int GetCount() const; 
-
+		uint GetID() const;
 	private:
 		IndexBuffer();
 
