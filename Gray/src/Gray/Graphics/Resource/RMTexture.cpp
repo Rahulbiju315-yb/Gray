@@ -45,7 +45,7 @@ namespace Gray
 		if (loadIndex == -1)
 			loadIndex = 0;
 
-		return llTextures.back();
+		return WeakRef<Texture>(textures.back());
 	}
 
 	void Load(Image& image) 
@@ -91,8 +91,6 @@ namespace Gray
 			return true;
 		}
 		
-
-
 		// The previous image loading has finished. Load the next one in the list.
 		Image& im = imData[loadIndex];
 		isExec = true;

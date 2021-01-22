@@ -18,8 +18,8 @@ namespace Test
 	class TestModelLoading : public Test
 	{
 	public:
-		TestModelLoading(int n=100, float closeness=10)
-			: closeness(closeness), n(n), scene(Gray::Scene(1)), path(BAG)
+		TestModelLoading(int n = 100, float closeness = 10)
+			: closeness(closeness), n(n), scene(Gray::Scene(1)), path(BAG), rIndex(-1)
 		{
 			
 		}
@@ -28,7 +28,6 @@ namespace Test
 		Gray::Scene* OnInit() override
 		{
 			glClearColor(0, 0, 0, 1);
-			GRAY_INFO("Attampting to load " + path);
 			scene.ClearScene();
 			scene.SetCapacity(1);
 
@@ -41,11 +40,11 @@ namespace Test
 			scene.GetLight(index, Gray::LightType::PointLight).SetAttenuation(1.0f, 0, 0);
 
 			scene.InitForRender();
-
+			scene.ReloadRModels(*this);
 			return &scene;
 		}
 
-		void OnLoad(Gray::RenderableModel& model)
+		void OnLoad(Gray::RenderableModel& model, int rindex)
 		{
 			std::vector<float> offsets;
 			offsets.reserve((3 * (size_t)n));

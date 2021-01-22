@@ -31,11 +31,11 @@ namespace Gray
 
 		if (nrChannels == 3)
 		{
-			inf = GL_COMPRESSED_RGB;
+			inf = GL_RGB;
 		}
 		else
 		{
-			inf = GL_COMPRESSED_RGBA;
+			inf = GL_RGBA;
 		}
 		glTexImage2D(GL_TEXTURE_2D, 0, inf, width, height, 0, exf, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
@@ -54,7 +54,7 @@ namespace Gray
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		int width, height, nrChannels;
-		unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, STBI_rgb_alpha);
+		unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
 
 		if (data)
 		{

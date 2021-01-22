@@ -14,7 +14,7 @@ namespace Gray
 		RenderableModel(const RenderableModel& model) = delete;
 		RenderableModel(RenderableModel&& model) = default;
 
-		void SetPath(const std::string& path);
+		bool SetPath(const std::string& path);
 		bool TryToLoadModel();
 
 		Transform& GetTransform();
@@ -34,6 +34,6 @@ namespace Gray
 		NoCopy<VertexBuffer> offsetsBuffer;
 		uint n_instances;
 
-		void SortByMaterial();
+		void GroupMeshesByMaterial();
 	};
 }

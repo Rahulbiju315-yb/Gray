@@ -33,6 +33,7 @@ namespace Gray
 				return models[i];
 		}
 
+		assert(false && "Model Not found in lookup");
 		return Model();
 	}
 
@@ -44,6 +45,7 @@ namespace Gray
 			GRAY_CORE_ERROR("Error Reading Model File " + path);
 		else
 			GRAY_CORE_INFO("Succesfully loaded model" + path);
+
 		modelLoadIndex++;
 		model_isExec = false;
 	}
@@ -96,8 +98,17 @@ namespace Gray
 		return ret;
 	}
 
-	bool IsModelPathsEmpty()
+	// Waits for model loading to complete, if any is taking place.
+	// It then proceeds to free up loadedScene.
+	void CancelModelLoading()
 	{
-		return !modelLoadThread.joinable();
+		if (modelLoadThread.joinable())
+			modelLoadThread.join();
+
+		if(loadedScene)
+			aiReleaseImport(loadedScene);
+
+		modelFilePaths.clear();
+		modelLoadIndex = -1;
 	}
 }

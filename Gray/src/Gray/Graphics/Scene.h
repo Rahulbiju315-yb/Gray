@@ -46,7 +46,7 @@ namespace Gray
 			RenderableModel& rmodel = renderList[rindex];
 			if (rmodel.TryToLoadModel())
 			{
-				onLoadCallback.OnLoad(rmodel);
+				onLoadCallback.OnLoad(rmodel, rindex);
 				reloadIndex++;
 				if (reloadIndex == dirtyModels.size())
 				{
@@ -57,6 +57,15 @@ namespace Gray
 			}
 
 			return false;
+		}
+
+		template<class T>
+		void ReloadRModels(T& onLoadCallback)
+		{
+			for (int i = 0; i < renderList.size(); i++)
+			{
+				onLoadCallback.OnLoad(renderList[i], i);
+			}
 		}
 
 		void ComputeShaderSet();

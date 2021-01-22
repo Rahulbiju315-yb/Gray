@@ -44,7 +44,6 @@ namespace Gray
 		
 		WeakRef(const WeakRef<T>&) = default;
 		WeakRef(WeakRef&&) = default;
-
 		WeakRef& operator=(const WeakRef&) = default;
 		WeakRef& operator=(WeakRef&&) = default;
 
@@ -53,6 +52,6 @@ namespace Gray
 		T* operator->() const { return Get(); }
 
 	private:
-		mutable T resource;
+		T resource;
 	};
 }

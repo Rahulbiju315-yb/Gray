@@ -13,17 +13,30 @@ namespace Gray
 		shader->LoadProgram("res/shaders/shader.shader");
 	}
 
-	void RenderableModel::SetPath(const std::string& path)
+	// Pushes path for loading if required and returns true.
+	// Else gets the saved model and returns false
+	bool RenderableModel::SetPath(const std::string& path)
 	{
+		bool requiredToLoadModel = true;
 		if (!IsModelLoaded(path))
+		{
 			model.SetPath(path);
+		}
 		else
+		{
 			model = GetModel(path);
+			requiredToLoadModel = false;
+		}
+
+		return requiredToLoadModel;
 	}
 
 	bool RenderableModel::TryToLoadModel()
 	{
-		return model.TryToLoadModel();
+		bool finished = model.TryToLoadModel();
+		if (finished)
+			GroupMeshesByMaterial();
+		return finished;
 	}
 
 	Transform& RenderableModel::GetTransform() { return transform; }
@@ -73,7 +86,7 @@ namespace Gray
 	Shared<Shader> RenderableModel::GetShader(){ return shader; }
 	void RenderableModel::SetShader(Shared<Shader> shader) { this->shader = shader; }
 
-	void RenderableModel::SortByMaterial()
+	void RenderableModel::GroupMeshesByMaterial()
 	{
 		std::sort(model.meshes.begin(), model.meshes.end(), &GroupByMaterialComparator);
 	}

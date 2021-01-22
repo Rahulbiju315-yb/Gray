@@ -33,7 +33,7 @@ namespace Gray
 		void Free();
 
 		uint ID;
-		mutable int count; // Vertice count
+		int count; // Vertice count
 		static uint boundIB_ID;
 
 		friend class Shared<IndexBuffer>;

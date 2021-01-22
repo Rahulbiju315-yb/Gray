@@ -13,7 +13,7 @@ namespace Gray
 	//void ReloadModel(const std::string& path, bool flipTexture);
 	void AddModelFileForImport(const std::string& path);
 	bool TryLoadSceneForModel(Model& m);
-	bool IsModelPathsEmpty();
+	void CancelModelLoading();
 
 	Material CreateMaterial();
 

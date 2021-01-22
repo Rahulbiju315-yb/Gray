@@ -11,7 +11,7 @@ namespace Gray
 	class Model
 	{
 	public:
-		Model();
+		Model() = default;
 
 		void SetPath(const std::string path);
 		bool TryToLoadModel();

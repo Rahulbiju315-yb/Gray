@@ -33,11 +33,15 @@ namespace Gray
 	void Scene::SetModelPath(int i, const std::string& path)
 	{
 		assert(i < renderList.size());
-		renderList[i].SetPath(path);
-		dirtyModels.push_back(i);
+		bool requiredToLoadModel = renderList[i].SetPath(path);
+		
+		if (requiredToLoadModel)
+		{
+			dirtyModels.push_back(i);
 
-		if (reloadIndex == -1)
-			reloadIndex = 0;
+			if (reloadIndex == -1)
+				reloadIndex = 0;
+		}
 	}
 
 	bool Scene::IsSceneComplete()
@@ -79,6 +83,10 @@ namespace Gray
 	{
 		renderList.clear();
 		lightMan.ClearList();
+
+		CancelModelLoading();
+		dirtyModels.clear();
+
 		unique_shaders.clear();
 	}
 

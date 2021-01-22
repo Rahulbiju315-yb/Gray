@@ -184,12 +184,12 @@ void main()
 	for (int i = 0; i < nrOfDirectionalLights; i++)
 		lighting += CalcDirectionalLight(dirLight[i], norm, viewDir);
 
-	vec4 emission = texture(material.emission, TexCoord);
+	vec4 emission = texture(material.diffuse, TexCoord);
 	
 	if (lighting.a < 0.2)
 		discard;
 
-	FragColor = vec4(lighting);
+	FragColor = vec4(emission);
 	FragColor.a = 1;
 	//FragColor = vec4(1.0f);
 }

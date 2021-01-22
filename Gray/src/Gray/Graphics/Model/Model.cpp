@@ -7,10 +7,6 @@
 namespace Gray
 {
 
-	Model::Model()
-	{
-	}
-
 	void Model::SetPath(const std::string path)
 	{
 		this->path = path;

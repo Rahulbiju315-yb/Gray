@@ -54,6 +54,7 @@ namespace Gray
 	void VertexBuffer::CopyFrom(const VertexBuffer& vb)
 	{
 		ID = vb.ID;
+		size = vb.size;
 	}
 
 	void VertexBuffer::CreateIfEmpty()
