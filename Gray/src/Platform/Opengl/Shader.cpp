@@ -26,16 +26,17 @@ namespace Gray
 	{
 		CreateIfEmpty();
 
-		std::string vertexSource, fragmentSource;
-		bool a = LoadShaderSource(vertexSource, fragmentSource, filePath);
+		std::string vertexSource, fragmentSource, geometrySource;
+		bool a = LoadShaderSource(vertexSource, fragmentSource, geometrySource, filePath);
 		assert(vertexSource.length() != 0);
 		assert(fragmentSource.length() != 0);
-		bool b = CompileShader(vertexSource, fragmentSource, ID);
+		bool b = CompileShader(vertexSource, fragmentSource, geometrySource, ID);
 		
 		return a & b;
 	}
 
-	bool LoadShaderSource(std::string& vertexSource, std::string& fragmentSource, const std::string& file)
+	bool LoadShaderSource(std::string& vertexSource, std::string& fragmentSource, std::string& geometrySource,
+		const std::string& file)
 	{
 		std::ifstream shaderFile;
 
@@ -48,7 +49,7 @@ namespace Gray
 
 			std::string s_contents = contents.str();
 
-			std::string vertex, fragment;
+			std::string vertex, fragment, geometry;
 
 			int i = 0;
 
@@ -64,13 +65,26 @@ namespace Gray
 
 			while (s_contents[i++] != '\n');
 
-			while (s_contents[i] != '\0')
+			while (s_contents[i] != '\0' && s_contents[i] != '~')
 			{
 				fragment += s_contents[i++];
 			}
 
+			if (s_contents[i] == '~')
+			{
+				while (s_contents[i++] != '\n');
+
+				while(s_contents[i] != '\0')
+					geometry += s_contents[i++];
+			}
+			else
+			{
+				geometry = "";
+			}
+
 			vertexSource = vertex;
 			fragmentSource = fragment;
+			geometrySource = geometry;
 
 			shaderFile.close();
 
@@ -84,19 +98,19 @@ namespace Gray
 		return true;
 	}
 
-	bool CompileShader(const std::string& vertexSource, const std::string& fragmentSource, const uint& ID)
+	bool CompileShader(const std::string& vertexSource, const std::string& fragmentSource, 
+		const std::string& geometrySource, const uint& ID)
 	{
 		const char* vsource = vertexSource.c_str();
 		const char* fsource = fragmentSource.c_str();
+		const char* gsource = geometrySource.c_str();
+
 		char infoLog[512]; int success;
 
+		//Compile and attach VertexShader
 		int vertexID;
 		vertexID = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vertexID, 1, &vsource, NULL);
-
-		int fragmentID;
-		fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentID, 1, &fsource, NULL);
 
 		glCompileShader(vertexID);
 		glGetShaderiv(vertexID, GL_COMPILE_STATUS, &success);
@@ -107,6 +121,14 @@ namespace Gray
 			return false;
 		}
 
+		glAttachShader(ID, vertexID);
+		glDeleteShader(vertexID);
+
+		//Compile And attach Fragment Shader
+		int fragmentID;
+		fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragmentID, 1, &fsource, NULL);
+
 		glCompileShader(fragmentID);
 		glGetShaderiv(fragmentID, GL_COMPILE_STATUS, &success);
 		if (!success)
@@ -116,8 +138,30 @@ namespace Gray
 			return false;
 		}
 
-		glAttachShader(ID, vertexID);
 		glAttachShader(ID, fragmentID);
+		glDeleteShader(fragmentID);
+
+
+		//If geometry shader is defined compile and attach that too
+		if (geometrySource.size() != 0)
+		{
+			int geometryID;
+			geometryID = glCreateShader(GL_GEOMETRY_SHADER);
+			glShaderSource(geometryID, 1, &gsource, NULL);
+
+			glCompileShader(geometryID);
+			glGetShaderiv(geometryID, GL_COMPILE_STATUS, &success);
+			if (!success)
+			{
+				glGetShaderInfoLog(geometryID, 512, NULL, infoLog);
+				std::cout << "Error compiling geometry shader source ... \n" << infoLog;
+				return false;
+			}
+
+			glAttachShader(ID, geometryID);
+			glDeleteShader(geometryID);
+		}
+
 		glLinkProgram(ID);
 		glGetShaderiv(ID, GL_LINK_STATUS, &success);
 		if (!success)
@@ -126,9 +170,6 @@ namespace Gray
 			std::cout << "Error linking program ... \n" << infoLog;
 			return false;
 		}
-
-		glDeleteShader(vertexID);
-		glDeleteShader(fragmentID);
 
 		return true;
 	}

@@ -74,7 +74,19 @@ namespace Gray
 	void Scene::RenderModels()
 	{
 		LightUpScene();
-		SetViewUniforms();
+
+		// View uniform
+		for (const Shared<Shader>& shader : unique_shaders)
+		{
+			shader->SetUniform("view", camera.GetView());
+		}
+
+		// viewPos
+		for (const Shared<Shader>& shader : unique_shaders)
+		{
+			shader->SetUniform("viewPos", camera.GetPos());
+		}
+
 		for (RenderableModel& r : renderList)
 			r.Render();
 	}
@@ -92,10 +104,7 @@ namespace Gray
 
 	void Scene::SetViewUniforms()
 	{
-		for (const Shared<Shader>& shader : unique_shaders)
-		{
-			shader->SetUniform("view", camera.GetView());
-		}
+
 	}
 
 	void Scene::LightUpScene()

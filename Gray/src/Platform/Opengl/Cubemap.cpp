@@ -1,8 +1,8 @@
 #include "grpch.h"
 #include "CubeMap.h"
-#include "stb_image.h"
+#include "Gray/Image/Image.h"
 
-std::vector<std::string> faces{"right", "left", "top", "bottom", "back", "front"};
+std::vector<std::string> faces{"right", "left", "top", "bottom", "front", "back"};
 
 namespace Gray
 {
@@ -27,20 +27,19 @@ namespace Gray
 		glDeleteTextures(1, &ID);
 	}
 
-	void Cubemap::LoadCubeMap(const std::string& path, const std::string ext)
+	void Cubemap::LoadCubeMap(const std::string& path, const std::string ext, int slot)
 	{
 		CreateIfEmpty();
-		Bind();
+		Bind(slot);
 
-		int width, height, nrChannels;
-		unsigned char* data;
 
 		for (unsigned int i = 0; i < 6; i++)
 		{
-			data = stbi_load((faces[i] + ext).c_str(), &width, &height, &nrChannels, 0);
+			Image image;
+			LoadImage((path + faces[i] + ext), image);
 			glTexImage2D(
 				GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-				0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data
+				0, GL_RGB, image.width, image.height, 0, GL_RGB, GL_UNSIGNED_BYTE, image.data
 			);
 		}
 
@@ -53,30 +52,12 @@ namespace Gray
 
 	void Cubemap::LoadCubeMap(const std::vector<std::string> paths)
 	{
-		CreateIfEmpty();
-		Bind();
-
-		int width, height, nrChannels;
-		unsigned char* data;
-
-		for (unsigned int i = 0; i < 6; i++)
-		{
-			data = stbi_load(paths[i].c_str(), &width, &height, &nrChannels, 0);
-			glTexImage2D(
-				GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-				0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data
-			);
-		}
-
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		assert(false);
 	}
 
-	void Cubemap::Bind() const
+	void Cubemap::Bind(int slot) const
 	{
+		glActiveTexture(slot);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, ID);
 	}
 

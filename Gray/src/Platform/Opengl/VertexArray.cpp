@@ -53,7 +53,7 @@ namespace Gray
 		return boundVA_ID == ID;
 	}
 
-	uint VertexArray::GetID()
+	uint VertexArray::GetID() const
 	{
 		return ID;
 	}

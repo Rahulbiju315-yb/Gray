@@ -3,7 +3,7 @@
 #include "GLFW/glfw3.h"
 #include "Gray/Window/Window.h"
 #include "Platform/Opengl/stb_image.h"
-
+#include "Gray/Image/Image.h"
 
 namespace Gray
 {

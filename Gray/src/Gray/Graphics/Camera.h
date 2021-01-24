@@ -20,14 +20,14 @@ namespace Gray
 
 		void SetPos(glm::vec3 pos);
 		void SetPos(float x, float y, float z);
-		const glm::vec3& GetPos();
+		const glm::vec3& GetPos() const;
 
 		void SetYawPitch(glm::vec2 yawPitch);
-		const glm::vec2& GetYawPitch();
-		const glm::vec3& GetDir();
+		const glm::vec2& GetYawPitch() const;
+		const glm::vec3& GetDir() const;
 
-		const glm::mat4& GetProjection();
-		const glm::mat4& GetView();
+		const glm::mat4& GetProjection() const;
+		const glm::mat4& GetView() const;
 
 		void SetPerspective(const Perspective& perspective);
 		void Move(float dt, float speed=1.0f);

@@ -47,11 +47,8 @@ namespace Gray
 		SetTransformUniforms();
 		for (auto& mesh : model)
 		{
-			if (boundMaterialID != mesh.material.GetID())
-			{
-				SetMaterialUniforms(mesh.material);
-				boundMaterialID = mesh.material.GetID();
-			}
+			SetMaterialUniforms(mesh.material);
+			boundMaterialID = mesh.material.GetID();
 
 			auto& rData = mesh.renderData;
 			assert((rData.va)->GetID() != 0);

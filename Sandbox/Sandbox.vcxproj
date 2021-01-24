@@ -141,6 +141,8 @@
     <ClInclude Include="src\test\Test.h" />
     <ClInclude Include="src\test\TestModelLoading.h" />
     <ClInclude Include="src\test\TestOffscreen.h" />
+    <ClInclude Include="src\test\TestSkybox.h" />
+    <ClInclude Include="src\test\TestSurface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox.cpp" />

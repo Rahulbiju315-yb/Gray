@@ -18,7 +18,7 @@ namespace Gray
 		bool IsBound() const;
 
 		uint GetAttribCount() { return n_attribs; }
-		uint GetID();
+		uint GetID() const;
 	private:
 		uint ID;
 		uint n_attribs;

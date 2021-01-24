@@ -57,6 +57,9 @@ namespace Gray
 		friend class WeakRef<Shader>;
 	};
 
-	bool LoadShaderSource(std::string& vertexSource, std::string& fragmentSource, const std::string& file);
-	bool CompileShader(const std::string& vertexSource, const std::string& fragmentSource, const uint& ID);
+	bool LoadShaderSource(std::string& vertexSource, std::string& fragmentSource, std::string& geometrySource,
+		const std::string& file);
+
+	bool CompileShader(const std::string& vertexSource, const std::string& fragmentSource, 
+		const std::string& gemoterySource, const uint& ID);
 }

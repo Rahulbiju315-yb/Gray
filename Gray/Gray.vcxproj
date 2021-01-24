@@ -174,8 +174,12 @@
     <ClInclude Include="src\Gray\Graphics\Source\Source.h" />
     <ClInclude Include="src\Gray\Graphics\Source\SourceFactory.h" />
     <ClInclude Include="src\Gray\Graphics\Source\StaticSource.h" />
+    <ClInclude Include="src\Gray\Graphics\Surface.h" />
     <ClInclude Include="src\Gray\Graphics\Transform.h" />
     <ClInclude Include="src\Gray\Graphics\Transformable.h" />
+    <ClInclude Include="src\Gray\Mesh\MeshData.h" />
+    <ClInclude Include="src\Gray\Mesh\Vertex.h" />
+    <ClInclude Include="src\Gray\Image\Image.h" />
     <ClInclude Include="src\Gray\Log.h" />
     <ClInclude Include="src\Gray\TempUtil.h" />
     <ClInclude Include="src\Gray\Util\ResourceManager.h" />
@@ -224,8 +228,11 @@
     <ClCompile Include="src\Gray\Graphics\Source\CameraSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\SourceFactory.cpp" />
     <ClCompile Include="src\Gray\Graphics\Source\StaticSource.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Surface.cpp" />
     <ClCompile Include="src\Gray\Graphics\Transform.cpp" />
+    <ClCompile Include="src\Gray\Image\Image.cpp" />
     <ClCompile Include="src\Gray\Log.cpp" />
+    <ClCompile Include="src\Gray\Mesh\MeshData.cpp" />
     <ClCompile Include="src\Gray\TempUtil.cpp" />
     <ClCompile Include="src\Gray\Window\Callbacks.cpp" />
     <ClCompile Include="src\Gray\Window\Window.cpp" />

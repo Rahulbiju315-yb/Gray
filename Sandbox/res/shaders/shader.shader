@@ -161,12 +161,12 @@ vec4 CalcSpotLight(SpotLight source, vec3 normal, vec3 viewDir)
 
 	vec3 reflectDir = normalize(reflect(-sourceDir, normal));
 	float spec = pow(max(dot(reflectDir, viewDir), 0), material.shininess);
-	specular = texture(material.specular, TexCoord) * spec * vec4(source.specular, 1);
+	specular = texture(material.diffuse, TexCoord) * spec * vec4(source.specular, 1);
 
 	diffuse *= intensity;
 	specular *= intensity;
 
-	return (ambient + diffuse + specular) * attenuation;
+	return (0 + diffuse + specular) * attenuation;
 
 }
 void main()
@@ -184,12 +184,9 @@ void main()
 	for (int i = 0; i < nrOfDirectionalLights; i++)
 		lighting += CalcDirectionalLight(dirLight[i], norm, viewDir);
 
-	vec4 emission = texture(material.diffuse, TexCoord);
-	
-	if (lighting.a < 0.2)
-		discard;
+	vec4 emission = texture(material.emission, TexCoord);
 
-	FragColor = vec4(emission);
+	FragColor = vec4(lighting + emission);
 	FragColor.a = 1;
 	//FragColor = vec4(1.0f);
 }

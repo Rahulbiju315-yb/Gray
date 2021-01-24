@@ -52,6 +52,6 @@ namespace Gray
 		T* operator->() const { return Get(); }
 
 	private:
-		T resource;
+		mutable T resource;
 	};
 }

@@ -6,8 +6,6 @@
 #include "Platform/Opengl/stb_image.h"
 namespace Gray
 {
-	std::unordered_map<int, uint> Texture::boundTexture_IDs;
-	std::vector<Texture> unreferencedTextures;
 
 	Texture::Texture() 
 		: ID(0)
@@ -37,6 +35,7 @@ namespace Gray
 		{
 			inf = GL_RGBA;
 		}
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glTexImage2D(GL_TEXTURE_2D, 0, inf, width, height, 0, exf, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 		
@@ -54,7 +53,7 @@ namespace Gray
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		int width, height, nrChannels;
-		unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
+		unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, STBI_rgb_alpha);
 
 		if (data)
 		{
@@ -117,19 +116,12 @@ namespace Gray
 	{
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, ID);
-		boundTexture_IDs[slot] = ID;
 	}
 
 	void Texture::Unbind(int slot) const
 	{
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, 0);
-		boundTexture_IDs[slot] = 0;
-	}
-
-	bool Texture::IsBound() const
-	{
-		return boundTexture_IDs.find(ID) != boundTexture_IDs.end();
 	}
 
 	uint Texture::GetID() const

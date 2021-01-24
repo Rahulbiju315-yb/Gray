@@ -9,8 +9,8 @@ namespace Gray
 	const glm::vec3 Defaults::DEFAULT_LIGHT_SPECULAR = glm::vec3(1.0f);
 
 	const float Defaults::DEFAULT_K0 = 1.0f;
-	const float Defaults::DEFAULT_K1 = 0.0f;
-	const float Defaults::DEFAULT_K2 = 0.0f;
+	const float Defaults::DEFAULT_K1 = 0.7f;
+	const float Defaults::DEFAULT_K2 = 0.14f;
 
 	const glm::vec3 Defaults::ORIGIN = glm::vec3(0.0f);
 	const glm::vec3 Defaults::COLOR_WHITE = glm::vec3(1.0f);
@@ -26,7 +26,7 @@ namespace Gray
 			int g = (int)(color.g);
 			int b = (int)(color.b);
 			
-			unsigned char data[4] = {(unsigned char)r, (unsigned char)g, (unsigned char)b, 0};
+			unsigned char data[4] = {(unsigned char)r, (unsigned char)g, (unsigned char)b, 1};
 
 			blankTexture->LoadTextureFrom(data, 1, 1, 4);
 		}

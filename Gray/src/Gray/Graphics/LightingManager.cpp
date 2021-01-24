@@ -23,12 +23,12 @@ namespace Gray
 
 		case Gray::LightType::DirectionalLight:
 			dirLights.push_back(DirectionalLight());
-			index = (int)pointLights.size();
+			index = (int)dirLights.size();
 			break;
 
 		case Gray::LightType::SpotLight:
 			spotLights.push_back(SpotLight());
-			index = (int)pointLights.size();
+			index = (int)spotLights.size();
 			break;
 
 		default:

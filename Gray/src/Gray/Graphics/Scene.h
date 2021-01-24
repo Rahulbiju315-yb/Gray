@@ -81,6 +81,7 @@ namespace Gray
 		void SetCapacity(int n);
 
 	private:
+
 		Camera camera;
 		LightingManager lightMan;
 		std::vector<RenderableModel> renderList;

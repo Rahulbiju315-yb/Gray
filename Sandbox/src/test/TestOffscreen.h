@@ -8,6 +8,7 @@
 
 #include "Gray/Graphics/Light/PointLight.h"
 #include "Gray/Graphics/Source/SourceFactory.h"
+#include "Gray/Graphics/Resource/ResourceManager.h"
 
 #include "Gray/Graphics/Model/RenderableModel.h"
 #include "Platform/Opengl/FrameBuffer.h"
@@ -31,7 +32,7 @@ namespace Test
 			// FrameBuffer setup
 			colorAttachment->LoadEmptyTexture(1200, 700, GL_RGB, GL_RGB);
 			depthAttachment->LoadDepthTexture(1200, 700);
-			debug->LoadTexture("res/textures/matrix.jpg", true, GL_RGB, GL_RGBA);
+			debug = Gray::GetTexture("res/textures/matrix.jpg");
 
 			offScreen->AddAttachment(*colorAttachment, Gray::AttachmentType::Color);
 			offScreen->AddAttachment(*depthAttachment, Gray::AttachmentType::Depth);
@@ -42,7 +43,7 @@ namespace Test
 			
 			// Shader loading and uniform setting
 			textureShader->LoadProgram("res/shaders/textureShader.shader");
-			textureShader->SetUniform("tex", 0);
+			textureShader->SetUniform("tex", 1);
 
 			fill(kernel, 1.0 / 9, 9);
 
@@ -54,34 +55,46 @@ namespace Test
 			int index = scene.CreateRModel();
 			scene.SetModelPath(index, GUN);
 
-			Gray::RenderableModel& rmodel = scene.GetRModel(index);
+			auto source = std::make_unique<Gray::CameraSource>(&scene.GetCamera());
+			index = scene.CreateLight(Gray::LightType::PointLight, std::move(source));
+			scene.GetLight(index, Gray::LightType::PointLight).SetAttenuation(1.0f, 0, 0);
+
+			scene.InitForRender();
+			scene.ReloadRModels(*this);
+			return &scene;
+		}
+
+		void OnLoad(Gray::RenderableModel& model, int rindex)
+		{
+			Gray::RenderableModel& rmodel = scene.GetRModel(rindex);
 			std::vector<float> offsets;
 			offsets.reserve(3);
 			offsets.push_back(0);
 			offsets.push_back(0);
 			offsets.push_back(0);
 			rmodel.SetInstanceOffsets(std::move(offsets));
-
-			auto source = std::make_unique<Gray::CameraSource>(&scene.GetCamera());
-			index = scene.CreateLight(Gray::LightType::PointLight, std::move(source));
-			scene.GetLight(index, Gray::LightType::PointLight).SetAttenuation(1.0f, 0, 0);
-
-			return &scene;
 		}
 
 		void OnUpdate(float dt) override
 		{
-			offScreen->Bind();
-			Gray::ClearDepthColor(glm::vec4(0.1f, 0.19f, 0.25f, 1.0f));
-			glEnable(GL_DEPTH_TEST);
+			if (scene.IsSceneComplete())
+			{
+				offScreen->Bind();
+				Gray::ClearDepthColor(glm::vec4(0.1f, 0.19f, 0.25f, 1.0f));
+				glEnable(GL_DEPTH_TEST);
 
-			scene.RenderModels();
+				scene.RenderModels();
 
-			offScreen->Unbind();
+				offScreen->Unbind();
 
-			Gray::ClearColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-			colorAttachment->Bind(0);
-			DrawScreenQuad(*textureShader);
+				Gray::ClearColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+				colorAttachment->Bind(1);
+				DrawScreenQuad(*textureShader);
+			}
+			else
+			{
+				scene.LoadResources(*this);
+			}
 		}
 
 		void OnImguiRender(float dt) override
@@ -128,7 +141,7 @@ namespace Test
 		Gray::NoCopy<Gray::FrameBuffer> offScreen;
 		Gray::NoCopy<Gray::Texture> colorAttachment;
 		Gray::NoCopy<Gray::Texture> depthAttachment;
-		Gray::NoCopy<Gray::Texture> debug;
+		Gray::WeakRef<Gray::Texture> debug;
 
 		Gray::NoCopy<Gray::Shader> textureShader;
 

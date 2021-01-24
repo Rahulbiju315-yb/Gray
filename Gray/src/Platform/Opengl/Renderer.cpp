@@ -50,6 +50,8 @@ namespace Gray
 
 	void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader)
 	{
+		assert(va.GetID() != 0);
+		assert(ib.GetID() != 0);
 		shader.Bind();
 		va.Bind();
 		ib.Bind();

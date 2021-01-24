@@ -29,7 +29,6 @@ namespace Gray
 		void LoadDepthStencilTexture(int width, int height);
 		void Bind(int slot = 0) const;
 		void Unbind(int slot = 0) const;
-		bool IsBound() const;
 
 		uint GetID() const;
 		

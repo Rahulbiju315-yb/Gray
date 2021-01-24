@@ -1,0 +1,143 @@
+#include "grpch.h"
+#include "MeshData.h"
+#include "glm/glm.hpp"
+
+namespace Gray
+{
+	MeshData GetPlaneMeshData(int width, int height, float delta)
+	{
+		MeshData mesh;
+
+		int numVertices = width * height;
+		mesh.vertices.reserve(numVertices);
+		for (int i = 0; i < height; i++)
+		{
+			for (int j = 0; j < width; j++)
+			{
+				Vertex v;
+
+				v.pos = glm::vec3(j * delta, 0, i * delta);
+				v.normal = glm::vec3(0);
+				v.texCoord = glm::vec2((float)i / width, (float)j / height);
+
+				mesh.vertices.push_back(v);
+			}
+		}
+
+		int numFaces = 2 * (width - 1) * (height - 1);
+		mesh.faces.reserve(numFaces);
+		int c = 0;
+		for (int i = 0; i < height - 1; i++)
+		{
+			for (int j = 0; j < width - 1; j++)
+			{
+				Face f1; Face f2;
+
+				f1.v0 = c;                f1.v1 = 1 + c;        f1.v2 = width + c + 1;
+				f2.v0 = width + 1 + c;    f2.v1 = width + c;    f2.v2 = c;
+
+				mesh.faces.push_back(f1);
+				mesh.faces.push_back(f2);
+
+				c++;
+			}
+		}
+
+		return mesh;
+	}
+
+	MeshData GetUnitCubeMeshData()
+	{
+		MeshData mesh;
+		Vertex v;
+		
+		v.pos = glm::vec3(-1.0f, -1.0f, -1.0f); // 0 
+		mesh.vertices.push_back(v);
+
+		v.pos = glm::vec3(1.0f, -1.0f, -1.0f); // 1 
+		mesh.vertices.push_back(v);
+
+		v.pos = glm::vec3(1.0f, 1.0f, -1.0f);  // 2
+		mesh.vertices.push_back(v);
+
+		v.pos = glm::vec3(-1.0f, 1.0f, -1.0f); // 3
+		mesh.vertices.push_back(v);
+
+		v.pos = glm::vec3(-1.0f, -1.0f, 1.0f); // 4
+		mesh.vertices.push_back(v);
+
+		v.pos = glm::vec3(1.0f, -1.0f, 1.0f);  // 5
+		mesh.vertices.push_back(v);
+
+		v.pos = glm::vec3(1.0f, 1.0f, 1.0f);   // 6
+		mesh.vertices.push_back(v);
+
+		v.pos = glm::vec3(-1.0f, 1.0f, 1.0f);  // 7
+		mesh.vertices.push_back(v);
+
+		Face f1; Face f2;
+
+		f1.v0 = 1;	f1.v1 = 0;	f1.v2 = 3;
+		f2.v0 = 3;	f2.v1 = 2;	f2.v2 = 1;
+		mesh.faces.push_back(f1); 
+		mesh.faces.push_back(f2); // Back
+
+		f1.v0 = 7;	f1.v1 = 6;	f1.v2 = 2;
+		f2.v0 = 2;	f2.v1 = 3;	f2.v2 = 7;
+		mesh.faces.push_back(f1);
+		mesh.faces.push_back(f2); // Top
+
+		f1.v0 = 5;	f1.v1 = 1;	f1.v2 = 2;
+		f2.v0 = 2;	f2.v1 = 6;	f2.v2 = 5;
+		mesh.faces.push_back(f1);
+		mesh.faces.push_back(f2); // Right
+
+		f1.v0 = 0;	f1.v1 = 4;	f1.v2 = 7;
+		f2.v0 = 7;	f2.v1 = 3;	f2.v2 = 0;
+		mesh.faces.push_back(f1);
+		mesh.faces.push_back(f2); // Left
+
+		f1.v0 = 5;	f1.v1 = 4;	f1.v2 = 0;
+		f2.v0 = 0;	f2.v1 = 1;	f2.v2 = 5;
+		mesh.faces.push_back(f1);
+		mesh.faces.push_back(f2); // Bottom
+
+		f1.v0 = 4;	f1.v1 = 5;	f1.v2 = 6;
+		f2.v0 = 6;	f2.v1 = 7;	f2.v2 = 4;
+		mesh.faces.push_back(f1);
+		mesh.faces.push_back(f2); // Front
+
+		return mesh;
+	}
+
+	void CalculateNormals(MeshData& mesh2d)
+	{
+		for (Face& face : mesh2d.faces)
+		{
+			Vertex& v0 = mesh2d.vertices[face.v0];
+			Vertex& v1 = mesh2d.vertices[face.v1];
+			Vertex& v2 = mesh2d.vertices[face.v2];
+
+			glm::vec3 O = v1.pos;
+
+			glm::vec3 a = v0.pos - O;
+			glm::vec3 b = v2.pos - O;
+
+			glm::vec3 normal = glm::cross(a, b);
+
+			v0.normal += normal;
+			v1.normal += normal;
+			v2.normal += normal;
+		}
+	}
+
+	size_t SizeOfVertices(const MeshData& meshD)
+	{
+		return meshD.vertices.size() * 8 * sizeof(float);
+	}
+
+	size_t CountOfIndices(const MeshData& meshD)
+	{
+		return 3 * meshD.faces.size();
+	}
+}

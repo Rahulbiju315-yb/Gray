@@ -26,12 +26,4 @@ namespace Gray
 	WeakRef<Texture> GetTexture(const std::string& path);
 	bool ImageLoadDone();
 
-	struct Image
-	{
-		unsigned char* data;
-		std::string path;
-		int width;
-		int height;
-		int nrChannels;
-	};
 }

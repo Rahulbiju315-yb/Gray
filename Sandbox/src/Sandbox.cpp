@@ -35,7 +35,7 @@ public:
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		test = std::make_unique<Test::TestModelLoading>();
+		test = std::make_unique<Test::TestSurface>();
 		scene = test->OnInit();
 	}
 
@@ -53,7 +53,11 @@ public:
 	void OnUpdate(float dt) override
 	{
 		Gray::ClearDepthColor();
-		scene->GetCamera().Move(dt);
+		if (!cursorEn && scene)
+		{
+			scene->GetCamera().UpdateLook();
+			scene->GetCamera().Move(dt);
+		}
 		test->OnUpdate(dt);
 	}
 
@@ -62,8 +66,7 @@ public:
 		if (type == Gray::EventType::KeyPressed)
 			OnKeyPressed((Gray::KeyPressedEvent&)e);
 
-		else if (type == Gray::EventType::MouseMoved)
-			OnMouseMoved((Gray::MouseMovedEvent&)e);
+		test->OnEvent(e, type);
 	}
 
 	void OnKeyPressed(Gray::KeyPressedEvent& e)
@@ -82,14 +85,6 @@ public:
 					Gray::TempUtil::DisableCursor();
 				}
 			}
-		}
-	}
-
-	void OnMouseMoved(Gray::MouseMovedEvent& e)
-	{
-		if (scene && !cursorEn)
-		{
-			scene->GetCamera().UpdateLook();
 		}
 	}
 

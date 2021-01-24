@@ -5,6 +5,7 @@
 #include "Gray/Graphics/Scene.h"
 #include "Gray/Graphics/Light/PointLight.h"
 #include "Gray/Graphics/Source/CameraSource.h"
+#include "Gray/Graphics/Source/StaticSource.h"
 #include "Gray/Graphics/Model/RenderableModel.h"
 
 #include "imgui.h"
@@ -18,7 +19,7 @@ namespace Test
 	class TestModelLoading : public Test
 	{
 	public:
-		TestModelLoading(int n = 100, float closeness = 10)
+		TestModelLoading(int n = 0, float closeness = 10)
 			: closeness(closeness), n(n), scene(Gray::Scene(1)), path(BAG), rIndex(-1)
 		{
 			

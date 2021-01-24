@@ -200,6 +200,10 @@
     <ClInclude Include="src\Gray\Graphics\Resource\ResourceManager.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Image\Image.h" />
+    <ClInclude Include="src\Gray\Mesh\Vertex.h" />
+    <ClInclude Include="src\Gray\Mesh\MeshData.h" />
+    <ClInclude Include="src\Gray\Graphics\Surface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -306,5 +310,8 @@
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Resource\RMTexture.cpp" />
     <ClCompile Include="src\Gray\Graphics\Resource\RMShader.cpp" />
+    <ClCompile Include="src\Gray\Image\Image.cpp" />
+    <ClCompile Include="src\Gray\Mesh\MeshData.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Surface.cpp" />
   </ItemGroup>
 </Project>

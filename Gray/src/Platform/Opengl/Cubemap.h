@@ -10,10 +10,10 @@ namespace Gray
 	class Cubemap
 	{
 	public:
-		void LoadCubeMap(const std::string& path, const std::string ext);
+		void LoadCubeMap(const std::string& path, const std::string ext, int slot);
 		void LoadCubeMap(const std::vector<std::string> paths);
 		
-		void Bind() const;
+		void Bind(int slot) const;
 		void Unbind() const;
 
 		uint GetID() const;

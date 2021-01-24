@@ -56,7 +56,7 @@ namespace Gray
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-		glfwWindow = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+		glfwWindow = glfwCreateWindow(width, height, title.c_str(), glfwGetPrimaryMonitor(), nullptr);
 
 		if (!glfwWindow)
 		{

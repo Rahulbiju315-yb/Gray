@@ -10,4 +10,5 @@ namespace Gray
 		virtual const glm::vec3& GetPos() = 0;
 		virtual const glm::vec3& GetDir() = 0;
 	};
+
 }

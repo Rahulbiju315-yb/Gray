@@ -112,27 +112,27 @@ namespace Gray
 		dir = glm::vec3(cos(pitch) * cos(yaw), sin(pitch), cos(pitch) * sin(yaw));
 	}
 
-	const glm::vec3& Camera::GetPos()
+	const glm::vec3& Camera::GetPos() const
 	{
 		return pos;
 	}
 	
-	const glm::vec2& Camera::GetYawPitch()
+	const glm::vec2& Camera::GetYawPitch() const
 	{
 		return yawPitch;
 	}
 
-	const glm::vec3& Camera::GetDir()
+	const glm::vec3& Camera::GetDir() const
 	{
 		return dir;
 	}
 
-	const glm::mat4& Camera::GetProjection()
+	const glm::mat4& Camera::GetProjection() const
 	{
 		return proj;
 	}
 
-	const glm::mat4& Camera::GetView()
+	const glm::mat4& Camera::GetView() const
 	{
 		return view;
 	}
