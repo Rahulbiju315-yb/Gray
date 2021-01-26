@@ -10,6 +10,8 @@
 #include "imgui.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
+
+
 namespace Gray
 {
 	Window Window::singleton;
@@ -56,7 +58,8 @@ namespace Gray
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-		glfwWindow = glfwCreateWindow(width, height, title.c_str(), glfwGetPrimaryMonitor(), nullptr);
+		//glfwGetPrimaryMonitor()
+		glfwWindow = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 
 		if (!glfwWindow)
 		{
@@ -65,10 +68,11 @@ namespace Gray
 			return ;
 		}
 
+
 		glfwMakeContextCurrent(glfwWindow);
 		glfwSetFramebufferSizeCallback(glfwWindow, FrameBufferSizeCallback);
 		InitGlew();
-
+		glfwSwapInterval(1);
 
 
 		// During init, enable debug output
@@ -181,6 +185,12 @@ namespace Gray
 
 		glfwSetWindowCloseCallback(glfwWindow, [](GLFWwindow* window) 
 			{
+				if (imLoadThread.joinable())
+					imLoadThread.join();
+
+				if (modelLoadThread.joinable())
+					modelLoadThread.join();
+
 				Callbacks& callbacks =  *(Callbacks*)(glfwGetWindowUserPointer(window));
 				WindowClosedEvent event;
 				callbacks.PropogateEvent(event, EventType::WindowClosed);

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Gray/Util/ResourceManager.h"
 #include "NoCopy.h"
 #include "Shared.h"
 #include "WeakRef.h"
+#include "Gray/Image/Image.h"
 
 namespace Gray
 {
@@ -21,7 +21,7 @@ namespace Gray
 	class Texture
 	{
 	public:
-		void LoadTextureFrom(unsigned char* data, int width, int height, int nrChannels);
+		void LoadTextureFrom(const Image& image);
 		bool LoadTexture(const std::string& path, bool flip, int internalFormat = GL_RGBA, int externalFormat = GL_RGBA);
 		void LoadEmptyTexture(int width, int height, int internalFormat = GL_RGBA, int externalFormat = GL_RGBA);
 		void LoadDepthTexture(int width, int height);

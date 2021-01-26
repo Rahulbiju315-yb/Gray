@@ -43,6 +43,7 @@ namespace Gray
 
 			//Window redraw
 			window->OnUpdate();
+
 		}
 
 	}

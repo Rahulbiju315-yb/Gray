@@ -22,6 +22,7 @@ namespace Gray
 		std::tuple<float, float> GetYawPtich() const;
 
 		const glm::vec3& GetDir() const;
+		
 	protected:
 		glm::mat4 model;
 		glm::vec3 pos, scale;

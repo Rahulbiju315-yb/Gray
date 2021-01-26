@@ -16,10 +16,10 @@ namespace Gray
 		void GenerateFlatSurface(int width, int height, float delta);
 		void GenerateUsingHMap(int width, int height, float delta, const std::string& path);
 		void Render(const Shader& shader);
+
 	private:
 		NoCopy<VertexArray> va;
 		NoCopy<IndexBuffer> ib;
-
 		NoCopy<VertexBuffer> vb;
 	};
 }

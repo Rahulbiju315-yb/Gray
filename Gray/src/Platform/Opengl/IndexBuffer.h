@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Gray/Util/ResourceManager.h"
 #include "Shared.h"
 #include "NoCopy.h"
 #include "WeakRef.h"
@@ -15,7 +14,7 @@ namespace Gray
 		void Unbind() const;
 		bool IsBound() const;
 
-		void LoadBufferData(uint indices[], int count);
+		void LoadBufferData(const uint* indices, int count);
 
 		int GetCount() const; 
 		uint GetID() const;

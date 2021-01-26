@@ -3,6 +3,7 @@
 #include "Gray/Graphics/Surface.h"
 #include "Gray/Graphics/Camera.h"
 #include "Gray/Graphics/Source/CameraSource.h"
+#include "Gray/Graphics/Source/StaticSource.h"
 #include "glm/glm.hpp"
 #include "Gray/TempUtil.h"
 #include "Gray/Graphics/Skybox.h"
@@ -36,7 +37,17 @@ namespace Test
 
 			auto source = std::make_unique<Gray::CameraSource>(&camera);
 			int lindex = lightManager.CreateLight(Gray::LightType::PointLight);
-			lightManager.GetLightSource(lindex, Gray::LightType::PointLight).source = std::move(source);
+			Gray::LightSource& light1 = lightManager.GetLightSource(lindex, Gray::LightType::PointLight); 
+			light1.source = std::move(source);
+			light1.color.SetAmbient(glm::vec3(0.5f));
+
+			auto source2 = std::make_unique<Gray::StaticSource>(glm::vec3(0), glm::vec3(0, -1, 1));
+			lindex = lightManager.CreateLight(Gray::LightType::DirectionalLight);
+			Gray::LightSource& light2 = lightManager.GetLightSource(lindex, Gray::LightType::DirectionalLight); 
+			light2.source = std::move(source2);
+			light2.color.SetAmbient(glm::vec3(0.2f));
+
+
 
 			surfaceShader->SetUniform("hMap", 1);
 			surfaceShader->SetUniform("material.diffuse", 2);

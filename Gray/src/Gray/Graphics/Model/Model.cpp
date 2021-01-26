@@ -3,6 +3,7 @@
 
 #include "Platform/Opengl/Texture.h"
 #include "Gray/Graphics/Resource/ResourceManager.h"
+#include "Gray/Mesh/Vertex.h"
 
 namespace Gray
 {
@@ -36,83 +37,83 @@ namespace Gray
 		return path;
 	}
 
-	std::vector<Mesh>::iterator Model::begin()
+	std::vector<ModelMesh>::iterator Model::begin()
 	{
 		return meshes.begin();
 	}
 
-	std::vector<Mesh>::iterator Model::end()
+	std::vector<ModelMesh>::iterator Model::end()
 	{
 		return  meshes.end();
 	}
 
-	std::vector<float> Model::LoadVertices(aiMesh* mesh)
+	MeshData Model::LoadMeshData(aiMesh* mesh)
 	{
-		auto vertices{ std::vector<float>() };
+		MeshData meshD;
+		meshD.vertices.reserve((size_t)mesh->mNumVertices * 8);
 
-		vertices.reserve((size_t)mesh->mNumVertices * 8);
-
+		Vertex v;
+		 
+		// Loading vertices
+		bool hasNormals = (mesh->mNormals != nullptr);
 		for (uint i = 0; i < mesh->mNumVertices; i++)
 		{
-			float px = mesh->mVertices[i].x;
-			float py = mesh->mVertices[i].y;
-			float pz = mesh->mVertices[i].z;
+			v.pos = glm::vec3(
+				mesh->mVertices[i].x,
+				mesh->mVertices[i].y,
+				mesh->mVertices[i].z
+			);
 
-			vertices.push_back(px);
-			vertices.push_back(py);
-			vertices.push_back(pz);
-			
-			if (mesh->mNormals)
+
+			if (hasNormals)
 			{
-				float nx = mesh->mNormals[i].x;
-				float ny = mesh->mNormals[i].y;
-				float nz = mesh->mNormals[i].z;
-
-				vertices.push_back(nx);
-				vertices.push_back(ny);
-				vertices.push_back(nz);
+				v.normal = glm::vec3(
+					mesh->mNormals[i].x,
+					mesh->mNormals[i].y,
+					mesh->mNormals[i].z
+				);
 			}
 			else
 			{
-				vertices.push_back(1);
-				vertices.push_back(1);
-				vertices.push_back(1);
+				v.normal = glm::vec3(0);
 			}
+
 			if (mesh->mTextureCoords[0])
 			{
-				vertices.push_back((mesh->mTextureCoords[0][i]).x);
-				vertices.push_back((mesh->mTextureCoords[0][i]).y);
+				v.texCoord = glm::vec2(
+					(mesh->mTextureCoords[0][i]).x,
+					(mesh->mTextureCoords[0][i]).y
+				);
 			}
 			else
 			{
-				vertices.push_back(0);
-				vertices.push_back(0);
+				v.texCoord = glm::vec2(0);
 			}
+
+			meshD.vertices.push_back(v);
 		}
 
-		return vertices;
-	}
-
-	std::vector<uint> Model::LoadIndices(aiMesh* mesh)
-	{
-		auto indices{ std::vector<uint>() };
-		
-		auto size{ size_t(0) };
+		// Loading faces
+		int size = 0;
 		for (uint i = 0; i < mesh->mNumFaces; i++)
 		{
 			size += mesh->mFaces[i].mNumIndices;
 		}
-		indices.reserve(size);
+		meshD.faces.reserve(size / 3);
 
 		for (uint i = 0; i < mesh->mNumFaces; i++)
 		{
 			auto face = mesh->mFaces[i];
-			for (uint j = 0; j < face.mNumIndices; j++)
+			for (uint j = 0; j < face.mNumIndices; j+=3)
 			{
-				indices.push_back(face.mIndices[j]);
+				meshD.faces.push_back(Face{
+					face.mIndices[j],
+					face.mIndices[j + 1],
+					face.mIndices[j + 2]
+				});
 			}
 		}
-		return indices;
+		return meshD;
 	}
 
 	void Model::ProcessNode(aiNode* node, const aiScene* scene, bool flipTextures)
@@ -132,20 +133,19 @@ namespace Gray
 	
 	void Model::CreateMesh(aiMesh* mesh, const aiScene* scene, bool flipTextures)
 	{
-		std::vector<float> vertices = LoadVertices(mesh);
-		std::vector<uint> indices = LoadIndices(mesh);
+		MeshData meshD = LoadMeshData(mesh);
 
-		Mesh grayMesh;
-		grayMesh.material = materials[mesh->mMaterialIndex]; 
+		ModelMesh modelMesh;
+		modelMesh.material = materials[mesh->mMaterialIndex]; 
 
 		BufferLayout bl;
 		bl.Push<float>(3); // Position
 		bl.Push<float>(3); // Normal
 		bl.Push<float>(2); // Texture Coords
 
-		meshes.push_back(std::move(grayMesh));
-		meshes.back().SetupMesh(&(vertices[0]), (uint)vertices.size(),
-								&(indices[0]), (uint)indices.size(), bl); 
+		modelMesh.SetupMesh(meshD, bl);
+
+		meshes.push_back(modelMesh);
 	}
 
 	void Model::ProcessTextures(aiMaterial* material, Material& newMat, aiTextureType type, bool flipTextures)

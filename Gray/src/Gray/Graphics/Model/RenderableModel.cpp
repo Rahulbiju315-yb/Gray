@@ -1,11 +1,12 @@
 #include "grpch.h"
 #include "RenderableModel.h"
+#include "ModelMesh.h"
 #include "Gray/Graphics/Resource/ResourceManager.h"
 #include "Platform/Opengl/Renderer.h"
 
 namespace Gray
 {
-	bool GroupByMaterialComparator(const Mesh& m1, const Mesh& m2);
+	bool GroupByMaterialComparator(const ModelMesh& m1, const ModelMesh& m2);
 
 	uint boundMaterialID;
 	RenderableModel::RenderableModel(): n_instances(0)
@@ -67,7 +68,7 @@ namespace Gray
 
 		BufferLayout layout;
 		layout.Push<float>(3);
-		for (Mesh& mesh : model)
+		for (ModelMesh& mesh : model)
 		{
 			mesh.renderData.va->SetAttribPointers(*vb, layout);
 			uint lastAttrib = mesh.renderData.va->GetAttribCount() - 1;
@@ -120,7 +121,7 @@ namespace Gray
 		emissive->Bind(3);
 	}
 
-	bool GroupByMaterialComparator(const Mesh& m1, const Mesh& m2)
+	bool GroupByMaterialComparator(const ModelMesh& m1, const ModelMesh& m2)
 	{
 		return m1.material.GetID() < m2.material.GetID();
 	}

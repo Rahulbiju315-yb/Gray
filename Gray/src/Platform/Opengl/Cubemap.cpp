@@ -36,7 +36,9 @@ namespace Gray
 		for (unsigned int i = 0; i < 6; i++)
 		{
 			Image image;
-			LoadImage((path + faces[i] + ext), image);
+			image.path = path + faces[i] + ext;
+			LoadImage(image);
+
 			glTexImage2D(
 				GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
 				0, GL_RGB, image.width, image.height, 0, GL_RGB, GL_UNSIGNED_BYTE, image.data

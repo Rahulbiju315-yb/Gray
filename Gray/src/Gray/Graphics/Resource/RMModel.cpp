@@ -13,8 +13,6 @@ namespace Gray
 	bool model_isExec = false;
 	int modelLoadIndex = -1;
 
-	std::thread modelLoadThread;
-
 	bool IsModelLoaded(const std::string& path)
 	{
 		for (int i = 0; i < models.size(); i++)
@@ -37,7 +35,7 @@ namespace Gray
 		return Model();
 	}
 
-	void ImportScene(std::string path)
+	void LoadModelJob(std::string path)
 	{
 		loadedScene = aiImportFile(path.c_str(), aiProcess_Triangulate | aiProcess_FlipUVs);
 
@@ -57,9 +55,11 @@ namespace Gray
 			modelLoadIndex = 0;
 	}
 
+
+
 	// tries loading the given model m with the scene that has been loaded.
 	// returns true if success.
-	bool TryLoadSceneForModel(Model& m)
+	bool TryLoadModel(Model& m)
 	{
 		if (model_isExec)
 			return false;
@@ -86,25 +86,25 @@ namespace Gray
 		
 		if (modelLoadIndex == modelFilePaths.size())
 		{
-			modelLoadIndex = -1;
-			modelFilePaths.clear();
+			ClearModelLoadList();
 			return ret;
 		}
 
 		assert(modelLoadIndex < modelFilePaths.size());
 
 		model_isExec = true;
-		modelLoadThread = std::thread(ImportScene, modelFilePaths[modelLoadIndex]);
+		modelLoadThread = std::thread(LoadModelJob, modelFilePaths[modelLoadIndex]);
 		return ret;
 	}
 
-	// Waits for model loading to complete, if any is taking place.
-	// It then proceeds to free up loadedScene.
-	void CancelModelLoading()
+	void FinishModelLoad()
 	{
 		if (modelLoadThread.joinable())
 			modelLoadThread.join();
+	}
 
+	void ClearModelLoadList()
+	{
 		if(loadedScene)
 			aiReleaseImport(loadedScene);
 

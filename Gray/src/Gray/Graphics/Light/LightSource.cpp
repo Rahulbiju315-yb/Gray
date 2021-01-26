@@ -8,7 +8,7 @@ namespace Gray
 
 
 	LightSource::LightSource() :
-		color(Defaults::COLOR_WHITE), source(nullptr),
+		color(LightColor()), source(nullptr),
 		k0(Defaults::DEFAULT_K0), k1(Defaults::DEFAULT_K1), k2(Defaults::DEFAULT_K2),
 		index(0), type(LightType::PointLight)
 	{

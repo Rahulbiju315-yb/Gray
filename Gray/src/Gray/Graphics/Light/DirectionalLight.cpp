@@ -10,7 +10,7 @@ namespace Gray
 
 	void DirectionalLight::SetUniformsFor(const Shader& shader)
 	{
-		std::string prefix = "DirectionalLight[" + std::to_string(this->index) + "].";
+		std::string prefix = "dirLight[" + std::to_string(this->index) + "].";
 
 		shader.SetUniform(prefix + "ambient", color.GetAmbient());
 		shader.SetUniform(prefix + "diffuse", color.GetDiffuse());

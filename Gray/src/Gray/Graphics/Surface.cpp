@@ -21,7 +21,8 @@ namespace Gray
 		MeshData plane = GetPlaneMeshData(width, height, delta);
 		
 		Image hMap;
-		LoadImage(path, hMap);
+		hMap.path = path;
+		LoadImage(hMap);
 
 		for (int i = 0; i < width * height; i++)
 		{

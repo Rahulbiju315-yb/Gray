@@ -162,7 +162,7 @@
     <ClInclude Include="src\Gray\Graphics\Light\SpotLight.h" />
     <ClInclude Include="src\Gray\Graphics\LightingManager.h" />
     <ClInclude Include="src\Gray\Graphics\Materials.h" />
-    <ClInclude Include="src\Gray\Graphics\Model\Mesh.h" />
+    <ClInclude Include="src\Gray\Graphics\Model\ModelMesh.h" />
     <ClInclude Include="src\Gray\Graphics\Model\Model.h" />
     <ClInclude Include="src\Gray\Graphics\Model\RenderableModel.h" />
     <ClInclude Include="src\Gray\Graphics\Perspective.h" />
@@ -182,7 +182,6 @@
     <ClInclude Include="src\Gray\Image\Image.h" />
     <ClInclude Include="src\Gray\Log.h" />
     <ClInclude Include="src\Gray\TempUtil.h" />
-    <ClInclude Include="src\Gray\Util\ResourceManager.h" />
     <ClInclude Include="src\Gray\Window\Callbacks.h" />
     <ClInclude Include="src\Gray\Window\Window.h" />
     <ClInclude Include="src\imguiFileChooser\dirent.h" />
@@ -216,10 +215,11 @@
     <ClCompile Include="src\Gray\Graphics\Light\PointLight.cpp" />
     <ClCompile Include="src\Gray\Graphics\Light\SpotLight.cpp" />
     <ClCompile Include="src\Gray\Graphics\LightingManager.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Model\Mesh.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Model\ModelMesh.cpp" />
     <ClCompile Include="src\Gray\Graphics\Model\Model.cpp" />
     <ClCompile Include="src\Gray\Graphics\Model\RenderableModel.cpp" />
     <ClCompile Include="src\Gray\Graphics\RenderList.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Resource\ResourceManager.cpp" />
     <ClCompile Include="src\Gray\Graphics\Resource\RMModel.cpp" />
     <ClCompile Include="src\Gray\Graphics\Resource\RMShader.cpp" />
     <ClCompile Include="src\Gray\Graphics\Resource\RMTexture.cpp" />

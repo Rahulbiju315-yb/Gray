@@ -1,10 +1,12 @@
 #pragma once
 
-#include "Mesh.h"
+#include "ModelMesh.h"
 
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"
+#include "Gray/Mesh/MeshData.h"
+
 namespace Gray
 {
 
@@ -19,16 +21,15 @@ namespace Gray
 		void LoadScene(const aiScene* path);
 		std::string GetPath();
 
-		std::vector<Mesh>::iterator begin();
-		std::vector<Mesh>::iterator end();
+		std::vector<ModelMesh>::iterator begin();
+		std::vector<ModelMesh>::iterator end();
 
 	private:
-		std::vector<Mesh> meshes;
+		std::vector<ModelMesh> meshes;
 		std::vector<Material> materials;
 		std::string path; 
 
-		std::vector<float> LoadVertices(aiMesh* mesh);
-		std::vector<uint> LoadIndices(aiMesh* mesh);
+		MeshData LoadMeshData(aiMesh* mesh);
 
 		void ProcessNode(aiNode* node, const aiScene* scene, bool flipTextures);
 		void CreateMesh(aiMesh* mesh, const aiScene* scene, bool flipTextures);

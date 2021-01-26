@@ -1,12 +1,13 @@
 #include "grpch.h"
 #include "Defaults.h"
 #include "Platform/Opengl/Texture.h"
+#include "Gray/Image/Image.h"
 
 namespace Gray
 {
 	const glm::vec3 Defaults::DEFAULT_LIGHT_DIFFUSE = glm::vec3(0.5f);
 	const glm::vec3 Defaults::DEFAULT_LIGHT_AMBIENT = glm::vec3(0.0f);
-	const glm::vec3 Defaults::DEFAULT_LIGHT_SPECULAR = glm::vec3(1.0f);
+	const glm::vec3 Defaults::DEFAULT_LIGHT_SPECULAR = glm::vec3(0.2f);
 
 	const float Defaults::DEFAULT_K0 = 1.0f;
 	const float Defaults::DEFAULT_K1 = 0.7f;
@@ -28,7 +29,13 @@ namespace Gray
 			
 			unsigned char data[4] = {(unsigned char)r, (unsigned char)g, (unsigned char)b, 1};
 
-			blankTexture->LoadTextureFrom(data, 1, 1, 4);
+			Image image;
+			image.data = data;
+			image.width = 1;
+			image.height = 1;
+			image.nrChannels = 4;
+
+			blankTexture->LoadTextureFrom(image);
 		}
 		return blankTexture.Get();
 	}

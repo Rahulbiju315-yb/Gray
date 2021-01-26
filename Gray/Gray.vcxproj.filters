@@ -96,9 +96,6 @@
     <ClInclude Include="src\Gray\Graphics\Materials.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Model\Mesh.h">
-      <Filter>Gray\Graphics\Model</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Model\Model.h">
       <Filter>Gray\Graphics\Model</Filter>
     </ClInclude>
@@ -134,9 +131,6 @@
     </ClInclude>
     <ClInclude Include="src\Gray\TempUtil.h">
       <Filter>Gray</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Util\ResourceManager.h">
-      <Filter>Gray\Util</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Window\Callbacks.h">
       <Filter>Gray\Window</Filter>
@@ -204,6 +198,9 @@
     <ClInclude Include="src\Gray\Mesh\Vertex.h" />
     <ClInclude Include="src\Gray\Mesh\MeshData.h" />
     <ClInclude Include="src\Gray\Graphics\Surface.h" />
+    <ClInclude Include="src\Gray\Graphics\Model\ModelMesh.h">
+      <Filter>Gray\Graphics\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -235,9 +232,6 @@
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\LightingManager.cpp">
       <Filter>Gray\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Model\Mesh.cpp">
-      <Filter>Gray\Graphics\Model</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Model\Model.cpp">
       <Filter>Gray\Graphics\Model</Filter>
@@ -313,5 +307,9 @@
     <ClCompile Include="src\Gray\Image\Image.cpp" />
     <ClCompile Include="src\Gray\Mesh\MeshData.cpp" />
     <ClCompile Include="src\Gray\Graphics\Surface.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Model\ModelMesh.cpp">
+      <Filter>Gray\Graphics\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Resource\ResourceManager.cpp" />
   </ItemGroup>
 </Project>

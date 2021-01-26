@@ -4,6 +4,12 @@ namespace Gray
 {
 	struct Image
 	{
+		Image()
+			: data(nullptr), path(""), width(0), height(0), nrChannels(0)
+		{
+			
+		}
+
 		~Image();
 
 	    unsigned char* data;
@@ -13,9 +19,9 @@ namespace Gray
 		int nrChannels;
 	};
 	
-	void LoadImage(const std::string& path, Image& image);
-	float GetR(const Image& image, uint x, uint y);
-	float GetG(const Image& image, uint x, uint y);
-	float GetB(const Image& image, uint x, uint y);
+	void LoadImage(Image& image, bool flip=false);
+	float GetR(const Image& image, int x, int y);
+	float GetG(const Image& image, int x, int y);
+	float GetB(const Image& image, int x, int y);
 	
 }

@@ -5,25 +5,29 @@
 #include "Gray/Graphics/Materials.h"
 #include "Gray/Graphics/Model/Model.h"
 
+
 namespace Gray
 {
+	std::thread modelLoadThread;
+	std::thread imLoadThread;
+
 	const std::string DEFAULT_SHADER = "res/models/shaders/shader.shader";
 
-	//WeakRef<Texture> GetTexture(const std::string& path, bool flipTextures = true);
-	//void ReloadModel(const std::string& path, bool flipTexture);
 	void AddModelFileForImport(const std::string& path);
-	bool TryLoadSceneForModel(Model& m);
-	void CancelModelLoading();
-
-	Material CreateMaterial();
-
+	bool TryLoadModel(Model& m);
+	void FinishModelLoad();
+	void ClearModelLoadList();
 	bool IsModelLoaded(const std::string& path);
 	Model GetModel(const std::string& path);
+
 
 	Shared<Shader> RMGetShader(const std::string& path);
 	void RMReloadShaders();
 
 	WeakRef<Texture> GetTexture(const std::string& path);
 	bool ImageLoadDone();
+	void FinishTextureLoad();
+
+	Material CreateMaterial();
 
 }

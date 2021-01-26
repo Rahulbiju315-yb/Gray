@@ -12,7 +12,7 @@ namespace Gray
 	{
 	}
 
-	void VertexBuffer::LoadBufferData(void* data, size_t size)
+	void VertexBuffer::LoadBufferData(const void* data, size_t size)
 	{
 		CreateIfEmpty();
 

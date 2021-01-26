@@ -96,7 +96,9 @@ namespace Gray
 		renderList.clear();
 		lightMan.ClearList();
 
-		CancelModelLoading();
+		FinishModelLoad();
+		ClearModelLoadList();
+
 		dirtyModels.clear();
 
 		unique_shaders.clear();

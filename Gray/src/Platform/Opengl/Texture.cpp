@@ -1,9 +1,6 @@
 #include "grpch.h"
-
 #include "Texture.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "Platform/Opengl/stb_image.h"
 namespace Gray
 {
 
@@ -13,8 +10,10 @@ namespace Gray
 	}
 
 
-	void Texture::LoadTextureFrom(unsigned char* data, int width, int height, int nrChannels)
+	void Texture::LoadTextureFrom(const Image& image)
 	{
+		assert(image.data);
+
 		CreateIfEmpty();
 		Bind();
 
@@ -27,7 +26,7 @@ namespace Gray
 
 		exf = GL_RGBA;
 
-		if (nrChannels == 3)
+		if (image.nrChannels == 3)
 		{
 			inf = GL_RGB;
 		}
@@ -35,8 +34,8 @@ namespace Gray
 		{
 			inf = GL_RGBA;
 		}
-		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-		glTexImage2D(GL_TEXTURE_2D, 0, inf, width, height, 0, exf, GL_UNSIGNED_BYTE, data);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, inf, image.width, image.height, 0, exf, GL_UNSIGNED_BYTE, image.data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 		
 	}
@@ -46,18 +45,18 @@ namespace Gray
 		CreateIfEmpty();
 		Bind();
 
-		stbi_set_flip_vertically_on_load(flip);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		int width, height, nrChannels;
-		unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, STBI_rgb_alpha);
+		Image image;
+		image.path = path;
+		LoadImage(image, flip);
 
-		if (data)
+		if (image.data)
 		{
-			LoadTextureFrom(data, width, height, nrChannels);
+			LoadTextureFrom(image);
 		}
 		else
 		{
@@ -65,7 +64,6 @@ namespace Gray
 			return false;
 		}
 
-		stbi_image_free(data);
 		return true;
 	}
 
@@ -76,7 +74,6 @@ namespace Gray
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
 		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, externalFormat, GL_UNSIGNED_BYTE, nullptr);	
 	}
 

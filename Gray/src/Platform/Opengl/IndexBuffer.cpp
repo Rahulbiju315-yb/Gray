@@ -29,7 +29,7 @@ namespace Gray
 		return ID == boundIB_ID;
 	}
 
-	void IndexBuffer::LoadBufferData(uint indices[], int count)
+	void IndexBuffer::LoadBufferData(const uint* indices, int count)
 	{
 		CreateIfEmpty();
 

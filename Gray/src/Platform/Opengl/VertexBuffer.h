@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Gray/Util/ResourceManager.h"
 #include "NoCopy.h"
 #include "Shared.h"
 #include "WeakRef.h"
@@ -18,7 +17,7 @@ namespace Gray
 		size_t GetSize() { return size; }
 		uint GetID() { return ID; }
 
-		void LoadBufferData(void* data, size_t size);
+		void LoadBufferData(const void* data, size_t size);
 		void CopyBufferData(const VertexBuffer& src, uint rOffset, uint wOffset, size_t size);
 		void AppendBufferData(const VertexBuffer& src);
 	private:

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Gray/Util/ResourceManager.h"
 #include "Shared.h"
 #include "NoCopy.h"
 #include "WeakRef.h"

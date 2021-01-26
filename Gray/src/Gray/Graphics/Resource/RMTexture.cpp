@@ -14,7 +14,6 @@ namespace Gray
 	std::vector<WeakRef<Texture>>  llTextures;
 	std::vector<Image> imData;
 
-	std::thread imLoadThread;
 	bool isExec = false;
 	int loadIndex = 0;
 
@@ -39,7 +38,8 @@ namespace Gray
 		texturePaths.push_back(path);
 		
 		llTextures.push_back(WeakRef<Texture>(textures.back()));
-		Image image{ nullptr, path, 0, 0 };
+		Image image;
+		image.path = path;
 		imData.push_back(image);
 
 		if (loadIndex == -1)
@@ -48,17 +48,10 @@ namespace Gray
 		return WeakRef<Texture>(textures.back());
 	}
 
-	void Load(Image& image) 
+	void LoadTextureJob(Image& image) 
 	{ 
-		image.data = stbi_load(image.path.c_str(), &(image.width), &(image.height), 
-			&image.nrChannels, STBI_rgb_alpha);
+		LoadImage(image);
 		loadIndex++;
-
-		if (image.data)
-			GRAY_CORE_INFO("Succesfully loaded image " + image.path);
-		else
-			GRAY_CORE_WARN("Failed to load image " + image.path);
-
 		isExec = false;
 	}
 
@@ -81,8 +74,8 @@ namespace Gray
 			for (int i = 0; i < imData.size(); i++)
 			{
 				Image& im = imData[i];
-				llTextures[i]->LoadTextureFrom(im.data, im.width, im.height, im.nrChannels);
-				stbi_image_free(im.data);
+				if(im.data)
+					llTextures[i]->LoadTextureFrom(im);
 			}
 
 			imData.clear();
@@ -94,10 +87,22 @@ namespace Gray
 		// The previous image loading has finished. Load the next one in the list.
 		Image& im = imData[loadIndex];
 		isExec = true;
-		imLoadThread = std::thread(Load, std::ref(im));
-		llTextures[loadIndex]->LoadTextureFrom(im.data, im.width, im.height, im.nrChannels);
+		imLoadThread = std::thread(LoadTextureJob, std::ref(im));
 
 		return false;
+	}
+
+	void FinishTextureLoad()
+	{
+		if (imLoadThread.joinable())
+			imLoadThread.join();
+	}
+
+	void ClearImageLoadList()
+	{
+		FinishTextureLoad();
+		llTextures.clear();
+		imData.clear();
 	}
 
 	Material CreateMaterial()
