@@ -26,7 +26,6 @@ namespace Gray
 		void SetDiffuse(glm::vec3 diffuse) { this->diffuse = diffuse; }
 		void SetSpecular(glm::vec3 specular) { this->specular = specular; }
 
-	private:
 		glm::vec3 ambient;
 		glm::vec3 diffuse;
 		glm::vec3 specular;

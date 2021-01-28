@@ -188,6 +188,33 @@ namespace Gray
 		return meshD;
 	}
 
+	MeshData GetPyramidMeshData()
+	{
+		MeshData meshD;
+		
+		glm::vec3 p1 = {-0.5f, 0   , -0.5f};
+		glm::vec3 p2 = {+0.5f, 0   , -0.5f};
+		glm::vec3 p3 = {+0.5f, 0   , +0.5f};
+		glm::vec3 p4 = {-0.5f, 0   , +0.5f};
+		glm::vec3 p5 = { 0   , 1.0f,     0};
+
+		
+		meshD.vertices.push_back({ p1, {0, 0, 0}, {0, 0} });
+		meshD.vertices.push_back({ p2, {0, 0, 0}, {0, 0} });
+		meshD.vertices.push_back({ p3, {0, 0, 0}, {0, 0} });
+		meshD.vertices.push_back({ p4, {0, 0, 0}, {0, 0} });
+		meshD.vertices.push_back({ p5, {0, 0, 0}, {0, 0} });
+
+		meshD.faces.push_back({0, 1, 2});
+		meshD.faces.push_back({2, 3, 0});
+
+		meshD.faces.push_back({ 0, 1, 4 });
+		meshD.faces.push_back({ 1, 2, 4 });
+		meshD.faces.push_back({ 2, 3, 4 });
+
+		return meshD;
+	}
+
 	void CalculateNormals(MeshData& mesh2d)
 	{
 		for (Face& face : mesh2d.faces)

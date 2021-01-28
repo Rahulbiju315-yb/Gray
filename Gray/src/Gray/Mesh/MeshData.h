@@ -12,6 +12,7 @@ namespace Gray
 	MeshData GetPlaneMeshData(int width, int height, float delta);
 	MeshData GetUnitCube1MeshData();
 	MeshData GetUnitCube2MeshdData();
+	MeshData GetPyramidMeshData();
 
 	void CalculateNormals(MeshData& mesh2d);
 
