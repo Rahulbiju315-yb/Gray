@@ -3,24 +3,27 @@
 
 namespace Gray
 {
+	static const uint POINT_MAX_LIMIT = 10;
+
 	PointLight::PointLight()
+		: attenuation(1.0f, 0, 0),
+		  pos(0)
 	{
-		type = LightType::PointLight;
 	}
 
-	void PointLight::SetUniformsFor(const Shader& shader)
+	void PointLight::SetUniformsFor(const Shader& shader, uint index)
 	{
-		std::string prefix = "pointLight[" + std::to_string(this->index) + "].";
+		std::string prefix = "pointLight[" + std::to_string(index) + "].";
 	
-		shader.SetUniform(prefix + "pos", source->GetPos());
+		shader.SetUniform(prefix + "pos", pos);
 			  
 		shader.SetUniform(prefix + "ambient", color.GetAmbient());
 		shader.SetUniform(prefix + "diffuse", color.GetDiffuse());
 		shader.SetUniform(prefix + "specular", color.GetSpecular());
 					  
-		shader.SetUniform(prefix + "const_term", k0);
-		shader.SetUniform(prefix + "lin_term", k1);
-		shader.SetUniform(prefix + "quad_term", k2);
+		shader.SetUniform(prefix + "const_term", attenuation.x);
+		shader.SetUniform(prefix + "lin_term", attenuation.y);
+		shader.SetUniform(prefix + "quad_term", attenuation.z);
 	}
 
 }

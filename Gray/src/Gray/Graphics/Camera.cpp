@@ -34,7 +34,7 @@ namespace Gray
 		UpdateView();
 	}
 
-	void Camera::OnImguiRender()
+	void Camera::PostRender()
 	{
 		glm::vec3 pos = GetPos();
 		glm::vec2 yawPitch = GetYawPitch();

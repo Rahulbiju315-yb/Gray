@@ -30,9 +30,9 @@ void main()
 
 #version 330 core
 
-#define NR_SPOT_LIGHTS 4
-#define NR_POINT_LIGHTS 10
-#define NR_DIRECTIONAL_LIGHTS 1
+#define NR_SPOT_LIGHTS 40
+#define NR_POINT_LIGHTS 50
+#define NR_DIRECTIONAL_LIGHTS 10
 
 in vec2 TexCoord;
 in vec3 Normal;
@@ -116,7 +116,7 @@ vec4 CalcPointLight(PointLight source, vec3 normal, vec3 viewDir)
 
 	vec3 reflectDir = normalize(reflect(-sourceDir, normal));
 	float spec = pow(max(dot(reflectDir, viewDir), 0), material.shininess);
-	specular = texture(material.specular, TexCoord) * spec * vec4(source.specular, 0);
+	specular = texture(material.specular, TexCoord) * spec * vec4(source.specular, 1);
 
 	return (ambient + diffuse + specular) * attenuation;
 }
@@ -166,7 +166,7 @@ vec4 CalcSpotLight(SpotLight source, vec3 normal, vec3 viewDir)
 	diffuse *= intensity;
 	specular *= intensity;
 
-	return (0 + diffuse + specular) * attenuation;
+	return (ambient + diffuse + specular) * attenuation;
 
 }
 void main()
@@ -186,7 +186,7 @@ void main()
 
 	vec4 emission = texture(material.emission, TexCoord);
 
-	FragColor = vec4(lighting);
+	FragColor = vec4(lighting + emission);
 	FragColor.a = 1;
 	//FragColor = vec4(1.0f);
 }

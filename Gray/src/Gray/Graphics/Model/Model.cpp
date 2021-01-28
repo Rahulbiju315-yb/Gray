@@ -11,12 +11,12 @@ namespace Gray
 	void Model::SetPath(const std::string path)
 	{
 		this->path = path;
-		AddModelFileForImport(path);
+		RM_AddModelFileForImport(path);
 	}
 
 	bool Model::TryToLoadModel()
 	{
-		return TryLoadSceneForModel(*this);
+		return RM_TryLoadModel(*this);
 	}
 
 	void Model::LoadScene(const aiScene* scene)
@@ -182,7 +182,7 @@ namespace Gray
 
 		WeakRef<Texture> tex;
 		std::string fnameTexture = std::string(aiPath.C_Str());
-		tex = GetTexture(dir + "/" + fnameTexture);
+		tex = RM_GetTexture(dir + "/" + fnameTexture);
 		(newMat.*addToMat)(tex);
 		
 	}
@@ -196,7 +196,7 @@ namespace Gray
 		{
 			aiMaterial* material = scene->mMaterials[i];
 
-			materials.push_back(CreateMaterial());
+			materials.push_back(RM_CreateMaterial());
 			ProcessTextures(material, materials[i], aiTextureType_DIFFUSE, flipTextures);
 			ProcessTextures(material, materials[i], aiTextureType_SPECULAR, flipTextures);
 			ProcessTextures(material, materials[i], aiTextureType_EMISSIVE, flipTextures);

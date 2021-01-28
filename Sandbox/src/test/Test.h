@@ -10,8 +10,11 @@ namespace Test
 	{
 	public :
 		virtual Gray::Scene* OnInit() = 0;
-		virtual void OnUpdate(float dt) = 0;
-		virtual void OnImguiRender(float dt) {}
+
+		virtual void PreRender(float dt) {}
+		virtual void Render(float dt) = 0;
+		virtual void PostRender(float dt) {}
+
 		virtual void OnEvent(Gray::Event& e, Gray::EventType type) {}
 	};
 }

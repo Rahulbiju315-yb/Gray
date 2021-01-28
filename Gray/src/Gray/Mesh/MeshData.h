@@ -10,7 +10,9 @@ namespace Gray
 	};
 
 	MeshData GetPlaneMeshData(int width, int height, float delta);
-	MeshData GetUnitCubeMeshData();
+	MeshData GetUnitCube1MeshData();
+	MeshData GetUnitCube2MeshdData();
+
 	void CalculateNormals(MeshData& mesh2d);
 
 	size_t SizeOfVertices(const MeshData& meshD);

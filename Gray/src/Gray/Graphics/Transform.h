@@ -23,7 +23,7 @@ namespace Gray
 
 		const glm::vec3& GetDir() const;
 		
-	protected:
+	private:
 		glm::mat4 model;
 		glm::vec3 pos, scale;
 

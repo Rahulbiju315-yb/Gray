@@ -11,6 +11,8 @@
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
 
+#include "Gray/Graphics/Resource/ResourceManager.h"
+#include "ImGuizmo/ImGuizmo.h"
 
 namespace Gray
 {
@@ -82,7 +84,7 @@ namespace Gray
 		SetCallbacks();
 	}
 
-	void Window::OnUpdate()
+	void Window::Render()
 	{
 		PollEvents();
 		glfwSwapBuffers(glfwWindow);
@@ -129,6 +131,7 @@ namespace Gray
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+		ImGuizmo::BeginFrame();
 	}
 
 	void Window::InitImgui()
@@ -185,14 +188,10 @@ namespace Gray
 
 		glfwSetWindowCloseCallback(glfwWindow, [](GLFWwindow* window) 
 			{
-				if (imLoadThread.joinable())
-					imLoadThread.join();
-
-				if (modelLoadThread.joinable())
-					modelLoadThread.join();
-
 				Callbacks& callbacks =  *(Callbacks*)(glfwGetWindowUserPointer(window));
 				WindowClosedEvent event;
+
+				FinishAllLoads();
 				callbacks.PropogateEvent(event, EventType::WindowClosed);
 			});
 

@@ -17,7 +17,7 @@ namespace Test
 
 		Gray::Scene* OnInit() { return nullptr; }
 
-		void OnUpdate(float dt)
+		void Render(float dt)
 		{
 			if (!cursorEn)
 			{
@@ -27,9 +27,9 @@ namespace Test
 			skybox.RenderSkybox(camera, *shader);
 		}
 
-		void OnImguiRender(float dt) override
+		void PostRender(float dt) override
 		{
-			camera.OnImguiRender();
+			camera.PostRender();
 		}
 
 		void OnEvent(Gray::Event& e, Gray::EventType type)

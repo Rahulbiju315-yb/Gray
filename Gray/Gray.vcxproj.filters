@@ -16,14 +16,17 @@
     <Filter Include="Gray\Graphics\Model">
       <UniqueIdentifier>{D8563826-44B8-1534-CD25-5CE639864CF3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Gray\Graphics\Resource">
+      <UniqueIdentifier>{AF08130A-9B02-3C5C-846F-D26C7008A2C8}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Gray\Graphics\Source">
       <UniqueIdentifier>{98AE4BFB-843D-D5C4-2D5C-E9BF19CAE56A}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Gray\Graphics\Uniforms">
-      <UniqueIdentifier>{5AEEAA6B-46E8-D3BD-2F55-6ACE1BEE392A}</UniqueIdentifier>
+    <Filter Include="Gray\Image">
+      <UniqueIdentifier>{4AB4478E-366C-89DB-9F73-62378B4A24CC}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Gray\Util">
-      <UniqueIdentifier>{A5FE84BE-1169-3935-5AA7-EADAC650178A}</UniqueIdentifier>
+    <Filter Include="Gray\Mesh">
+      <UniqueIdentifier>{145D80BE-80C7-3435-C905-E6DA35AF128A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Gray\Window">
       <UniqueIdentifier>{3F2AA577-ABDF-1D6D-34D4-1744A0881471}</UniqueIdentifier>
@@ -81,17 +84,11 @@
     <ClInclude Include="src\Gray\Graphics\Light\LightColor.h">
       <Filter>Gray\Graphics\Light</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Light\LightSource.h">
-      <Filter>Gray\Graphics\Light</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Light\PointLight.h">
       <Filter>Gray\Graphics\Light</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Light\SpotLight.h">
       <Filter>Gray\Graphics\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\LightingManager.h">
-      <Filter>Gray\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Materials.h">
       <Filter>Gray\Graphics</Filter>
@@ -99,13 +96,25 @@
     <ClInclude Include="src\Gray\Graphics\Model\Model.h">
       <Filter>Gray\Graphics\Model</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Model\ModelMesh.h">
+      <Filter>Gray\Graphics\Model</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Model\RenderableModel.h">
       <Filter>Gray\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Perspective.h">
+      <Filter>Gray\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Graphics\RenderList.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Resource\ResourceManager.h">
+      <Filter>Gray\Graphics\Resource</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Scene.h">
+      <Filter>Gray\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Skybox.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Source\CameraSource.h">
@@ -120,14 +129,23 @@
     <ClInclude Include="src\Gray\Graphics\Source\StaticSource.h">
       <Filter>Gray\Graphics\Source</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Graphics\Surface.h">
+      <Filter>Gray\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Transform.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Transformable.h">
-      <Filter>Gray\Graphics</Filter>
+    <ClInclude Include="src\Gray\Image\Image.h">
+      <Filter>Gray\Image</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Log.h">
       <Filter>Gray</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Mesh\MeshData.h">
+      <Filter>Gray\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Mesh\Vertex.h">
+      <Filter>Gray\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\TempUtil.h">
       <Filter>Gray</Filter>
@@ -139,6 +157,9 @@
       <Filter>Gray\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Opengl\BufferLayout.h">
+      <Filter>Platform\Opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Opengl\Cubemap.h">
       <Filter>Platform\Opengl</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Opengl\FrameBuffer.h">
@@ -187,19 +208,18 @@
     <ClInclude Include="src\imguiFileChooser\ImGuiFileDialogConfig.h">
       <Filter>imguiFileChooser</Filter>
     </ClInclude>
-    <ClInclude Include="src\imguiFileChooser\dirent.h" />
-    <ClInclude Include="src\Platform\Opengl\CubeMap.h" />
-    <ClInclude Include="src\Gray\Graphics\Skybox.h" />
-    <ClInclude Include="src\Gray\Graphics\Perspective.h" />
-    <ClInclude Include="src\Gray\Graphics\Resource\ResourceManager.h">
-      <Filter>Gray\Graphics</Filter>
+    <ClInclude Include="src\imguiFileChooser\dirent.h">
+      <Filter>imguiFileChooser</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Image\Image.h" />
-    <ClInclude Include="src\Gray\Mesh\Vertex.h" />
-    <ClInclude Include="src\Gray\Mesh\MeshData.h" />
-    <ClInclude Include="src\Gray\Graphics\Surface.h" />
-    <ClInclude Include="src\Gray\Graphics\Model\ModelMesh.h">
-      <Filter>Gray\Graphics\Model</Filter>
+    <ClInclude Include="src\ImGuizmo\ImCurveEdit.h" />
+    <ClInclude Include="src\ImGuizmo\ImGradient.h" />
+    <ClInclude Include="src\ImGuizmo\ImGuizmo.h" />
+    <ClInclude Include="src\ImGuizmo\ImZoomSlider.h" />
+    <ClInclude Include="src\ImGuizmo\ImSequencer.h" />
+    <ClInclude Include="src\Gray\Graphics\DebugCube.h" />
+    <ClInclude Include="src\Gray\Mesh\Mesh.h" />
+    <ClInclude Include="src\Gray\Graphics\Light\LightingManager.h">
+      <Filter>Gray\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -221,19 +241,16 @@
     <ClCompile Include="src\Gray\Graphics\Light\DirectionalLight.cpp">
       <Filter>Gray\Graphics\Light</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Light\LightSource.cpp">
-      <Filter>Gray\Graphics\Light</Filter>
-    </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Light\PointLight.cpp">
       <Filter>Gray\Graphics\Light</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Light\SpotLight.cpp">
       <Filter>Gray\Graphics\Light</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\LightingManager.cpp">
-      <Filter>Gray\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Model\Model.cpp">
+      <Filter>Gray\Graphics\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Model\ModelMesh.cpp">
       <Filter>Gray\Graphics\Model</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Model\RenderableModel.cpp">
@@ -242,7 +259,22 @@
     <ClCompile Include="src\Gray\Graphics\RenderList.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Resource\RMModel.cpp">
+      <Filter>Gray\Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Resource\RMShader.cpp">
+      <Filter>Gray\Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Resource\RMTexture.cpp">
+      <Filter>Gray\Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Resource\ResourceManager.cpp">
+      <Filter>Gray\Graphics\Resource</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Scene.cpp">
+      <Filter>Gray\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Skybox.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Source\CameraSource.cpp">
@@ -254,11 +286,20 @@
     <ClCompile Include="src\Gray\Graphics\Source\StaticSource.cpp">
       <Filter>Gray\Graphics\Source</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gray\Graphics\Surface.cpp">
+      <Filter>Gray\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Transform.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gray\Image\Image.cpp">
+      <Filter>Gray\Image</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gray\Log.cpp">
       <Filter>Gray</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Mesh\MeshData.cpp">
+      <Filter>Gray\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\TempUtil.cpp">
       <Filter>Gray</Filter>
@@ -268,6 +309,9 @@
     </ClCompile>
     <ClCompile Include="src\Gray\Window\Window.cpp">
       <Filter>Gray\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Opengl\Cubemap.cpp">
+      <Filter>Platform\Opengl</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Opengl\FrameBuffer.cpp">
       <Filter>Platform\Opengl</Filter>
@@ -297,19 +341,17 @@
     <ClCompile Include="src\imguiFileChooser\ImGuiFileDialog.cpp">
       <Filter>imguiFileChooser</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\Opengl\CubeMap.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Skybox.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Resource\RMModel.cpp">
+    <ClCompile Include="src\ImGuizmo\ImCurveEdit.cpp" />
+    <ClCompile Include="src\ImGuizmo\ImGradient.cpp" />
+    <ClCompile Include="src\ImGuizmo\ImGuizmo.cpp" />
+    <ClCompile Include="src\ImGuizmo\ImSequencer.cpp" />
+    <ClCompile Include="src\Gray\Graphics\DebugCube.cpp" />
+    <ClCompile Include="src\Gray\Mesh\Mesh.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Light\LightingManager.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Resource\RMTexture.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Resource\RMShader.cpp" />
-    <ClCompile Include="src\Gray\Image\Image.cpp" />
-    <ClCompile Include="src\Gray\Mesh\MeshData.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Surface.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Model\ModelMesh.cpp">
-      <Filter>Gray\Graphics\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Resource\ResourceManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\ImGuizmo\.editorconfig" />
   </ItemGroup>
 </Project>

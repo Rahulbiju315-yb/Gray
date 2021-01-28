@@ -35,7 +35,7 @@ namespace Gray
 			float g = GetG(hMap, x, y);
 			float b = GetB(hMap, x, y);
 
-			float h = (r + g + b);
+			float h = (r + g + b) / 3.0;
 
 			v.pos.y = h;
 		}

@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "TempUtil.h"
 #include "Events/Input.h"
-
+#include "Platform/Opengl/Renderer.h"
 namespace Gray
 {
 	bool run = true;
@@ -31,18 +31,22 @@ namespace Gray
 		while (!window->ShouldBeClosed())
 		{
 			DeltaCursorUpdate();
+			ClearDepthColor();
 			
-			// Application update
 			float dt = GetDT();
-			OnUpdate(dt);
+			PreRender(dt);
 
-			// Imgui render
+			// Application update
+			
+			Render(dt);
+
 			window->BeginImgui();
-			OnImguiRender(dt);
+			PostRender(dt);
 			window->EndImgui();
 
+
 			//Window redraw
-			window->OnUpdate();
+			window->Render();
 
 		}
 
@@ -84,6 +88,4 @@ namespace Gray
 		mOX = mX;
 		mOY = mY;
 	}
-
-
 }

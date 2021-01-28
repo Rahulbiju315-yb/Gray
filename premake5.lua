@@ -18,6 +18,7 @@ IncludeDirs["dirent"] = "Gray/vendor/imgui/"
 IncludeDirs["glm"] = "Gray/vendor/glm/"
 IncludeDirs["glew"] = "Gray/vendor/glew/include/"
 IncludeDirs["assimp"] = "Gray/vendor/assimp/include/"
+IncludeDirs["imguizmo"] = "Gray/vendor/ImGuizmo/"
 
 include "Gray/vendor/glfw"
 include "Gray/vendor/imgui"

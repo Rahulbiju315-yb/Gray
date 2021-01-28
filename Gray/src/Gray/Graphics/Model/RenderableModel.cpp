@@ -19,13 +19,13 @@ namespace Gray
 	bool RenderableModel::SetPath(const std::string& path)
 	{
 		bool requiredToLoadModel = true;
-		if (!IsModelLoaded(path))
+		if (!RM_IsModelLoaded(path))
 		{
 			model.SetPath(path);
 		}
 		else
 		{
-			model = GetModel(path);
+			model = RM_GetModel(path);
 			requiredToLoadModel = false;
 		}
 

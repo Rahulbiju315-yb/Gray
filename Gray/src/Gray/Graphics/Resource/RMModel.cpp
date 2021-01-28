@@ -13,7 +13,8 @@ namespace Gray
 	bool model_isExec = false;
 	int modelLoadIndex = -1;
 
-	bool IsModelLoaded(const std::string& path)
+	std::thread modelLoadThread;
+	bool RM_IsModelLoaded(const std::string& path)
 	{
 		for (int i = 0; i < models.size(); i++)
 		{
@@ -23,7 +24,7 @@ namespace Gray
 		return false;
 	}
 
-	Model GetModel(const std::string& path)
+	Model RM_GetModel(const std::string& path)
 	{
 		for (int i = 0; i < models.size(); i++)
 		{
@@ -48,7 +49,7 @@ namespace Gray
 		model_isExec = false;
 	}
 
-	void AddModelFileForImport(const std::string& path)
+	void RM_AddModelFileForImport(const std::string& path)
 	{
 		modelFilePaths.push_back(path);
 		if (modelLoadIndex == -1)
@@ -59,7 +60,7 @@ namespace Gray
 
 	// tries loading the given model m with the scene that has been loaded.
 	// returns true if success.
-	bool TryLoadModel(Model& m)
+	bool RM_TryLoadModel(Model& m)
 	{
 		if (model_isExec)
 			return false;
@@ -86,7 +87,7 @@ namespace Gray
 		
 		if (modelLoadIndex == modelFilePaths.size())
 		{
-			ClearModelLoadList();
+			RM_ClearModelLoadList();
 			return ret;
 		}
 
@@ -97,13 +98,13 @@ namespace Gray
 		return ret;
 	}
 
-	void FinishModelLoad()
+	void RM_FinishModelLoad()
 	{
 		if (modelLoadThread.joinable())
 			modelLoadThread.join();
 	}
 
-	void ClearModelLoadList()
+	void RM_ClearModelLoadList()
 	{
 		if(loadedScene)
 			aiReleaseImport(loadedScene);

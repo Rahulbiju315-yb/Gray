@@ -19,24 +19,9 @@ namespace Gray
 
 	const Texture* Defaults::BlankTex(glm::vec3 color)
 	{
-		static NoCopy<Texture> blankTexture;
-		if (blankTexture->GetID() == 0)
-		{
-
-			int r = (int)(color.r);
-			int g = (int)(color.g);
-			int b = (int)(color.b);
-			
-			unsigned char data[4] = {(unsigned char)r, (unsigned char)g, (unsigned char)b, 1};
-
-			Image image;
-			image.data = data;
-			image.width = 1;
-			image.height = 1;
-			image.nrChannels = 4;
-
-			blankTexture->LoadTextureFrom(image);
-		}
-		return blankTexture.Get();
+		static NoCopy<Texture> blank;
+		if(blank->GetID())
+			blank->LoadEmptyTexture(1, 1);
+		return blank.Get();
 	}
 }

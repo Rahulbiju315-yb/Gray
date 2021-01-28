@@ -137,8 +137,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\test\TestLighting.h" />
     <ClInclude Include="src\test\AllTests.h" />
     <ClInclude Include="src\test\Test.h" />
+    <ClInclude Include="src\test\TestGizmo.h" />
     <ClInclude Include="src\test\TestModelLoading.h" />
     <ClInclude Include="src\test\TestOffscreen.h" />
     <ClInclude Include="src\test\TestSkybox.h" />

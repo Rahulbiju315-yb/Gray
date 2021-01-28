@@ -3,5 +3,9 @@
 
 namespace Gray
 {
-
+	void FinishAllLoads()
+	{
+		RM_FinishModelLoad();
+		RM_FinishTextureLoad();
+	}
 }

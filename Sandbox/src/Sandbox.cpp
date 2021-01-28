@@ -35,30 +35,36 @@ public:
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		test = std::make_unique<Test::TestModelLoading>();
+		test = std::make_unique<Test::TestLighting>();
 		scene = test->OnInit();
 	}
 
-	void OnImguiRender(float dt) override
+	void PreRender(float dt) override
 	{
-		if (scene)
-		{
-			scene->GetCamera().OnImguiRender();
-		}
-
-		Gray::FPSDebugInfo(dt);
-		test->OnImguiRender(dt);
+		test->PreRender(dt);
 	}
 
-	void OnUpdate(float dt) override
+	
+
+	void Render(float dt) override
 	{
-		Gray::ClearDepthColor();
 		if (!cursorEn && scene)
 		{
 			scene->GetCamera().UpdateLook();
 			scene->GetCamera().Move(dt);
 		}
-		test->OnUpdate(dt);
+		test->Render(dt);
+	}
+
+	void PostRender(float dt) override
+	{
+		if (scene)
+		{
+			scene->GetCamera().PostRender();
+		}
+
+		Gray::FPSDebugInfo(dt);
+		test->PostRender(dt);
 	}
 
 	void OnEvent(Gray::Event& e, Gray::EventType type) override

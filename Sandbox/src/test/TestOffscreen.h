@@ -32,7 +32,7 @@ namespace Test
 			// FrameBuffer setup
 			colorAttachment->LoadEmptyTexture(1200, 700, GL_RGB, GL_RGB);
 			depthAttachment->LoadDepthTexture(1200, 700);
-			debug = Gray::GetTexture("res/textures/matrix.jpg");
+			debug = Gray::RM_GetTexture("res/textures/matrix.jpg");
 
 			offScreen->AddAttachment(*colorAttachment, Gray::AttachmentType::Color);
 			offScreen->AddAttachment(*depthAttachment, Gray::AttachmentType::Depth);
@@ -55,10 +55,6 @@ namespace Test
 			int index = scene.CreateRModel();
 			scene.SetModelPath(index, GUN);
 
-			auto source = std::make_unique<Gray::CameraSource>(&scene.GetCamera());
-			index = scene.CreateLight(Gray::LightType::PointLight, std::move(source));
-			scene.GetLight(index, Gray::LightType::PointLight).SetAttenuation(1.0f, 0, 0);
-
 			scene.InitForRender();
 			scene.ReloadRModels(*this);
 			return &scene;
@@ -75,7 +71,7 @@ namespace Test
 			rmodel.SetInstanceOffsets(std::move(offsets));
 		}
 
-		void OnUpdate(float dt) override
+		void Render(float dt) override
 		{
 			if (scene.IsSceneComplete())
 			{
@@ -97,7 +93,7 @@ namespace Test
 			}
 		}
 
-		void OnImguiRender(float dt) override
+		void PostRender(float dt) override
 		{
 			KernelDebug();
 		}

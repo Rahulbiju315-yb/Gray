@@ -24,7 +24,7 @@ namespace Test
 			skyboxShader->SetUniform("projection", camera.GetProjection());
 
 			//Surface and surface shader init
-			surface.GenerateUsingHMap(200, 200, 0.1f, "res/textures/t3spec.jpg");
+			surface.GenerateUsingHMap(500, 500, 0.05f, "res/textures/t3spec.jpg");
 
 			surfaceShader->LoadProgram("res/shaders/shader.shader");
 
@@ -34,20 +34,6 @@ namespace Test
 
 			//hMapTexture->LoadTexture("res/textures/t3spec.jpg", true);
 			surfaceTexture->LoadTexture("res/textures/t1.jpg", false);
-
-			auto source = std::make_unique<Gray::CameraSource>(&camera);
-			int lindex = lightManager.CreateLight(Gray::LightType::PointLight);
-			Gray::LightSource& light1 = lightManager.GetLightSource(lindex, Gray::LightType::PointLight); 
-			light1.source = std::move(source);
-			light1.color.SetAmbient(glm::vec3(0.5f));
-
-			auto source2 = std::make_unique<Gray::StaticSource>(glm::vec3(0), glm::vec3(0, -1, 1));
-			lindex = lightManager.CreateLight(Gray::LightType::DirectionalLight);
-			Gray::LightSource& light2 = lightManager.GetLightSource(lindex, Gray::LightType::DirectionalLight); 
-			light2.source = std::move(source2);
-			light2.color.SetAmbient(glm::vec3(0.2f));
-
-
 
 			surfaceShader->SetUniform("hMap", 1);
 			surfaceShader->SetUniform("material.diffuse", 2);
@@ -72,13 +58,12 @@ namespace Test
 			return nullptr;
 		}
 		
-		void OnUpdate(float dt) override
+		void Render(float dt) override
 		{
 			skybox.RenderSkybox(camera, *skyboxShader);
 
 			surfaceShader->SetUniform("view", camera.GetView());
 			surfaceShader->SetUniform("viewPos", camera.GetPos());
-			lightManager.SetUniformsFor(*surfaceShader);
 
 			if (!cursorEn)
 			{
@@ -89,9 +74,9 @@ namespace Test
 			surface.Render(*surfaceShader);
 		}
 
-		void OnImguiRender(float dt) override
+		void PostRender(float dt) override
 		{
-			camera.OnImguiRender();
+			camera.PostRender();
 		}
 
 		void OnEvent(Gray::Event& e, Gray::EventType type)
@@ -125,7 +110,6 @@ namespace Test
 		Gray::NoCopy<Gray::Shader> skyboxShader;
 		Gray::NoCopy<Gray::Texture> surfaceTexture;
 		Gray::NoCopy<Gray::Texture> hMapTexture;
-		Gray::LightingManager lightManager;
 		bool cursorEn;
 	};
 }

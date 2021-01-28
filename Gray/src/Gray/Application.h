@@ -23,8 +23,9 @@ namespace Gray
 		Application& operator=(Application&&) = delete;
 		
 		virtual void OnInit() = 0;
-		virtual void OnUpdate(float dt) = 0;
-		virtual void OnImguiRender(float dt) = 0;
+		virtual void PreRender(float dt) = 0;
+		virtual void Render(float dt) = 0;
+		virtual void PostRender(float dt) = 0;
 		
 		Window *window;
 		static Application* singleton;

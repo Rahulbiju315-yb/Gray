@@ -7,7 +7,7 @@ namespace Gray
 {
 	Skybox::Skybox()
 	{
-		MeshData meshD = GetUnitCubeMeshData();
+		MeshData meshD = GetUnitCube1MeshData();
 
 		vb->LoadBufferData(&(meshD.vertices[0]), SizeOfVertices(meshD));
 		ib->LoadBufferData(&(meshD.faces[0].v0), CountOfIndices(meshD));

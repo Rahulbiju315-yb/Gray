@@ -8,26 +8,26 @@
 
 namespace Gray
 {
-	std::thread modelLoadThread;
-	std::thread imLoadThread;
-
 	const std::string DEFAULT_SHADER = "res/models/shaders/shader.shader";
 
-	void AddModelFileForImport(const std::string& path);
-	bool TryLoadModel(Model& m);
-	void FinishModelLoad();
-	void ClearModelLoadList();
-	bool IsModelLoaded(const std::string& path);
-	Model GetModel(const std::string& path);
+	void FinishAllLoads();
 
+	// Model Manager
+	void RM_AddModelFileForImport(const std::string& path);
+	bool RM_TryLoadModel(Model& m);
+	void RM_FinishModelLoad();
+	void RM_ClearModelLoadList();
+	bool RM_IsModelLoaded(const std::string& path);
+	Model RM_GetModel(const std::string& path);
 
-	Shared<Shader> RMGetShader(const std::string& path);
-	void RMReloadShaders();
+	// Shader manager
+	Shared<Shader> RM_GetShader(const std::string& path);
+	void RM_ReloadShaders();
 
-	WeakRef<Texture> GetTexture(const std::string& path);
-	bool ImageLoadDone();
-	void FinishTextureLoad();
-
-	Material CreateMaterial();
+	// Texture / Material manager
+	WeakRef<Texture> RM_GetTexture(const std::string& path);
+	bool RM_ImageLoadDone();
+	void RM_FinishTextureLoad();
+	Material RM_CreateMaterial();
 
 }

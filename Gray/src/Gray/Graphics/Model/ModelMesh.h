@@ -10,20 +10,14 @@
 #include "Platform/Opengl/VertexBuffer.h"
 #include "Platform/Opengl/IndexBuffer.h"
 
+#include "Gray/Mesh/Mesh.h"
 namespace Gray
 {
-	struct MeshRenderData
-	{
-		Shared<VertexBuffer> vb;
-		Shared<VertexArray> va;
-		Shared<IndexBuffer> ib;
-	};
-
 	struct ModelMesh
 	{
 		void SetupMesh(const MeshData& meshD, const BufferLayout& layout);
 
 		Material material;
-		MeshRenderData renderData;
+		SharedMesh renderData;
 	};
 }

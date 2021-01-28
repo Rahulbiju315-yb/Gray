@@ -1,18 +1,25 @@
 #pragma once
-#include "LightSource.h"
+
+#include "LightColor.h"
+#include "Platform/Opengl/Shader.h"
 
 namespace Gray
 {
-	class SpotLight : public LightSource
+	struct SpotLight
 	{
-	public:
 		static const uint MAX_LIMIT;
 
 		SpotLight();
 
-		void SetUniformsFor(const Shader& shader) override;
+		void SetUniformsFor(const Shader& shader, uint index);
+
+		LightColor color;
+		glm::vec3 pos;
+		glm::vec3 dir;
+		glm::vec3 attenuation;
 
 		float inneCutOff;
 		float outerCutOff;
+
 	};	
 }

@@ -1,10 +1,8 @@
 #pragma once
 
 #include "Model/RenderableModel.h"
-#include "Light/LightSource.h"
 #include "Camera.h"
 #include "RenderList.h"
-#include "LightingManager.h"
 #include "Platform/Opengl/Shader.h"
 
 namespace Gray
@@ -28,7 +26,6 @@ namespace Gray
 		Camera& GetCamera();
 
 		int CreateRModel();
-		int CreateLight(LightType type, std::unique_ptr<Source> s);
 
 		void SetModelPath(int i, const std::string& path);
 		bool IsSceneComplete();
@@ -72,7 +69,6 @@ namespace Gray
 		void InitForRender();
 
 		RenderableModel& GetRModel(int i);
-		LightSource& GetLight(int i, LightType type);
 
 		void RenderModels();
 		void SetPerspective(Perspective p);
@@ -83,7 +79,6 @@ namespace Gray
 	private:
 
 		Camera camera;
-		LightingManager lightMan;
 		std::vector<RenderableModel> renderList;
 
 		std::vector<int> dirtyModels;

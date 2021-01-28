@@ -22,13 +22,6 @@ namespace Gray
 		return (int)renderList.size() - 1;
 	}
 
-	int Scene::CreateLight(LightType type, std::unique_ptr<Source> s)
-	{
-		int index = lightMan.CreateLight(type);
-		lightMan.GetLightSource(index, type).source = std::move(s);
-
-		return index;
-	}
 
 	void Scene::SetModelPath(int i, const std::string& path)
 	{
@@ -46,18 +39,13 @@ namespace Gray
 
 	bool Scene::IsSceneComplete()
 	{
-		return reloadIndex == -1 && Gray::ImageLoadDone();
+		return reloadIndex == -1 && Gray::RM_ImageLoadDone();
 	}
 
 	RenderableModel& Scene::GetRModel(int i)
 	{
 		assert(i < renderList.size());
 		return renderList[i];
-	}
-
-	LightSource& Scene::GetLight(int i, LightType type)
-	{
-		return lightMan.GetLightSource(i, type);
 	}
 
 	Camera& Scene::GetCamera()
@@ -94,10 +82,9 @@ namespace Gray
 	void Scene::ClearScene()
 	{
 		renderList.clear();
-		lightMan.ClearList();
 
-		FinishModelLoad();
-		ClearModelLoadList();
+		RM_FinishModelLoad();
+		RM_ClearModelLoadList();
 
 		dirtyModels.clear();
 
@@ -113,7 +100,7 @@ namespace Gray
 	{
 		for (auto& shader : unique_shaders)
 		{
-			lightMan.SetUniformsFor(*shader);
+		
 		}
 	}
 

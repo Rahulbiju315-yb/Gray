@@ -33,7 +33,7 @@ namespace Gray
 		void Move(float dt, float speed=1.0f);
 		void UpdateLook(float sensitivity=0.05f);
 
-		void OnImguiRender();
+		void PostRender();
 
 	private:
 		glm::mat4 proj;

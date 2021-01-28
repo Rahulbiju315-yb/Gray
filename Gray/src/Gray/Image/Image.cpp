@@ -13,7 +13,7 @@ void Gray::LoadImage(Image& image, bool flip)
 {
 	stbi_set_flip_vertically_on_load(flip);
 	image.data = stbi_load(image.path.c_str(), &image.width, &image.height, &image.nrChannels, STBI_rgb_alpha);
-
+	image.nrChannels = 4;
 	if (image.data)
 	{
 		GRAY_WARN("Succussfuly loaded image " + image.path);

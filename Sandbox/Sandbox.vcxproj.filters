@@ -18,8 +18,14 @@
     <ClInclude Include="src\test\TestOffscreen.h">
       <Filter>test</Filter>
     </ClInclude>
-    <ClInclude Include="src\test\TestSurface.h" />
-    <ClInclude Include="src\test\TestSkybox.h" />
+    <ClInclude Include="src\test\TestSkybox.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\TestSurface.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\TestGizmo.h" />
+    <ClInclude Include="src\test\TestLighting.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox.cpp" />

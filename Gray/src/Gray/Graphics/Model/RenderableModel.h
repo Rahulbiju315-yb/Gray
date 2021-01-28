@@ -27,9 +27,10 @@ namespace Gray
 
 		Shared<Shader> GetShader();
 		void SetShader(Shared<Shader> shader);
+
 	private:
-		Model model;
 		Transform transform;
+		Model model;
 		Shared<Shader> shader;
 		NoCopy<VertexBuffer> offsetsBuffer;
 		uint n_instances;

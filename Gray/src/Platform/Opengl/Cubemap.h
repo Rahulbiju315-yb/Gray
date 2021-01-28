@@ -11,6 +11,7 @@ namespace Gray
 	public:
 		void LoadCubeMap(const std::string& path, const std::string ext, int slot);
 		void LoadCubeMap(const std::vector<std::string> paths);
+		void LoadCubeMap(const std::string& path, int slot);
 		
 		void Bind(int slot) const;
 		void Unbind() const;

@@ -17,7 +17,9 @@ namespace Gray
 	bool isExec = false;
 	int loadIndex = 0;
 
-	WeakRef<Texture> GetTexture(const std::string& path)
+	std::thread imLoadThread;
+
+	WeakRef<Texture> RM_GetTexture(const std::string& path)
 	{
 		GRAY_CORE_INFO("Attempting to load texture : " + path);
 		const Texture* tex = nullptr;
@@ -56,7 +58,7 @@ namespace Gray
 	}
 
 	// returns true if all image files have been read
-	bool ImageLoadDone()
+	bool RM_ImageLoadDone()
 	{
 		if (isExec)
 			return false;
@@ -92,7 +94,7 @@ namespace Gray
 		return false;
 	}
 
-	void FinishTextureLoad()
+	void RM_FinishTextureLoad()
 	{
 		if (imLoadThread.joinable())
 			imLoadThread.join();
@@ -100,12 +102,12 @@ namespace Gray
 
 	void ClearImageLoadList()
 	{
-		FinishTextureLoad();
+		RM_FinishTextureLoad();
 		llTextures.clear();
 		imData.clear();
 	}
 
-	Material CreateMaterial()
+	Material RM_CreateMaterial()
 	{
 		static uint ID = 0;
 
