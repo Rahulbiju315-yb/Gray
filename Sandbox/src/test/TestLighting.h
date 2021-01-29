@@ -3,10 +3,11 @@
 #include "Gray/Graphics/Light/LightingManager.h"
 #include "Gray/Mesh/Mesh.h"
 #include "ImGuizmo/ImGuizmo.h"
+#include "glm/gtx/euler_angles.hpp"
 
 namespace Test
 {
-
+	const glm::mat4 UNIT_MAT4 = glm::mat4(1);
 	struct Light
 	{
 		uint ID;
@@ -47,8 +48,8 @@ namespace Test
 			pl.color.specular = glm::vec3(0.0f);
 			pl.color.diffuse = glm::vec3(0.0f);
 
-			lightsIDs.push_back(Light{ lightMan.AddPointLight(pl), Gray::LightType::PointLight });
-			names.push_back("Constant");
+
+			lightMan.AddPointLight(pl);
 
 			cursorEn = true;
 			render = false;
@@ -57,6 +58,8 @@ namespace Test
 			shader->SetUniform("invModel", glm::mat4(1));
 
 			ops = ImGuizmo::TRANSLATE;
+			
+			s_model = UNIT_MAT4;
 		}
 		
 		Gray::Scene* OnInit() { return nullptr; }
@@ -99,10 +102,9 @@ namespace Test
 					lightMan.GetPointLight(0).color.ambient = glm::vec3(0);
 				}
 			}
-			
-			if (selectedLight.ltype == Gray::LightType::SpotLight)
+
+			if (selectedLight.ltype == Gray::LightType::SpotLight || selectedLight.ltype == Gray::LightType::DirectionalLight)
 			{
-				Gray::SpotLight& sl = lightMan.GetSpotLight(selectedLight.ID);
 				DrawPointer(s_model);
 			}
 		}
@@ -113,8 +115,6 @@ namespace Test
 			{
 				static bool changed = false;
 				static int currentItem = 0;
-				static glm::vec3 scale = glm::vec3(1);
-				static glm::mat4 unit = glm::mat4(1);
 
 				std::vector<const char*> cnames;
 				cnames.reserve(names.size());
@@ -126,48 +126,58 @@ namespace Test
 
 				if (changed)
 				{
-					if (selectedLight.ltype == Gray::LightType::PointLight)
-					{
-						Gray::PointLight& pl = lightMan.GetPointLight(selectedLight.ID);
-						s_model = glm::translate(unit, pl.pos);
-					}
-
-					if (selectedLight.ltype == Gray::LightType::SpotLight)
-					{
-						Gray::SpotLight& sl = lightMan.GetSpotLight(selectedLight.ID);
-
-						ImGuizmo::RecomposeMatrixFromComponents(&(sl.pos[0]), &(sl.dir[0]), 
-							&(scale[0]), &(s_model[0][0]));
-
-					}
-
+					OnLightSelect();
 				}
-
-				glm::vec3 translation;
-				glm::vec3 rotation;
 
 				if (!render)
 				{
 					GizmoRender(s_model);
-
-					ImGuizmo::DecomposeMatrixToComponents(&(s_model[0][0]), &(translation[0]), &(rotation[0]),
-						&(scale[0]));
-
-					if (selectedLight.ltype == Gray::LightType::PointLight)
-					{
-						Gray::PointLight& pl = lightMan.GetPointLight(selectedLight.ID);
-						pl.pos = translation;
-					}
-
-					else if (selectedLight.ltype == Gray::LightType::SpotLight)
-					{
-						Gray::SpotLight& sl = lightMan.GetSpotLight(selectedLight.ID);
-						sl.pos = translation;
-						sl.dir = rotation;
-
-					}
-
+					UpdateSelectedLight();
 				}
+			}
+		}
+
+		void OnLightSelect()
+		{
+			if (selectedLight.ltype == Gray::LightType::PointLight)
+			{
+				Gray::PointLight& pl = lightMan.GetPointLight(selectedLight.ID);
+				s_model = glm::translate(UNIT_MAT4, pl.pos);
+			}
+
+			else if (selectedLight.ltype == Gray::LightType::SpotLight)
+			{
+				Gray::SpotLight& sl = lightMan.GetSpotLight(selectedLight.ID);
+				GetRotationMat({ 0, 1, 0 }, sl.dir, s_model);
+				s_model[3] = glm::vec4(sl.pos, 1);
+			}
+
+			else if (selectedLight.ltype == Gray::LightType::DirectionalLight)
+			{
+				Gray::DirectionalLight& dl = lightMan.GetDirectionalLight(selectedLight.ID);
+				GetRotationMat({ 0, 1, 0 }, dl.dir, s_model);
+			}
+		}
+
+		void UpdateSelectedLight()
+		{
+			if (selectedLight.ltype == Gray::LightType::PointLight)
+			{
+				Gray::PointLight& pl = lightMan.GetPointLight(selectedLight.ID);
+				pl.pos = glm::vec3(s_model[3]);
+			}
+
+			else if (selectedLight.ltype == Gray::LightType::SpotLight)
+			{
+				Gray::SpotLight& sl = lightMan.GetSpotLight(selectedLight.ID);
+				sl.pos = glm::vec3(s_model[3]);
+				sl.dir = glm::mat3(s_model) * glm::vec3{ 0, 1, 0 };
+			}
+
+			else if (selectedLight.ltype == Gray::LightType::DirectionalLight)
+			{
+				Gray::DirectionalLight& dl = lightMan.GetDirectionalLight(selectedLight.ID);
+				dl.dir = glm::mat3(s_model) * glm::vec3{ 0, 1, 0 };
 			}
 		}
 
@@ -175,7 +185,6 @@ namespace Test
 		{
 			ImGuiIO& io = ImGui::GetIO();
 			ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
-			ImGuizmo::SetOrthographic(false);
 			ImGuizmo::SetOrthographic(false);
 			ImGuizmo::DrawGrid(&(camera.GetView()[0][0]), &(camera.GetProjection()[0][0]),
 				&(glm::mat4(1)[0][0]), 100.f);
@@ -249,11 +258,17 @@ namespace Test
 		void DrawPointer(const glm::mat4& model)
 		{
 			colorShader->SetUniform("view", camera.GetView());
-			colorShader->SetUniform("model", glm::scale(model, { 0.1f, 0.1f, 0.1f }));
+			colorShader->SetUniform("model", glm::scale(model, { 0.05f, 0.1f, 0.05f }));
 
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			Gray::Draw(*pointer.va, *pointer.ib, *colorShader);
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+
+		void GetRotationMat(glm::vec3 v1, glm::vec3 v2, glm::mat4& mat)
+		{
+			glm::vec3 cross = glm::cross(v1, v2);
+			float alpha = glm::acos(glm::dot(glm::normalize(v1), glm::normalize(v2)));
+
+			mat = glm::rotate(UNIT_MAT4, alpha, cross);
 		}
 
 	private:

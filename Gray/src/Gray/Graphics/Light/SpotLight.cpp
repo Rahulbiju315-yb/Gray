@@ -22,8 +22,8 @@ namespace Gray
 		shader.SetUniform(prefix + "diffuse", color.GetDiffuse());
 		shader.SetUniform(prefix + "specular", color.GetSpecular());
 							
-		shader.SetUniform(prefix + "dir", pos);
-		shader.SetUniform(prefix + "pos", dir);
+		shader.SetUniform(prefix + "dir", dir);
+		shader.SetUniform(prefix + "pos", pos);
 							
 		shader.SetUniform(prefix + "cutOff", inneCutOff);
 		shader.SetUniform(prefix + "outerCutOff", outerCutOff);

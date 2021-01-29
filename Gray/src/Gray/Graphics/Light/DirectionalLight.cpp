@@ -6,7 +6,7 @@ namespace Gray
 	static const uint DIRECTIONAL_MAX_LIMIT = 1;
 
 	DirectionalLight::DirectionalLight() 
-		: dir(0, -1, 0)
+		: dir(0, 1, 0)
 	{
 	}
 

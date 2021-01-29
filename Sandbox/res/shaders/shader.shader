@@ -129,7 +129,7 @@ vec4 CalcDirectionalLight(DirectionalLight source, vec3 normal, vec3 viewDir)
 
 	ambient = texture(material.diffuse, TexCoord) * vec4(source.ambient, 1);
 
-	vec3 sourceDir = normalize(source.dir);
+	vec3 sourceDir = normalize(-source.dir);
 	float diff = max(dot(normal, sourceDir), 0);
 	diffuse = texture(material.diffuse, TexCoord) * diff * vec4(source.diffuse, 1);
 
