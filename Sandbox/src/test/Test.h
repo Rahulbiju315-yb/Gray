@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Gray/Graphics/Scene.h"
 
 namespace Test
 {
@@ -9,7 +8,7 @@ namespace Test
 	class Test
 	{
 	public :
-		virtual Gray::Scene* OnInit() = 0;
+		virtual void OnInit() = 0;
 
 		virtual void PreRender(float dt) {}
 		virtual void Render(float dt) = 0;

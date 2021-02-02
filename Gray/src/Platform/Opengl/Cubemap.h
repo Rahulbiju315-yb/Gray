@@ -27,7 +27,6 @@ namespace Gray
 		Cubemap& operator=(Cubemap&&) = default;
 
 		void CopyFrom(const Cubemap& src);
-		void CreateIfEmpty();
 		void Free();
 
 		uint ID;

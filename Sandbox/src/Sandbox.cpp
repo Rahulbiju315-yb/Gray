@@ -19,7 +19,7 @@
 class Sandbox : public Gray::Application, public Gray::EventListener
 {
 public:
-	Sandbox() : cursorEn(true), render(false), scene(nullptr)
+	Sandbox() : cursorEn(true), render(false)
 	{
 		Gray::Window::GetWindow()->AddListener(this);
 	}
@@ -36,7 +36,6 @@ public:
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		test = std::make_unique<Test::TestLighting>();
-		scene = test->OnInit();
 	}
 
 	void PreRender(float dt) override
@@ -48,21 +47,11 @@ public:
 
 	void Render(float dt) override
 	{
-		if (!cursorEn && scene)
-		{
-			scene->GetCamera().UpdateLook();
-			scene->GetCamera().Move(dt);
-		}
 		test->Render(dt);
 	}
 
 	void PostRender(float dt) override
 	{
-		if (scene)
-		{
-			scene->GetCamera().PostRender();
-		}
-
 		Gray::FPSDebugInfo(dt);
 		test->PostRender(dt);
 	}
@@ -79,23 +68,19 @@ public:
 	{
 		if (e.GetKeyCode() == TO_INT(Gray::KeyCodes::Key_T))
 		{
-			if (scene)
+			cursorEn = !cursorEn;
+			if (cursorEn)
 			{
-				cursorEn = !cursorEn;
-				if (cursorEn)
-				{
-					Gray::TempUtil::EnableCursor();
-				}
-				else
-				{
-					Gray::TempUtil::DisableCursor();
-				}
+				Gray::TempUtil::EnableCursor();
+			}
+			else
+			{
+				Gray::TempUtil::DisableCursor();
 			}
 		}
 	}
 
 private:
-	Gray::Scene* scene;
 	std::unique_ptr<Test::Test> test;
 	
 	bool cursorEn;

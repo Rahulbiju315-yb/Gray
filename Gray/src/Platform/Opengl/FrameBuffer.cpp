@@ -7,20 +7,12 @@ namespace Gray
 	FrameBuffer::FrameBuffer() 
 		: ID(0)
 	{
+		glGenFramebuffers(1, &ID);
 	}
 
 	void FrameBuffer::Bind() const
 	{
-		if (!IsComplete())
-		{
-			GRAY_WARN("Attempting to bind an incomplete Framebuffer (ID = " + std::to_string(ID) + " )");
-			GRAY_WARN("Will bind the default Framebuffer instead");
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		}
-		else
-		{
-			glBindFramebuffer(GL_FRAMEBUFFER, ID);
-		}
+		glBindFramebuffer(GL_FRAMEBUFFER, ID);
 	}
 
 	void FrameBuffer::Unbind() const
@@ -35,7 +27,6 @@ namespace Gray
 
 	void FrameBuffer::AddAttachment(const Texture& tex, AttachmentType type, int index)
 	{
-		CreateIfEmpty();
 		Bind();
 
 		uint attachmentType = AttachmentTypeToUINT(type);
@@ -46,7 +37,6 @@ namespace Gray
 
 	void FrameBuffer::AddAttachment(const RenderBuffer& rb, AttachmentType type, int index)
 	{
-		CreateIfEmpty();
 		Bind();
 
 		uint attachmentType = AttachmentTypeToUINT(type);
@@ -86,12 +76,6 @@ namespace Gray
 	void FrameBuffer::CopyFrom(const FrameBuffer& fb)
 	{
 		ID = fb.ID;
-	}
-
-	void FrameBuffer::CreateIfEmpty()
-	{
-		if(ID == 0)
-			glGenFramebuffers(1, &ID);
 	}
 
 	void FrameBuffer::Free()

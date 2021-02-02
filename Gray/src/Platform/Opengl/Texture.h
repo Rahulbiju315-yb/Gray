@@ -45,7 +45,6 @@ namespace Gray
 		Texture& operator=(Texture&&)  = default;
 
 		void CopyFrom(const Texture& tex);
-		void CreateIfEmpty();
 		void Free();
 
 		friend class Shared<Texture>;

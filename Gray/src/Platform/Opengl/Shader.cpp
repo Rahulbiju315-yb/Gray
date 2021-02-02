@@ -15,6 +15,7 @@ namespace Gray
 	
 	Shader::Shader() : ID(0), success(false)
 	{
+		ID = glCreateProgram();
 	}
 
 	Shader::Shader(const std::string& filePath) : Shader()
@@ -24,8 +25,6 @@ namespace Gray
 
 	bool Shader::LoadProgram(const std::string& filePath)
 	{
-		CreateIfEmpty();
-
 		std::string vertexSource, fragmentSource, geometrySource;
 		bool a = LoadShaderSource(vertexSource, fragmentSource, geometrySource, filePath);
 		assert(vertexSource.length() != 0);
@@ -179,12 +178,6 @@ namespace Gray
 		ID = shader.ID;
 		success = shader.success;
 		hashTable = shader.hashTable;
-	}
-
-	void Shader::CreateIfEmpty()
-	{
-		if(ID == 0)
-			ID = glCreateProgram();
 	}
 
 	void Shader::Free()

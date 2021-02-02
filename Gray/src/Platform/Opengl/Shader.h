@@ -46,7 +46,6 @@ namespace Gray
 		Shader& operator=(Shader&&) = default;
 
 		void CopyFrom(const Shader&);
-		void CreateIfEmpty();
 		void Free();
 
 		mutable std::unordered_map <std::string, int> hashTable;

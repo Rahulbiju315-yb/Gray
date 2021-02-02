@@ -120,27 +120,27 @@ namespace Gray
 
 	MeshData GetUnitCube2MeshdData()
 	{
-		glm::vec3 p1 = { -1.0f, -1.0f, -1.0f };
-		glm::vec3 p2 = { +1.0f, -1.0f, -1.0f };
-		glm::vec3 p3 = { +1.0f, +1.0f, -1.0f };
-		glm::vec3 p4 = { -1.0f, +1.0f, -1.0f };
-				  
-		glm::vec3 p5 = { -1.0f, -1.0f, +1.0f };
-		glm::vec3 p6 = { +1.0f, -1.0f, +1.0f };
-		glm::vec3 p7 = { +1.0f, +1.0f, +1.0f };
-		glm::vec3 p8 = { -1.0f, +1.0f, +1.0f };
+		constexpr glm::vec3 p1 = { -1.0f, -1.0f, -1.0f };
+		constexpr glm::vec3 p2 = { +1.0f, -1.0f, -1.0f };
+		constexpr glm::vec3 p3 = { +1.0f, +1.0f, -1.0f };
+		constexpr glm::vec3 p4 = { -1.0f, +1.0f, -1.0f };
 
-		glm::vec3 nBack    = { 0,  0, -1};
-		glm::vec3 nTop     = { 0,  1,  0};
-		glm::vec3 nRight   = { 1,  0,  0};
-		glm::vec3 nLeft    = {-1,  0,  0};
-		glm::vec3 nBottom  = { 0, -1,  0};
-		glm::vec3 nFront   = { 0,  0,  1};
+		constexpr glm::vec3 p5 = { -1.0f, -1.0f, +1.0f };
+		constexpr glm::vec3 p6 = { +1.0f, -1.0f, +1.0f };
+		constexpr glm::vec3 p7 = { +1.0f, +1.0f, +1.0f };
+		constexpr glm::vec3 p8 = { -1.0f, +1.0f, +1.0f };
 
-		glm::vec2 tBottomLeft  = { 0, 0 };
-		glm::vec2 tBottomRight = { 1, 0 };
-		glm::vec2 tTopRight    = { 1, 1 };
-		glm::vec2 tTopLeft     = { 0, 1 };
+		constexpr glm::vec3 nBack    = { 0,  0, -1};
+		constexpr glm::vec3 nTop     = { 0,  1,  0};
+		constexpr glm::vec3 nRight   = { 1,  0,  0};
+		constexpr glm::vec3 nLeft    = {-1,  0,  0};
+		constexpr glm::vec3 nBottom  = { 0, -1,  0};
+		constexpr glm::vec3 nFront   = { 0,  0,  1};
+
+		constexpr glm::vec2 tBottomLeft  = { 0, 0 };
+		constexpr glm::vec2 tBottomRight = { 1, 0 };
+		constexpr glm::vec2 tTopRight    = { 1, 1 };
+		constexpr glm::vec2 tTopLeft     = { 0, 1 };
 
 		MeshData meshD;
 		meshD.vertices.push_back({p2, nBack, tBottomLeft});

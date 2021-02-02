@@ -141,8 +141,8 @@ namespace Gray
 	public:
 		MouseScrolledEvent(float xOffset, float yOffset)
 		{
-			this->xOffset= xOffset;
-			this->yOffset= yOffset;
+			this->xOffset = xOffset;
+			this->yOffset = yOffset;
 		}
 
 		std::string ToString()

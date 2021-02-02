@@ -37,7 +37,6 @@ namespace Gray
 		RenderBuffer& operator=(RenderBuffer&&) = default;
 
 		void CopyFrom(const RenderBuffer&);
-		void CreateIfEmpty();
 		void Free();
 
 		friend class Shared<RenderBuffer>;

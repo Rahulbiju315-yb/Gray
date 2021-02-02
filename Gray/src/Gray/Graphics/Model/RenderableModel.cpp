@@ -1,7 +1,7 @@
 #include "grpch.h"
 #include "RenderableModel.h"
 #include "ModelMesh.h"
-#include "Gray/Graphics/Resource/ResourceManager.h"
+#include "Gray/Resource/ResourceManager.h"
 #include "Platform/Opengl/Renderer.h"
 
 namespace Gray

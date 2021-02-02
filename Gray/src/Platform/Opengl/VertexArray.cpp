@@ -10,12 +10,11 @@ namespace Gray
 
 	VertexArray::VertexArray() : ID(0),  n_attribs(0)
 	{
+		glGenVertexArrays(1, &ID);
 	}
 
 	void VertexArray::SetAttribPointers(const VertexBuffer& buffer, const BufferLayout& layout)
 	{
-		CreateIfEmpty();
-
 		Bind();
 		buffer.Bind();
 
@@ -62,12 +61,6 @@ namespace Gray
 	{
 		ID = va.ID;
 		n_attribs = va.n_attribs;
-	}
-
-	void VertexArray::CreateIfEmpty()
-	{
-		if(ID == 0)
-			glGenVertexArrays(1, &ID);
 	}
 
 	void VertexArray::Free()

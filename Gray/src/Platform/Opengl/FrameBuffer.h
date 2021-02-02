@@ -34,7 +34,6 @@ namespace Gray
 		FrameBuffer(FrameBuffer&& fb) = default;
 
 		void CopyFrom(const FrameBuffer& va);
-		void CreateIfEmpty();
 		void Free();
 
 		uint ID;

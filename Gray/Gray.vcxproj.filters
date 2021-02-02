@@ -72,9 +72,6 @@
     <ClInclude Include="src\Gray\Events\WindowEvent.h">
       <Filter>Gray\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Camera.h">
-      <Filter>Gray\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Defaults.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
@@ -102,32 +99,11 @@
     <ClInclude Include="src\Gray\Graphics\Model\RenderableModel.h">
       <Filter>Gray\Graphics\Model</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Perspective.h">
-      <Filter>Gray\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gray\Graphics\RenderList.h">
-      <Filter>Gray\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Resource\ResourceManager.h">
-      <Filter>Gray\Graphics\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Scene.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Skybox.h">
       <Filter>Gray\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Source\CameraSource.h">
-      <Filter>Gray\Graphics\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Source\Source.h">
-      <Filter>Gray\Graphics\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Source\SourceFactory.h">
-      <Filter>Gray\Graphics\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Source\StaticSource.h">
-      <Filter>Gray\Graphics\Source</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Surface.h">
       <Filter>Gray\Graphics</Filter>
@@ -221,6 +197,18 @@
     <ClInclude Include="src\Gray\Graphics\Light\LightingManager.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gray\Resource\ResourceManager.h">
+      <Filter>Gray\Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Math\Math.h" />
+    <ClInclude Include="src\Gray\Camera\Perspective.h">
+      <Filter>Gray\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gray\Camera\EditorCamera.h" />
+    <ClInclude Include="src\Gray\Camera\SceneCamera.h" />
+    <ClInclude Include="src\Gray\Camera\CameraController.h" />
+    <ClInclude Include="src\Gray\UI\LightingEditor.h" />
+    <ClInclude Include="src\Gray\Math\Constants.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -231,9 +219,6 @@
     </ClCompile>
     <ClCompile Include="src\Gray\Events\Input.cpp">
       <Filter>Gray\Events</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Camera.cpp">
-      <Filter>Gray\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Defaults.cpp">
       <Filter>Gray\Graphics</Filter>
@@ -259,32 +244,8 @@
     <ClCompile Include="src\Gray\Graphics\RenderList.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Resource\RMModel.cpp">
-      <Filter>Gray\Graphics\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Resource\RMShader.cpp">
-      <Filter>Gray\Graphics\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Resource\RMTexture.cpp">
-      <Filter>Gray\Graphics\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Resource\ResourceManager.cpp">
-      <Filter>Gray\Graphics\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Scene.cpp">
-      <Filter>Gray\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Skybox.cpp">
       <Filter>Gray\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Source\CameraSource.cpp">
-      <Filter>Gray\Graphics\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Source\SourceFactory.cpp">
-      <Filter>Gray\Graphics\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Graphics\Source\StaticSource.cpp">
-      <Filter>Gray\Graphics\Source</Filter>
     </ClCompile>
     <ClCompile Include="src\Gray\Graphics\Surface.cpp">
       <Filter>Gray\Graphics</Filter>
@@ -350,6 +311,25 @@
     <ClCompile Include="src\Gray\Graphics\Light\LightingManager.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gray\Resource\ResourceManager.cpp">
+      <Filter>Gray\Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Resource\RMModel.cpp">
+      <Filter>Gray\Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Resource\RMShader.cpp">
+      <Filter>Gray\Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Resource\RMTexture.cpp">
+      <Filter>Gray\Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gray\Math\Math.cpp" />
+    <ClCompile Include="src\Gray\Camera\SceneCamera.cpp" />
+    <ClCompile Include="src\Gray\Camera\Perspective.cpp" />
+    <ClCompile Include="src\Gray\Camera\EditorCamera.cpp" />
+    <ClCompile Include="src\Gray\Camera\CameraController.cpp" />
+    <ClCompile Include="src\Gray\UI\LightingEditor.cpp" />
+    <ClCompile Include="src\Gray\Math\Constants.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ImGuizmo\.editorconfig" />

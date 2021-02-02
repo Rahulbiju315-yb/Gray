@@ -5,7 +5,6 @@
 #include "Platform/Opengl/VertexArray.h"
 #include "Platform/Opengl/VertexBuffer.h"
 #include "Platform/Opengl/IndexBuffer.h"
-#include "Camera.h"
 
 namespace Gray
 {
@@ -16,7 +15,7 @@ namespace Gray
 		void LoadSkybox(const std::string path, const std::string ext);
 		void LoadSkybox(const std::vector<std::string> paths);
 
-		void RenderSkybox(const Camera& camera, const Shader& shader);
+		void RenderSkybox(const glm::mat4& view , const Shader& shader);
 
 	private:
 		NoCopy<Cubemap> cubeMap;

@@ -35,7 +35,6 @@ namespace Gray
 		VertexBuffer& operator=(VertexBuffer&&) = default;
 
 		void CopyFrom(const VertexBuffer& vb);
-		void CreateIfEmpty();
 		void Free();
 
 		friend class Shared<VertexBuffer>;

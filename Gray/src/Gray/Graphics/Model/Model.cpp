@@ -2,7 +2,7 @@
 #include "Model.h"
 
 #include "Platform/Opengl/Texture.h"
-#include "Gray/Graphics/Resource/ResourceManager.h"
+#include "Gray/Resource/ResourceManager.h"
 #include "Gray/Mesh/Vertex.h"
 
 namespace Gray

@@ -2,6 +2,8 @@
 
 #include "Test.h"
 #include "Gray/Graphics/Skybox.h"
+#include "Gray/Camera/SceneCamera.h"
+#include "Gray/Camera/CameraController.h"
 
 namespace Test
 {
@@ -15,21 +17,21 @@ namespace Test
 			shader->SetUniform("projection", camera.GetProjection());
 		}
 
-		Gray::Scene* OnInit() { return nullptr; }
+		void OnInit() 
+		{ 
+		}
 
 		void Render(float dt)
 		{
 			if (!cursorEn)
 			{
-				camera.UpdateLook();
-				camera.Move(dt);
+				Gray::CameraController::Control(camera, dt);
 			}
-			skybox.RenderSkybox(camera, *shader);
+			skybox.RenderSkybox(camera.GetView(), *shader);
 		}
 
 		void PostRender(float dt) override
 		{
-			camera.PostRender();
 		}
 
 		void OnEvent(Gray::Event& e, Gray::EventType type)
@@ -55,7 +57,7 @@ namespace Test
 		}
 
 	private:
-		Gray::Camera camera;
+		Gray::SceneCamera camera;
 		Gray::Skybox skybox;
 		Gray::NoCopy<Gray::Shader> shader;
 

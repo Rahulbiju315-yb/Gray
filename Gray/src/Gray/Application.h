@@ -35,6 +35,18 @@ namespace Gray
 		float lastTime;
 		float GetDT();
 		void DeltaCursorUpdate();
+
+		class CursorUpdateListener : public EventListener
+		{
+		public:
+			CursorUpdateListener();
+			void OnEvent(Event& e, EventType type);
+			
+			std::tuple<float, float> GetCursorPos();
+
+		private:
+			float mCX, mCY;
+		};
 	};
 
 }

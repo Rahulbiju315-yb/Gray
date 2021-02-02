@@ -15,9 +15,9 @@ namespace Gray
         Shared<VertexArray> va = Shared<VertexArray>();
         va -> SetAttribPointers(*vb, layout);
 
-        renderData.vb = std::move(vb);
-        renderData.ib = std::move(ib);
-        renderData.va = std::move(va);
+        renderData.vb = vb;
+        renderData.ib = ib;
+        renderData.va = va;
     }
 
 }

@@ -3,6 +3,7 @@
 #include "Test.h"
 #include "Gray/Graphics/DebugCube.h"
 #include "ImGuizmo/ImGuizmo.h"
+#include "Gray/Camera/SceneCamera.h"
 
 namespace Test
 {
@@ -19,7 +20,9 @@ namespace Test
 			//tex->Bind(1);
 		}
 
-		Gray::Scene* OnInit() { return nullptr; }
+		void OnInit() 
+		{ 
+		}
 
 		void PreRender(float dt) override
 		{
@@ -30,8 +33,7 @@ namespace Test
 		{
 			if (!cursorEn)
 			{
-				camera.UpdateLook();
-				camera.Move(dt);
+				Gray::CameraController::Control(camera, dt);
 			}
 			shader->Bind();
 			shader->SetUniform("view", camera.GetView());
@@ -47,7 +49,6 @@ namespace Test
 				&(glm::mat4(1)[0][0]), 100.f);*/
 			ImGuizmo::Manipulate(&(camera.GetView()[0][0]), &(camera.GetProjection()[0][0]), ImGuizmo::ROTATE,
 				ImGuizmo::WORLD, &(debugCube.model[0][0]), nullptr, nullptr, nullptr, nullptr);
-			camera.PostRender();
 		}
 
 		void OnEvent(Gray::Event& e, Gray::EventType type)
@@ -73,7 +74,7 @@ namespace Test
 		}
 
 	private:
-		Gray::Camera camera;
+		Gray::SceneCamera camera;
 		Gray::DebugCube debugCube;
 		Gray::NoCopy<Gray::Shader> shader;
 		bool cursorEn;

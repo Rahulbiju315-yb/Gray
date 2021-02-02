@@ -12,7 +12,7 @@ namespace Gray
 	public:	
 		static Window* GetWindow(const std::string& title="Gray Window", uint width = 1200, uint height = 700);
 
-		void Render();
+		void Update();
 		void PollEvents();
 
 		void AddListener(EventListener* listener);
@@ -39,12 +39,8 @@ namespace Gray
 
 		void InitImgui();
 		void DestroyImgui();
-		
-		void BeginImgui();
-		void EndImgui();
 
 		void SetCallbacks();
-		void InitGlew();
 
 		uint width;
 		uint height;

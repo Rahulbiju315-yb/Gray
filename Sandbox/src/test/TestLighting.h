@@ -3,11 +3,13 @@
 #include "Gray/Graphics/Light/LightingManager.h"
 #include "Gray/Mesh/Mesh.h"
 #include "ImGuizmo/ImGuizmo.h"
-#include "glm/gtx/euler_angles.hpp"
+#include "Gray/Camera/SceneCamera.h"
+#include "Gray/Camera/CameraController.h"
+#include "Gray/Math/Math.h"
+#include "Gray/Math/Constants.h"
 
 namespace Test
 {
-	const glm::mat4 UNIT_MAT4 = glm::mat4(1);
 	struct Light
 	{
 		uint ID;
@@ -59,24 +61,25 @@ namespace Test
 
 			ops = ImGuizmo::TRANSLATE;
 			
-			s_model = UNIT_MAT4;
+			s_model = Gray::UNIT_MAT4;
 		}
 		
-		Gray::Scene* OnInit() { return nullptr; }
+		void OnInit() 
+		{ 
+		}
 
 		void PreRender(float dt) override
 		{
 			if (!cursorEn)
 			{
-				camera.Move(dt);
-				camera.UpdateLook();
+				Gray::CameraController::Control(camera);
 			}
 		}
 
 		void Render(float dt) override
 		{
 			shader->SetUniform("view", camera.GetView());
-			shader->SetUniform("viewPos", camera.GetPos());
+			//shader->SetUniform("viewPos", camera.GetPos());
 
 			lightMan.SetUniformsFor(*shader);
 
@@ -85,7 +88,6 @@ namespace Test
 
 		void PostRender(float dt) override
 		{
-			camera.PostRender();
 			DebugAddButtons();
 			DebugSelectionPanel();
 			static bool changed = false;
@@ -142,7 +144,7 @@ namespace Test
 			if (selectedLight.ltype == Gray::LightType::PointLight)
 			{
 				Gray::PointLight& pl = lightMan.GetPointLight(selectedLight.ID);
-				s_model = glm::translate(UNIT_MAT4, pl.pos);
+				s_model = glm::translate(Gray::UNIT_MAT4, pl.pos);
 			}
 
 			else if (selectedLight.ltype == Gray::LightType::SpotLight)
@@ -268,11 +270,11 @@ namespace Test
 			glm::vec3 cross = glm::cross(v1, v2);
 			float alpha = glm::acos(glm::dot(glm::normalize(v1), glm::normalize(v2)));
 
-			mat = glm::rotate(UNIT_MAT4, alpha, cross);
+			mat = glm::rotate(Gray::UNIT_MAT4, alpha, cross);
 		}
 
 	private:
-		Gray::Camera camera;
+		Gray::EditorCamera camera;
 		Gray::LightingManager lightMan;
 		glm::mat4 s_model;
 

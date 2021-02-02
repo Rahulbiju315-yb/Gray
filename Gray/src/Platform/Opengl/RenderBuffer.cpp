@@ -7,11 +7,11 @@ namespace Gray
 	uint RenderBuffer::boundRB_ID = 0;
 	RenderBuffer::RenderBuffer() : ID(0)
 	{
+		glGenRenderbuffers(1, &ID);
 	}
 
 	void RenderBuffer::CreateBuffer(RBType type, int width, int height)
 	{
-		CreateIfEmpty();
 		Bind();
 
 		uint rbType = RBTypeToUINT(type);
@@ -62,12 +62,6 @@ namespace Gray
 	void RenderBuffer::CopyFrom(const RenderBuffer& rb)
 	{
 		ID = rb.ID;
-	}
-
-	void RenderBuffer::CreateIfEmpty()
-	{
-		if(ID == 0)
-		glGenRenderbuffers(1, &ID);
 	}
 
 	void RenderBuffer::Free()

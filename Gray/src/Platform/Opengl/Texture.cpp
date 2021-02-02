@@ -7,14 +7,13 @@ namespace Gray
 	Texture::Texture() 
 		: ID(0)
 	{
+		glGenTextures(1, &ID);
 	}
 
 
 	void Texture::LoadTextureFrom(const Image& image)
 	{
 		assert(image.data);
-
-		CreateIfEmpty();
 		Bind();
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -42,7 +41,6 @@ namespace Gray
 
 	bool Texture::LoadTexture(const std::string& path, bool flip, int internalFormat, int externalFormat)
 	{
-		CreateIfEmpty();
 		Bind();
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -69,7 +67,6 @@ namespace Gray
 
 	void Texture::LoadEmptyTexture(int width, int height, int internalFormat, int externalFormat)
 	{
-		CreateIfEmpty();
 		Bind();
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -79,7 +76,6 @@ namespace Gray
 
 	void Texture::LoadDepthTexture(int width, int height)
 	{
-		CreateIfEmpty();
 		Bind();
 
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, 
@@ -89,7 +85,6 @@ namespace Gray
 
 	void Texture::LoadStencilTexture(int width, int height)
 	{
-		CreateIfEmpty();
 		Bind();
 
 		glBindTexture(GL_TEXTURE_2D, ID);
@@ -100,7 +95,6 @@ namespace Gray
 
 	void Texture::LoadDepthStencilTexture(int width, int height)
 	{
-		CreateIfEmpty();
 		Bind();
 		glBindTexture(GL_TEXTURE_2D, ID);
 
@@ -129,12 +123,6 @@ namespace Gray
 	void Texture::CopyFrom(const Texture& tex)
 	{
 		ID = tex.ID;
-	}
-
-	void Texture::CreateIfEmpty()
-	{
-		if(ID == 0)
-			glGenTextures(1, &ID);
 	}
 
 	void Texture::Free()

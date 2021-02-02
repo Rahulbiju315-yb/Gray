@@ -34,7 +34,6 @@ namespace Gray
 		VertexArray& operator=(VertexArray&&) = default;
 
 		void CopyFrom(const VertexArray& va);
-		void CreateIfEmpty();
 		void Free();
 
 		friend class Shared<VertexArray>;

@@ -2,15 +2,12 @@
 
 #include "Test.h"
 
-#include "Gray/Graphics/Scene.h"
 #include "Gray/Graphics/Light/PointLight.h"
-#include "Gray/Graphics/Source/CameraSource.h"
-#include "Gray/Graphics/Source/StaticSource.h"
 #include "Gray/Graphics/Model/RenderableModel.h"
 
 #include "imgui.h"
 #include "imguiFileChooser/ImGuiFileDialog.h"
-#include "Gray/Graphics/Resource/ResourceManager.h"
+#include "Gray/Resource/ResourceManager.h"
 
 #define RAND_FLOAT (float)rand() / RAND_MAX
 
@@ -26,7 +23,7 @@ namespace Test
 		}
 
 		
-		Gray::Scene* OnInit() override
+		void OnInit() override
 		{
 		}
 

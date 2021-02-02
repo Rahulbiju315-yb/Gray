@@ -10,6 +10,7 @@ namespace Gray
 
 	IndexBuffer::IndexBuffer() : ID(0), count(0)
 	{
+		glGenBuffers(1, &ID);
 	}
 
 	void IndexBuffer::Bind() const
@@ -31,8 +32,6 @@ namespace Gray
 
 	void IndexBuffer::LoadBufferData(const uint* indices, int count)
 	{
-		CreateIfEmpty();
-
 		Bind();
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint), indices, GL_STATIC_DRAW);
 		this->count = count;
@@ -53,12 +52,6 @@ namespace Gray
 	{
 		ID = ib.ID;
 		count = ib.count;
-	}
-
-	void IndexBuffer::CreateIfEmpty()
-	{
-		if(ID == 0)
-			glGenBuffers(1, &ID);
 	}
 
 	void IndexBuffer::Free()

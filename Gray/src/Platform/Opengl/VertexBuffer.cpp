@@ -10,15 +10,13 @@ namespace Gray
 
 	VertexBuffer::VertexBuffer() : ID(0), size(0)
 	{
+		glGenBuffers(1, &ID);
 	}
 
 	void VertexBuffer::LoadBufferData(const void* data, size_t size)
 	{
-		CreateIfEmpty();
-
 		Bind();
 		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
-		Unbind();
 
 		this->size = size;
 	}
@@ -50,17 +48,10 @@ namespace Gray
 		return boundVB_ID == ID;
 	}
 
-
 	void VertexBuffer::CopyFrom(const VertexBuffer& vb)
 	{
 		ID = vb.ID;
 		size = vb.size;
-	}
-
-	void VertexBuffer::CreateIfEmpty()
-	{
-		if(ID == 0)
-			glGenBuffers(1, &ID);
 	}
 
 	void VertexBuffer::Free()

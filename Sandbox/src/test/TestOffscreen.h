@@ -4,11 +4,9 @@
 #include "Gray/Graphics/Materials.h"
 #include "Platform/Opengl/Texture.h"
 
-#include "Gray/Graphics/Scene.h"
 
 #include "Gray/Graphics/Light/PointLight.h"
-#include "Gray/Graphics/Source/SourceFactory.h"
-#include "Gray/Graphics/Resource/ResourceManager.h"
+#include "Gray/Resource/ResourceManager.h"
 
 #include "Gray/Graphics/Model/RenderableModel.h"
 #include "Platform/Opengl/FrameBuffer.h"
@@ -26,7 +24,6 @@ namespace Test
 	{
 	public:
 		TestOffscreen()
-			: scene(Gray::Scene(1))
 		{
 
 			// FrameBuffer setup
@@ -45,52 +42,33 @@ namespace Test
 			textureShader->LoadProgram("res/shaders/textureShader.shader");
 			textureShader->SetUniform("tex", 1);
 
-			fill(kernel, 1.0 / 9, 9);
+			fill(kernel, 1.0f / 9, 9);
 
 		}
 
-		Gray::Scene* OnInit() override
+		void OnInit() override
 		{
-
-			int index = scene.CreateRModel();
-			scene.SetModelPath(index, GUN);
-
-			scene.InitForRender();
-			scene.ReloadRModels(*this);
-			return &scene;
 		}
 
 		void OnLoad(Gray::RenderableModel& model, int rindex)
 		{
-			Gray::RenderableModel& rmodel = scene.GetRModel(rindex);
-			std::vector<float> offsets;
-			offsets.reserve(3);
-			offsets.push_back(0);
-			offsets.push_back(0);
-			offsets.push_back(0);
-			rmodel.SetInstanceOffsets(std::move(offsets));
+			
 		}
 
 		void Render(float dt) override
 		{
-			if (scene.IsSceneComplete())
-			{
 				offScreen->Bind();
 				Gray::ClearDepthColor(glm::vec4(0.1f, 0.19f, 0.25f, 1.0f));
 				glEnable(GL_DEPTH_TEST);
-
-				scene.RenderModels();
+				
+				//Render
 
 				offScreen->Unbind();
 
 				Gray::ClearColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 				colorAttachment->Bind(1);
 				DrawScreenQuad(*textureShader);
-			}
-			else
-			{
-				scene.LoadResources(*this);
-			}
+	
 		}
 
 		void PostRender(float dt) override
@@ -133,7 +111,6 @@ namespace Test
 	private:
 		float kernel[9];
 
-		Gray::Scene scene;
 		Gray::NoCopy<Gray::FrameBuffer> offScreen;
 		Gray::NoCopy<Gray::Texture> colorAttachment;
 		Gray::NoCopy<Gray::Texture> depthAttachment;

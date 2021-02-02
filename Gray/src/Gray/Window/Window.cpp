@@ -11,7 +11,7 @@
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
 
-#include "Gray/Graphics/Resource/ResourceManager.h"
+#include "Gray/Resource/ResourceManager.h"
 #include "ImGuizmo/ImGuizmo.h"
 
 namespace Gray
@@ -73,7 +73,13 @@ namespace Gray
 
 		glfwMakeContextCurrent(glfwWindow);
 		glfwSetFramebufferSizeCallback(glfwWindow, FrameBufferSizeCallback);
-		InitGlew();
+
+		GLenum err = glewInit();
+		if (GLEW_OK != err)
+		{
+			GRAY_CORE_FATAL("Glew not initialised");
+		}
+
 		glfwSwapInterval(1);
 
 
@@ -84,7 +90,7 @@ namespace Gray
 		SetCallbacks();
 	}
 
-	void Window::Render()
+	void Window::Update()
 	{
 		PollEvents();
 		glfwSwapBuffers(glfwWindow);
@@ -126,14 +132,6 @@ namespace Gray
 	}
 
 
-	void Window::BeginImgui()
-	{
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-		ImGuizmo::BeginFrame();
-	}
-
 	void Window::InitImgui()
 	{
 		IMGUI_CHECKVERSION();
@@ -144,12 +142,6 @@ namespace Gray
 		ImGui::StyleColorsDark();
 		ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
 		ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);
-	}
-
-	void Window::EndImgui()
-	{
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
 	void Window::DestroyImgui()
@@ -240,16 +232,7 @@ namespace Gray
 				callbacks.PropogateEvent(event, EventType::MouseScrolled);
 			});
 	}
-
-	void Window::InitGlew()
-	{
-		GLenum err = glewInit();
-		if (GLEW_OK != err)
-		{
-			GRAY_CORE_FATAL("Glew not initialised");
-		}
-	}
-
+	
 	void FrameBufferSizeCallback(GLFWwindow*, int width, int height)
 	{
 		Window::singleton.width = width;

@@ -28,7 +28,6 @@ namespace Gray
 		IndexBuffer& operator=(IndexBuffer&&) = default;
 
 		void CopyFrom(const IndexBuffer& va);
-		void CreateIfEmpty();
 		void Free();
 
 		uint ID;

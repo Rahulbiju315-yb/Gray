@@ -30,12 +30,12 @@ namespace Gray
 		assert(false);
 	}
 
-	void Skybox::RenderSkybox(const Camera& camera, const Shader& shader)
+	void Skybox::RenderSkybox(const glm::mat4& view, const Shader& shader)
 	{
 		glDepthMask(GL_FALSE);
 		cubeMap->Bind(10);
 		shader.Bind();
-		shader.SetUniform("view", glm::mat4(glm::mat3(camera.GetView())));
+		shader.SetUniform("view", glm::mat4(glm::mat3(view)));
 		Draw(*va, *ib, shader);
 		glDepthMask(GL_TRUE);
 

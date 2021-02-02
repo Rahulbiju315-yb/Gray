@@ -1,9 +1,8 @@
 #pragma once
 #include "Test.h"
 #include "Gray/Graphics/Surface.h"
-#include "Gray/Graphics/Camera.h"
-#include "Gray/Graphics/Source/CameraSource.h"
-#include "Gray/Graphics/Source/StaticSource.h"
+#include "Gray/Camera/SceneCamera.h"
+#include "Gray/Camera/CameraController.h"
 #include "glm/glm.hpp"
 #include "Gray/TempUtil.h"
 #include "Gray/Graphics/Skybox.h"
@@ -53,22 +52,20 @@ namespace Test
 
 		}
 
-		Gray::Scene* OnInit() override
+		void OnInit() override
 		{
-			return nullptr;
 		}
 		
 		void Render(float dt) override
 		{
-			skybox.RenderSkybox(camera, *skyboxShader);
+			skybox.RenderSkybox(camera.GetView(), *skyboxShader);
 
 			surfaceShader->SetUniform("view", camera.GetView());
 			surfaceShader->SetUniform("viewPos", camera.GetPos());
 
 			if (!cursorEn)
 			{
-				camera.UpdateLook();
-				camera.Move(dt);
+				Gray::CameraController::Control(camera, dt);
 			}
 
 			surface.Render(*surfaceShader);
@@ -76,7 +73,6 @@ namespace Test
 
 		void PostRender(float dt) override
 		{
-			camera.PostRender();
 		}
 
 		void OnEvent(Gray::Event& e, Gray::EventType type)
@@ -103,7 +99,7 @@ namespace Test
 
 	private:
 
-		Gray::Camera camera;
+		Gray::SceneCamera camera;
 		Gray::Surface surface;
 		Gray::Skybox skybox;
 		Gray::NoCopy<Gray::Shader> surfaceShader;

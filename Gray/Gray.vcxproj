@@ -144,6 +144,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Gray\Application.h" />
+    <ClInclude Include="src\Gray\Camera\CameraController.h" />
+    <ClInclude Include="src\Gray\Camera\EditorCamera.h" />
+    <ClInclude Include="src\Gray\Camera\SceneCamera.h" />
     <ClInclude Include="src\Gray\Debug.h" />
     <ClInclude Include="src\Gray\Events\Event.h" />
     <ClInclude Include="src\Gray\Events\EventListener.h" />
@@ -153,7 +156,6 @@
     <ClInclude Include="src\Gray\Events\MouseCodes.h" />
     <ClInclude Include="src\Gray\Events\MouseEvent.h" />
     <ClInclude Include="src\Gray\Events\WindowEvent.h" />
-    <ClInclude Include="src\Gray\Graphics\Camera.h" />
     <ClInclude Include="src\Gray\Graphics\DebugCube.h" />
     <ClInclude Include="src\Gray\Graphics\Defaults.h" />
     <ClInclude Include="src\Gray\Graphics\Light\DirectionalLight.h" />
@@ -165,15 +167,12 @@
     <ClInclude Include="src\Gray\Graphics\Model\Model.h" />
     <ClInclude Include="src\Gray\Graphics\Model\ModelMesh.h" />
     <ClInclude Include="src\Gray\Graphics\Model\RenderableModel.h" />
-    <ClInclude Include="src\Gray\Graphics\Perspective.h" />
+    <ClInclude Include="src\Gray\Camera\Perspective.h" />
     <ClInclude Include="src\Gray\Graphics\RenderList.h" />
-    <ClInclude Include="src\Gray\Graphics\Resource\ResourceManager.h" />
-    <ClInclude Include="src\Gray\Graphics\Scene.h" />
+    <ClInclude Include="src\Gray\Math\Constants.h" />
+    <ClInclude Include="src\Gray\Math\Math.h" />
+    <ClInclude Include="src\Gray\Resource\ResourceManager.h" />
     <ClInclude Include="src\Gray\Graphics\Skybox.h" />
-    <ClInclude Include="src\Gray\Graphics\Source\CameraSource.h" />
-    <ClInclude Include="src\Gray\Graphics\Source\Source.h" />
-    <ClInclude Include="src\Gray\Graphics\Source\SourceFactory.h" />
-    <ClInclude Include="src\Gray\Graphics\Source\StaticSource.h" />
     <ClInclude Include="src\Gray\Graphics\Surface.h" />
     <ClInclude Include="src\Gray\Graphics\Transform.h" />
     <ClInclude Include="src\Gray\Image\Image.h" />
@@ -182,6 +181,7 @@
     <ClInclude Include="src\Gray\Mesh\MeshData.h" />
     <ClInclude Include="src\Gray\Mesh\Vertex.h" />
     <ClInclude Include="src\Gray\TempUtil.h" />
+    <ClInclude Include="src\Gray\UI\LightingEditor.h" />
     <ClInclude Include="src\Gray\Window\Callbacks.h" />
     <ClInclude Include="src\Gray\Window\Window.h" />
     <ClInclude Include="src\ImGuizmo\ImCurveEdit.h" />
@@ -211,9 +211,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp" />
+    <ClCompile Include="src\Gray\Camera\CameraController.cpp" />
+    <ClCompile Include="src\Gray\Camera\EditorCamera.cpp" />
+    <ClCompile Include="src\Gray\Camera\Perspective.cpp" />
+    <ClCompile Include="src\Gray\Camera\SceneCamera.cpp" />
     <ClCompile Include="src\Gray\Events\Events.cpp" />
     <ClCompile Include="src\Gray\Events\Input.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Camera.cpp" />
     <ClCompile Include="src\Gray\Graphics\DebugCube.cpp" />
     <ClCompile Include="src\Gray\Graphics\Defaults.cpp" />
     <ClCompile Include="src\Gray\Graphics\Light\DirectionalLight.cpp" />
@@ -224,15 +227,13 @@
     <ClCompile Include="src\Gray\Graphics\Model\ModelMesh.cpp" />
     <ClCompile Include="src\Gray\Graphics\Model\RenderableModel.cpp" />
     <ClCompile Include="src\Gray\Graphics\RenderList.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Resource\RMModel.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Resource\RMShader.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Resource\RMTexture.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Resource\ResourceManager.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Scene.cpp" />
+    <ClCompile Include="src\Gray\Math\Constants.cpp" />
+    <ClCompile Include="src\Gray\Math\Math.cpp" />
+    <ClCompile Include="src\Gray\Resource\RMModel.cpp" />
+    <ClCompile Include="src\Gray\Resource\RMShader.cpp" />
+    <ClCompile Include="src\Gray\Resource\RMTexture.cpp" />
+    <ClCompile Include="src\Gray\Resource\ResourceManager.cpp" />
     <ClCompile Include="src\Gray\Graphics\Skybox.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Source\CameraSource.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Source\SourceFactory.cpp" />
-    <ClCompile Include="src\Gray\Graphics\Source\StaticSource.cpp" />
     <ClCompile Include="src\Gray\Graphics\Surface.cpp" />
     <ClCompile Include="src\Gray\Graphics\Transform.cpp" />
     <ClCompile Include="src\Gray\Image\Image.cpp" />
@@ -240,6 +241,7 @@
     <ClCompile Include="src\Gray\Mesh\Mesh.cpp" />
     <ClCompile Include="src\Gray\Mesh\MeshData.cpp" />
     <ClCompile Include="src\Gray\TempUtil.cpp" />
+    <ClCompile Include="src\Gray\UI\LightingEditor.cpp" />
     <ClCompile Include="src\Gray\Window\Callbacks.cpp" />
     <ClCompile Include="src\Gray\Window\Window.cpp" />
     <ClCompile Include="src\ImGuizmo\ImCurveEdit.cpp" />

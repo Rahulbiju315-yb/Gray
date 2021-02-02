@@ -9,17 +9,12 @@ namespace Gray
 	Cubemap::Cubemap()
 		: ID(0)
 	{
+		glGenTextures(1, &ID);
 	}
 
 	void Cubemap::CopyFrom(const Cubemap& src)
 	{
 		ID = src.ID;
-	}
-
-	void Cubemap::CreateIfEmpty()
-	{
-		if(ID == 0)
-			glGenTextures(1, &ID);
 	}
 
 	void Cubemap::Free()
@@ -29,7 +24,6 @@ namespace Gray
 
 	void Cubemap::LoadCubeMap(const std::string& path, const std::string ext, int slot)
 	{
-		CreateIfEmpty();
 		Bind(slot);
 
 
@@ -54,7 +48,6 @@ namespace Gray
 
 	void Cubemap::LoadCubeMap(const std::string& path, int slot)
 	{
-		CreateIfEmpty();
 		Bind(slot);
 
 		Image image;
