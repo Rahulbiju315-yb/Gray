@@ -197,9 +197,6 @@
     <ClInclude Include="src\Gray\Graphics\Light\LightingManager.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Resource\ResourceManager.h">
-      <Filter>Gray\Graphics\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gray\Math\Math.h" />
     <ClInclude Include="src\Gray\Camera\Perspective.h">
       <Filter>Gray\Graphics</Filter>
@@ -209,6 +206,15 @@
     <ClInclude Include="src\Gray\Camera\CameraController.h" />
     <ClInclude Include="src\Gray\UI\LightingEditor.h" />
     <ClInclude Include="src\Gray\Math\Constants.h" />
+    <ClInclude Include="src\Gray\Resources\ModelManager.h" />
+    <ClInclude Include="src\Gray\Resources\TextureManager.h" />
+    <ClInclude Include="src\Platform\Opengl\EmptyStates.h" />
+    <ClInclude Include="src\Gray\Resources\ModelLoader.h" />
+    <ClInclude Include="src\Gray\Algo\Search.h" />
+    <ClInclude Include="src\Gray\Resources\TextureLoader.h" />
+    <ClInclude Include="src\Gray\DS\SafeQueue.h" />
+    <ClInclude Include="src\Gray\Resources\TextureImage.h" />
+    <ClInclude Include="src\Gray\Resources\TextureLoaderPool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -311,18 +317,6 @@
     <ClCompile Include="src\Gray\Graphics\Light\LightingManager.cpp">
       <Filter>Gray\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gray\Resource\ResourceManager.cpp">
-      <Filter>Gray\Graphics\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Resource\RMModel.cpp">
-      <Filter>Gray\Graphics\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Resource\RMShader.cpp">
-      <Filter>Gray\Graphics\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gray\Resource\RMTexture.cpp">
-      <Filter>Gray\Graphics\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="src\Gray\Math\Math.cpp" />
     <ClCompile Include="src\Gray\Camera\SceneCamera.cpp" />
     <ClCompile Include="src\Gray\Camera\Perspective.cpp" />
@@ -330,6 +324,12 @@
     <ClCompile Include="src\Gray\Camera\CameraController.cpp" />
     <ClCompile Include="src\Gray\UI\LightingEditor.cpp" />
     <ClCompile Include="src\Gray\Math\Constants.cpp" />
+    <ClCompile Include="src\Gray\Resources\ModelManager.cpp" />
+    <ClCompile Include="src\Gray\Resources\TextureManager.cpp" />
+    <ClCompile Include="src\Gray\Resources\ModelLoader.cpp" />
+    <ClCompile Include="src\Gray\Algo\Search.cpp" />
+    <ClCompile Include="src\Gray\Resources\TextureLoader.cpp" />
+    <ClCompile Include="src\Gray\Resources\TextureLoaderPool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ImGuizmo\.editorconfig" />

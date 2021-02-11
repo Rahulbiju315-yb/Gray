@@ -30,12 +30,11 @@ namespace Gray
 		for (unsigned int i = 0; i < 6; i++)
 		{
 			Image image;
-			image.path = path + faces[i] + ext;
-			LoadImage(image);
+			LoadImage(image, path + faces[i] + ext);
 
 			glTexImage2D(
 				GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-				0, GL_RGBA, image.width, image.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.data
+				0, GL_RGBA, image.width, image.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.data.get()
 			);
 		}
 
@@ -51,13 +50,13 @@ namespace Gray
 		Bind(slot);
 
 		Image image;
-		image.path = path;
-		LoadImage(image);
+		LoadImage(image, path);
+
 		for (unsigned int i = 0; i < 6; i++)
 		{
 			glTexImage2D(
 				GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-				0, GL_RGBA, image.width, image.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.data
+				0, GL_RGBA, image.width, image.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.data.get()
 			);
 		}
 

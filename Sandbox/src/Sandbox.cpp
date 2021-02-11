@@ -35,7 +35,8 @@ public:
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		test = std::make_unique<Test::TestLighting>();
+		test = std::make_unique<Test::TestTexture>();
+		test->OnInit();
 	}
 
 	void PreRender(float dt) override

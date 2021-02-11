@@ -20,6 +20,7 @@ namespace Gray
 		void LoadBufferData(const void* data, size_t size);
 		void CopyBufferData(const VertexBuffer& src, uint rOffset, uint wOffset, size_t size);
 		void AppendBufferData(const VertexBuffer& src);
+
 	private:
 		uint ID;
 		size_t size;

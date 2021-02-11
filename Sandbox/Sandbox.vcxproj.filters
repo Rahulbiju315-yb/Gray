@@ -26,6 +26,7 @@
     </ClInclude>
     <ClInclude Include="src\test\TestGizmo.h" />
     <ClInclude Include="src\test\TestLighting.h" />
+    <ClInclude Include="src\test\TestTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox.cpp" />

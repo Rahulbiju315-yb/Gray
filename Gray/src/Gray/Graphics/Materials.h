@@ -32,7 +32,7 @@ namespace Gray
 		float shininess;
 
 		uint ID;
-		friend Material RM_CreateMaterial();
+		friend Material NewMaterial();
 	};
 
 }

@@ -11,7 +11,6 @@
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
 
-#include "Gray/Resource/ResourceManager.h"
 #include "ImGuizmo/ImGuizmo.h"
 
 namespace Gray
@@ -183,7 +182,6 @@ namespace Gray
 				Callbacks& callbacks =  *(Callbacks*)(glfwGetWindowUserPointer(window));
 				WindowClosedEvent event;
 
-				FinishAllLoads();
 				callbacks.PropogateEvent(event, EventType::WindowClosed);
 			});
 

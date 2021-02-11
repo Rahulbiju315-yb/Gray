@@ -3,12 +3,11 @@
 #include "Test.h"
 #include "Gray/Graphics/Materials.h"
 #include "Platform/Opengl/Texture.h"
-
+#include "Gray/Resources/TextureManager.h"
 
 #include "Gray/Graphics/Light/PointLight.h"
-#include "Gray/Resource/ResourceManager.h"
-
 #include "Gray/Graphics/Model/RenderableModel.h"
+
 #include "Platform/Opengl/FrameBuffer.h"
 #include "Platform/Opengl/Renderer.h"
 
@@ -29,7 +28,7 @@ namespace Test
 			// FrameBuffer setup
 			colorAttachment->LoadEmptyTexture(1200, 700, GL_RGB, GL_RGB);
 			depthAttachment->LoadDepthTexture(1200, 700);
-			debug = Gray::RM_GetTexture("res/textures/matrix.jpg");
+			debug = tm.GetTexture("res/textures/matrix.jpg");
 
 			offScreen->AddAttachment(*colorAttachment, Gray::AttachmentType::Color);
 			offScreen->AddAttachment(*depthAttachment, Gray::AttachmentType::Depth);
@@ -110,11 +109,13 @@ namespace Test
 
 	private:
 		float kernel[9];
-
+		
 		Gray::NoCopy<Gray::FrameBuffer> offScreen;
+
+		Gray::TextureManager tm;
+		Gray::WeakRef<Gray::Texture> debug;
 		Gray::NoCopy<Gray::Texture> colorAttachment;
 		Gray::NoCopy<Gray::Texture> depthAttachment;
-		Gray::WeakRef<Gray::Texture> debug;
 
 		Gray::NoCopy<Gray::Shader> textureShader;
 

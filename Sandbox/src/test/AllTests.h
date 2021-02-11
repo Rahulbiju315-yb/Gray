@@ -5,3 +5,4 @@
 #include "TestSkybox.h"
 #include "TestGizmo.h"
 #include "TestLighting.h"
+#include "TestTexture.h"

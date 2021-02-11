@@ -7,7 +7,6 @@
 
 #include "imgui.h"
 #include "imguiFileChooser/ImGuiFileDialog.h"
-#include "Gray/Resource/ResourceManager.h"
 
 #define RAND_FLOAT (float)rand() / RAND_MAX
 

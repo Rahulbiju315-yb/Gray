@@ -1,5 +1,6 @@
 #pragma once
 
+#include "EmptyStates.h"
 #include <utility>
 
 namespace Gray
@@ -21,7 +22,7 @@ namespace Gray
 	{
 	public:
 		WeakRef() 
-			: resource(T())
+			: WeakRef<T>( Empty<T>() )
 		{
 		}
 
@@ -47,9 +48,22 @@ namespace Gray
 		WeakRef& operator=(const WeakRef&) = default;
 		WeakRef& operator=(WeakRef&&) = default;
 
-		T& operator*() const { return resource; }
-		T* Get() const { return &resource; }
-		T* operator->() const { return Get(); }
+		T& operator*() const 
+		{ 
+			assert(!(resource.ID == ( (*Empty<T>()).ID )));
+			return resource; 
+		}
+
+		T* Get() const 
+		{ 
+			assert(!(resource.ID == ( (*Empty<T>()).ID )));
+			return &resource; 
+		}
+
+		T* operator->() const 
+		{ 
+			return Get(); 
+		}
 
 	private:
 		mutable T resource;

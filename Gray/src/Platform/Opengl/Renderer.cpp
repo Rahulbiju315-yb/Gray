@@ -5,6 +5,7 @@
 #include "Gray/Events/KeyCodes.h"
 #include "Gray/Application.h"
 #include <GL/glew.h>
+#include "Gray/Mesh/Mesh.h"
 
 namespace Gray
 {
@@ -14,11 +15,14 @@ namespace Gray
 		NoCopy<VertexArray> va;
 	};
 
-	const ScreenQuadData& ScreenQuad()
+	const NoCopyMesh& ScreenQuad()
 	{
-		static ScreenQuadData sData;
-		if (sData.vb->GetID() == 0)
+		static NoCopyMesh mesh;
+		static bool init = false;
+
+		if (!init)
 		{
+			init = true;
 			float vertices[] =
 			{
 				-1.0f,  1.0f, 0.0f, 1.0f, // Top Left
@@ -29,21 +33,21 @@ namespace Gray
 				 1.0f,  1.0f, 1.0f, 1.0f, // Top Right
 				 1.0f, -1.0f, 1.0f, 0.0f, // Bottom Right
 			};
-			sData.vb->LoadBufferData(vertices, 24 * sizeof(float));
+			mesh.vb->LoadBufferData(vertices, 24 * sizeof(float));
 
 			BufferLayout bl;
 			bl.Push<float>(2);
 			bl.Push<float>(2);
-			sData.va->SetAttribPointers(*sData.vb, bl);
+			mesh.va->SetAttribPointers(*mesh.vb, bl);
 		}
 
-		return sData;
+		return mesh;
 	}
 
 	void DrawScreenQuad(const Shader& shader)
 	{
 		shader.Bind();
-		const ScreenQuadData& sd = ScreenQuad();
+		const NoCopyMesh& sd = ScreenQuad();
 		(sd.va)->Bind();
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}

@@ -34,7 +34,7 @@ namespace Gray
 			inf = GL_RGBA;
 		}
 
-		glTexImage2D(GL_TEXTURE_2D, 0, inf, image.width, image.height, 0, exf, GL_UNSIGNED_BYTE, image.data);
+		glTexImage2D(GL_TEXTURE_2D, 0, inf, image.width, image.height, 0, exf, GL_UNSIGNED_BYTE, image.data.get());
 		glGenerateMipmap(GL_TEXTURE_2D);
 		
 	}
@@ -49,8 +49,7 @@ namespace Gray
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		Image image;
-		image.path = path;
-		LoadImage(image, flip);
+		LoadImage(image, path, flip);
 
 		if (image.data)
 		{

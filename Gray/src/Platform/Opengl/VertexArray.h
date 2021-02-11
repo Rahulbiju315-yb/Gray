@@ -19,6 +19,7 @@ namespace Gray
 
 		uint GetAttribCount() { return n_attribs; }
 		uint GetID() const;
+
 	private:
 		uint ID;
 		uint n_attribs;

@@ -1,7 +1,6 @@
 #include "grpch.h"
 #include "RenderableModel.h"
 #include "ModelMesh.h"
-#include "Gray/Resource/ResourceManager.h"
 #include "Platform/Opengl/Renderer.h"
 
 namespace Gray
@@ -14,30 +13,9 @@ namespace Gray
 		shader->LoadProgram("res/shaders/shader.shader");
 	}
 
-	// Pushes path for loading if required and returns true.
-	// Else gets the saved model and returns false
-	bool RenderableModel::SetPath(const std::string& path)
+	void RenderableModel::SetModel(const Model& m)
 	{
-		bool requiredToLoadModel = true;
-		if (!RM_IsModelLoaded(path))
-		{
-			model.SetPath(path);
-		}
-		else
-		{
-			model = RM_GetModel(path);
-			requiredToLoadModel = false;
-		}
-
-		return requiredToLoadModel;
-	}
-
-	bool RenderableModel::TryToLoadModel()
-	{
-		bool finished = model.TryToLoadModel();
-		if (finished)
-			GroupMeshesByMaterial();
-		return finished;
+		model = m;
 	}
 
 	Transform& RenderableModel::GetTransform() { return transform; }

@@ -1,11 +1,9 @@
 #pragma once
 
 #include "ModelMesh.h"
-
-#include "assimp/Importer.hpp"
 #include "assimp/scene.h"
-#include "assimp/postprocess.h"
 #include "Gray/Mesh/MeshData.h"
+#include "Gray/Resources/TextureManager.h"
 
 namespace Gray
 {
@@ -15,28 +13,24 @@ namespace Gray
 	public:
 		Model() = default;
 
-		void SetPath(const std::string path);
-		bool TryToLoadModel();
-
-		void LoadScene(const aiScene* path);
-		std::string GetPath();
+		void LoadScene(const aiScene* scene, const std::string& path, TextureManager& rm);
 
 		std::vector<ModelMesh>::iterator begin();
 		std::vector<ModelMesh>::iterator end();
 
 	private:
 		std::vector<ModelMesh> meshes;
-		std::vector<Material> materials;
-		std::string path; 
 
 		MeshData LoadMeshData(aiMesh* mesh);
-
-		void ProcessNode(aiNode* node, const aiScene* scene, bool flipTextures);
-		void CreateMesh(aiMesh* mesh, const aiScene* scene, bool flipTextures);
-
-		void CreateMaterials(const aiScene* scene, bool flipTextures);
-		void ProcessTextures(aiMaterial* material, Material& newMat, aiTextureType type, bool flipTextures);
+		void ProcessNode(aiNode* node, const aiScene* scene, const std::vector<Material>& materials);
 
 		friend class RenderableModel;
 	};
+
+	void CreateMaterials(const aiScene* scene, std::vector<Material>& materials, const std::string& path,
+			TextureManager& rm);
+
+	void ProcessTextures(aiMaterial* material, Material& newMat, aiTextureType type, const std::string& path,
+		TextureManager& rm);
+		
 }
