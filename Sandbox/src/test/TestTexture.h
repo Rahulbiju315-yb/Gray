@@ -21,7 +21,6 @@
 
 namespace Test
 {
-	void fill(float* arr, float f, int n);
 
 	class TestTexture : public Test
 	{
@@ -32,7 +31,8 @@ namespace Test
 
 		void OnInit() override
 		{
-			texture = tm.GetTexture("res/textures/matrix.jpg");
+			tm.GetTexture("res/textures/wood.png");
+			texture = tm.GetTexture("res/textures/container2.png");
 			texture->Bind(1);
 
 			shader->LoadProgram("res/shaders/textureShader.shader");
@@ -54,7 +54,6 @@ namespace Test
 		}
 
 	private:
-		
 		Gray::TextureManager tm;
 		Gray::NoCopy<Gray::Shader> shader;
 

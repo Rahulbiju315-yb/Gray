@@ -11,15 +11,15 @@ namespace Gray
 	{
 	}
 
-	void PointLight::SetUniformsFor(const Shader& shader, uint index)
+	void PointLight::SetUniformsFor(const Shader& shader, uint index) const 
 	{
 		std::string prefix = "pointLight[" + std::to_string(index) + "].";
 	
 		shader.SetUniform(prefix + "pos", pos);
 			  
-		shader.SetUniform(prefix + "ambient", color.GetAmbient());
-		shader.SetUniform(prefix + "diffuse", color.GetDiffuse());
-		shader.SetUniform(prefix + "specular", color.GetSpecular());
+		shader.SetUniform(prefix + "ambient", color.ambient);
+		shader.SetUniform(prefix + "diffuse", color.diffuse);
+		shader.SetUniform(prefix + "specular", color.specular);
 					  
 		shader.SetUniform(prefix + "const_term", attenuation.x);
 		shader.SetUniform(prefix + "lin_term", attenuation.y);

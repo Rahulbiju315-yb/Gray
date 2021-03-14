@@ -16,10 +16,10 @@ namespace Gray
         return (state == GLFW_PRESS) || (state == GLFW_REPEAT);
     }
 
-    bool Input::IsMouseButtonPressed(MouseCodes mouseButton)
+    bool Input::IsMouseButtonPressed(int mouseButton)
     {
         GLFWwindow* window = Window::GetWindow()->GetGLFWwindow();
-        int state = glfwGetMouseButton(window, (int)mouseButton);
+        int state = glfwGetMouseButton(window, mouseButton);
 
         return (state == GLFW_PRESS);
     }

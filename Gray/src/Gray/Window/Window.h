@@ -12,18 +12,21 @@ namespace Gray
 	public:	
 		static Window* GetWindow(const std::string& title="Gray Window", uint width = 1200, uint height = 700);
 
-		void Update();
-		void PollEvents();
+		static void Update();
+		static void PollEvents();
 
-		void AddListener(EventListener* listener);
+		static void AddListener(EventListener* listener);
 
-		uint GetWidth() const;
-		uint GetHeight() const;
-		const std::string& GetTitle() const;
+		static uint GetWidth();
+		static uint GetHeight();
 
-		GLFWwindow* GetGLFWwindow();
+		static void SetCursorEnabled(bool enable);
+		static bool IsCursorEnabled();
 
-		bool ShouldBeClosed();
+		static const std::string& GetTitle();
+		static GLFWwindow* GetGLFWwindow();
+		
+		static bool ShouldBeClosed();
 
 	private:
 		Window();
@@ -49,9 +52,9 @@ namespace Gray
 		Callbacks callbacks;
 		GLFWwindow* glfwWindow;
 
-		bool initialized;
+		bool isCursorEn;
 
-		static Window singleton;
+		static Window* singleton;
 
 		friend class Application;
 		friend void FrameBufferSizeCallback(GLFWwindow*, int width, int height);

@@ -1,2 +1,0 @@
-D:\code\Gray\bin\Debug-windows-x86_64\Gray\Gray.pdb
-D:\code\Gray\bin-int\Debug-windows-x86_64\Gray\Gray.pdb

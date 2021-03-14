@@ -4,9 +4,14 @@
 
 #include "Gray/Graphics/Light/PointLight.h"
 #include "Gray/Graphics/Model/RenderableModel.h"
+#include "Gray/Resources/ModelManager.h"
+
+#include "Gray/Camera/SceneCamera.h"
+#include "Gray/Camera/CameraController.h"
 
 #include "imgui.h"
 #include "imguiFileChooser/ImGuiFileDialog.h"
+#include "Gray/Graphics/Light/LightingManager.h"
 
 #define RAND_FLOAT (float)rand() / RAND_MAX
 
@@ -16,27 +21,54 @@ namespace Test
 	{
 	public:
 		TestModelLoading(int n = 0, float closeness = 10)
-			: closeness(closeness), n(n), path(BAG), rIndex(-1)
+			: closeness(closeness), n(n), path(BAG), index(0)
 		{
-			
 		}
 
 		
 		void OnInit() override
 		{
+			index = mm.GetModelId("res/models/backpack/backpack.obj");
+			shader->LoadProgram("res/shaders/shader.shader");
+			shader->SetUniform("projection", camera.GetProjection());
+
+			Gray::PointLight pl;
+			pl.attenuation = glm::vec3{1, 0, 0};
+			pl.color.ambient = glm::vec3{ 1, 1, 1 };
+			lm.AddPointLight(pl);
+		}
+
+		void PreRender(float dt) override
+		{
+			if (!Gray::TempUtil::IsCursorEnabled())
+			{
+				Gray::CameraController::Control(camera, dt);
+			}
 		}
 
 		void Render(float dt) override
 		{
-
+			if (mm.RequireInit())
+			{
+				mm.InitModels();
+				if (!mm.RequireInit())
+				{
+					model = mm.GetModels(std::vector{ index })[0];
+					rmodel.SetModel(model);
+				}
+			}
+			else
+			{
+				lm.SetUniformsFor(*shader);
+				shader->SetUniform("view", camera.GetView());
+				rmodel.Render(*shader);
+			}
 		}
 
-		
-
 		// Debug 
-
 		void PostRender(float dt)
 		{
+
 		}
 
 		void DebugFileChooser()
@@ -63,10 +95,16 @@ namespace Test
 		}
 
 	private:
-		int rIndex;
+		Gray::SceneCamera camera;
+		Gray::ModelManager mm;
+		Gray::LightingManager lm;
+		Gray::Model model;
+		Gray::RenderableModel rmodel;
+		Gray::NoCopy<Gray::Shader> shader;
 
 		float closeness;
 		int n;
+		uint index;
 		std::string path;
 	};
 

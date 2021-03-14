@@ -6,11 +6,8 @@
 namespace Gray
 {
 	bool GroupByMaterialComparator(const ModelMesh& m1, const ModelMesh& m2);
-
-	uint boundMaterialID;
-	RenderableModel::RenderableModel(): n_instances(0)
+	RenderableModel::RenderableModel(): n_instances(1)
 	{
-		shader->LoadProgram("res/shaders/shader.shader");
 	}
 
 	void RenderableModel::SetModel(const Model& m)
@@ -20,21 +17,28 @@ namespace Gray
 
 	Transform& RenderableModel::GetTransform() { return transform; }
 
-	void RenderableModel::Render()
+	void RenderableModel::Render(const Shader& shader)
 	{
 		assert(model.meshes.size() != 0);
-		SetTransformUniforms();
+		SetTransformUniforms(shader);
+
+		uint boundMaterialID = 0;
 		for (auto& mesh : model)
 		{
-			SetMaterialUniforms(mesh.material);
-			boundMaterialID = mesh.material.GetID();
+			uint materialID = mesh.material.GetID();
+			if (boundMaterialID != materialID)
+			{
+				SetMaterialUniforms(mesh.material, shader);
+				boundMaterialID = materialID;
+			}
 
 			auto& rData = mesh.renderData;
 			assert((rData.va)->GetID() != 0);
 			assert((rData.vb)->GetID() != 0);
 			assert((rData.ib)->GetID() != 0);
-			assert((shader->GetID()) != 0);
-			Draw(*(rData.va), *(rData.ib), *shader, n_instances);
+			assert((shader.GetID()) != 0);
+
+			Draw(*(rData.va), *(rData.ib), shader, n_instances);
 		}
 	}
 
@@ -59,36 +63,33 @@ namespace Gray
 		n_instances = (uint)(offsets.size() / 3);
 	}
 
-	Shared<Shader> RenderableModel::GetShader(){ return shader; }
-	void RenderableModel::SetShader(Shared<Shader> shader) { this->shader = shader; }
-
 	void RenderableModel::GroupMeshesByMaterial()
 	{
 		std::sort(model.meshes.begin(), model.meshes.end(), &GroupByMaterialComparator);
 	}
 	
-	void RenderableModel::SetTransformUniforms()
+	void RenderableModel::SetTransformUniforms(const Shader& shader)
 	{
 		static std::string mod = "model";
 		static std::string invMod = "invModel";
 
 		const glm::mat4& model = transform.GetModelMatrix();
 		
-		shader->SetUniform(mod, model);
-		shader->SetUniform(invMod, glm::inverse(model));
+		shader.SetUniform(mod, model);
+		shader.SetUniform(invMod, glm::inverse(model));
 	}
 
-	void RenderableModel::SetMaterialUniforms(const Material& material)
+	void RenderableModel::SetMaterialUniforms(const Material& material, const Shader& shader)
 	{
 		static std::string diff = "material.diffuse";
         static std::string spec = "material.specular";
         static std::string emm = "material.emission";
         static std::string shine = "material.shininess";
 
-        shader->SetUniform(diff, 1);
-        shader->SetUniform(spec, 2);
-        shader->SetUniform(emm, 3);
-        shader->SetUniform(shine, material.GetShininess());
+        shader.SetUniform(diff, 1);
+        shader.SetUniform(spec, 2);
+        shader.SetUniform(emm, 3);
+        shader.SetUniform(shine, material.GetShininess());
 
         WeakRef<Texture> diffuse = material.GetDiffuse();
         WeakRef<Texture> specular = material.GetSpecular();

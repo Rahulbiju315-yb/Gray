@@ -247,6 +247,12 @@ namespace Gray
 		glUniformMatrix3fv(GetUniformLocation(name.c_str()), 1, GL_FALSE, glm::value_ptr(m3));
 	}
 
+	void Shader::BindUniformBlock(const std::string& blk, uint slot)
+	{
+		uint index = glGetUniformBlockIndex(ID, blk.c_str());
+		glUniformBlockBinding(ID, index, slot);
+	}
+
 	bool Shader::IsLoadSucces() const
 	{
 		return success;

@@ -12,8 +12,8 @@ namespace Gray
         void Pan(float sensitivity=0.05f);
         void Zoom(float alpha);
 
-        const glm::mat4 GetView();
-        const glm::mat4& GetProjection();
+        const glm::mat4 GetView() const;
+        const glm::mat4& GetProjection() const;
 
         glm::vec3 focusPoint;
 

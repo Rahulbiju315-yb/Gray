@@ -11,7 +11,7 @@ namespace Gray
 		static const uint MAX_LIMIT;
 
 		DirectionalLight();
-		void SetUniformsFor(const Shader& shader, uint index);
+		void SetUniformsFor(const Shader& shader, uint index) const;
 
 		LightColor color;
 		glm::vec3 dir;

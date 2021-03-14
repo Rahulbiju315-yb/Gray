@@ -8,28 +8,26 @@
 
 namespace Gray
 {
-	class ModelLoader : public EventListener
+	class ModelLoader
 	{
 	public:
-		ModelLoader(ModelLoader&&) = default;
+		ModelLoader();
+		ModelLoader(ModelLoader&&) noexcept;
 		~ModelLoader();
 
 		void AddManager(ModelManager& mm);
 		void RemoveManager(ModelManager& mm);
-
-		static ModelLoader& GetModelLoader(int n = 0);
-		void OnEvent(Event& e, EventType type) override;
+		bool RequiresLoading();
+		void Notify();
+		bool IsRunning();
 
 	private:
 		std::thread loader;
 		std::vector<ModelManager*> managers;
-		static std::vector<ModelLoader> loaderPool;
+		std::condition_variable cvar;
+		std::mutex cvmutex;
 
 		bool run;
-
-		ModelLoader();
-		ModelLoader(const ModelLoader&) = delete;
-
 
 		ModelLoader& operator=(const ModelLoader&) = delete;
 		ModelLoader& operator=(ModelLoader&&) = delete;
@@ -39,7 +37,6 @@ namespace Gray
 		TextureManager& GetTextureManager(ModelManager& mm);
 
 		friend void LoaderFun(ModelLoader& ml);
-		friend void OnWindowClose();
 	};
 
 	void LoaderFun(ModelLoader& mm);

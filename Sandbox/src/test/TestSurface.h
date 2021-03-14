@@ -51,10 +51,6 @@ namespace Test
 
 
 		}
-
-		void OnInit() override
-		{
-		}
 		
 		void Render(float dt) override
 		{
@@ -71,10 +67,6 @@ namespace Test
 			surface.Render(*surfaceShader);
 		}
 
-		void PostRender(float dt) override
-		{
-		}
-
 		void OnEvent(Gray::Event& e, Gray::EventType type)
 		{
 			if (type == Gray::EventType::KeyPressed)
@@ -83,17 +75,9 @@ namespace Test
 
 		void OnKeyPressed(Gray::KeyPressedEvent& e)
 		{
-			if (e.GetKeyCode() == TO_INT(Gray::KeyCodes::Key_T))
+			if (e.GetKeyCode() == GLFW_KEY_T)
 			{
-				cursorEn = !cursorEn;
-				if (cursorEn)
-				{
-					Gray::TempUtil::EnableCursor();
-				}
-				else
-				{
-					Gray::TempUtil::DisableCursor();
-				}
+				Gray::Window::SetCursorEnabled(!Gray::Window::IsCursorEnabled());
 			}
 		}
 

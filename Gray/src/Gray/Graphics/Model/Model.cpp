@@ -184,7 +184,7 @@ namespace Gray
 
 	Material NewMaterial()
 	{
-		static uint ID = 0;
+		static uint ID = 1;
 
 		Material m;
 		m.ID = ID++;

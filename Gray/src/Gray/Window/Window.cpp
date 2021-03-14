@@ -15,7 +15,8 @@
 
 namespace Gray
 {
-	Window Window::singleton;
+	Window* Window::singleton = nullptr;
+
 	void MessageCallback(GLenum source,
 			GLenum type,
 			GLuint id,
@@ -26,17 +27,17 @@ namespace Gray
 
 	Window* Window::GetWindow(const std::string& title, uint width, uint height)
 	{
-		if (!singleton.initialized)
+		if (!singleton)
 		{
-			singleton.Initialize(title, width, height);
-			singleton.initialized = true;
+			singleton = new Window();
+			singleton->Initialize(title, width, height);
 		}
 
-		return &singleton;
+		return singleton;
 	}
 
 	Window::Window()
-		: width(0), height(0), title("Gray Window"), initialized(false), glfwWindow(nullptr)
+		: width(0), height(0), title("Gray Window"), glfwWindow(nullptr), isCursorEn(true)
 	{
 	}
 
@@ -91,45 +92,70 @@ namespace Gray
 
 	void Window::Update()
 	{
+		assert(singleton);
 		PollEvents();
-		glfwSwapBuffers(glfwWindow);
+		glfwSwapBuffers(singleton->glfwWindow);
 	}
 
 	void Window::PollEvents()
 	{
+		assert(singleton);
 		glfwPollEvents();
 	}
 
 	void Window::AddListener(EventListener* listener)
 	{
-		callbacks.AddListener(listener);
+		assert(singleton);
+		singleton->callbacks.AddListener(listener);
 	}
 
-	uint Window::GetWidth() const
+	uint Window::GetWidth()
 	{
-		return width;
+		assert(singleton);
+		return singleton->width;
 	}
 
-	uint Window::GetHeight() const
+	uint Window::GetHeight()
 	{
-		return height;
+		assert(singleton);
+		return singleton->height;
 	}
 
-	const std::string& Window::GetTitle() const
+	void Window::SetCursorEnabled(bool enable)
 	{
-		return title;
+		assert(singleton);
+		singleton->isCursorEn = enable;
+
+		if(singleton->isCursorEn)
+			glfwSetInputMode(Window::GetWindow()->GetGLFWwindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		else
+			glfwSetInputMode(Window::GetWindow()->GetGLFWwindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+	}
+
+	bool Window::IsCursorEnabled()
+	{
+		assert(singleton);
+		return singleton->isCursorEn;
+	}
+
+	const std::string& Window::GetTitle()
+	{
+		assert(singleton);
+		return singleton->title;
 	}
 
 	GLFWwindow* Window::GetGLFWwindow()
 	{
-		return glfwWindow;
+		assert(singleton);
+		return singleton->glfwWindow;
 	}
 
 	bool Window::ShouldBeClosed()
 	{
-		return glfwWindowShouldClose(glfwWindow);
+		assert(singleton);
+		return glfwWindowShouldClose(singleton->glfwWindow);
 	}
-
 
 	void Window::InitImgui()
 	{
@@ -140,7 +166,7 @@ namespace Gray
 		
 		ImGui::StyleColorsDark();
 		ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
-		ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);
+		ImGui_ImplGlfw_InitForOpenGL(singleton->glfwWindow, true);
 	}
 
 	void Window::DestroyImgui()
@@ -233,8 +259,8 @@ namespace Gray
 	
 	void FrameBufferSizeCallback(GLFWwindow*, int width, int height)
 	{
-		Window::singleton.width = width;
-		Window::singleton.height = height;
+		Window::singleton->width = width;
+		Window::singleton->height = height;
 
 		glViewport(0, 0, width, height);
 	}

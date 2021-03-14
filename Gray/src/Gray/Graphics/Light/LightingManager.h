@@ -11,7 +11,8 @@ namespace Gray
 	{
 		PointLight,
 		SpotLight,
-		DirectionalLight
+		DirectionalLight,
+		None
 	};
 
 	class LightingManager

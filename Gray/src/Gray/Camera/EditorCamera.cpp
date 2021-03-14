@@ -5,7 +5,6 @@
 #include "glm/gtx/euler_angles.hpp"
 
 #include "Gray/Math/Math.h"
-#include "Gray/Events/MouseCodes.h"
 
 #include "Perspective.h"
 #include "Gray/Math/Constants.h"
@@ -39,12 +38,12 @@ namespace Gray
 		RecalculateView();
 	}
 
-	const glm::mat4 EditorCamera::GetView()
+	const glm::mat4 EditorCamera::GetView() const
 	{
 		return view;
 	}
 
-	const glm::mat4& EditorCamera::GetProjection()
+	const glm::mat4& EditorCamera::GetProjection() const
 	{
 		return projection;
 	}

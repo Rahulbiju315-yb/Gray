@@ -37,12 +37,15 @@ namespace Gray
 
 		toLoad.Enqueue(std::pair{refTex, path});
 		textures.push_back(std::move(ncTex));
+		paths.push_back(path);
 		nUninit++;
+		
+		tl.Notify();
 
 		return refTex;
 	}
 
-	bool TextureManager::RequireLoading()
+	bool TextureManager::RequiresLoading()
 	{
 		return !toLoad.IsEmpty();
 	}
@@ -60,7 +63,12 @@ namespace Gray
 			toInit.DequeueTo(loadedImage);
 
 			auto [tex, im] = std::move(loadedImage);
-			tex->LoadTextureFrom(im);
+			
+			if (im.data)
+				tex->LoadTextureFrom(im);
+			else
+				tex->LoadEmptyTexture(1, 1);
+
 			GRAY_CORE_INFO("Initialised Texture ID = " + std::to_string(tex->GetID()));
 			nUninit--;
 		}

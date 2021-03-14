@@ -1,16 +1,195 @@
 #include "grpch.h"
 #include "LightingEditor.h"
 
+#include "imgui.h"
+
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
+#include "Gray/Math/Constants.h"
+#include "Gray/Window/Window.h"
+
+#include "Platform/Opengl/Renderer.h"
+
 namespace Gray
 {
 	LightingEditor::LightingEditor()
+		: selectedLight{0, LightType::None}
 	{
-		
+		pointerMesh = Gray::CreateMeshPNT(Gray::GetPyramidMeshData());
+		pointerShader->LoadProgram("res/shaders/colorShader.shader");
+		pointerShader->SetUniform("color", glm::vec3(1));
+
+		Gray::PointLight pl;
+		pl.color.ambient = glm::vec3(1);
+		pl.color.specular = glm::vec3(0.0f);
+		pl.color.diffuse = glm::vec3(0.0f);
+		lightMan.AddPointLight(pl);
 	}
 
-	void LightingEditor::DrawEditor()
+	void LightingEditor::DrawEditor(const EditorCamera& camera)
 	{
+		UIAddButtons();
+		UISelectionPanel();
 
+		if (!showRendered)
+		{
+			GizmoRender(s_model, camera);
+			UpdateSelectedLight();
+		}
+
+		if (selectedLight.ltype == Gray::LightType::SpotLight || selectedLight.ltype == Gray::LightType::DirectionalLight)
+		{
+			DrawPointer(camera, s_model);
+		}
+	}
+
+	void LightingEditor::DrawPointer(const EditorCamera camera, const glm::mat4& model)
+	{
+		pointerShader->SetUniform("view", camera.GetView());
+		pointerShader->SetUniform("model", glm::scale(model, { 0.05f, 0.1f, 0.05f }));
+
+		Draw(*pointerMesh.va, *pointerMesh.ib, *pointerShader);
+	}
+	void LightingEditor::UISelectionPanel()
+	{
+		if (!names.empty())
+		{
+			static bool changed = false;
+			static int currentItem = 0;
+
+			std::vector<const char*> cnames;
+			cnames.reserve(names.size());
+			for (const std::string& s : names)
+				cnames.push_back(s.c_str());
+
+			changed = ImGui::ListBox("Items : ", &currentItem, &(cnames[0]), names.size());
+			selectedLight = lights[currentItem];
+
+			if (changed)
+			{
+				OnLightSelect();
+			}
+
+		}
+	}
+
+	void LightingEditor::UIAddButtons()
+	{
+		if (ImGui::Button("Add point light"))
+		{
+			uint i = lightMan.AddPointLight();
+			lights.push_back(Light{ i, Gray::LightType::PointLight });
+			names.push_back(("Point Light " + std::to_string(i)));
+		}
+
+		if (ImGui::Button("Add spot light"))
+		{
+			uint i = lightMan.AddSpotLight();
+			lights.push_back(Light{ i, Gray::LightType::SpotLight });
+			names.push_back(("Spot Light " + std::to_string(i)));
+		}
+
+		if (ImGui::Button("Add directional light"))
+		{
+			uint i = lightMan.AddDirectionalLight();
+			lights.push_back(Light{ i, Gray::LightType::DirectionalLight });
+			names.push_back(("Directional Light " + std::to_string(i)));
+		}
+
+	}
+
+	void LightingEditor::UpdateSelectedLight()
+	{
+		if (selectedLight.ltype == Gray::LightType::PointLight)
+		{
+			Gray::PointLight& pl = lightMan.GetPointLight(selectedLight.ID);
+			pl.pos = glm::vec3(s_model[3]);
+		}
+
+		else if (selectedLight.ltype == Gray::LightType::SpotLight)
+		{
+			Gray::SpotLight& sl = lightMan.GetSpotLight(selectedLight.ID);
+			sl.pos = glm::vec3(s_model[3]);
+			sl.dir = glm::mat3(s_model) * glm::vec3{ 0, 1, 0 };
+		}
+
+		else if (selectedLight.ltype == Gray::LightType::DirectionalLight)
+		{
+			Gray::DirectionalLight& dl = lightMan.GetDirectionalLight(selectedLight.ID);
+			dl.dir = glm::mat3(s_model) * glm::vec3{ 0, 1, 0 };
+		}
+	}
+
+	void LightingEditor::GizmoRender(glm::mat4& model, const EditorCamera& camera)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+		ImGuizmo::SetOrthographic(false);
+		ImGuizmo::DrawGrid(&(camera.GetView()[0][0]), &(camera.GetProjection()[0][0]),
+			&(glm::mat4(1)[0][0]), 100.f);
+
+		ImGuizmo::Manipulate(&(camera.GetView()[0][0]), &(camera.GetProjection()[0][0]),
+			ops, ImGuizmo::WORLD, &(model[0][0]), nullptr, nullptr, nullptr, nullptr);
+	}
+
+	void GetRotationMat(glm::vec3 v1, glm::vec3 v2, glm::mat4& mat)
+	{
+		glm::vec3 cross = glm::cross(v1, v2);
+		float alpha = glm::acos(glm::dot(glm::normalize(v1), glm::normalize(v2)));
+
+		mat = glm::rotate(Gray::UNIT_MAT4, alpha, cross);
+	}
+
+	void LightingEditor::OnLightSelect()
+	{
+		if (selectedLight.ltype == Gray::LightType::PointLight)
+		{
+			Gray::PointLight& pl = lightMan.GetPointLight(selectedLight.ID);
+			s_model = glm::translate(Gray::UNIT_MAT4, pl.pos);
+		}
+
+		else if (selectedLight.ltype == Gray::LightType::SpotLight)
+		{
+			Gray::SpotLight& sl = lightMan.GetSpotLight(selectedLight.ID);
+			GetRotationMat({ 0, 1, 0 }, sl.dir, s_model);
+			s_model[3] = glm::vec4(sl.pos, 1);
+		}
+
+		else if (selectedLight.ltype == Gray::LightType::DirectionalLight)
+		{
+			Gray::DirectionalLight& dl = lightMan.GetDirectionalLight(selectedLight.ID);
+			GetRotationMat({ 0, 1, 0 }, dl.dir, s_model);
+		}
+	}
+
+	void LightingEditor::OnEvent(Event& e, EventType type)
+	{
+		if (type == Gray::EventType::KeyPressed)
+			OnKeyPressed((Gray::KeyPressedEvent&)e);
+	}
+
+	void LightingEditor::OnKeyPressed(Gray::KeyPressedEvent& e)
+	{
+		if (e.GetKeyCode() == GLFW_KEY_T)
+		{
+			Window::SetCursorEnabled(!Window::IsCursorEnabled());
+		}
+
+		else if (e.GetKeyCode() == GLFW_KEY_Z)
+		{
+			ops = ImGuizmo::TRANSLATE;
+		}
+
+		else if (e.GetKeyCode() == GLFW_KEY_X)
+		{
+			ops = ImGuizmo::ROTATE;
+		}
+
+		else if (e.GetKeyCode() == GLFW_KEY_C)
+		{
+			ops = ImGuizmo::SCALE;
+		}
 	}
 
 	const LightingManager& LightingEditor::GetLightingManager() const

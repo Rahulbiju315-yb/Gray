@@ -15,25 +15,20 @@ namespace Gray
 		RenderableModel(RenderableModel&& model) = default;
 
 		void SetModel(const Model& m);
-
 		Transform& GetTransform();
-		void Render();
+
+		void Render(const Shader& shader);
 
 		void SetInstanceOffsets(std::vector<float> offsets);
-
-		Shared<Shader> GetShader();
-		void SetShader(Shared<Shader> shader);
 
 	private:
 		Transform transform;
 		Model model;
-		Shared<Shader> shader;
 		NoCopy<VertexBuffer> offsetsBuffer;
 		uint n_instances;
-
 		
-		void SetTransformUniforms();
-		void SetMaterialUniforms(const Material& material);
+		void SetTransformUniforms(const Shader& shader);
+		void SetMaterialUniforms(const Material& material, const Shader& shader);
 		void GroupMeshesByMaterial();
 	};
 }

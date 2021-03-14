@@ -26,6 +26,8 @@ namespace Gray
 		void SetUniform(const std::string& name, const glm::mat4& m4) const;
 		void SetUniform(const std::string& name, const glm::mat3& m3) const;
 
+		void BindUniformBlock(const std::string& blk, uint slot);
+
 		bool IsLoadSucces() const;
 
 		uint GetID() const;

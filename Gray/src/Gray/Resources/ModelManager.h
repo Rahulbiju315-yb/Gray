@@ -8,9 +8,6 @@
 
 typedef unsigned int uint;
 
-std::mutex texMutex;
-std::mutex rlMutex;
-
 namespace Gray
 {
     class ModelManager
@@ -25,8 +22,8 @@ namespace Gray
         ModelManager& operator=(const ModelManager&) = delete;
         ModelManager& operator=(ModelManager&&) = delete;
 
-        uint GetModel(const std::string& path);
-        bool RequireLoading();
+        uint GetModelId(const std::string& path);
+        bool RequiresLoading();
         bool RequireInit();
         void InitModels();
 
@@ -42,6 +39,7 @@ namespace Gray
         SafeQueue<std::pair<std::string, uint>> toLoad;
         SafeQueue<std::pair<const aiScene*, uint>> toInit;
 
+        uint nUninit;
         friend class ModelLoader;
         ModelLoader& ml;
     };

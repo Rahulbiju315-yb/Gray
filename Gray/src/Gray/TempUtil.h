@@ -12,5 +12,9 @@ namespace Gray
 		static void DisableCursor();
 		static void EnableCursor();
 		static float GetTime();
+		static bool IsCursorEnabled();
+
+	private:
+		static bool isCursoEn;
 	};
 }

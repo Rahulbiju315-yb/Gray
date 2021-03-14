@@ -18,13 +18,12 @@ namespace Gray
 		WeakRef<Texture> GetTexture(const std::string& path);
 		//bool HasLoaded(const std::string& path);
 		
-		bool RequireLoading();
+		bool RequiresLoading();
 		bool RequireInit();
 
 		void InitTextures();
+
 	private:
-
-
 		std::vector<NoCopy<Texture>> textures;
 		std::vector<std::string> paths;
 		uint nUninit;

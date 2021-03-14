@@ -2,8 +2,6 @@
 
 #include "Gray/Events/Event.h"
 
-#include "KeyCodes.h"
-
 namespace Gray
 {
 	class KeyEvent : public Event

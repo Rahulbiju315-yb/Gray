@@ -1,6 +1,5 @@
 #pragma once
 
-#include "MouseCodes.h"
 
 namespace Gray
 {
@@ -8,7 +7,7 @@ namespace Gray
 	{
 	public:
 		static bool IsKeyPressed(int keyCode);
-		static bool IsMouseButtonPressed(MouseCodes mouseButton);
+		static bool IsMouseButtonPressed(int mouseButton);
 
 		static float GetMouseX();
 		static float GetMouseY();

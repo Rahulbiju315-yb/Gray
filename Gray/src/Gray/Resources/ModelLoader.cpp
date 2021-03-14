@@ -6,24 +6,26 @@
 
 namespace Gray
 {
-	ModelLoader::ModelLoader()
+    ModelLoader::ModelLoader()
+        : run(true)
 	{
-        run = true;
         loader = std::thread(LoaderFun, std::ref(*this));
 	}
+
+    ModelLoader::ModelLoader(ModelLoader&& src) noexcept
+        : loader(std::move(src.loader)),
+          managers(std::move(src.managers)),
+          run(src.run)
+    {
+    }
 
     ModelLoader::~ModelLoader()
     {
         run = false;
+        cvar.notify_one();
+
         if (loader.joinable())
             loader.join();
-    }
-
-	
-    void ModelLoader::OnEvent(Event& e, EventType type)
-    {
-       if (type == EventType::WindowClosed)
-            loaderPool.clear();
     }
 
     void ModelLoader::AddManager(ModelManager& mm)
@@ -36,15 +38,26 @@ namespace Gray
         managers.erase(std::remove(managers.begin(), managers.end(), &mm), managers.end());
     }
 
-    ModelLoader& ModelLoader::GetModelLoader(int n)
+    bool ModelLoader::RequiresLoading()
     {
-        if (loaderPool.size() == 0)
-            loaderPool.push_back(ModelLoader());
+        for (ModelManager* mm : managers)
+        {
+            if (mm->RequiresLoading())
+                return true;
+        }
 
-        assert(n < loaderPool.size());
-        return loaderPool[n];
+        return false;
     }
 
+    void ModelLoader::Notify()
+    {
+        cvar.notify_one();
+    }
+
+    bool ModelLoader::IsRunning()
+    {
+        return run;
+    }
 
     bool ModelLoader::NextModelPath(std::pair<std::string, uint>& next, ModelManager& mm)
     {
@@ -71,6 +84,14 @@ namespace Gray
     {
         while (ml.run)
         {
+            {
+                std::unique_lock lock(ml.cvmutex);
+                ml.cvar.wait(lock, [&]
+                    {
+                        return ml.RequiresLoading() || !ml.IsRunning();
+                    });
+            }
+
             for (ModelManager* mm : ml.managers)
             {
                 std::pair<std::string, uint> nextload;
@@ -91,17 +112,12 @@ namespace Gray
                    else
                        GRAY_CORE_INFO("Succesfully loaded model" + path);
 
-				   std::vector<Material> materials;
-                   CreateMaterials(loadedScene, materials, path, ml.GetTextureManager(*mm));
+				   /*std::vector<Material> materials;
+                   CreateMaterials(loadedScene, materials, path, ml.GetTextureManager(*mm));*/
 
                    ml.AddForInit(std::make_pair(loadedScene, id), *mm);
                 }
             }
         }
-    }
-
-    void OnWindowClose()
-    {
-        ModelLoader::loaderPool.clear();
     }
 }

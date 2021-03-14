@@ -4,24 +4,24 @@
 
 namespace Gray
 {
-	std::vector<TextureLoader> TextureLoaderPool::pool;
+	std::vector<TextureLoader> pool;
 
 	TextureLoaderPool::TextureLoaderPool()
 	{
+		static uint id = 1;
 		Window::GetWindow()->AddListener(this);
-		if (std::is_move_constructible<TextureLoader>::value)
-		{
-			pool.reserve(5);
-			pool.emplace_back();
-		}
+
+		pool.reserve(5);
+		pool.emplace_back(id++);
 	}
 
-	TextureLoader& TextureLoaderPool::GetLoader(int n)
+	TextureLoader& TextureLoaderPool::GetLoader(uint n)
 	{
 		static TextureLoaderPool tpl;
 		assert(n < pool.size());
 		return pool[n];
 	}
+
 
 	void TextureLoaderPool::OnEvent(Event& e, EventType type)
 	{

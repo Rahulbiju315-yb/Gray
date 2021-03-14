@@ -228,30 +228,22 @@ namespace Test
 
 		void OnKeyPressed(Gray::KeyPressedEvent& e)
 		{
-			if (e.GetKeyCode() == TO_INT(Gray::KeyCodes::Key_T))
+			if (e.GetKeyCode() == GLFW_KEY_T)
 			{
-				cursorEn = !cursorEn;
-				if (cursorEn)
-				{
-					Gray::TempUtil::EnableCursor();
-				}
-				else
-				{
-					Gray::TempUtil::DisableCursor();
-				}
+				Gray::Window::SetCursorEnabled(!Gray::Window::IsCursorEnabled());
 			}
 
-			else if (e.GetKeyCode() == TO_INT(Gray::KeyCodes::Key_Z))
+			else if (e.GetKeyCode() == GLFW_KEY_Z)
 			{
 				ops = ImGuizmo::TRANSLATE;
 			}
 
-			else if (e.GetKeyCode() == TO_INT(Gray::KeyCodes::Key_X))
+			else if (e.GetKeyCode() == GLFW_KEY_X)
 			{
 				ops = ImGuizmo::ROTATE;
 			}
 
-			else if (e.GetKeyCode() == TO_INT(Gray::KeyCodes::Key_C))
+			else if (e.GetKeyCode() == GLFW_KEY_C)
 			{
 				ops = ImGuizmo::SCALE;
 			}

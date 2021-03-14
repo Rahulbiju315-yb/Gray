@@ -40,7 +40,7 @@ namespace Gray
 		glm::vec2 dyawPitch = { Input::GetMouseDX() * sensitivity,
 								-Input::GetMouseDY() * sensitivity };
 
-		if(Input::IsMouseButtonPressed(MouseCodes::MouseMiddle))
+		if(Input::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_MIDDLE))
 			ec.Rotate(dyawPitch);
 
 		if(zl.dscroll)
@@ -62,16 +62,16 @@ namespace Gray
 
 		glm::vec3 moveDir = { 0, 0, 0 };
 
-		if (Input::IsKeyPressed(TO_INT(KeyCodes::Key_W)))
+		if (Input::IsKeyPressed(GLFW_KEY_W))
 			moveDir += z;
 
-		if (Input::IsKeyPressed(TO_INT(KeyCodes::Key_A)))
+		if (Input::IsKeyPressed(GLFW_KEY_A))
 			moveDir += x;
 
-		if (Input::IsKeyPressed(TO_INT(KeyCodes::Key_S)))
+		if (Input::IsKeyPressed(GLFW_KEY_S))
 			moveDir -= z;
 
-		if (Input::IsKeyPressed(TO_INT(KeyCodes::Key_D)))
+		if (Input::IsKeyPressed(GLFW_KEY_D))
 			moveDir -= x;
 		
 		if(moveDir != glm::vec3{0, 0, 0})

@@ -153,9 +153,7 @@
     <ClInclude Include="src\Gray\Events\Event.h" />
     <ClInclude Include="src\Gray\Events\EventListener.h" />
     <ClInclude Include="src\Gray\Events\Input.h" />
-    <ClInclude Include="src\Gray\Events\KeyCodes.h" />
     <ClInclude Include="src\Gray\Events\KeyEvent.h" />
-    <ClInclude Include="src\Gray\Events\MouseCodes.h" />
     <ClInclude Include="src\Gray\Events\MouseEvent.h" />
     <ClInclude Include="src\Gray\Events\WindowEvent.h" />
     <ClInclude Include="src\Gray\Graphics\DebugCube.h" />
@@ -174,8 +172,8 @@
     <ClInclude Include="src\Gray\Math\Constants.h" />
     <ClInclude Include="src\Gray\Math\Math.h" />
     <ClInclude Include="src\Gray\Resources\ModelLoader.h" />
+    <ClInclude Include="src\Gray\Resources\ModelLoaderPool.h" />
     <ClInclude Include="src\Gray\Resources\ModelManager.h" />
-    <ClInclude Include="src\Gray\Resources\TextureImage.h" />
     <ClInclude Include="src\Gray\Resources\TextureLoader.h" />
     <ClInclude Include="src\Gray\Resources\TextureLoaderPool.h" />
     <ClInclude Include="src\Gray\Resources\TextureManager.h" />
@@ -208,6 +206,8 @@
     <ClInclude Include="src\Platform\Opengl\Shader.h" />
     <ClInclude Include="src\Platform\Opengl\Shared.h" />
     <ClInclude Include="src\Platform\Opengl\Texture.h" />
+    <ClInclude Include="src\Platform\Opengl\UniformBuffer.h" />
+    <ClInclude Include="src\Platform\Opengl\UniformLayout.h" />
     <ClInclude Include="src\Platform\Opengl\VertexArray.h" />
     <ClInclude Include="src\Platform\Opengl\VertexBuffer.h" />
     <ClInclude Include="src\Platform\Opengl\WeakRef.h" />
@@ -218,7 +218,6 @@
     <ClInclude Include="src\imguiFileChooser\dirent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Gray\Algo\Search.cpp" />
     <ClCompile Include="src\Gray\Application.cpp" />
     <ClCompile Include="src\Gray\Camera\CameraController.cpp" />
     <ClCompile Include="src\Gray\Camera\EditorCamera.cpp" />
@@ -239,6 +238,7 @@
     <ClCompile Include="src\Gray\Math\Constants.cpp" />
     <ClCompile Include="src\Gray\Math\Math.cpp" />
     <ClCompile Include="src\Gray\Resources\ModelLoader.cpp" />
+    <ClCompile Include="src\Gray\Resources\ModelLoaderPool.cpp" />
     <ClCompile Include="src\Gray\Resources\ModelManager.cpp" />
     <ClCompile Include="src\Gray\Resources\TextureLoader.cpp" />
     <ClCompile Include="src\Gray\Resources\TextureLoaderPool.cpp" />
@@ -265,6 +265,8 @@
     <ClCompile Include="src\Platform\Opengl\Renderer.cpp" />
     <ClCompile Include="src\Platform\Opengl\Shader.cpp" />
     <ClCompile Include="src\Platform\Opengl\Texture.cpp" />
+    <ClCompile Include="src\Platform\Opengl\UniformBuffer.cpp" />
+    <ClCompile Include="src\Platform\Opengl\UniformLayout.cpp" />
     <ClCompile Include="src\Platform\Opengl\VertexArray.cpp" />
     <ClCompile Include="src\Platform\Opengl\VertexBuffer.cpp" />
     <ClCompile Include="src\grpch.cpp">

@@ -8,11 +8,10 @@ namespace Gray
 	class TextureLoaderPool : public EventListener
 	{
 	public:
-		static TextureLoader& GetLoader(int n);
+		static TextureLoader& GetLoader(uint n);
 		void OnEvent(Event& e, EventType type) override;
 
 	private:
 		TextureLoaderPool();
-		static std::vector<TextureLoader> pool;
 	};
 }

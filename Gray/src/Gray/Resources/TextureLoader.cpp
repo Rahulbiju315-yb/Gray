@@ -6,22 +6,26 @@
 namespace Gray
 {
 
-	TextureLoader::TextureLoader()
+	TextureLoader::TextureLoader(uint id)
+		: id(id),
+		  run(true)
 	{
-		run = true;
 		loader = std::thread(LoadFun, std::ref(*this));
 	}
 
 	TextureLoader::TextureLoader(TextureLoader&& src) noexcept
 		: loader(std::move(src.loader)),
 		  managers(std::move(src.managers)),
-		  run(src.run)
+		  run(src.run),
+		  id(src.id)
 	{
 	}
 
 	TextureLoader::~TextureLoader()
 	{
 		run = false;
+		cvar.notify_one();
+
 		if (loader.joinable())
 			loader.join();
 	}
@@ -52,10 +56,39 @@ namespace Gray
 		tm.toInit.Enqueue(std::move(loadedRes));
 	}
 
+	bool TextureLoader::RequiresLoading()
+	{
+		for (TextureManager* tm : managers)
+		{
+			if (tm->RequiresLoading())
+				return true;
+		}
+
+		return false;
+	}
+
+	void TextureLoader::Notify()
+	{
+		cvar.notify_one();
+	}
+
+	bool TextureLoader::IsRunning()
+	{
+		return run;
+	}
+
 	void LoadFun(TextureLoader& tl)
 	{
 		while (tl.run)
 		{
+			{
+				std::unique_lock lock(tl.cvmutex);
+				tl.cvar.wait(lock, [&] 
+					{
+						return tl.RequiresLoading() || !tl.IsRunning();
+					});
+			}
+
 			for (TextureManager* tm : tl.managers)
 			{
 				std::pair<WeakRef<Texture>, std::string> nextload;

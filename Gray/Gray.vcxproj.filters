@@ -57,13 +57,7 @@
     <ClInclude Include="src\Gray\Events\Input.h">
       <Filter>Gray\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Events\KeyCodes.h">
-      <Filter>Gray\Events</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gray\Events\KeyEvent.h">
-      <Filter>Gray\Events</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gray\Events\MouseCodes.h">
       <Filter>Gray\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Events\MouseEvent.h">
@@ -213,8 +207,10 @@
     <ClInclude Include="src\Gray\Algo\Search.h" />
     <ClInclude Include="src\Gray\Resources\TextureLoader.h" />
     <ClInclude Include="src\Gray\DS\SafeQueue.h" />
-    <ClInclude Include="src\Gray\Resources\TextureImage.h" />
     <ClInclude Include="src\Gray\Resources\TextureLoaderPool.h" />
+    <ClInclude Include="src\Gray\Resources\ModelLoaderPool.h" />
+    <ClInclude Include="src\Platform\Opengl\UniformBuffer.h" />
+    <ClInclude Include="src\Platform\Opengl\UniformLayout.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -327,9 +323,11 @@
     <ClCompile Include="src\Gray\Resources\ModelManager.cpp" />
     <ClCompile Include="src\Gray\Resources\TextureManager.cpp" />
     <ClCompile Include="src\Gray\Resources\ModelLoader.cpp" />
-    <ClCompile Include="src\Gray\Algo\Search.cpp" />
     <ClCompile Include="src\Gray\Resources\TextureLoader.cpp" />
     <ClCompile Include="src\Gray\Resources\TextureLoaderPool.cpp" />
+    <ClCompile Include="src\Gray\Resources\ModelLoaderPool.cpp" />
+    <ClCompile Include="src\Platform\Opengl\UniformBuffer.cpp" />
+    <ClCompile Include="src\Platform\Opengl\UniformLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ImGuizmo\.editorconfig" />

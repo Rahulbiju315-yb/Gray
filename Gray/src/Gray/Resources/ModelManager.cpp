@@ -1,13 +1,15 @@
 #include "grpch.h"
 #include "ModelManager.h"
-#include "Gray/Algo/Search.h"
 #include "ModelLoader.h"
+#include "ModelLoaderPool.h"
 #include "assimp/cimport.h"
+#include "Gray/Algo/Search.h"
 
 namespace Gray
 {
     ModelManager::ModelManager()
-        : ml( ModelLoader::GetModelLoader(0))
+        : ml( ModelLoaderPool::GetModelLoader(0)),
+          nUninit(0)
     {
         ml.AddManager(*this);
     }
@@ -17,7 +19,7 @@ namespace Gray
         ml.RemoveManager(*this);
     }
 
-    uint ModelManager::GetModel(const std::string& path)
+    uint ModelManager::GetModelId(const std::string& path)
     {
         static uint nextID = 0;
 
@@ -31,8 +33,10 @@ namespace Gray
             IDs.push_back(nextID);
             paths.push_back(path);
 
-            toLoad.Enqueue({ path, nextID });
-            
+            toLoad.Enqueue(std::pair{ path, nextID });
+            ml.Notify();
+
+            nUninit++;
             return nextID;
         }
 
@@ -40,19 +44,19 @@ namespace Gray
         return IDs[index];
     }
 
-    bool ModelManager::RequireLoading()
+    bool ModelManager::RequiresLoading()
     {
-        return toLoad.IsEmpty();
+        return !toLoad.IsEmpty();
     }
 
     bool ModelManager::RequireInit()
     {
-        return toInit.IsEmpty();
+        return (nUninit != 0) || texMan.RequireInit();
     }
 
     void ModelManager::InitModels()
     {
-        while(RequireInit())
+        while(!toInit.IsEmpty())
         {
             std::pair<const aiScene*, uint> loadResult; 
             toInit.DequeueTo(loadResult);
@@ -67,7 +71,11 @@ namespace Gray
                 models[index].LoadScene(scene, paths[index], texMan);
                 aiReleaseImport(scene);
             }
+
+            nUninit--;
         }
+        if (texMan.RequireInit())
+            texMan.InitTextures();
     }
 
     std::vector<Model> ModelManager::GetModels(const std::vector<uint>& reqIDs)

@@ -7,19 +7,16 @@
 #include "Gray/TempUtil.h"
 #include "Gray/Events/Input.h"
 
-#include "Gray/Events/KeyCodes.h"
 #include "Gray/Debug.h"
 #include "Platform/Opengl/Renderer.h"
 #include "test/AllTests.h"
 
 #define RAND_FLOAT (float)rand() / RAND_MAX
 
-// TO - DO  -> LightSource from inheritance to composition
-
 class Sandbox : public Gray::Application, public Gray::EventListener
 {
 public:
-	Sandbox() : cursorEn(true), render(false)
+	Sandbox() : render(false)
 	{
 		Gray::Window::GetWindow()->AddListener(this);
 	}
@@ -35,7 +32,7 @@ public:
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		test = std::make_unique<Test::TestTexture>();
+		test = std::make_unique<Test::TestModelLoading>();
 		test->OnInit();
 	}
 
@@ -44,7 +41,6 @@ public:
 		test->PreRender(dt);
 	}
 
-	
 
 	void Render(float dt) override
 	{
@@ -67,10 +63,9 @@ public:
 
 	void OnKeyPressed(Gray::KeyPressedEvent& e)
 	{
-		if (e.GetKeyCode() == TO_INT(Gray::KeyCodes::Key_T))
+		if (e.GetKeyCode() == GLFW_KEY_T)
 		{
-			cursorEn = !cursorEn;
-			if (cursorEn)
+			if (!Gray::TempUtil::IsCursorEnabled())
 			{
 				Gray::TempUtil::EnableCursor();
 			}
@@ -83,8 +78,6 @@ public:
 
 private:
 	std::unique_ptr<Test::Test> test;
-	
-	bool cursorEn;
 	bool render;
 };
 
