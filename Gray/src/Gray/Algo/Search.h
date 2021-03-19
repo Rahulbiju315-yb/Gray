@@ -5,7 +5,7 @@ namespace Gray
 	template <class T>
 	int Bsearch(const std::vector<T>& vec, T ele)
 	{
-		int ub = vec.size();
+		int ub = static_cast<int>(vec.size());
 		int lb = 0;
 		int mid = 0;
 
@@ -14,19 +14,19 @@ namespace Gray
 			mid = (lb + ub) / 2;
 			const T& midEle = vec[mid];
 
-			if (midEle == ele)
-			{
-				return mid;
-			}
-
-			else if (midEle > ele)
+			if (ele < midEle)
 			{
 				ub = mid - 1;
 			}
 
-			else
+			else if(midEle < ele)
 			{
 				lb = mid + 1;
+			}
+
+			else
+			{
+				return mid;
 			}
 		}
 

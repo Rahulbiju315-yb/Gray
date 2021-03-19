@@ -186,7 +186,7 @@ void main()
 
 	vec4 emission = texture(material.emission, TexCoord);
 
-	FragColor = vec4(lighting + emission);
+	FragColor = vec4(lighting);
 	FragColor.a = 1;
 	//FragColor = vec4(1.0f);
 }

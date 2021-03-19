@@ -9,6 +9,7 @@ namespace Gray
 {
 	void DrawScreenQuad(const Shader& shader);
 	void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader);
+	void DrawQuads(const VertexArray& va, const IndexBuffer& ib, const Shader& shader);
 	void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader, uint n_instances);
 
 	void ClearDepth();

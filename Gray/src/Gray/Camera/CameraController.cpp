@@ -6,6 +6,11 @@
 #include "Gray/Events/MouseEvent.h"
 #include "Gray/Window/Window.h"
 #include "Gray/Math/Constants.h"
+#include "Gray/Mesh/MeshData.h"
+#include "Gray/Mesh/Mesh.h"
+#include "Platform/Opengl/Shader.h"
+#include "Platform/Opengl/Renderer.h"
+#include "Gray/Resources/GlobalRM.h"
 
 namespace Gray
 {
@@ -19,8 +24,9 @@ namespace Gray
 			Window::GetWindow()->AddListener(this);
 		}
 
-		void OnEvent(Event& e, EventType type) override
+		void OnEvent(Event& e) override
 		{
+			Gray::EventType type = e.GetType();
 			if (type == EventType::MouseScrolled)
 			{
 				MouseScrolledEvent& mse = (MouseScrolledEvent&)e;
@@ -33,18 +39,32 @@ namespace Gray
 		float dscroll;
 	};
 
-	void CameraController::Control(EditorCamera& ec, float sensitivity)
+	
+
+	void CameraController::Control(EditorCamera& ec, float dt, float sensitivity)
 	{ 
 		static ZoomListener zl;
 
-		glm::vec2 dyawPitch = { Input::GetMouseDX() * sensitivity,
-								-Input::GetMouseDY() * sensitivity };
+		float dx = Input::GetMouseDX();
+		float dy = Input::GetMouseDY();
 
-		if(Input::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_MIDDLE))
+		glm::vec2 dyawPitch{  dx * sensitivity,
+				             -dy * sensitivity };
+
+		if (Input::IsKeyPressed(GLFW_KEY_LEFT_SHIFT) && Input::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_MIDDLE))
+		{
+			ec.Pan(glm::vec2{ -dx, dy } * 0.5f * dt);
+		}
+
+		else if (Input::IsMouseButtonPressed(GLFW_MOUSE_BUTTON_MIDDLE))
+		{
 			ec.Rotate(dyawPitch);
+		}
 
-		if(zl.dscroll)
+		if (zl.dscroll)
+		{
 			ec.Zoom(zl.dscroll * 0.1f);
+		}
 
 		zl.dscroll = 0;
 	}

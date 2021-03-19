@@ -1,5 +1,6 @@
 #include "grpch.h"
-#include "LightingEditor.h"
+
+#include "Editor.h"
 
 #include "imgui.h"
 
@@ -8,13 +9,16 @@
 
 #include "Gray/Math/Constants.h"
 #include "Gray/Window/Window.h"
+#include "Gray/Algo/Search.h"
 
 #include "Platform/Opengl/Renderer.h"
 
 namespace Gray
 {
+	const Light GLOBAL_LIGHT = Light{ 0, LightType::PointLight };
+
 	LightingEditor::LightingEditor()
-		: selectedLight{0, LightType::None}
+		: selectedLight(GLOBAL_LIGHT), showRendered(false), ops(ImGuizmo::TRANSLATE), s_model(UNIT_MAT4)
 	{
 		pointerMesh = Gray::CreateMeshPNT(Gray::GetPyramidMeshData());
 		pointerShader->LoadProgram("res/shaders/colorShader.shader");
@@ -27,30 +31,37 @@ namespace Gray
 		lightMan.AddPointLight(pl);
 	}
 
-	void LightingEditor::DrawEditor(const EditorCamera& camera)
+	void LightingEditor::DrawUI(const Editor& editor)
 	{
 		UIAddButtons();
 		UISelectionPanel();
 
-		if (!showRendered)
+		if (!showRendered && !(selectedLight == GLOBAL_LIGHT))
 		{
-			GizmoRender(s_model, camera);
-			UpdateSelectedLight();
+			if (editor.GizmoRender(s_model))
+			{
+				UpdateSelectedLight();
+			}
 		}
 
-		if (selectedLight.ltype == Gray::LightType::SpotLight || selectedLight.ltype == Gray::LightType::DirectionalLight)
+		if ((selectedLight.ltype == Gray::LightType::SpotLight || 
+			 selectedLight.ltype == Gray::LightType::DirectionalLight))
 		{
-			DrawPointer(camera, s_model);
+			DrawPointer(editor.GetEditorCamera(), s_model);
 		}
 	}
 
-	void LightingEditor::DrawPointer(const EditorCamera camera, const glm::mat4& model)
+	void LightingEditor::DrawPointer(const EditorCamera& camera, const glm::mat4& model)
 	{
+		pointerShader->SetUniform("projection", camera.GetProjection());
 		pointerShader->SetUniform("view", camera.GetView());
-		pointerShader->SetUniform("model", glm::scale(model, { 0.05f, 0.1f, 0.05f }));
+		pointerShader->SetUniform("model", glm::scale(model, { 0.25f, 0.5f, 0.25f }));
 
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		Draw(*pointerMesh.va, *pointerMesh.ib, *pointerShader);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+
 	void LightingEditor::UISelectionPanel()
 	{
 		if (!names.empty())
@@ -63,11 +74,11 @@ namespace Gray
 			for (const std::string& s : names)
 				cnames.push_back(s.c_str());
 
-			changed = ImGui::ListBox("Items : ", &currentItem, &(cnames[0]), names.size());
-			selectedLight = lights[currentItem];
+			changed = ImGui::ListBox("Items : ", &currentItem, &(cnames[0]), static_cast<int>(names.size()));
 
 			if (changed)
 			{
+				selectedLight = lights[currentItem];
 				OnLightSelect();
 			}
 
@@ -121,16 +132,17 @@ namespace Gray
 		}
 	}
 
-	void LightingEditor::GizmoRender(glm::mat4& model, const EditorCamera& camera)
+	void LightingEditor::DeleteSelectedLight()
 	{
-		ImGuiIO& io = ImGui::GetIO();
-		ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
-		ImGuizmo::SetOrthographic(false);
-		ImGuizmo::DrawGrid(&(camera.GetView()[0][0]), &(camera.GetProjection()[0][0]),
-			&(glm::mat4(1)[0][0]), 100.f);
+		int index = Bsearch(lights, selectedLight);
+		GRAY_CORE_INFO(std::to_string(index) + " is index");
+		assert(index >= 0);
 
-		ImGuizmo::Manipulate(&(camera.GetView()[0][0]), &(camera.GetProjection()[0][0]),
-			ops, ImGuizmo::WORLD, &(model[0][0]), nullptr, nullptr, nullptr, nullptr);
+		lightMan.RemoveLight(selectedLight.ID, selectedLight.ltype);
+		names.erase(names.begin() + index);
+		lights.erase(lights.begin() + index);
+
+		selectedLight = GLOBAL_LIGHT;
 	}
 
 	void GetRotationMat(glm::vec3 v1, glm::vec3 v2, glm::mat4& mat)
@@ -138,7 +150,10 @@ namespace Gray
 		glm::vec3 cross = glm::cross(v1, v2);
 		float alpha = glm::acos(glm::dot(glm::normalize(v1), glm::normalize(v2)));
 
-		mat = glm::rotate(Gray::UNIT_MAT4, alpha, cross);
+		if (alpha != 0)
+			mat = glm::rotate(Gray::UNIT_MAT4, alpha, cross);
+		else
+			mat = UNIT_MAT4;
 	}
 
 	void LightingEditor::OnLightSelect()
@@ -152,7 +167,7 @@ namespace Gray
 		else if (selectedLight.ltype == Gray::LightType::SpotLight)
 		{
 			Gray::SpotLight& sl = lightMan.GetSpotLight(selectedLight.ID);
-			GetRotationMat({ 0, 1, 0 }, sl.dir, s_model);
+			GetRotationMat(glm::vec3{ 0, 1, 0 }, sl.dir, s_model);
 			s_model[3] = glm::vec4(sl.pos, 1);
 		}
 
@@ -163,37 +178,29 @@ namespace Gray
 		}
 	}
 
-	void LightingEditor::OnEvent(Event& e, EventType type)
+	void LightingEditor::OnEvent(Event& e)
 	{
+		EventType type = e.GetType();
 		if (type == Gray::EventType::KeyPressed)
 			OnKeyPressed((Gray::KeyPressedEvent&)e);
 	}
 
 	void LightingEditor::OnKeyPressed(Gray::KeyPressedEvent& e)
 	{
-		if (e.GetKeyCode() == GLFW_KEY_T)
+		if (e.GetKeyCode() == GLFW_KEY_DELETE)
 		{
-			Window::SetCursorEnabled(!Window::IsCursorEnabled());
-		}
-
-		else if (e.GetKeyCode() == GLFW_KEY_Z)
-		{
-			ops = ImGuizmo::TRANSLATE;
-		}
-
-		else if (e.GetKeyCode() == GLFW_KEY_X)
-		{
-			ops = ImGuizmo::ROTATE;
-		}
-
-		else if (e.GetKeyCode() == GLFW_KEY_C)
-		{
-			ops = ImGuizmo::SCALE;
-		}
+			if (!(selectedLight == GLOBAL_LIGHT))
+				DeleteSelectedLight();
+		}	
 	}
 
 	const LightingManager& LightingEditor::GetLightingManager() const
 	{
 		return lightMan;
+	}
+
+	void LightingEditor::ShowGlobalLight(bool b)
+	{
+		lightMan.GetPointLight(1).color.ambient = glm::vec3(b ? 1 : 0);
 	}
 }

@@ -7,7 +7,6 @@
 
 namespace Gray
 {
-
 	enum class TextureType
 	{
 		NullTexture, // Implies texture hasnt been loaded yet
@@ -52,5 +51,7 @@ namespace Gray
 		friend class WeakRef<Texture>;
 
 	};
+
+	WeakRef<Texture> EmptyTex();
 
 }

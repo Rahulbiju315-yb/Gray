@@ -11,8 +11,7 @@ namespace Gray
 	{
 		PointLight,
 		SpotLight,
-		DirectionalLight,
-		None
+		DirectionalLight
 	};
 
 	class LightingManager
@@ -24,17 +23,17 @@ namespace Gray
 		uint AddSpotLight(const SpotLight& sl = SpotLight());
 		uint AddDirectionalLight(const DirectionalLight& dl = DirectionalLight());
 
-		void SetUniformsFor(const Shader& shader);
+		void SetUniformsFor(const Shader& shader) const;
 		void ClearList();
 		
-		PointLight& GetPointLight(uint ID);
-		SpotLight& GetSpotLight(uint ID);
-		DirectionalLight& GetDirectionalLight(uint ID);
+		PointLight& GetPointLight(uint id);
+		SpotLight& GetSpotLight(uint id);
+		DirectionalLight& GetDirectionalLight(uint id);
 
-		void RemovePointLight(uint ID);
-		void RemoveSpotLight(uint ID);
-		void RemoveDirectionalLight(uint ID);
-
+		void RemovePointLight(uint id);
+		void RemoveSpotLight(uint id);
+		void RemoveDirectionalLight(uint id);
+		void RemoveLight(uint id, LightType type);
 	private:
 		std::vector<PointLight> pointLights;
 		std::vector<uint> pointLightIDs;

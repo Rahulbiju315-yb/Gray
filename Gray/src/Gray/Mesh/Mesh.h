@@ -5,6 +5,7 @@
 #include "Platform/Opengl/IndexBuffer.h"
 
 #include "MeshData.h"
+#include "Gray/Graphics/Materials.h"
 
 namespace Gray
 {
@@ -20,7 +21,14 @@ namespace Gray
 		NoCopy<VertexBuffer> vb;
 		NoCopy<VertexArray> va;
 		NoCopy<IndexBuffer> ib;
+	};
 
+	struct RenderableMesh
+	{
+		NoCopyMesh mesh;
+		glm::mat4 modelMatrix;
+		glm::mat4 invModelMatrix;
+		Material material;
 	};
 
 	//Initialize NoCopy mesh from meshData assuming a buffer layout

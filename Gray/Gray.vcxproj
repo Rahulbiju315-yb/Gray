@@ -171,9 +171,11 @@
     <ClInclude Include="src\Gray\Graphics\RenderList.h" />
     <ClInclude Include="src\Gray\Math\Constants.h" />
     <ClInclude Include="src\Gray\Math\Math.h" />
+    <ClInclude Include="src\Gray\Resources\GlobalRM.h" />
     <ClInclude Include="src\Gray\Resources\ModelLoader.h" />
     <ClInclude Include="src\Gray\Resources\ModelLoaderPool.h" />
     <ClInclude Include="src\Gray\Resources\ModelManager.h" />
+    <ClInclude Include="src\Gray\Resources\ShaderManager.h" />
     <ClInclude Include="src\Gray\Resources\TextureLoader.h" />
     <ClInclude Include="src\Gray\Resources\TextureLoaderPool.h" />
     <ClInclude Include="src\Gray\Resources\TextureManager.h" />
@@ -186,7 +188,9 @@
     <ClInclude Include="src\Gray\Mesh\MeshData.h" />
     <ClInclude Include="src\Gray\Mesh\Vertex.h" />
     <ClInclude Include="src\Gray\TempUtil.h" />
+    <ClInclude Include="src\Gray\UI\Editor.h" />
     <ClInclude Include="src\Gray\UI\LightingEditor.h" />
+    <ClInclude Include="src\Gray\UI\MeshEditor.h" />
     <ClInclude Include="src\Gray\Window\Callbacks.h" />
     <ClInclude Include="src\Gray\Window\Window.h" />
     <ClInclude Include="src\ImGuizmo\ImCurveEdit.h" />
@@ -237,9 +241,11 @@
     <ClCompile Include="src\Gray\Graphics\RenderList.cpp" />
     <ClCompile Include="src\Gray\Math\Constants.cpp" />
     <ClCompile Include="src\Gray\Math\Math.cpp" />
+    <ClCompile Include="src\Gray\Resources\GlobalRM.cpp" />
     <ClCompile Include="src\Gray\Resources\ModelLoader.cpp" />
     <ClCompile Include="src\Gray\Resources\ModelLoaderPool.cpp" />
     <ClCompile Include="src\Gray\Resources\ModelManager.cpp" />
+    <ClCompile Include="src\Gray\Resources\ShaderManager.cpp" />
     <ClCompile Include="src\Gray\Resources\TextureLoader.cpp" />
     <ClCompile Include="src\Gray\Resources\TextureLoaderPool.cpp" />
     <ClCompile Include="src\Gray\Resources\TextureManager.cpp" />
@@ -251,7 +257,9 @@
     <ClCompile Include="src\Gray\Mesh\Mesh.cpp" />
     <ClCompile Include="src\Gray\Mesh\MeshData.cpp" />
     <ClCompile Include="src\Gray\TempUtil.cpp" />
+    <ClCompile Include="src\Gray\UI\Editor.cpp" />
     <ClCompile Include="src\Gray\UI\LightingEditor.cpp" />
+    <ClCompile Include="src\Gray\UI\MeshEditor.cpp" />
     <ClCompile Include="src\Gray\Window\Callbacks.cpp" />
     <ClCompile Include="src\Gray\Window\Window.cpp" />
     <ClCompile Include="src\ImGuizmo\ImCurveEdit.cpp" />

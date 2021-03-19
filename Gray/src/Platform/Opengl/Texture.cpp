@@ -128,4 +128,18 @@ namespace Gray
 	{
 		glDeleteTextures(1, &ID);
 	}
+
+	WeakRef<Texture> EmptyTex()
+	{
+		static bool init = false;
+		static NoCopy<Texture> tex;
+
+		if (!init)
+		{
+			tex->LoadEmptyTexture(1, 1);
+			init = true;
+		}
+
+		return WeakRef<Texture>(tex);
+	}
 }

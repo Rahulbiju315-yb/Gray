@@ -40,7 +40,7 @@ namespace Gray
 		{
 		public:
 			CursorUpdateListener();
-			void OnEvent(Event& e, EventType type);
+			void OnEvent(Event& e);
 			
 			std::tuple<float, float> GetCursorPos();
 

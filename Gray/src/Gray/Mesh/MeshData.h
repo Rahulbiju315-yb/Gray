@@ -11,11 +11,12 @@ namespace Gray
 
 	MeshData GetPlaneMeshData(int width, int height, float delta);
 	MeshData GetUnitCube1MeshData();
-	MeshData GetUnitCube2MeshdData();
+	MeshData GetUnitCube2MeshData();
 	MeshData GetPyramidMeshData();
+	MeshData GetSphereMeshData(float radius, uint rings, uint sectors);
 
 	void CalculateNormals(MeshData& mesh2d);
 
-	size_t SizeOfVertices(const MeshData& meshD);
-	size_t CountOfIndices(const MeshData& meshD);
+	uint SizeOfVertices(const MeshData& meshD);
+	uint CountOfIndices(const MeshData& meshD);
 }

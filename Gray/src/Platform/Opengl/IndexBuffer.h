@@ -14,9 +14,9 @@ namespace Gray
 		void Unbind() const;
 		bool IsBound() const;
 
-		void LoadBufferData(const uint* indices, int count);
+		void LoadBufferData(const uint* indices, uint count);
 
-		int GetCount() const; 
+		uint GetCount() const; 
 		uint GetID() const;
 	private:
 		IndexBuffer();
@@ -31,7 +31,7 @@ namespace Gray
 		void Free();
 
 		uint ID;
-		int count; // Vertice count
+		uint count; // Vertice count
 		static uint boundIB_ID;
 
 		friend class Shared<IndexBuffer>;

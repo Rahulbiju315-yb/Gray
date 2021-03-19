@@ -9,7 +9,7 @@ namespace Gray
 	{
 	public:
 		static TextureLoader& GetLoader(uint n);
-		void OnEvent(Event& e, EventType type) override;
+		void OnEvent(Event& e) override;
 
 	private:
 		TextureLoaderPool();

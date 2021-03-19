@@ -137,7 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\test\TestLighting.h" />
+    <ClInclude Include="src\test\TestEditor.h" />
     <ClInclude Include="src\test\AllTests.h" />
     <ClInclude Include="src\test\Test.h" />
     <ClInclude Include="src\test\TestGizmo.h" />
@@ -146,6 +146,7 @@
     <ClInclude Include="src\test\TestSkybox.h" />
     <ClInclude Include="src\test\TestSurface.h" />
     <ClInclude Include="src\test\TestTexture.h" />
+    <ClInclude Include="src\test\UniformUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox.cpp" />

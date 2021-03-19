@@ -5,6 +5,7 @@
 #include "Platform/Opengl/IndexBuffer.h"
 #include "Platform/Opengl/Shader.h"
 #include "Platform/Opengl/Renderer.h"
+#include "Gray/Mesh/Mesh.h"
 
 namespace Gray
 {
@@ -18,8 +19,6 @@ namespace Gray
 		void Render(const Shader& shader);
 
 	private:
-		NoCopy<VertexArray> va;
-		NoCopy<IndexBuffer> ib;
-		NoCopy<VertexBuffer> vb;
+		NoCopyMesh planeMesh;
 	};
 }

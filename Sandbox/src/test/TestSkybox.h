@@ -34,8 +34,9 @@ namespace Test
 		{
 		}
 
-		void OnEvent(Gray::Event& e, Gray::EventType type)
+		void OnEvent(Gray::Event& e)
 		{
+			Gray::EventType type = e.GetType();
 			if (type == Gray::EventType::KeyPressed)
 				OnKeyPressed((Gray::KeyPressedEvent&)e);
 		}

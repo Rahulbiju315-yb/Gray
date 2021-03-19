@@ -15,9 +15,13 @@ namespace Gray
 		: viewPosition({ 2, 0, 0 }),
 		  focusPoint({ 0, 0, 0 }),
 		  view(UNIT_MAT4),
-		  yawPitch({ 90, 0 })
+		  invView(UNIT_MAT4),
+		  yawPitch({ 0, 0 })
 	{
-		defaultPersepective.GetProjectionMatrix(projection);
+		Perspective p = defaultPersepective;
+		p.zLimFar = 500.0f;
+		p.GetProjectionMatrix(projection);
+		RecalculateView();
 	}
 
 	void EditorCamera::Rotate(glm::vec2 dyawPitch)
@@ -26,9 +30,12 @@ namespace Gray
 		RecalculateView();
 	}
 
-	void EditorCamera::Pan(float sensitivity)
+	void EditorCamera::Pan(glm::vec2 dpos2d)
 	{
-
+		glm::vec3 dpos3dW = invView * glm::vec4{ dpos2d, 0 , 0 };
+		focusPoint += dpos3dW;
+		viewPosition += dpos3dW;
+		RecalculateView();
 	}
 
 	void EditorCamera::Zoom(float alpha)
@@ -38,7 +45,7 @@ namespace Gray
 		RecalculateView();
 	}
 
-	const glm::mat4 EditorCamera::GetView() const
+	const glm::mat4& EditorCamera::GetView() const
 	{
 		return view;
 	}
@@ -48,12 +55,29 @@ namespace Gray
 		return projection;
 	}
 
+	const glm::vec3& EditorCamera::GetPos() const
+	{
+		return viewPosition;
+	}
+
+	const glm::vec3& EditorCamera::GetFocusPoint() const
+	{
+		return focusPoint;
+	}
+
+	void EditorCamera::SetFocusPoint(const glm::vec3& fp)
+	{
+		focusPoint = fp;
+		RecalculateView();
+	}
+
 	void EditorCamera::RecalculateView()
 	{
-		glm::vec3 tr = { 0, 0, -glm::length((focusPoint - viewPosition)) };
+		glm::vec3 tr = { 0, 0, glm::length((focusPoint - viewPosition)) };
 		view = glm::lookAt(viewPosition, focusPoint, Y_AXIS);
-		view = glm::translate(view, -tr);
-		view = glm::eulerAngleZXY(0.0f, glm::radians(-yawPitch.y), glm::radians(yawPitch.x));
-		view[3] = glm::vec4(+tr, 1);
+		view[3] += glm::vec4{ tr, 0 };
+		view = glm::eulerAngleZXY(0.0f, glm::radians(-yawPitch.y), glm::radians(yawPitch.x)) * view;
+		view[3] += glm::vec4{ -tr, 0 };
+		invView = glm::inverse(view);
 	}
 }

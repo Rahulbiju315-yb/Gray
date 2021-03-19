@@ -8,7 +8,7 @@ namespace Gray
 	{
 	public:
 		static ModelLoader& GetModelLoader(int n);
-		void OnEvent(Event& e, EventType t);
+		void OnEvent(Event& e) override;
 
 	private:
 		ModelLoaderPool();

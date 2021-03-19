@@ -51,8 +51,9 @@ namespace Test
 				ImGuizmo::WORLD, &(debugCube.model[0][0]), nullptr, nullptr, nullptr, nullptr);
 		}
 
-		void OnEvent(Gray::Event& e, Gray::EventType type)
+		void OnEvent(Gray::Event& e) override
 		{
+			Gray::EventType type = e.GetType();
 			if (type == Gray::EventType::KeyPressed)
 				OnKeyPressed((Gray::KeyPressedEvent&)e);
 		}

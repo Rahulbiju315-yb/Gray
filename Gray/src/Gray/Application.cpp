@@ -120,8 +120,9 @@ namespace Gray
 		Window::GetWindow()->AddListener(this);
 	}
 
-	void Application::CursorUpdateListener::OnEvent(Event& e, EventType type)
+	void Application::CursorUpdateListener::OnEvent(Event& e)
 	{
+		Gray::EventType type = e.GetType();
 		if (type == EventType::MouseMoved)
 		{
 			MouseMovedEvent& mme = (MouseMovedEvent&)e;

@@ -1,9 +1,9 @@
 #include "grpch.h"
 #include "LightingManager.h"
+#include "Gray/Algo/Search.h"
 
 namespace Gray
 {
-	int BinarySearch(const std::vector<uint>& vec, uint ele);
 
 	LightingManager::LightingManager()
 		: nplID(0),
@@ -34,7 +34,7 @@ namespace Gray
 		return ndlID;
 	}
 
-	void LightingManager::SetUniformsFor(const Shader& shader)
+	void LightingManager::SetUniformsFor(const Shader& shader) const
 	{
 		static const std::string nrPointLights_var = "nrOfPointLights";
 		static const std::string nrSpotLights_var  = "nrOfSpotLights";
@@ -45,8 +45,8 @@ namespace Gray
 		int n_dl = (int)dirLights.size();
 
 		shader.SetUniform(nrPointLights_var, n_pl);
-		shader.SetUniform(nrSpotLights_var, n_dl);
-		shader.SetUniform(nrDirLights_var, n_sl);
+		shader.SetUniform(nrSpotLights_var, n_sl);
+		shader.SetUniform(nrDirLights_var, n_dl);
 
 		int i = 0;
 		for (const PointLight& pl : pointLights)
@@ -76,7 +76,7 @@ namespace Gray
 
 	PointLight& LightingManager::GetPointLight(uint ID)
 	{
-		int index = BinarySearch(pointLightIDs, ID);
+		int index = Bsearch(pointLightIDs, ID);
 		assert(index >= 0);
 		assert(index < pointLights.size());
 
@@ -85,7 +85,7 @@ namespace Gray
 
 	SpotLight& LightingManager::GetSpotLight(uint ID)
 	{
-		int index = BinarySearch(spotLightIDs, ID);
+		int index = Bsearch(spotLightIDs, ID);
 		assert(index >= 0);
 		assert(index < spotLights.size());
 
@@ -94,7 +94,7 @@ namespace Gray
 
 	DirectionalLight& LightingManager::GetDirectionalLight(uint ID)
 	{
-		int index = BinarySearch(dirLightIDs, ID);
+		int index = Bsearch(dirLightIDs, ID);
 		assert(index >= 0);
 		assert(index < dirLights.size());
 
@@ -103,7 +103,7 @@ namespace Gray
 
 	void LightingManager::RemovePointLight(uint ID)
 	{
-		int index = BinarySearch(pointLightIDs, ID);
+		int index = Bsearch(pointLightIDs, ID);
 		assert(index >= 0);
 
 		pointLightIDs.erase(pointLightIDs.begin() + index);
@@ -112,7 +112,7 @@ namespace Gray
 
 	void LightingManager::RemoveSpotLight(uint ID)
 	{
-		int index = BinarySearch(spotLightIDs, ID);
+		int index = Bsearch(spotLightIDs, ID);
 		assert(index >= 0);
 
 		spotLightIDs.erase(spotLightIDs.begin() + index);
@@ -121,33 +121,23 @@ namespace Gray
 
 	void LightingManager::RemoveDirectionalLight(uint ID)
 	{
-		int index = BinarySearch(dirLightIDs, ID);
+		int index = Bsearch(dirLightIDs, ID);
 		assert(index >= 0);
 
 		dirLightIDs.erase(dirLightIDs.begin() + index);
 		dirLights.erase(dirLights.begin() + index);
 	}
 
-
-	// Requires unique elements to be meaningful
-	int BinarySearch(const std::vector<uint>& vec, uint ele)
+	void LightingManager::RemoveLight(uint id, LightType type)
 	{
-		int lb = 0, ub = vec.size() - 1;
-		int mid = 0;
+		if (type == LightType::PointLight)
+			RemovePointLight(id);
 
-		while (lb <= ub)
-		{
-			mid = (lb + ub) / 2;
-			if (vec[mid] == ele)
-				return mid;
+		else if (type == LightType::SpotLight)
+			RemoveSpotLight(id);
 
-			else if (vec[mid] > ele)
-				ub = mid - 1;
-
-			else
-				lb = mid + 1;
-		}
-
-		return -1;
+		else if (type == LightType::DirectionalLight)
+			RemoveDirectionalLight(id);
 	}
+
 }

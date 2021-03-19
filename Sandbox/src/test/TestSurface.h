@@ -67,8 +67,9 @@ namespace Test
 			surface.Render(*surfaceShader);
 		}
 
-		void OnEvent(Gray::Event& e, Gray::EventType type)
+		void OnEvent(Gray::Event& e) override
 		{
+			Gray::EventType type = e.GetType();
 			if (type == Gray::EventType::KeyPressed)
 				OnKeyPressed((Gray::KeyPressedEvent&)e);
 		}

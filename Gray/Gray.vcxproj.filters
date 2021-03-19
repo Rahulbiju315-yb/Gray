@@ -211,6 +211,10 @@
     <ClInclude Include="src\Gray\Resources\ModelLoaderPool.h" />
     <ClInclude Include="src\Platform\Opengl\UniformBuffer.h" />
     <ClInclude Include="src\Platform\Opengl\UniformLayout.h" />
+    <ClInclude Include="src\Gray\Resources\ShaderManager.h" />
+    <ClInclude Include="src\Gray\Resources\GlobalRM.h" />
+    <ClInclude Include="src\Gray\UI\MeshEditor.h" />
+    <ClInclude Include="src\Gray\UI\Editor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -328,6 +332,10 @@
     <ClCompile Include="src\Gray\Resources\ModelLoaderPool.cpp" />
     <ClCompile Include="src\Platform\Opengl\UniformBuffer.cpp" />
     <ClCompile Include="src\Platform\Opengl\UniformLayout.cpp" />
+    <ClCompile Include="src\Gray\Resources\ShaderManager.cpp" />
+    <ClCompile Include="src\Gray\Resources\GlobalRM.cpp" />
+    <ClCompile Include="src\Gray\UI\MeshEditor.cpp" />
+    <ClCompile Include="src\Gray\UI\Editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ImGuizmo\.editorconfig" />

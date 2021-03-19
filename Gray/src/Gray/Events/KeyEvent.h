@@ -7,18 +7,15 @@ namespace Gray
 	class KeyEvent : public Event
 	{
 	public:
-		KeyEvent(int keyCode)
+		KeyEvent(int kc)
+			: keyCode(kc)
 		{
-			this->handled = false;
-			this->keyCode = keyCode;
 		}
 
-		int GetKeyCode()
+		int GetKeyCode() const
 		{
 			return keyCode;
 		}
-
-		EVENT_CLASS_CATEGORY((EventCategoryKeyboard | EventCategoryInput))
 
 	protected:
 		int keyCode;
@@ -28,23 +25,20 @@ namespace Gray
 	class KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(int keyCode, int repeatCount):
-			KeyEvent(keyCode)
+		KeyPressedEvent(int kc, int rc):
+			KeyEvent(kc), repeatCount(rc)
 		{
-			this->repeatCount = repeatCount;
 		}
 		
-		int GetRepeat()
+		int GetRepeat() const
 		{
 			return repeatCount;
 		}
 
-		std::string ToString() const override
+		EventType GetType() const override
 		{
-			return ("KeyPressed : " + keyCode);
+			return EventType::KeyPressed;
 		}
-
-	    EVENT_CLASS_TYPE(EventType::KeyPressed)
 
 	private:
 		int repeatCount;
@@ -57,15 +51,12 @@ namespace Gray
 		KeyReleasedEvent(int keyCode) :
 			KeyEvent(keyCode)
 		{
-
 		}
 
-		std::string ToString() const override
+		EventType GetType() const override
 		{
-			return ("KeyReleased : " + keyCode);
+			return EventType::KeyReleased;
 		}
-
-		EVENT_CLASS_TYPE(EventType::KeyReleased)
 	};
 }
 

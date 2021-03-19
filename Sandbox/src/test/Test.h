@@ -14,6 +14,6 @@ namespace Test
 		virtual void Render(float dt) = 0;
 		virtual void PostRender(float dt) {}
 
-		virtual void OnEvent(Gray::Event& e, Gray::EventType type) {}
+		virtual void OnEvent(Gray::Event& e) {}
 	};
 }

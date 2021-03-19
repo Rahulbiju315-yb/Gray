@@ -12,7 +12,7 @@ namespace Gray
 	{
 	public:
 		void AddListener(EventListener* el);
-		void PropogateEvent(Event& e, EventType type);
+		void PropogateEvent(Event& e);
 
 	private:
 		std::vector<EventListener*> eventListeners;

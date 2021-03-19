@@ -30,7 +30,7 @@ namespace Gray
 		return ID == boundIB_ID;
 	}
 
-	void IndexBuffer::LoadBufferData(const uint* indices, int count)
+	void IndexBuffer::LoadBufferData(const uint* indices, uint count)
 	{
 		Bind();
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint), indices, GL_STATIC_DRAW);
@@ -38,7 +38,7 @@ namespace Gray
 		Unbind();
 	}
 
-	int IndexBuffer::GetCount() const
+	uint IndexBuffer::GetCount() const
 	{
 		return count;
 	}

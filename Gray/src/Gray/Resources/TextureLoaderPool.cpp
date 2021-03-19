@@ -23,8 +23,9 @@ namespace Gray
 	}
 
 
-	void TextureLoaderPool::OnEvent(Event& e, EventType type)
+	void TextureLoaderPool::OnEvent(Event& e)
 	{
+		Gray::EventType type = e.GetType();
 		if (type == EventType::WindowClosed)
 			pool.clear();
 	}

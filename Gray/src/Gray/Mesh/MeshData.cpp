@@ -118,29 +118,29 @@ namespace Gray
 		return mesh;
 	}
 
-	MeshData GetUnitCube2MeshdData()
+	MeshData GetUnitCube2MeshData()
 	{
-		constexpr glm::vec3 p1 = { -1.0f, -1.0f, -1.0f };
-		constexpr glm::vec3 p2 = { +1.0f, -1.0f, -1.0f };
-		constexpr glm::vec3 p3 = { +1.0f, +1.0f, -1.0f };
-		constexpr glm::vec3 p4 = { -1.0f, +1.0f, -1.0f };
+		glm::vec3 p1 { -1.0f, -1.0f, -1.0f };
+		glm::vec3 p2 { +1.0f, -1.0f, -1.0f };
+		glm::vec3 p3 { +1.0f, +1.0f, -1.0f };
+		glm::vec3 p4 { -1.0f, +1.0f, -1.0f };
 
-		constexpr glm::vec3 p5 = { -1.0f, -1.0f, +1.0f };
-		constexpr glm::vec3 p6 = { +1.0f, -1.0f, +1.0f };
-		constexpr glm::vec3 p7 = { +1.0f, +1.0f, +1.0f };
-		constexpr glm::vec3 p8 = { -1.0f, +1.0f, +1.0f };
+		glm::vec3 p5 { -1.0f, -1.0f, +1.0f };
+		glm::vec3 p6 { +1.0f, -1.0f, +1.0f };
+		glm::vec3 p7 { +1.0f, +1.0f, +1.0f };
+		glm::vec3 p8 { -1.0f, +1.0f, +1.0f };
 
-		constexpr glm::vec3 nBack    = { 0,  0, -1};
-		constexpr glm::vec3 nTop     = { 0,  1,  0};
-		constexpr glm::vec3 nRight   = { 1,  0,  0};
-		constexpr glm::vec3 nLeft    = {-1,  0,  0};
-		constexpr glm::vec3 nBottom  = { 0, -1,  0};
-		constexpr glm::vec3 nFront   = { 0,  0,  1};
+		glm::vec3 nBack    { 0,  0, -1};
+		glm::vec3 nTop     { 0,  1,  0};
+		glm::vec3 nRight   { 1,  0,  0};
+		glm::vec3 nLeft    {-1,  0,  0};
+		glm::vec3 nBottom  { 0, -1,  0};
+		glm::vec3 nFront   { 0,  0,  1};
 
-		constexpr glm::vec2 tBottomLeft  = { 0, 0 };
-		constexpr glm::vec2 tBottomRight = { 1, 0 };
-		constexpr glm::vec2 tTopRight    = { 1, 1 };
-		constexpr glm::vec2 tTopLeft     = { 0, 1 };
+		glm::vec2 tBottomLeft  { 0, 0 };
+		glm::vec2 tBottomRight { 1, 0 };
+		glm::vec2 tTopRight    { 1, 1 };
+		glm::vec2 tTopLeft     { 0, 1 };
 
 		MeshData meshD;
 		meshD.vertices.push_back({p2, nBack, tBottomLeft});
@@ -199,18 +199,74 @@ namespace Gray
 		glm::vec3 p5 = { 0   , 1.0f,     0};
 
 		
-		meshD.vertices.push_back({ p1, {0, 0, 0}, {0, 0} });
-		meshD.vertices.push_back({ p2, {0, 0, 0}, {0, 0} });
-		meshD.vertices.push_back({ p3, {0, 0, 0}, {0, 0} });
-		meshD.vertices.push_back({ p4, {0, 0, 0}, {0, 0} });
-		meshD.vertices.push_back({ p5, {0, 0, 0}, {0, 0} });
+		meshD.vertices.push_back(Vertex{ p1, {0, 0, 0}, {0, 0} });
+		meshD.vertices.push_back(Vertex{ p2, {0, 0, 0}, {0, 0} });
+		meshD.vertices.push_back(Vertex{ p3, {0, 0, 0}, {0, 0} });
+		meshD.vertices.push_back(Vertex{ p4, {0, 0, 0}, {0, 0} });
+		meshD.vertices.push_back(Vertex{ p5, {0, 0, 0}, {0, 0} });
 
-		meshD.faces.push_back({0, 1, 2});
-		meshD.faces.push_back({2, 3, 0});
+		meshD.faces.push_back(Face{0, 1, 2});
+		meshD.faces.push_back(Face{2, 3, 0});
 
-		meshD.faces.push_back({ 0, 1, 4 });
-		meshD.faces.push_back({ 1, 2, 4 });
-		meshD.faces.push_back({ 2, 3, 4 });
+		meshD.faces.push_back(Face{ 0, 1, 4 });
+		meshD.faces.push_back(Face{ 1, 2, 4 });
+		meshD.faces.push_back(Face{ 2, 3, 4 });
+
+		return meshD;
+	}
+
+	uint VIndexOnSphere(uint r, uint s, uint rings, uint sectors)
+	{
+		return r * sectors + s;
+	}
+
+	MeshData GetSphereMeshData(float radius, uint rings, uint sectors)
+	{
+		MeshData meshD;
+		meshD.vertices.reserve(rings * sectors);
+		meshD.faces.reserve(rings * sectors * 2);
+
+		constexpr float PI = glm::radians(180.0f);
+		float dtheta = 2 * PI / (sectors - 1);
+		float dphi = PI / (rings - 1);
+
+		
+		for (uint r = 0; r < rings; r++)
+		{
+			float phi = r * dphi - PI / 2;
+	
+			for (uint s = 0; s < sectors; s++)
+			{
+				float theta = s * dtheta;
+
+				float x = radius * glm::cos(phi) * cos(theta);
+				float y = radius * glm::sin(phi);
+				float z = radius * glm::cos(phi) * sin(theta);
+
+				float u = theta / (2 * PI);
+				float v = y / (2.0f * radius) + 0.5f;
+				assert(u >= 0 && u <= 1);
+				assert(v >=0 && v <= 1);
+				meshD.vertices.push_back(Vertex{ {x, y, z}, {x, y, z}, {u, v} });
+			}
+		}
+
+		for (uint r = 0; r < rings - 1; r++)
+		{
+			for (uint s = 0; s < sectors - 1; s++)
+			{
+				uint i1 = VIndexOnSphere(r, s, rings, sectors);
+				uint i2 = VIndexOnSphere(r, s + 1, rings, sectors);
+				uint i3 = VIndexOnSphere(r + 1, s, rings, sectors);
+				uint i4 = VIndexOnSphere(r + 1, s + 1, rings, sectors);
+
+				Face f1{ i2, i1, i3 };
+				Face f2{ i3, i4, i2 };
+
+				meshD.faces.push_back(f1);
+				meshD.faces.push_back(f2);
+			}
+		}
 
 		return meshD;
 	}
@@ -236,13 +292,13 @@ namespace Gray
 		}
 	}
 
-	size_t SizeOfVertices(const MeshData& meshD)
+	uint SizeOfVertices(const MeshData& meshD)
 	{
-		return meshD.vertices.size() * 8 * sizeof(float);
+		return static_cast<uint>(meshD.vertices.size() * 8 * sizeof(float));
 	}
 
-	size_t CountOfIndices(const MeshData& meshD)
+	uint CountOfIndices(const MeshData& meshD)
 	{
-		return 3 * meshD.faces.size();
+		return static_cast<uint>(3 * meshD.faces.size());
 	}
 }

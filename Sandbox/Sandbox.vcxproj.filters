@@ -25,8 +25,9 @@
       <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="src\test\TestGizmo.h" />
-    <ClInclude Include="src\test\TestLighting.h" />
     <ClInclude Include="src\test\TestTexture.h" />
+    <ClInclude Include="src\test\TestEditor.h" />
+    <ClInclude Include="src\test\UniformUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox.cpp" />

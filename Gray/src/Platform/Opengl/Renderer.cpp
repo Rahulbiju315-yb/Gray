@@ -62,6 +62,17 @@ namespace Gray
 		glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
+	void DrawQuads(const VertexArray& va, const IndexBuffer& ib, const Shader& shader)
+	{
+		assert(va.GetID() != 0);
+		assert(ib.GetID() != 0);
+		shader.Bind();
+		va.Bind();
+		ib.Bind();
+
+		glDrawElements(GL_QUADS, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
+	}
+
 	void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader
 		, uint n_instances)
 	{

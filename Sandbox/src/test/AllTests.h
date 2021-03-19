@@ -4,5 +4,5 @@
 #include "TestSurface.h"
 #include "TestSkybox.h"
 #include "TestGizmo.h"
-#include "TestLighting.h"
 #include "TestTexture.h"
+#include "TestEditor.h"

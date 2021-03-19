@@ -32,7 +32,7 @@ public:
 		glEnable(GL_DEPTH_TEST);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		test = std::make_unique<Test::TestModelLoading>();
+		test = std::make_unique<Test::TestEditor>();
 		test->OnInit();
 	}
 
@@ -53,27 +53,9 @@ public:
 		test->PostRender(dt);
 	}
 
-	void OnEvent(Gray::Event& e, Gray::EventType type) override
+	void OnEvent(Gray::Event& e) override
 	{
-		if (type == Gray::EventType::KeyPressed)
-			OnKeyPressed((Gray::KeyPressedEvent&)e);
-
-		test->OnEvent(e, type);
-	}
-
-	void OnKeyPressed(Gray::KeyPressedEvent& e)
-	{
-		if (e.GetKeyCode() == GLFW_KEY_T)
-		{
-			if (!Gray::TempUtil::IsCursorEnabled())
-			{
-				Gray::TempUtil::EnableCursor();
-			}
-			else
-			{
-				Gray::TempUtil::DisableCursor();
-			}
-		}
+		test->OnEvent(e);
 	}
 
 private:

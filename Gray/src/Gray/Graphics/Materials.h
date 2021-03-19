@@ -9,7 +9,11 @@ namespace Gray
 	{
 	public:
 		Material()
-			: shininess(32.0f), ID(0)
+			: diffuse(EmptyTex()),
+			  specular(EmptyTex()),
+			  emission(EmptyTex()),
+			  shininess(32.0f), 
+			  ID(0)
 		{
 		}
 

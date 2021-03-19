@@ -27,34 +27,24 @@ namespace Gray
 		{
 			Vertex& v = plane.vertices[i];
 			
-			int x = (int)(v.texCoord.x * hMap.width);
-			int y = (int)(v.texCoord.y * hMap.height);
+			int x = static_cast<int>(v.texCoord.x * hMap.width);
+			int y = static_cast<int>(v.texCoord.y * hMap.height);
 			
 			float r = GetR(hMap, x, y);
 			float g = GetG(hMap, x, y);
 			float b = GetB(hMap, x, y);
 
-			float h = (r + g + b) / 3.0;
+			float h = static_cast<float>((r + g + b)) / 3.0f;
 
 			v.pos.y = h;
 		}
 
 		CalculateNormals(plane);
-
-		vb->LoadBufferData(&(plane.vertices[0]), plane.vertices.size() * 8 * sizeof(float));
-		ib->LoadBufferData(&(plane.faces[0].v0), 3 * plane.faces.size());
-
-		BufferLayout bl;
-		bl.Push<float>(3);
-		bl.Push<float>(3);
-		bl.Push<float>(2);
-
-		va->SetAttribPointers(*vb, bl);
+		planeMesh = CreateMeshPNT(plane);
 	}
 
 	void Surface::Render(const Shader& shader)
 	{
-		Draw(*va, *ib, shader);
+		Draw(*planeMesh.va, *planeMesh.ib, shader);
 	}
-
 }

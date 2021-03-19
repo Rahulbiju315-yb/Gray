@@ -6,15 +6,9 @@ namespace Gray
 	class WindowResizedEvent : public Event
 	{
 	public:
-		WindowResizedEvent(uint width, uint height)
+		WindowResizedEvent(uint w, uint h)
+			: width(w), height(h)
 		{
-			this->width = width;
-			this->height = height;
-		}
-
-		std::string ToString()
-		{
-			return "Window Resized : " + std::to_string(width) + ", " + std::to_string(height);
 		}
 
 		uint GetWidth()
@@ -26,30 +20,23 @@ namespace Gray
 		{
 			return height;
 		}
-		
-		EVENT_CLASS_TYPE(EventType::WindowResized)
-		EVENT_CLASS_CATEGORY(EventCategoryWindow)
+
+		EventType GetType() const override
+		{
+			return EventType::WindowResized;
+		}
 
 	private:
 		uint width, height;
 	};
 	
-	class
-		WindowClosedEvent : public Event
+	class WindowClosedEvent : public Event
 	{
 	public:
-		WindowClosedEvent()
+		EventType GetType() const override
 		{
-
+			return EventType::WindowClosed;
 		}
-
-		std::string ToString()
-		{
-			return "Window closed";
-		}
-
-		EVENT_CLASS_TYPE(EventType::WindowClosed)
-		EVENT_CLASS_CATEGORY(EventCategoryWindow)
 	};
 
 }

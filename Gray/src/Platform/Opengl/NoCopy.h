@@ -16,10 +16,10 @@ namespace Gray
 	{
 	public:
 
-		// Creates a handle to an empty resource.
-		// The resource is created (via an appropriate glCreateX call)
-		// when required (when buffer data is provided / texture is loaded / shader program is loaded 
-		// for the first time). Once a handle acquires the resource it cannot be used to handle another resource.
+		// Creates a handle to a resource T.
+		// The resource T is created (via an appropriate glCreateX call)
+		// when the constructor of NoCopy<T> gets called. 
+		// Once a handle is acquired it cannot changed.
 		NoCopy()
 			: resource(T())
 		{
@@ -27,7 +27,7 @@ namespace Gray
 
 		NoCopy(const NoCopy<T>&) = delete;
 
-		// Moves the handle from src to current object. Makes the src handle an empty resource
+		// Moves constructs the handle from src. Makes the src handle an empty resource
 		NoCopy(NoCopy<T>&& src) noexcept 
 			: resource(*src.Get())
 		{

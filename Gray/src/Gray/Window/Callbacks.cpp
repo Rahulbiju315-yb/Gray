@@ -9,12 +9,12 @@ namespace Gray
 			eventListeners.push_back(el);
 	}
 
-	void Callbacks::PropogateEvent(Event& e, EventType type)
+	void Callbacks::PropogateEvent(Event& e)
 	{
 		for (EventListener* el : eventListeners)
 		{
 			if (el)
-				el->OnEvent(e, type);
+				el->OnEvent(e);
 		}
 	}
 }

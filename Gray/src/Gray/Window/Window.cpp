@@ -186,19 +186,19 @@ namespace Gray
 				if (action == GLFW_PRESS)
 				{
 					KeyPressedEvent event(key, 0);
-					callbacks.PropogateEvent(event, EventType::KeyPressed); 
+					callbacks.PropogateEvent(event); 
 				}
 
 				else if (action == GLFW_REPEAT)
 				{
 					KeyPressedEvent event(key, 1);
-					callbacks.PropogateEvent(event, EventType::KeyPressed);
+					callbacks.PropogateEvent(event);
 				}
 
 				else if (action == GLFW_RELEASE)
 				{
 					KeyReleasedEvent event(key);
-					callbacks.PropogateEvent(event, EventType::KeyReleased);
+					callbacks.PropogateEvent(event);
 				}
 				
 			});
@@ -208,7 +208,7 @@ namespace Gray
 				Callbacks& callbacks =  *(Callbacks*)(glfwGetWindowUserPointer(window));
 				WindowClosedEvent event;
 
-				callbacks.PropogateEvent(event, EventType::WindowClosed);
+				callbacks.PropogateEvent(event);
 			});
 
 		glfwSetMouseButtonCallback(glfwWindow, [](GLFWwindow* window, int button, int action, int mods)
@@ -217,16 +217,14 @@ namespace Gray
 
 				if (action == GLFW_PRESS)
 				{
-					MousePressedEvent event(button == GLFW_MOUSE_BUTTON_RIGHT ? MouseButton::Right :
-						MouseButton::Left);
-					callbacks.PropogateEvent(event, EventType::KeyPressed);
+					MousePressedEvent event(button);
+					callbacks.PropogateEvent(event);
 				}
 
 				else if (action == GLFW_RELEASE)
 				{
-					MouseReleasedEvent event(button == GLFW_MOUSE_BUTTON_RIGHT ? MouseButton::Right :
-						MouseButton::Left);
-					callbacks.PropogateEvent(event, EventType::KeyReleased);
+					MouseReleasedEvent event(button);
+					callbacks.PropogateEvent(event);
 				}
 			});
 
@@ -238,13 +236,13 @@ namespace Gray
 				if (action == GLFW_PRESS)
 				{
 					MouseDraggedEvent event((float)x, (float)y);
-					callbacks.PropogateEvent(event, EventType::MouseDragged);
+					callbacks.PropogateEvent(event);
 				}
 
 				else
 				{
 					MouseMovedEvent event((float)x, (float)y);
-					callbacks.PropogateEvent(event, EventType::MouseMoved);
+					callbacks.PropogateEvent(event);
 				}
 				
 			});
@@ -253,7 +251,7 @@ namespace Gray
 			{
 				Callbacks& callbacks = *(Callbacks*)(glfwGetWindowUserPointer(window));
 				MouseScrolledEvent event((float)xOffset, (float)yOffset);
-				callbacks.PropogateEvent(event, EventType::MouseScrolled);
+				callbacks.PropogateEvent(event);
 			});
 	}
 	

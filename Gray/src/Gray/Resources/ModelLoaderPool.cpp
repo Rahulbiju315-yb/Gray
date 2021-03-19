@@ -21,8 +21,9 @@ namespace Gray
 		return pool[n];
 	}
 
-	void ModelLoaderPool::OnEvent(Event& e, EventType type)
+	void ModelLoaderPool::OnEvent(Event& e)
 	{
+		Gray::EventType type = e.GetType();
 		if (type == EventType::WindowClosed)
 			pool.clear();
 	}
