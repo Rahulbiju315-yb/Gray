@@ -9,42 +9,42 @@
 #include "Gray/Resources/TextureManager.h"
 
 #include "Gray/Math/Constants.h"
-#include "Editor.h"
+#include "Gizmo.h"
 #include "Platform/Opengl/Renderer.h"
 #include "GLFW/glfw3.h"
 
+#include "Gray/Algo/Search.h"
 namespace Gray
 {
 	MeshEditor::MeshEditor()
-		: selectedIndex(-1)
+		: selectedMeshIndex(-1),
+		  selectedMatIndex(-1),
+		  rmeshes_ptr(nullptr),
+		  matList_ptr(nullptr)
 	{
 		meshData.push_back(GetUnitCube2MeshData());
 		meshData.push_back(GetSphereMeshData(1.0f, 18, 36));
 	}
 
-	void MeshEditor::DrawUI(const Editor& editor)
+	void MeshEditor::SetEditorData(std::vector<RenderableMesh>& rmeshes, const MaterialList& matList)
 	{
-		UIAddButtons();
-		UISelectionPanel();
+		rmeshes_ptr = &rmeshes;
+		matList_ptr = &matList;
+	}
 
-		if (selectedIndex >= 0)
+	void MeshEditor::DrawUI(const EditorCamera& camera)
+	{
+		assert(rmeshes_ptr);
+		UIAddButtons();
+		UIMeshSelectionPanel();
+
+		if (selectedMeshIndex >= 0)
 		{
-			RenderableMesh& rmesh = rmeshes[selectedIndex];
-			if (editor.GizmoRender(rmesh.modelMatrix))
+			assert(selectedMeshIndex < (*rmeshes_ptr).size());
+			RenderableMesh& rmesh = (*rmeshes_ptr)[selectedMeshIndex];
+			if (Gizmo::GizmoRender(rmesh.modelMatrix, camera.GetView(), camera.GetProjection()))
 				rmesh.invModelMatrix = glm::inverse(rmesh.modelMatrix);
 		}
-	}
-
-	const std::vector<RenderableMesh>& MeshEditor::GetRMeshes() const
-	{
-		return rmeshes;
-	}
-
-	void MeshEditor::OnEvent(Event& e)
-	{
-		EventType type = e.GetType();
-		if (type == EventType::KeyPressed)
-			OnKeyPressed(static_cast<KeyPressedEvent&>(e));
 	}
 
 	void MeshEditor::UIAddButtons()
@@ -52,57 +52,97 @@ namespace Gray
 		if (ImGui::Button("Add cube"))
 		{
 			static int cc = 0;
-			rmeshes.push_back(RenderableMesh{ CreateMeshPNT(meshData[0]), UNIT_MAT4, UNIT_MAT4 });
+
+			Material mat;
+			mat.SetDiffuse(txm.GetTexture("res/textures/wood.png"));
+			mat.SetSpecular(txm.GetTexture("res/textures/wood.png"));
+
+			(*rmeshes_ptr).push_back(RenderableMesh{ CreateMeshPNT(meshData[0]), UNIT_MAT4, UNIT_MAT4, Default<Material>()});
 			names.push_back("cube" + std::to_string(++cc));
+			cnames.push_back(names.back().c_str());
 			meshDataID.push_back(0);
+
+			selectedMeshIndex = names.size() - 1;
 		}
 
 		if (ImGui::Button("Add sphere"))
 		{
 			static int sc = 0;
-			rmeshes.push_back(RenderableMesh{ CreateMeshPNT(meshData[1]), UNIT_MAT4, UNIT_MAT4 });
+
+			Material mat;
+			mat.SetDiffuse(txm.GetTexture("res/textures/wood.png"));
+			mat.SetSpecular(txm.GetTexture("res/textures/wood.png"));
+
+			(*rmeshes_ptr).push_back(RenderableMesh{ CreateMeshPNT(meshData[1]), UNIT_MAT4, UNIT_MAT4, Default<Material>()});
 			names.push_back("Sphere" + std::to_string(++sc));
+			cnames.push_back(names.back().c_str());
 			meshDataID.push_back(1);
+
+			selectedMeshIndex = names.size() - 1;
 		}
 	}
 
-	void MeshEditor::UISelectionPanel()
+	bool Equals(const Material& m1, const Material& m2)
+	{
+		return m1.GetID() == m2.GetID();
+	}
+
+	void MeshEditor::UIMeshSelectionPanel()
 	{
 		static bool changed = false;
-
 		if (!names.empty())
 		{
-
-			std::vector<const char*> cnames;
-			cnames.reserve(names.size());
-
-			for (const std::string& name : names)
+			changed = ImGui::ListBox("Items : \n", &selectedMeshIndex, &(cnames[0]), static_cast<int>(names.size()));
+			if (changed)
 			{
-				cnames.push_back(name.c_str());
-			}
+				assert(selectedMeshIndex < (*rmeshes_ptr).size());
+				const RenderableMesh& rmesh = (*rmeshes_ptr)[selectedMeshIndex];
+				const std::vector<Material>& materials = (*matList_ptr).GetMaterials();
 
-			changed = ImGui::ListBox("Items : \n", &selectedIndex, &(cnames[0]), static_cast<int>(names.size()));
+				int index = Lsearch(materials, rmesh.material, Equals);
+				if (index != -1)
+				{
+					selectedMatIndex = index;
+				}
+			}
 		}
 	}
 
-	void MeshEditor::OnKeyPressed(KeyPressedEvent& e)
+	void MeshEditor::UIMaterialSelectionPanel()
 	{
-		if (e.GetKeyCode() == GLFW_KEY_D)
+		const std::vector<const char*> cnames = (*matList_ptr).GetCNames();
+		if (!(cnames.empty()))
 		{
-			if (selectedIndex >= 0)
+			bool changed = ImGui::Combo("Mesh Materials :", &selectedMatIndex, &(cnames[0]), static_cast<int>(cnames.size()));
+			if(changed)
+			{
+				assert(selectedMeshIndex < (*rmeshes_ptr).size());
+				RenderableMesh& rmesh = (*rmeshes_ptr)[selectedMeshIndex];
+				const Material& sMat = (*matList_ptr).GetMaterials()[selectedMatIndex];
+				rmesh.material = sMat;
+			}
+		}
+	}
+
+	void MeshEditor::OnKeyPressed(const KeyPressedEvent& e)
+	{
+		if (e.GetKeyCode() == GLFW_KEY_D && e.GetMods() == 0)
+		{
+			if (selectedMeshIndex >= 0)
 			{
 				static uint i = 1;
-				assert(selectedIndex < meshDataID.size());
-				uint meshID = meshDataID[selectedIndex];
+				assert(selectedMeshIndex < meshDataID.size());
+				uint meshID = meshDataID[selectedMeshIndex];
 				
 				assert(meshID < meshData.size());
 				const MeshData& meshD = meshData[meshID];
-				const RenderableMesh& srmesh = rmeshes[selectedIndex];
+				const RenderableMesh& srmesh = (*rmeshes_ptr)[selectedMeshIndex];
 				
-				rmeshes.push_back(RenderableMesh { CreateMeshPNT(meshD), srmesh.modelMatrix, srmesh.invModelMatrix });
-				names.push_back(names[selectedIndex] + "_" + std::to_string(i++));
+				(*rmeshes_ptr).push_back(RenderableMesh { CreateMeshPNT(meshD), srmesh.modelMatrix, srmesh.invModelMatrix });
+				names.push_back(names[selectedMeshIndex] + "_" + std::to_string(i++));
 				meshDataID.push_back(meshID);
 			}
 		}
 	}
+
 }

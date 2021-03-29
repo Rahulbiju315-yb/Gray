@@ -81,7 +81,7 @@
     <ClInclude Include="src\Gray\Graphics\Light\SpotLight.h">
       <Filter>Gray\Graphics\Light</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gray\Graphics\Materials.h">
+    <ClInclude Include="src\Gray\Graphics\Material.h">
       <Filter>Gray\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\Gray\Graphics\Model\Model.h">
@@ -215,6 +215,13 @@
     <ClInclude Include="src\Gray\Resources\GlobalRM.h" />
     <ClInclude Include="src\Gray\UI\MeshEditor.h" />
     <ClInclude Include="src\Gray\UI\Editor.h" />
+    <ClInclude Include="src\Gray\UI\Scene.h" />
+    <ClInclude Include="src\Gray\UI\MaterialEditor.h" />
+    <ClInclude Include="src\Gray\UI\Gizmo.h" />
+    <ClInclude Include="src\Gray\UI\RMeshList.h" />
+    <ClInclude Include="src\Gray\DS\Relations.h" />
+    <ClInclude Include="src\Gray\UI\SceneEditData.h" />
+    <ClInclude Include="src\Gray\UI\SceneRenderData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gray\Application.cpp">
@@ -336,6 +343,11 @@
     <ClCompile Include="src\Gray\Resources\GlobalRM.cpp" />
     <ClCompile Include="src\Gray\UI\MeshEditor.cpp" />
     <ClCompile Include="src\Gray\UI\Editor.cpp" />
+    <ClCompile Include="src\Gray\UI\MaterialEditor.cpp" />
+    <ClCompile Include="src\Gray\UI\Gizmo.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Material.cpp" />
+    <ClCompile Include="src\Gray\UI\RMeshList.cpp" />
+    <ClCompile Include="src\Gray\UI\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ImGuizmo\.editorconfig" />

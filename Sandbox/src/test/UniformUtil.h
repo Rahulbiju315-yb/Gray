@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Gray/Graphics/Materials.h"
+#include "Gray/Graphics/Material.h"
 #include "Platform/Opengl/Shader.h"
 
 #include "glm/glm.hpp"

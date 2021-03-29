@@ -185,13 +185,13 @@ namespace Gray
 
 				if (action == GLFW_PRESS)
 				{
-					KeyPressedEvent event(key, 0);
+					KeyPressedEvent event(key, 0, mods);
 					callbacks.PropogateEvent(event); 
 				}
 
 				else if (action == GLFW_REPEAT)
 				{
-					KeyPressedEvent event(key, 1);
+					KeyPressedEvent event(key, 1, mods);
 					callbacks.PropogateEvent(event);
 				}
 
@@ -201,6 +201,7 @@ namespace Gray
 					callbacks.PropogateEvent(event);
 				}
 				
+				ImGui_ImplGlfw_KeyCallback(window, key, scancode, action, mods);
 			});
 
 		glfwSetWindowCloseCallback(glfwWindow, [](GLFWwindow* window) 
@@ -226,6 +227,8 @@ namespace Gray
 					MouseReleasedEvent event(button);
 					callbacks.PropogateEvent(event);
 				}
+
+				ImGui_ImplGlfw_MouseButtonCallback(window, button, action, mods);
 			});
 
 		glfwSetCursorPosCallback(glfwWindow, [](GLFWwindow* window, double x, double y)
@@ -252,6 +255,7 @@ namespace Gray
 				Callbacks& callbacks = *(Callbacks*)(glfwGetWindowUserPointer(window));
 				MouseScrolledEvent event((float)xOffset, (float)yOffset);
 				callbacks.PropogateEvent(event);
+				ImGui_ImplGlfw_ScrollCallback(window, xOffset, yOffset);
 			});
 	}
 	

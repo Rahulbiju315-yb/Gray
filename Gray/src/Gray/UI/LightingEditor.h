@@ -31,22 +31,22 @@ namespace Gray
 	public:
 		LightingEditor();
 
-		void DrawUI(const Editor& editor);
-		const LightingManager& GetLightingManager() const;
+		void DrawUI(const EditorCamera& camera);
+		void SetLightingManager(LightingManager& lmgr);
 		void ShowGlobalLight(bool b);
-		void OnEvent(Event& e);
+
+		void OnKeyPressed(const KeyPressedEvent& e);
 
 	private:
 		glm::mat4 s_model;
 		NoCopy<Shader> pointerShader;
 		NoCopyMesh pointerMesh;
 
-		LightingManager lightMan;
+		LightingManager* lightMan_ptr;
 		std::vector<Light> lights; //Lights added to scene
 		std::vector<std::string> names; //Names of the light objects
 
 		Light selectedLight;
-		ImGuizmo::OPERATION ops;
 		bool showRendered;
 
 		void UISelectionPanel();
@@ -56,6 +56,5 @@ namespace Gray
 		void OnLightSelect();
 		void DrawPointer(const EditorCamera& camera, const glm::mat4& model);
 
-		void OnKeyPressed(Gray::KeyPressedEvent& e);
 	};
 }

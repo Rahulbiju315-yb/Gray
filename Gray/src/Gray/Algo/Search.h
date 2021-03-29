@@ -2,6 +2,15 @@
 
 namespace Gray
 {
+	template<typename T>
+	using EqualsFunc = bool(*)(const T& t1, const T& t2);
+
+	template<typename T>
+	bool DefaultEqualsFunc(const T& t1, const T& t2)
+	{
+		return t1 == t2;
+	}
+
 	template <class T>
 	int Bsearch(const std::vector<T>& vec, T ele)
 	{
@@ -34,12 +43,12 @@ namespace Gray
 	}
 	
 	template <class T>
-	int Lsearch(const std::vector<T>& vec, T ele)
+	int Lsearch(const std::vector<T>& vec, const T& ele, EqualsFunc<T> equals = DefaultEqualsFunc<T>)
 	{
 		int k = 0;
 		for (const T& t : vec)
 		{
-			if (t == ele)
+			if (equals(t, ele))
 				return k;
 
 			k++;

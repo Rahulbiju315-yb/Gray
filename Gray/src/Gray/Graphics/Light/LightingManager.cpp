@@ -6,31 +6,35 @@ namespace Gray
 {
 
 	LightingManager::LightingManager()
-		: nplID(0),
-		  nslID(0),
-		  ndlID(0)
 	{
 
 	}
+
 	uint LightingManager::AddPointLight(const PointLight& pl)
 	{
+		static uint nplID = 0;
 		pointLights.push_back(pl);
 		pointLightIDs.emplace_back(++nplID);
+
 		return nplID;
 	}
 
 	uint LightingManager::AddSpotLight(const SpotLight& sl)
 	{
+		static uint nslID = 0;
 		spotLights.push_back(sl);
 		spotLightIDs.push_back(++nslID);
+
 		return nslID;
 
 	}
 
 	uint LightingManager::AddDirectionalLight(const DirectionalLight& dl)
 	{
+		static uint ndlID = 0;
 		dirLights.push_back(dl);
 		dirLightIDs.push_back(++ndlID);
+
 		return ndlID;
 	}
 
@@ -40,9 +44,9 @@ namespace Gray
 		static const std::string nrSpotLights_var  = "nrOfSpotLights";
 		static const std::string nrDirLights_var   = "nrOfDirectionalLights";
 
-		int n_pl = (int)pointLights.size();
-		int n_sl = (int)spotLights.size();
-		int n_dl = (int)dirLights.size();
+		int n_pl = static_cast<int>(pointLights.size());
+		int n_sl = static_cast<int>(spotLights.size());
+		int n_dl = static_cast<int>(dirLights.size());
 
 		shader.SetUniform(nrPointLights_var, n_pl);
 		shader.SetUniform(nrSpotLights_var, n_sl);

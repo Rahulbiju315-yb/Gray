@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Test.h"
-#include "Gray/Graphics/Materials.h"
+#include "Gray/Graphics/Material.h"
 #include "Platform/Opengl/Texture.h"
 #include "Gray/Resources/TextureManager.h"
 

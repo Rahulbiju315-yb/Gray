@@ -18,11 +18,6 @@ namespace Test
 		TestEditor()
 		{
 			shader = shm.GetShader("res/shaders/shader.shader");
-			wood->LoadTexture("res/textures/wood.png", true);
-
-			material.SetDiffuse(wood);
-			material.SetSpecular(wood);
-			material.SetEmission(Gray::EmptyTex());
 		}
 		
 		void OnInit() 
@@ -35,19 +30,21 @@ namespace Test
 
 		void Render(float dt) override
 		{
+			Gray::Scene& sc = editor.GetScene();
+
+			Gray::TextureManager::InitIfRequired();
 			const Gray::EditorCamera& camera = editor.GetEditorCamera();
 			shader->SetUniform("view", camera.GetView());
 			shader->SetUniform("viewPos", camera.GetPos());
 			shader->SetUniform("projection", camera.GetProjection());
 
-			editor.GetLightingManager().SetUniformsFor(*shader);
+			sc.lightMan.SetUniformsFor(*shader);
 
-			const std::vector<Gray::RenderableMesh>& rmeshes = editor.GetRMeshes();
-			for (const Gray::RenderableMesh& rmesh : rmeshes)
+			for (const Gray::RenderableMesh& rmesh : sc.rmeshes)
 			{
 				shader->SetUniform("model", rmesh.modelMatrix);
 				shader->SetUniform("invModel", rmesh.invModelMatrix);
-				SetMaterialUniform(material, *shader);
+				SetMaterialUniform(rmesh.material, *shader);
 
 				Gray::Draw(*rmesh.mesh.va, *rmesh.mesh.ib, *shader);
 			}
@@ -66,10 +63,6 @@ namespace Test
 	private:
 		Gray::Editor editor;
 		Gray::ShaderManager shm;
-		Gray::TextureManager txm;
-
-		Gray::NoCopy<Gray::Texture> wood;
-		Gray::Material material;
 
 		Gray::WeakRef<Gray::Shader> shader;
 	};

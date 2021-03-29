@@ -10,16 +10,20 @@ namespace Gray
 {
 	Editor::Editor()
 		: ops(ImGuizmo::TRANSLATE),
-	      showRendered(false), showDemo(false)
+	      showRendered(false),
+		  selectedEType(EditorType::Mesh),
+		  isAnyWindowFocussed(false)
 	{
-
+		mEdit.SetEditorData(scene.rmeshes, matList);
+		lEdit.SetLightingManager(scene.lightMan);
+		matEdit.SetMaterialList(matList);
 	}
 
 	NoCopyMesh GetQuadPlane(uint w, uint h, float d)
 	{
 		std::vector<float> vertices;
 
-		for (int i = 0; i < w; i++)
+		for (uint i = 0; i < w; i++)
 		{
 			float x = i * d;
 			vertices.push_back(x);
@@ -28,17 +32,17 @@ namespace Gray
 
 			vertices.push_back(x);
 			vertices.push_back(0);
-			vertices.push_back(h);
+			vertices.push_back(h * d);
 		}
 
-		for (int i = 0; i < h; i++)
+		for (uint i = 0; i < h; i++)
 		{
 			float z = i * d;
 			vertices.push_back(0);
 			vertices.push_back(0);
 			vertices.push_back(z);
 
-			vertices.push_back(w);
+			vertices.push_back(w * d);
 			vertices.push_back(0);
 			vertices.push_back(z);
 		}
@@ -73,7 +77,8 @@ namespace Gray
 
 	void Editor::Display(float dt)
 	{
-		CameraController::Control(camera, dt);
+		if(!isAnyWindowFocussed)
+			CameraController::Control(camera, dt);
 		if (!showRendered)
 		{
 			UIDrawTab();
@@ -83,14 +88,7 @@ namespace Gray
 			ImGuizmo::SetOrthographic(false);
 			DrawGrid(camera.GetView(), camera.GetProjection());
 		}
-	}
-
-	bool Editor::GizmoRender(glm::mat4& model) const
-	{
-		bool manipulated = ImGuizmo::Manipulate(&(camera.GetView()[0][0]), &(camera.GetProjection()[0][0]),
-			ops, ImGuizmo::WORLD, &(model[0][0]), nullptr, nullptr, nullptr, nullptr);
-
-		return manipulated;
+		isAnyWindowFocussed = ImGui::IsAnyWindowFocused();
 	}
 
 	void Editor::OnEvent(Event& e)
@@ -99,11 +97,12 @@ namespace Gray
 		if (type == EventType::KeyPressed)
 			OnKeyPressed(static_cast<KeyPressedEvent&>(e));
 
-		if (selectedEType == EditorType::Light)
-			lEdit.OnEvent(e);
 
-		else if (selectedEType == EditorType::Mesh)
-			mEdit.OnEvent(e);
+	}
+
+	Scene& Editor::GetScene()
+	{
+		return scene;
 	}
 
 	const EditorCamera& Editor::GetEditorCamera() const
@@ -111,45 +110,54 @@ namespace Gray
 		return camera;
 	}
 
-	const LightingManager& Editor::GetLightingManager() const
+	const Scene& Editor::GetScene() const
 	{
-		return lEdit.GetLightingManager();
-	}
-
-	const std::vector<RenderableMesh>& Editor::GetRMeshes() const
-	{
-		return mEdit.GetRMeshes();
+		return scene;
 	}
 
 	void Editor::OnKeyPressed(const KeyPressedEvent& e)
 	{
-		if (e.GetKeyCode() == GLFW_KEY_T)
+		if (!isAnyWindowFocussed)
 		{
-			Window::SetCursorEnabled(!Window::IsCursorEnabled());
-		}
+			if (e.GetMods() == 0)
+			{
+				if (e.GetKeyCode() == GLFW_KEY_T)
+				{
+					Window::SetCursorEnabled(!Window::IsCursorEnabled());
+				}
 
-		else if (e.GetKeyCode() == GLFW_KEY_R)
-		{
-			showRendered = !showRendered;
-			lEdit.ShowGlobalLight(!showRendered);
-		}
-		
+				else if (e.GetKeyCode() == GLFW_KEY_R)
+				{
+					showRendered = !showRendered;
+					lEdit.ShowGlobalLight(!showRendered);
+				}
 
-		else if (e.GetKeyCode() == GLFW_KEY_Z)
-		{
-			ops = ImGuizmo::TRANSLATE;
-		}
 
-		else if (e.GetKeyCode() == GLFW_KEY_X)
-		{
-			ops = ImGuizmo::ROTATE;
-		}
+				else if (e.GetKeyCode() == GLFW_KEY_Z)
+				{
+					Gizmo::SetOps(ImGuizmo::TRANSLATE);
+				}
 
-		else if (e.GetKeyCode() == GLFW_KEY_C)
-		{
-			ops = ImGuizmo::SCALE;
-		}
+				else if (e.GetKeyCode() == GLFW_KEY_X)
+				{
+					Gizmo::SetOps(ImGuizmo::ROTATE);
+				}
 
+				else if (e.GetKeyCode() == GLFW_KEY_C)
+				{
+					Gizmo::SetOps(ImGuizmo::SCALE);
+				}
+			}
+
+			if (selectedEType == EditorType::Light)
+				lEdit.OnKeyPressed(e);
+
+			else if (selectedEType == EditorType::Mesh)
+				mEdit.OnKeyPressed(e);
+
+			else if (selectedEType == EditorType::Material)
+				matEdit.OnKeyPressed(e);
+		}
 	}
 
 	void Editor::UIDrawTab()
@@ -161,9 +169,16 @@ namespace Gray
 		
 		ImGui::SameLine();
 
-		if (ImGui::Button("Mesh"))
+	    if (ImGui::Button("Mesh"))
 		{
 			selectedEType = EditorType::Mesh;
+		}
+
+		ImGui::SameLine();
+
+		if (ImGui::Button("Material"))
+		{
+			selectedEType = EditorType::Material;
 		}
 	}
 
@@ -171,12 +186,17 @@ namespace Gray
 	{
 		if (selectedEType == EditorType::Light)
 		{
-			lEdit.DrawUI(*this);
+			lEdit.DrawUI(camera);
 		}
 
 		else if (selectedEType == EditorType::Mesh)
 		{
-			mEdit.DrawUI(*this);
+			mEdit.DrawUI(camera);
+		}
+
+		else if (selectedEType == EditorType::Material)
+		{
+			matEdit.DrawUI();
 		}
 	}
 }

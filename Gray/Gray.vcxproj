@@ -149,6 +149,7 @@
     <ClInclude Include="src\Gray\Camera\EditorCamera.h" />
     <ClInclude Include="src\Gray\Camera\SceneCamera.h" />
     <ClInclude Include="src\Gray\Debug.h" />
+    <ClInclude Include="src\Gray\DS\Relations.h" />
     <ClInclude Include="src\Gray\DS\SafeQueue.h" />
     <ClInclude Include="src\Gray\Events\Event.h" />
     <ClInclude Include="src\Gray\Events\EventListener.h" />
@@ -163,7 +164,7 @@
     <ClInclude Include="src\Gray\Graphics\Light\PointLight.h" />
     <ClInclude Include="src\Gray\Graphics\Light\SpotLight.h" />
     <ClInclude Include="src\Gray\Graphics\Light\LightingManager.h" />
-    <ClInclude Include="src\Gray\Graphics\Materials.h" />
+    <ClInclude Include="src\Gray\Graphics\Material.h" />
     <ClInclude Include="src\Gray\Graphics\Model\Model.h" />
     <ClInclude Include="src\Gray\Graphics\Model\ModelMesh.h" />
     <ClInclude Include="src\Gray\Graphics\Model\RenderableModel.h" />
@@ -189,8 +190,14 @@
     <ClInclude Include="src\Gray\Mesh\Vertex.h" />
     <ClInclude Include="src\Gray\TempUtil.h" />
     <ClInclude Include="src\Gray\UI\Editor.h" />
+    <ClInclude Include="src\Gray\UI\Gizmo.h" />
     <ClInclude Include="src\Gray\UI\LightingEditor.h" />
+    <ClInclude Include="src\Gray\UI\MaterialEditor.h" />
     <ClInclude Include="src\Gray\UI\MeshEditor.h" />
+    <ClInclude Include="src\Gray\UI\RMeshList.h" />
+    <ClInclude Include="src\Gray\UI\Scene.h" />
+    <ClInclude Include="src\Gray\UI\SceneEditData.h" />
+    <ClInclude Include="src\Gray\UI\SceneRenderData.h" />
     <ClInclude Include="src\Gray\Window\Callbacks.h" />
     <ClInclude Include="src\Gray\Window\Window.h" />
     <ClInclude Include="src\ImGuizmo\ImCurveEdit.h" />
@@ -235,6 +242,7 @@
     <ClCompile Include="src\Gray\Graphics\Light\PointLight.cpp" />
     <ClCompile Include="src\Gray\Graphics\Light\SpotLight.cpp" />
     <ClCompile Include="src\Gray\Graphics\Light\LightingManager.cpp" />
+    <ClCompile Include="src\Gray\Graphics\Material.cpp" />
     <ClCompile Include="src\Gray\Graphics\Model\Model.cpp" />
     <ClCompile Include="src\Gray\Graphics\Model\ModelMesh.cpp" />
     <ClCompile Include="src\Gray\Graphics\Model\RenderableModel.cpp" />
@@ -258,8 +266,12 @@
     <ClCompile Include="src\Gray\Mesh\MeshData.cpp" />
     <ClCompile Include="src\Gray\TempUtil.cpp" />
     <ClCompile Include="src\Gray\UI\Editor.cpp" />
+    <ClCompile Include="src\Gray\UI\Gizmo.cpp" />
     <ClCompile Include="src\Gray\UI\LightingEditor.cpp" />
+    <ClCompile Include="src\Gray\UI\MaterialEditor.cpp" />
     <ClCompile Include="src\Gray\UI\MeshEditor.cpp" />
+    <ClCompile Include="src\Gray\UI\RMeshList.cpp" />
+    <ClCompile Include="src\Gray\UI\Scene.cpp" />
     <ClCompile Include="src\Gray\Window\Callbacks.cpp" />
     <ClCompile Include="src\Gray\Window\Window.cpp" />
     <ClCompile Include="src\ImGuizmo\ImCurveEdit.cpp" />

@@ -1,6 +1,6 @@
 #include "grpch.h"
 
-#include "Editor.h"
+#include "Gizmo.h"
 
 #include "imgui.h"
 
@@ -12,33 +12,34 @@
 #include "Gray/Algo/Search.h"
 
 #include "Platform/Opengl/Renderer.h"
+#include "LightingEditor.h"
 
 namespace Gray
 {
 	const Light GLOBAL_LIGHT = Light{ 0, LightType::PointLight };
 
 	LightingEditor::LightingEditor()
-		: selectedLight(GLOBAL_LIGHT), showRendered(false), ops(ImGuizmo::TRANSLATE), s_model(UNIT_MAT4)
+		: selectedLight(GLOBAL_LIGHT),
+		  showRendered(false),
+		  s_model(UNIT_MAT4),
+		  lightMan_ptr(nullptr)
 	{
 		pointerMesh = Gray::CreateMeshPNT(Gray::GetPyramidMeshData());
 		pointerShader->LoadProgram("res/shaders/colorShader.shader");
 		pointerShader->SetUniform("color", glm::vec3(1));
 
-		Gray::PointLight pl;
-		pl.color.ambient = glm::vec3(1);
-		pl.color.specular = glm::vec3(0.0f);
-		pl.color.diffuse = glm::vec3(0.0f);
-		lightMan.AddPointLight(pl);
 	}
 
-	void LightingEditor::DrawUI(const Editor& editor)
+	void LightingEditor::DrawUI(const EditorCamera& camera)
 	{
+		assert(lightMan_ptr);
+
 		UIAddButtons();
 		UISelectionPanel();
 
 		if (!showRendered && !(selectedLight == GLOBAL_LIGHT))
 		{
-			if (editor.GizmoRender(s_model))
+			if (Gizmo::GizmoRender(s_model, camera.GetView(), camera.GetProjection()))
 			{
 				UpdateSelectedLight();
 			}
@@ -47,8 +48,16 @@ namespace Gray
 		if ((selectedLight.ltype == Gray::LightType::SpotLight || 
 			 selectedLight.ltype == Gray::LightType::DirectionalLight))
 		{
-			DrawPointer(editor.GetEditorCamera(), s_model);
+			DrawPointer(camera, s_model);
 		}
+	}
+
+	void LightingEditor::SetLightingManager(LightingManager& lmgr)
+	{
+		PointLight pl;
+		pl.color.ambient = glm::vec3(1);
+		lmgr.AddPointLight(pl);
+		lightMan_ptr = &lmgr;
 	}
 
 	void LightingEditor::DrawPointer(const EditorCamera& camera, const glm::mat4& model)
@@ -87,23 +96,24 @@ namespace Gray
 
 	void LightingEditor::UIAddButtons()
 	{
+
 		if (ImGui::Button("Add point light"))
 		{
-			uint i = lightMan.AddPointLight();
+			uint i = (*lightMan_ptr).AddPointLight();
 			lights.push_back(Light{ i, Gray::LightType::PointLight });
 			names.push_back(("Point Light " + std::to_string(i)));
 		}
 
 		if (ImGui::Button("Add spot light"))
 		{
-			uint i = lightMan.AddSpotLight();
+			uint i = (*lightMan_ptr).AddSpotLight();
 			lights.push_back(Light{ i, Gray::LightType::SpotLight });
 			names.push_back(("Spot Light " + std::to_string(i)));
 		}
 
 		if (ImGui::Button("Add directional light"))
 		{
-			uint i = lightMan.AddDirectionalLight();
+			uint i = (*lightMan_ptr).AddDirectionalLight();
 			lights.push_back(Light{ i, Gray::LightType::DirectionalLight });
 			names.push_back(("Directional Light " + std::to_string(i)));
 		}
@@ -114,20 +124,20 @@ namespace Gray
 	{
 		if (selectedLight.ltype == Gray::LightType::PointLight)
 		{
-			Gray::PointLight& pl = lightMan.GetPointLight(selectedLight.ID);
+			Gray::PointLight& pl = (*lightMan_ptr).GetPointLight(selectedLight.ID);
 			pl.pos = glm::vec3(s_model[3]);
 		}
 
 		else if (selectedLight.ltype == Gray::LightType::SpotLight)
 		{
-			Gray::SpotLight& sl = lightMan.GetSpotLight(selectedLight.ID);
+			Gray::SpotLight& sl = (*lightMan_ptr).GetSpotLight(selectedLight.ID);
 			sl.pos = glm::vec3(s_model[3]);
 			sl.dir = glm::mat3(s_model) * glm::vec3{ 0, 1, 0 };
 		}
 
 		else if (selectedLight.ltype == Gray::LightType::DirectionalLight)
 		{
-			Gray::DirectionalLight& dl = lightMan.GetDirectionalLight(selectedLight.ID);
+			Gray::DirectionalLight& dl = (*lightMan_ptr).GetDirectionalLight(selectedLight.ID);
 			dl.dir = glm::mat3(s_model) * glm::vec3{ 0, 1, 0 };
 		}
 	}
@@ -138,7 +148,7 @@ namespace Gray
 		GRAY_CORE_INFO(std::to_string(index) + " is index");
 		assert(index >= 0);
 
-		lightMan.RemoveLight(selectedLight.ID, selectedLight.ltype);
+		(*lightMan_ptr).RemoveLight(selectedLight.ID, selectedLight.ltype);
 		names.erase(names.begin() + index);
 		lights.erase(lights.begin() + index);
 
@@ -160,32 +170,25 @@ namespace Gray
 	{
 		if (selectedLight.ltype == Gray::LightType::PointLight)
 		{
-			Gray::PointLight& pl = lightMan.GetPointLight(selectedLight.ID);
+			Gray::PointLight& pl = (*lightMan_ptr).GetPointLight(selectedLight.ID);
 			s_model = glm::translate(Gray::UNIT_MAT4, pl.pos);
 		}
 
 		else if (selectedLight.ltype == Gray::LightType::SpotLight)
 		{
-			Gray::SpotLight& sl = lightMan.GetSpotLight(selectedLight.ID);
+			Gray::SpotLight& sl = (*lightMan_ptr).GetSpotLight(selectedLight.ID);
 			GetRotationMat(glm::vec3{ 0, 1, 0 }, sl.dir, s_model);
 			s_model[3] = glm::vec4(sl.pos, 1);
 		}
 
 		else if (selectedLight.ltype == Gray::LightType::DirectionalLight)
 		{
-			Gray::DirectionalLight& dl = lightMan.GetDirectionalLight(selectedLight.ID);
+			Gray::DirectionalLight& dl = (*lightMan_ptr).GetDirectionalLight(selectedLight.ID);
 			GetRotationMat({ 0, 1, 0 }, dl.dir, s_model);
 		}
 	}
 
-	void LightingEditor::OnEvent(Event& e)
-	{
-		EventType type = e.GetType();
-		if (type == Gray::EventType::KeyPressed)
-			OnKeyPressed((Gray::KeyPressedEvent&)e);
-	}
-
-	void LightingEditor::OnKeyPressed(Gray::KeyPressedEvent& e)
+	void LightingEditor::OnKeyPressed(const KeyPressedEvent& e)
 	{
 		if (e.GetKeyCode() == GLFW_KEY_DELETE)
 		{
@@ -194,13 +197,8 @@ namespace Gray
 		}	
 	}
 
-	const LightingManager& LightingEditor::GetLightingManager() const
-	{
-		return lightMan;
-	}
-
 	void LightingEditor::ShowGlobalLight(bool b)
 	{
-		lightMan.GetPointLight(1).color.ambient = glm::vec3(b ? 1 : 0);
+		(*lightMan_ptr).GetPointLight(1).color.ambient = glm::vec3(b ? 1.0f : 0.0f);
 	}
 }

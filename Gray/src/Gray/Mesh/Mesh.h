@@ -5,7 +5,7 @@
 #include "Platform/Opengl/IndexBuffer.h"
 
 #include "MeshData.h"
-#include "Gray/Graphics/Materials.h"
+#include "Gray/Graphics/Material.h"
 
 namespace Gray
 {
@@ -21,6 +21,13 @@ namespace Gray
 		NoCopy<VertexBuffer> vb;
 		NoCopy<VertexArray> va;
 		NoCopy<IndexBuffer> ib;
+	};
+
+	struct WeakMesh
+	{
+		WeakRef<VertexBuffer> vb;
+		WeakRef<VertexArray> va;
+		WeakRef<IndexBuffer> ib;
 	};
 
 	struct RenderableMesh

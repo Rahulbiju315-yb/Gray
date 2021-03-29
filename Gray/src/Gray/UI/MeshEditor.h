@@ -6,31 +6,35 @@
 
 #include "Gray/Events/KeyEvent.h"
 #include "Gray/Resources/TextureManager.h"
+#include "Scene.h"
 
 namespace Gray
 {
 	class Editor;
+
 	class MeshEditor
 	{
 	public:
 		MeshEditor();
-		void DrawUI(const Editor& editor);
-		const std::vector<RenderableMesh>& GetRMeshes() const;
-
-		void OnEvent(Event& e);
+		void SetEditorData(MeshList& meshList, const MaterialList& matList);
+		void DrawUI(const EditorCamera& camera);
+		void OnKeyPressed(const KeyPressedEvent& e);
 
 	private:
 		void UIAddButtons();
-		void UISelectionPanel();
-		void OnKeyPressed(KeyPressedEvent& e);
+		void UIMeshSelectionPanel();
+		void UIMaterialSelectionPanel();
 
 		TextureManager txm;
-		std::vector<RenderableMesh> rmeshes;
 		std::vector<uint> meshDataID;
-		std::vector<std::string> names;
-
 		std::vector<MeshData> meshData;
+		std::vector<std::string> names;
+		std::vector<const char*> cnames;
 
-		int selectedIndex;
+		MeshList* meshList;
+		const MaterialList* matList_ptr;
+
+		int selectedMeshIndex;
+		int selectedMatIndex;
 	};
 }

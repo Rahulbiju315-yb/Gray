@@ -34,6 +34,7 @@ namespace Gray
 		void RemoveSpotLight(uint id);
 		void RemoveDirectionalLight(uint id);
 		void RemoveLight(uint id, LightType type);
+
 	private:
 		std::vector<PointLight> pointLights;
 		std::vector<uint> pointLightIDs;
@@ -43,9 +44,5 @@ namespace Gray
  
 		std::vector<DirectionalLight> dirLights;
 		std::vector<uint> dirLightIDs;
-
-		uint nplID;
-		uint ndlID;
-		uint nslID;
 	};
 }

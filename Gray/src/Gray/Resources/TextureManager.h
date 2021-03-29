@@ -23,7 +23,11 @@ namespace Gray
 
 		void InitTextures();
 
+		static void InitIfRequired();
+
 	private:
+		static std::vector<TextureManager*> allTM;
+
 		std::vector<NoCopy<Texture>> textures;
 		std::vector<std::string> paths;
 		uint nUninit;

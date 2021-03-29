@@ -2,40 +2,57 @@
 
 #include "LightingEditor.h"
 #include "MeshEditor.h"
-#include "ImGuizmo/ImGuizmo.h"
+#include "MaterialEditor.h"
+
 #include "Gray/Events/KeyEvent.h"
 #include "Gray/Camera/EditorCamera.h"
+#include "Gizmo.h"
+#include "Scene.h"
+
+#include "Gray/Resources/TextureManager.h"
+#include "Gray/Resources/ShaderManager.h"
 
 namespace Gray
 {
+	struct ResourceManager
+	{
+		TextureManager txm;
+		ShaderManager shm;
+	};
+
 	class Editor
 	{
 	public:
 		Editor();
+
 		void Display(float dt);
 		void OnEvent(Event& e);
 
-		bool GizmoRender(glm::mat4& model) const;		
+		const Scene& GetScene() const;
+		Scene& GetScene();
+
 		const EditorCamera& GetEditorCamera() const;
-
-		const LightingManager& GetLightingManager() const;
-		const std::vector<RenderableMesh>& GetRMeshes() const;
-
 	private:
 		enum class EditorType
 		{
 			Mesh,
-			Light
+			Light,
+			Material
 		};
 
+		Scene scene;
+		MaterialList matList;
 		EditorCamera camera;
+
 		MeshEditor mEdit;
 		LightingEditor lEdit;
+		MaterialEditor matEdit;
 		EditorType selectedEType;
-
 
 		ImGuizmo::OPERATION ops;
 		bool showRendered;
+		bool isAnyWindowFocussed;
+
 		void OnKeyPressed(const KeyPressedEvent& e);
 		void UIDrawTab();
 		void UIEditor();

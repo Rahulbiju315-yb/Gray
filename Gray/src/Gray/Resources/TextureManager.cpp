@@ -4,16 +4,20 @@
 
 namespace Gray
 {
+	std::vector<TextureManager*> TextureManager::allTM;
+
 	TextureManager::TextureManager()
 		: tl(TextureLoaderPool::GetLoader(0)),
 		  nUninit(0)
 	{
-		tl.AddManager(*this);
+		tl.AddManager(*this); // store pointers not references
+		allTM.push_back(this);
 	}
 
 	TextureManager::~TextureManager()
 	{
 		tl.RemoveManager(*this);
+		allTM.erase(std::remove(allTM.begin(), allTM.end(), this), allTM.end());
 	}
 
 	WeakRef<Texture> TextureManager::GetTexture(const std::string& path)
@@ -71,6 +75,15 @@ namespace Gray
 
 			GRAY_CORE_INFO("Initialised Texture ID = " + std::to_string(tex->GetID()));
 			nUninit--;
+		}
+	}
+
+	void TextureManager::InitIfRequired()
+	{
+		for (TextureManager* tm : allTM)
+		{
+			if (tm->RequireInit())
+				tm->InitTextures();
 		}
 	}
 

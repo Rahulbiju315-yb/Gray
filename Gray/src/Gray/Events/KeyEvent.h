@@ -25,8 +25,8 @@ namespace Gray
 	class KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(int kc, int rc):
-			KeyEvent(kc), repeatCount(rc)
+		KeyPressedEvent(int kc, int rc, int m):
+			KeyEvent(kc), repeatCount(rc), mods(m)
 		{
 		}
 		
@@ -35,12 +35,18 @@ namespace Gray
 			return repeatCount;
 		}
 
+		int GetMods() const
+		{
+			return mods;
+		}
+
 		EventType GetType() const override
 		{
 			return EventType::KeyPressed;
 		}
 
 	private:
+		int mods;
 		int repeatCount;
 	};
 
