@@ -16,9 +16,8 @@ namespace Gray
 	{
 	public:
 		MeshEditor();
-		void SetEditorData(MeshList& meshList, const MaterialList& matList);
-		void DrawUI(const EditorCamera& camera);
-		void OnKeyPressed(const KeyPressedEvent& e);
+		void DrawUI(const EditorCamera& camera, SceneInfo& scene);
+		void OnKeyPressed(const KeyPressedEvent& e, SceneInfo& scene);
 
 	private:
 		void UIAddButtons();
@@ -30,9 +29,6 @@ namespace Gray
 		std::vector<MeshData> meshData;
 		std::vector<std::string> names;
 		std::vector<const char*> cnames;
-
-		MeshList* meshList;
-		const MaterialList* matList_ptr;
 
 		int selectedMeshIndex;
 		int selectedMatIndex;

@@ -4,7 +4,6 @@
 #include "Gray/Mesh/Mesh.h"
 #include "Gray/Math/Math.h"
 #include "Gray/Math/Constants.h"
-#include "Gray/UI/Editor.h"
 #include "Gray/Resources/ShaderManager.h"
 #include "Gray/Camera/CameraController.h"
 #include "UniformUtil.h"
@@ -12,7 +11,7 @@
 namespace Test
 {
 
-	class TestEditor : public Test
+	/*class TestEditor : public Test
 	{
 	public:
 		TestEditor()
@@ -65,5 +64,5 @@ namespace Test
 		Gray::ShaderManager shm;
 
 		Gray::WeakRef<Gray::Shader> shader;
-	};
+	};*/
 }

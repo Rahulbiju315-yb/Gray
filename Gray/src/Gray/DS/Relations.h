@@ -235,6 +235,11 @@ namespace Gray
 			return FixedVector{ ::GetField<X>(table) };
 		}
 
+		size_t GetSize()
+		{
+			return table.vec.size();
+		}
+
 	private:
 	
 		struct EntityID

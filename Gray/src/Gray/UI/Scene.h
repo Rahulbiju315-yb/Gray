@@ -7,24 +7,33 @@
 
 namespace Gray
 {
+	using MaterialTable = EntityData<Material, Material, std::string, const char*>;
+	using MeshTable =
 	struct NullValues
 	{
 		static const Material nullMaterial;
 		static const std::string nullString;
 		static const RenderableMesh nullRMesh;
+		static const MeshData nullMeshD;
 	};
 
 	struct SceneInfo
 	{
 		SceneInfo()
-			: materialEntities(NullValues::nullMaterial, NullValues::nullString, NullValues::nullString.c_str()),
-			rmeshEntities(NullValues::nullRMesh, NullIndex<Material>(), NullValues::nullString, NullValues::nullString.c_str())
+			: entMaterials(NullValues::nullMaterial, NullValues::nullString, NullValues::nullString.c_str()),
+			entRMeshes(NullValues::nullRMesh, NullIndex<Material>(), NullValues::nullString, NullValues::nullString.c_str()),
+			entMeshD(NullValues::nullMeshD)
 		{
-			FixedVector<EntityIndex<Material>> dep = rmeshEntities.GetField<EntityIndex<Material>>();
-			materialEntities.AddDependent(dep);
+			FixedVector<EntityIndex<Material>> depmat = entRMeshes.GetField<EntityIndex<Material>>();
+			FixedVector<EntityIndex<MeshData>> depmesh = entRMeshes.GetField<EntityIndex<MeshData>>();
+
+			entMaterials.AddDependent(depmat);
+			entMeshD.AddDependent(depmesh);
 		}
 
-		EntityData<Material, Material, std::string, const char*> materialEntities;
-		EntityData<RenderableMesh, RenderableMesh, EntityIndex<Material>, std::string, const char*> rmeshEntities;
+		EntityData<MeshData, MeshData> entMeshD;
+		EntityData<Material, Material, std::string, const char*> entMaterials;
+		EntityData<NoCopyMesh, NoCopyMesh, EntityIndex<Material>, EntityIndex<MeshData>, std::string, const char*> entRMeshes;
+		LightingManager lightMan;
 	};
 }

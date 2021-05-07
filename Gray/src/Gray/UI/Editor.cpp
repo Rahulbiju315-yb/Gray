@@ -14,9 +14,9 @@ namespace Gray
 		  selectedEType(EditorType::Mesh),
 		  isAnyWindowFocussed(false)
 	{
-		mEdit.SetEditorData(scene.rmeshes, matList);
+		//mEdit.SetEditorData(scene.rmeshes, matList);
 		lEdit.SetLightingManager(scene.lightMan);
-		matEdit.SetMaterialList(matList);
+		//matEdit.SetMaterialList(matList);
 	}
 
 	NoCopyMesh GetQuadPlane(uint w, uint h, float d)
@@ -100,19 +100,9 @@ namespace Gray
 
 	}
 
-	Scene& Editor::GetScene()
-	{
-		return scene;
-	}
-
 	const EditorCamera& Editor::GetEditorCamera() const
 	{
 		return camera;
-	}
-
-	const Scene& Editor::GetScene() const
-	{
-		return scene;
 	}
 
 	void Editor::OnKeyPressed(const KeyPressedEvent& e)

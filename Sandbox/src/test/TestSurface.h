@@ -52,6 +52,10 @@ namespace Test
 
 		}
 		
+		void OnInit() override
+		{
+
+		}
 		void Render(float dt) override
 		{
 			skybox.RenderSkybox(camera.GetView(), *skyboxShader);

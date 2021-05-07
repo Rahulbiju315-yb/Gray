@@ -18,30 +18,22 @@ namespace Gray
 {
 	MeshEditor::MeshEditor()
 		: selectedMeshIndex(-1),
-		  selectedMatIndex(-1),
-		  rmeshes_ptr(nullptr),
-		  matList_ptr(nullptr)
+		  selectedMatIndex(-1)
 	{
 		meshData.push_back(GetUnitCube2MeshData());
 		meshData.push_back(GetSphereMeshData(1.0f, 18, 36));
 	}
 
-	void MeshEditor::SetEditorData(std::vector<RenderableMesh>& rmeshes, const MaterialList& matList)
-	{
-		rmeshes_ptr = &rmeshes;
-		matList_ptr = &matList;
-	}
 
-	void MeshEditor::DrawUI(const EditorCamera& camera)
+	void MeshEditor::DrawUI(const EditorCamera& camera, SceneInfo& scene)
 	{
-		assert(rmeshes_ptr);
 		UIAddButtons();
 		UIMeshSelectionPanel();
 
 		if (selectedMeshIndex >= 0)
 		{
-			assert(selectedMeshIndex < (*rmeshes_ptr).size());
-			RenderableMesh& rmesh = (*rmeshes_ptr)[selectedMeshIndex];
+			assert(selectedMeshIndex < scene.rmeshEntities.GetSize());
+			RenderableMesh& rmesh = scene.rmeshEntities.GetField<RenderableMesh>()[selectedMeshIndex];
 			if (Gizmo::GizmoRender(rmesh.modelMatrix, camera.GetView(), camera.GetProjection()))
 				rmesh.invModelMatrix = glm::inverse(rmesh.modelMatrix);
 		}
@@ -57,10 +49,10 @@ namespace Gray
 			mat.SetDiffuse(txm.GetTexture("res/textures/wood.png"));
 			mat.SetSpecular(txm.GetTexture("res/textures/wood.png"));
 
-			(*rmeshes_ptr).push_back(RenderableMesh{ CreateMeshPNT(meshData[0]), UNIT_MAT4, UNIT_MAT4, Default<Material>()});
-			names.push_back("cube" + std::to_string(++cc));
-			cnames.push_back(names.back().c_str());
-			meshDataID.push_back(0);
+			RenderableMesh rmesh{ CreateMeshPNT(meshData[0]), UNIT_MAT4, UNIT_MAT4, NullValues::nullMaterial };
+			std::string name{ "cube" + std::to_string(++cc) };
+			EntityIndex<MeshData> meshInd {0};
+
 
 			selectedMeshIndex = names.size() - 1;
 		}

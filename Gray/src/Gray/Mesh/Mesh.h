@@ -35,7 +35,6 @@ namespace Gray
 		NoCopyMesh mesh;
 		glm::mat4 modelMatrix;
 		glm::mat4 invModelMatrix;
-		Material material;
 	};
 
 	//Initialize NoCopy mesh from meshData assuming a buffer layout

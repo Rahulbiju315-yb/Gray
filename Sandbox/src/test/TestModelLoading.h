@@ -12,6 +12,7 @@
 #include "imgui.h"
 #include "imguiFileChooser/ImGuiFileDialog.h"
 #include "Gray/Graphics/Light/LightingManager.h"
+#include <utility>
 
 #define RAND_FLOAT (float)rand() / RAND_MAX
 
@@ -40,7 +41,7 @@ namespace Test
 
 		void PreRender(float dt) override
 		{
-			if (!Gray::TempUtil::IsCursorEnabled())
+			if (!Gray::Window::IsCursorEnabled())
 			{
 				Gray::CameraController::Control(camera, dt);
 			}
@@ -87,6 +88,17 @@ namespace Test
 				}
 
 				igfd::ImGuiFileDialog::Instance()->CloseDialog("ChooseFileDlgKey");
+			}
+		}
+
+		void OnEvent(Gray::Event& e)
+		{
+			if (e.GetType() == Gray::EventType::KeyPressed)
+			{
+				if (static_cast<Gray::KeyPressedEvent&>(e).GetKeyCode() == GLFW_KEY_T)
+				{
+					Gray::Window::SetCursorEnabled(!Gray::Window::IsCursorEnabled());
+				}
 			}
 		}
 

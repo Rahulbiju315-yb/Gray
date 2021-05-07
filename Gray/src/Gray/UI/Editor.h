@@ -28,8 +28,6 @@ namespace Gray
 		void Display(float dt);
 		void OnEvent(Event& e);
 
-		const Scene& GetScene() const;
-		Scene& GetScene();
 
 		const EditorCamera& GetEditorCamera() const;
 	private:
@@ -40,8 +38,7 @@ namespace Gray
 			Material
 		};
 
-		Scene scene;
-		MaterialList matList;
+		SceneInfo scene;
 		EditorCamera camera;
 
 		MeshEditor mEdit;

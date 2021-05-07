@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "Gray.h"
 namespace Test
 {
 	const std::string GUN = "res/models/47-obj/Handgun_obj.obj";
@@ -16,4 +16,8 @@ namespace Test
 
 		virtual void OnEvent(Gray::Event& e) {}
 	};
+
+	using FrameBuffer = Gray::NoCopy<Gray::FrameBuffer>;
+	using Texture = Gray::NoCopy<Gray::Texture>;
+	using Shader = Gray::NoCopy<Gray::Shader>;
 }
